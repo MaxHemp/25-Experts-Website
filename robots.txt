@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /editionen/change-management/danke.html
+
+Sitemap: https://25-experts.de/sitemap.xml

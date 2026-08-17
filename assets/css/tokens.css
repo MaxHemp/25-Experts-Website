@@ -1,0 +1,87 @@
+/* 25 EXPERTS — Design Tokens (CSS Custom Properties)
+   Generiert aus tokens.json · v2.0.0 · 2026-08-17 · Konzept „Am Tisch."
+   Eigenständige Marke. Drei Stimmen: Sans (Raum) / Serif (Mensch) / Mono (Maschine).
+   Fotografiegeführt: Event-Fotografie, natürliches Licht, Sesselhub Rheinauhafen. */
+
+@font-face { font-family: 'Plus Jakarta Sans'; font-weight: 500; font-display: swap; src: url('../fonts/PlusJakartaSans-Medium.woff2') format('woff2'); }
+@font-face { font-family: 'Plus Jakarta Sans'; font-weight: 600; font-display: swap; src: url('../fonts/PlusJakartaSans-SemiBold.woff2') format('woff2'); }
+@font-face { font-family: 'Plus Jakarta Sans'; font-weight: 700; font-display: swap; src: url('../fonts/PlusJakartaSans-Bold.woff2') format('woff2'); }
+@font-face { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-display: swap; src: url('../fonts/PlusJakartaSans-ExtraBold.woff2') format('woff2'); }
+@font-face { font-family: 'Source Serif 4'; font-weight: 400; font-display: swap; src: url('../fonts/SourceSerif4-Regular.woff2') format('woff2'); }
+@font-face { font-family: 'Source Serif 4'; font-weight: 600; font-display: swap; src: url('../fonts/SourceSerif4-SemiBold.woff2') format('woff2'); }
+@font-face { font-family: 'IBM Plex Mono'; font-weight: 400; font-display: swap; src: url('../fonts/IBMPlexMono-Regular.woff2') format('woff2'); }
+@font-face { font-family: 'IBM Plex Mono'; font-weight: 500; font-display: swap; src: url('../fonts/IBMPlexMono-Medium.woff2') format('woff2'); }
+@font-face { font-family: 'IBM Plex Mono'; font-weight: 600; font-display: swap; src: url('../fonts/IBMPlexMono-SemiBold.woff2') format('woff2'); }
+
+:root {
+  /* Farbe — Primitive */
+  --x-ink-950: #0B1F26; --x-ink-900: #10303A; --x-ink-800: #173F4C; --x-ink-700: #20505F; --x-ink-600: #2B6272;
+  --x-petrol-600: #0B6470; --x-petrol-500: #0E7C8B; --x-petrol-100: #D3EBEE; --x-petrol-050: #EAF5F6;
+  --x-signal-700: #9A3412; --x-signal-600: #C2410C; --x-signal-500: #E4572E; --x-signal-300: #F5A26B; --x-signal-100: #FEE7D6; --x-signal-050: #FFF4EC;
+  --x-paper-0: #FFFFFF; --x-paper-50: #FBFAF6; --x-paper-100: #F4F2EC;
+  --x-hafen-100: #DCEBEA; --x-hafen-050: #EEF5F4; --x-wood-200: #E9DCC8; --x-wood-100: #F3ECE0;
+  --x-neutral-100: #ECEAE3; --x-neutral-200: #DDDAD1; --x-neutral-300: #C6C2B7; --x-neutral-500: #6B6E6A; --x-neutral-700: #3D4442;
+
+  /* Farbe — Semantik */
+  --x-bg: var(--x-paper-50);
+  --x-bg-elevated: var(--x-paper-0);
+  --x-bg-muted: var(--x-paper-100);
+  --x-bg-soft: var(--x-hafen-050);
+  --x-scrim: linear-gradient(180deg, rgba(11,31,38,0) 0%, rgba(11,31,38,.55) 60%, rgba(11,31,38,.85) 100%);
+  --x-scrim-side: linear-gradient(90deg, rgba(11,31,38,.82) 0%, rgba(11,31,38,.45) 55%, rgba(11,31,38,0) 100%);
+  --x-bg-inverse: var(--x-ink-950);
+  --x-text: var(--x-ink-950);
+  --x-text-body: var(--x-neutral-700);
+  --x-text-muted: var(--x-neutral-500);
+  --x-text-inverse: var(--x-paper-50);
+  --x-action: var(--x-petrol-600);
+  --x-action-hover: var(--x-ink-800);
+  --x-action-soft: var(--x-petrol-050);
+  --x-accent: var(--x-signal-600);
+  --x-accent-hover: var(--x-signal-700);
+  --x-accent-soft: var(--x-signal-050);
+  --x-accent-on-dark: var(--x-signal-300);
+  --x-border: var(--x-neutral-200);
+  --x-border-strong: var(--x-neutral-300);
+  --x-focus: var(--x-signal-600);
+  --x-success: #1F6B3A; --x-warning: #8A5A00; --x-danger: #A32D2D;
+
+  /* Typografie */
+  --x-font-display: 'Plus Jakarta Sans', 'Aptos Display', 'Segoe UI', Arial, sans-serif;
+  --x-font-text: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif;
+  --x-font-serif: 'Source Serif 4', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --x-font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  --x-fs-xs: 1.2rem; --x-fs-sm: 1.4rem; --x-fs-base: 1.7rem; --x-fs-md: 1.9rem; --x-fs-lg: 2.2rem;
+  --x-fs-xl: 2.8rem; --x-fs-2xl: 3.6rem; --x-fs-3xl: 4.6rem; --x-fs-4xl: 6.4rem; --x-fs-meta: 1.2rem;
+  --x-fs-display: clamp(4.4rem, 3rem + 5vw, 9.6rem); --x-fs-numeral: clamp(9.6rem, 6rem + 12vw, 22rem);
+  --x-lh-tight: 1.1; --x-lh-snug: 1.25; --x-lh-normal: 1.6; --x-lh-relaxed: 1.75;
+  --x-track-display: -0.015em; --x-track-kicker: 0.06em; --x-track-mono: 0.02em;
+
+  /* Abstände (Root 10px) */
+  --x-sp-1: .4rem; --x-sp-2: .8rem; --x-sp-3: 1.2rem; --x-sp-4: 1.6rem; --x-sp-5: 2rem; --x-sp-6: 2.4rem;
+  --x-sp-8: 3.2rem; --x-sp-9: 3.6rem; --x-sp-10: 4rem; --x-sp-12: 4.8rem; --x-sp-16: 6.4rem; --x-sp-20: 8rem; --x-sp-24: 9.6rem; --x-sp-30: 12rem;
+
+  /* Layout */
+  --x-container: 1200px; --x-content: 720px; --x-gutter: 2.4rem;
+  --x-header-h: 80px; --x-header-h-mobile: 64px;
+
+  /* Radien, Schatten, Motion */
+  --x-radius-s: 4px; --x-radius-m: 6px; --x-radius-l: 8px; --x-radius-xl: 12px; --x-radius-card: 12px; --x-radius-photo: 16px; --x-radius-pill: 999px;
+  --x-shadow-1: 0 0 0 1px rgba(11,31,38,.04), 0 1px 2px rgba(11,31,38,.06);
+  --x-shadow-2: 0 0 0 1px rgba(11,31,38,.04), 0 7px 20px -5px rgba(11,31,38,.15);
+  --x-shadow-3: 0 6px 20px rgba(11,31,38,.20);
+  --x-shadow-focus: 0 0 0 3px rgba(194,65,12,.35);
+  --x-motion-fast: 120ms; --x-motion-base: 200ms; --x-motion-slow: 600ms; --x-motion-kenburns: 22s; --x-ease: cubic-bezier(.2,.7,.2,1); --x-ease-out: cubic-bezier(.16,1,.3,1);
+}
+
+/* Dunkle Fläche als Kontext (Hero, Footer): Semantik invertieren */
+.x-dark, [data-theme="dark"] {
+  --x-bg: var(--x-ink-950); --x-bg-elevated: var(--x-ink-900); --x-bg-muted: var(--x-ink-800);
+  --x-text: var(--x-paper-50); --x-text-body: var(--x-neutral-200); --x-text-muted: var(--x-neutral-300);
+  --x-action: var(--x-paper-50); --x-action-hover: var(--x-signal-300);
+  --x-accent: var(--x-signal-300); --x-accent-hover: var(--x-signal-100);
+  --x-border: rgba(251,250,246,.16); --x-border-strong: rgba(251,250,246,.32);
+  color: var(--x-text); background: var(--x-bg);
+}
+
+@media (prefers-reduced-motion: reduce) { :root { --x-motion-fast: 0ms; --x-motion-base: 0ms; --x-motion-slow: 0ms; --x-motion-kenburns: 0s; } }
