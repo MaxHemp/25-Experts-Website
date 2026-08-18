@@ -1,0 +1,53 @@
+# Lädt die Symbolbilder (tools/fotos.json) vom CDN nach assets/img/fotos/ und committet sie ins Repo.
+# Läuft automatisch bei jedem Push auf main (überspringt den Download, wenn alle Fotos schon da sind)
+# und manuell über Actions → „Fotos ins Repo laden" → Run workflow.
+# Danach löst der Commit den Hostinger-Deploy-Webhook aus (Auto-Deploy).
+name: Fotos ins Repo laden
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "assets/img/fotos/**"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Alle Fotos neu laden (auch vorhandene)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fotos
+  cancel-in-progress: false
+
+jobs:
+  fotos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fotos laden
+        run: |
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            python tools/fetch_fotos.py --force
+          else
+            python tools/fetch_fotos.py --site
+          fi
+      - name: Fotos committen und pushen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/img/fotos
+          if git diff --cached --quiet; then
+            echo "Keine neuen Fotos, nichts zu committen."
+          else
+            git commit -m "Fotos: Symbolbilder aus tools/fotos.json nachgeladen"
+            git push
+          fi
