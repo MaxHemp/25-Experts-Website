@@ -1,0 +1,9 @@
+# Zugangsdaten bleiben lokal auf dem Server (per Dateimanager aus config.example.php anlegen)
+anmeldung/config.php
+# lokaler Testmodus
+*.eml
+# Systemdateien
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
