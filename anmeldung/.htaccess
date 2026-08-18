@@ -1,0 +1,20 @@
+# 25 EXPERTS – Schutz des Formular-Handlers
+# Nur send.php ist von außen aufrufbar; config.php, config.example.php und lib/ sind gesperrt.
+Options -Indexes
+
+<FilesMatch "^(config\.php|config\.example\.php)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # lib/ (PHPMailer) und .eml/.log-Dateien nie direkt ausliefern
+  RewriteRule ^lib(/|$) - [F,L]
+  RewriteRule \.(eml|log|md|txt)$ - [F,L]
+</IfModule>
