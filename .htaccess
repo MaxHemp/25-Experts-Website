@@ -1,0 +1,84 @@
+# 25 EXPERTS – https://25-experts.de/ (Hostinger, Apache/LiteSpeed)
+# Weiterleitungen, saubere URLs, Caching, Sicherheits-Header. Erzeugt/gepflegt in 07-deploy/repo/.htaccess.
+
+AddDefaultCharset UTF-8
+Options -Indexes +FollowSymLinks
+DirectoryIndex index.html index.php
+ServerSignature Off
+
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType image/svg+xml .svg
+  AddType application/manifest+json .webmanifest
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1) HTTPS erzwingen und www → ohne www (eine kanonische Adresse)
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteRule ^ https://25-experts.de%{REQUEST_URI} [L,R=301]
+
+  # 2) Saubere URLs: /format → format.html, /datenschutz → datenschutz.html (nur wenn die Datei existiert)
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}.html -f
+  RewriteRule ^([^.]+?)/?$ $1.html [L]
+
+  # 3) Ordner-URLs mit abschließendem Slash (editionen/change-management → …/)
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^(.+[^/])$ https://25-experts.de/$1/ [L,R=301]
+
+  # 4) Versteckte Dateien und Repo-Reste nie ausliefern
+  RewriteRule (^|/)\.(git|github|gitignore|htaccess|DS_Store) - [F,L]
+  RewriteRule ^(README[^/]*\.md|tools/.*)$ - [F,L]
+</IfModule>
+
+# Fehlerseiten
+ErrorDocument 404 /404.html
+
+# Caching: Fotos, Fonts, Logos lange (Dateinamen ändern sich nicht); CSS/JS eine Woche; HTML kurz
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 hour"
+  ExpiresByType text/html "access plus 10 minutes"
+  ExpiresByType application/xml "access plus 1 hour"
+  ExpiresByType text/plain "access plus 1 hour"
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(jpe?g|png|webp|svg|ico|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <FilesMatch "\.(html|xml|txt)$">
+    Header set Cache-Control "public, max-age=600, must-revalidate"
+  </FilesMatch>
+
+  # Sicherheits-Header
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+  # Content-Security-Policy: alles vom eigenen Server; Inline-Styles (style-Attribute) erlaubt;
+  # der einzige Inline-Script (<script>document.documentElement.classList.add('js');</script>) per Hash.
+  # Ändert sich dieser Inline-Script in build_site.py, Hash neu berechnen:
+  #   echo -n "document.documentElement.classList.add('js');" | openssl dgst -sha256 -binary | base64
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'self'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+</IfModule>
+
+# Komprimierung (falls nicht serverseitig aktiv)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml application/xml
+</IfModule>
