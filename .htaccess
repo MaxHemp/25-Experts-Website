@@ -20,6 +20,9 @@ ServerSignature Off
   RewriteCond %{HTTP_HOST} ^www\. [NC]
   RewriteRule ^ https://25-experts.de%{REQUEST_URI} [L,R=301]
 
+  # 1b) Sponsoring-Seite entfällt (Messaging v5): /sponsoring und /sponsoring.html → Kontaktseite, Abschnitt Kooperationspartner
+  RewriteRule ^sponsoring(\.html)?/?$ https://25-experts.de/kontakt#partner [NE,L,R=301]
+
   # 2) Saubere URLs: /format → format.html, /datenschutz → datenschutz.html (nur wenn die Datei existiert)
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f

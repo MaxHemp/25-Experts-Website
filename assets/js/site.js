@@ -5,7 +5,7 @@
       Grid25 füllt sich ([data-grid25]), Zähler ([data-count]), Marquee-Pause bei Hover (CSS) und
       bei Reduced Motion (CSS). Ken-Burns läuft in CSS (html.js + .x-hero--kenburns).
    3) Anmeldeformular: Validierung, Honeypot, JSON-POST per fetch an data-endpoint,
-      Fallback ohne JS: klassischer POST an action. */
+      Fallback ohne JS: klassischer POST an action. Danke-Seite: Text je Status (?status=…). */
 (function () {
   'use strict';
 
@@ -110,6 +110,14 @@
     Array.prototype.forEach.call(counters, function (el) { cio.observe(el); });
   }
 
+  /* ---------- Danke-Seite: Text passend zum Status aus send.php (?status=zugelassen|pruefung|warteliste) ---------- */
+  var statusMatch = window.location.search.match(/[?&]status=([a-z]+)/);
+  if (statusMatch) {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-status-' + statusMatch[1] + ']'), function (el) {
+      el.textContent = el.getAttribute('data-status-' + statusMatch[1]);
+    });
+  }
+
   /* ---------- Formular ---------- */
   var form = document.querySelector('form[data-endpoint]');
   if (!form) { return; }
@@ -169,7 +177,8 @@
     var data = {};
     var fd = new FormData(form);
     fd.forEach(function (v, k) { if (k !== 'website') { data[k] = v; } });
-    data.consent = form.querySelector('input[name="consent"]').checked;
+    var privacy = form.querySelector('input[name="privacy"]') || form.querySelector('input[name="consent"]');
+    if (privacy) { data[privacy.name] = privacy.checked; }
     data.edition = form.getAttribute('data-edition') || '';
     data.source = window.location.href;
     data.submitted_at = new Date().toISOString();
@@ -190,7 +199,11 @@
           return j;
         });
       })
-      .then(function () { window.location.href = form.getAttribute('data-thanks') || 'danke.html'; })
+      .then(function (j) {
+        // send.php meldet den Status der Anmeldung (zugelassen | pruefung | warteliste); die Danke-Seite passt ihren Text daran an
+        var thanks = form.getAttribute('data-thanks') || 'danke.html';
+        window.location.href = thanks + (j && j.status ? '?status=' + encodeURIComponent(j.status) : '');
+      })
       .catch(function (err) {
         submit.disabled = false;
         submit.textContent = 'Anmeldung absenden';

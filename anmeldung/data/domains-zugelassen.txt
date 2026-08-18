@@ -1,0 +1,72 @@
+# 25 EXPERTS – Allowlist: E-Mail-Domains von Versicherern, Maklerpools und Versicherungsvertrieben.
+# Eine Domain je Zeile; Subdomains gelten mit (z. B. muenchen.allianz.de). Alles hinter # oder [ ist Kommentar.
+# Anmeldungen mit diesen Domains werden automatisch zugelassen (Zusage + Zahlungsaufforderung sofort).
+# Startbestand: Vorschlag, bitte prüfen und ergänzen [TBD: prüfen]. Pflege per Dateimanager (Hostinger) oder Git.
+#
+# --- Versicherer [TBD: prüfen]
+allianz.de
+allianz.com
+axa.de
+ergo.de
+ergo.com
+generali.com
+generali.de
+zurich.com
+zurich.de
+huk-coburg.de
+huk24.de
+r-v.de
+ruv.de
+debeka.de
+signal-iduna.de
+lvm.de
+wwk.de
+nuernberger.de
+hdi.de
+talanx.com
+provinzial.de
+provinzial.com
+vhv.de
+barmenia.de
+gothaer.de
+continentale.de
+alte-leipziger.de
+hallesche.de
+hansemerkur.de
+dela.de
+swisslife.de
+devk.de
+roland-rechtsschutz.de
+arag.de
+versicherungskammer.de
+vkb.de
+sv.de
+wgv.de
+die-bayerische.de
+concordia.de
+itzehoer.de
+lv1871.de
+munichre.com
+hannover-re.com
+# --- Maklerpools / Verbünde [TBD: prüfen]
+fondsfinanz.de
+blau-direkt.de
+jungdms.de
+netfonds.de
+maxpool.de
+vema-eg.de
+germanbroker.net
+qualitypool.de
+bca.de
+apella.de
+charta.de
+# --- Versicherungsvertriebe [TBD: prüfen]
+mlp.de
+dvag.de
+ovb.de
+swisslife-select.de
+tecis.de
+horbach.de
+bonnfinanz.de
+telis-finanz.de
+plansecur.de

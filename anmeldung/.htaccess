@@ -1,5 +1,6 @@
-# 25 EXPERTS – Schutz des Formular-Handlers
-# Nur send.php ist von außen aufrufbar; config.php, config.example.php und lib/ sind gesperrt.
+# 25 EXPERTS – Schutz der Anmeldestrecke (anmeldung/)
+# Von außen aufrufbar: send.php, aktion.php, zahlung.php, paypal.php, rechnung.php, ticket.php, admin.php, zahlung.js, seite.js.
+# Gesperrt: config.php, config.example.php, lib/ (PHPMailer, Barcode, eigene Bibliothek), data/ (SQLite/JSON, Domainlisten), .eml/.log/.md/.txt.
 Options -Indexes
 
 <FilesMatch "^(config\.php|config\.example\.php)$">
@@ -14,7 +15,22 @@ Options -Indexes
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  # lib/ (PHPMailer) und .eml/.log-Dateien nie direkt ausliefern
-  RewriteRule ^lib(/|$) - [F,L]
-  RewriteRule \.(eml|log|md|txt)$ - [F,L]
+  RewriteOptions Inherit
+  # Basic-Auth-Header an PHP durchreichen (FastCGI/LiteSpeed), für admin.php
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+  # lib/ und data/ nie direkt ausliefern; ebenso .eml/.log/.md/.txt/.sqlite/.json
+  RewriteRule ^(lib|data)(/|$) - [F,L]
+  RewriteRule \.(eml|log|md|txt|sqlite|sqlite-wal|sqlite-shm|json|lock|tmp)$ - [F,L]
+</IfModule>
+
+# Content-Security-Policy der Zahlungsseite: PayPal-JS-SDK und PayPal-Frames erlauben (übersteuert die Site-CSP aus /.htaccess)
+<IfModule mod_headers.c>
+  <Files "zahlung.php">
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://*.paypal.com https://*.paypalobjects.com; frame-src https://*.paypal.com; connect-src 'self' https://*.paypal.com https://*.paypalobjects.com; img-src 'self' data: https://*.paypal.com https://*.paypalobjects.com; style-src 'self' 'unsafe-inline' https://*.paypal.com; font-src 'self' https://*.paypalobjects.com; form-action 'self'; frame-ancestors 'self'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+  </Files>
+  <FilesMatch "\.php$">
+    Header always set X-Robots-Tag "noindex, nofollow"
+    Header always set Cache-Control "no-store"
+  </FilesMatch>
 </IfModule>

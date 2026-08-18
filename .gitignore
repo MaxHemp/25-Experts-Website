@@ -1,5 +1,11 @@
 # Zugangsdaten bleiben lokal auf dem Server (per Dateimanager aus config.example.php anlegen)
 anmeldung/config.php
+# Datenablage der Anmeldestrecke (SQLite/JSON) bleibt auf dem Server, nie ins Repo
+anmeldung/data/*.sqlite
+anmeldung/data/*.sqlite-*
+anmeldung/data/*.json
+anmeldung/data/*.lock
+anmeldung/data/*.tmp
 # lokaler Testmodus
 *.eml
 # Systemdateien

@@ -1,0 +1,150 @@
+<?php
+/**
+ * 25 EXPERTS – Admin der Anmeldestrecke: admin.php (HTTP-Basic-Auth: ADMIN_USER / ADMIN_PASS_HASH aus config.php)
+ * Liste aller Anmeldungen (Status, Unternehmenstyp, Ebene, Zahlungsweg, Zahlungsstatus, Rechnung, Ticket), Platzzähler,
+ * Aktionen je Anmeldung: Zulassen · Absagen · Zahlung eingegangen · Ticket erneut senden · Rechnung/Ticket ansehen,
+ * CSV-Export (?export=csv), Löschroutine („Daten der Edition löschen": alle Anmeldungen vor einem Datum).
+ * Schutz: Basic-Auth (Passwort-Hash), CSRF-Token (HMAC, stündlich wechselnd) für alle POST-Aktionen, keine Aktionen per GET.
+ */
+declare(strict_types=1);
+
+require __DIR__ . '/lib/flow.php';
+
+// ------------------------------------------------------------------ Basic-Auth
+$user = (string)x25_cfg('ADMIN_USER', ''); $hash = (string)x25_cfg('ADMIN_PASS_HASH', '');
+if ($user === '' || $hash === '') {
+    x25_out(x25_page('Admin nicht eingerichtet', '<h1>Admin ist nicht eingerichtet.</h1><p>ADMIN_USER und ADMIN_PASS_HASH in config.php setzen (siehe README-ANMELDUNG.md).</p>'), 503);
+}
+[$u, $p] = x25_basic_credentials();
+if ($u !== $user || !password_verify($p, $hash)) {
+    header('WWW-Authenticate: Basic realm="25 EXPERTS Anmeldungen", charset="UTF-8"');
+    x25_out(x25_page('Anmeldung erforderlich', '<h1>Anmeldung erforderlich.</h1><p>Bitte mit Admin-Benutzer und Passwort anmelden.</p>'), 401);
+}
+$csrf = x25_csrf_token($user);
+$store = x25_store(); $C = x25_conf();
+
+// ------------------------------------------------------------------ Aktionen (POST + CSRF)
+$flash = '';
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    if (!x25_csrf_ok($user, (string)($_POST['csrf'] ?? ''))) { x25_out(x25_page('Abgelehnt', '<h1>Sitzung abgelaufen.</h1><p>Bitte zurück und erneut ausführen.</p>'), 403); }
+    $do = (string)($_POST['do'] ?? ''); $id = (int)($_POST['id'] ?? 0);
+    try {
+        if ($do === 'loeschen') {
+            $before = (string)($_POST['vor'] ?? '');
+            if (($_POST['bestaetigung'] ?? '') !== 'LÖSCHEN') { throw new RuntimeException('Bitte „LÖSCHEN" in das Bestätigungsfeld schreiben.'); }
+            $limit = $before !== '' ? (new DateTimeImmutable($before . ' 23:59:59'))->getTimestamp() : time();
+            $n = $store->deleteWhere(static fn($r) => (int)strtotime((string)$r['created_at']) <= $limit);
+            $flash = $n . ' Anmeldung(en) gelöscht (eingegangen bis ' . ($before !== '' ? $before : 'heute') . ').';
+        } else {
+            $rec = $store->get($id);
+            if ($rec === null) { throw new RuntimeException('Datensatz nicht gefunden.'); }
+            switch ($do) {
+                case 'zulassen':
+                    $rec = x25_admit($rec, 'admin'); $flash = 'Zugelassen: ' . $rec['name'] . ' (Zusage + Zahlungsaufforderung versandt).'; break;
+                case 'absagen':
+                    $reason = in_array($_POST['reason'] ?? '', ['zielgruppe', 'ebene', 'voll'], true) ? (string)$_POST['reason'] : 'zielgruppe';
+                    $rec = x25_reject($rec, 'admin', $reason); $flash = 'Abgesagt: ' . $rec['name'] . ' (Absage versandt).'; break;
+                case 'bezahlt':
+                    if ($rec['status'] !== 'zugelassen') { throw new RuntimeException('Nur zugelassene Anmeldungen können als bezahlt markiert werden.'); }
+                    if ($rec['payment_status'] === 'bezahlt') { throw new RuntimeException('War bereits bezahlt.'); }
+                    $rec = x25_mark_paid($rec, ($rec['payment_method'] ?? '') !== '' ? $rec['payment_method'] : 'manuell', 'admin');
+                    $flash = 'Zahlung verbucht: ' . $rec['name'] . ', Ticket ' . $rec['ticket_no'] . ' versandt.'; break;
+                case 'ticket':
+                    if ($rec['payment_status'] !== 'bezahlt') { throw new RuntimeException('Kein Ticket vorhanden (noch nicht bezahlt).'); }
+                    x25_send_ticket($rec); $flash = 'Ticket ' . $rec['ticket_no'] . ' erneut an ' . $rec['email'] . ' gesandt.'; break;
+                case 'rechnung':
+                    if ($rec['status'] !== 'zugelassen') { throw new RuntimeException('Nur für zugelassene Anmeldungen.'); }
+                    $rec = x25_choose_invoice($rec); $flash = 'Rechnung ' . $rec['invoice_no'] . ' an ' . $rec['email'] . ' gesandt.'; break;
+                case 'warteliste':
+                    $rec = x25_waitlist($rec, 'admin'); $flash = 'Auf die Warteliste gesetzt: ' . $rec['name'] . '.'; break;
+                default: throw new RuntimeException('Unbekannte Aktion.');
+            }
+        }
+    } catch (Throwable $e) {
+        $flash = 'Fehler: ' . $e->getMessage();
+        x25_log('admin ' . ($do ?? '') . ': ' . get_class($e));
+    }
+    header('Location: admin.php?m=' . rawurlencode(mb_substr($flash, 0, 300)), true, 303);
+    exit;
+}
+$flash = (string)($_GET['m'] ?? '');
+
+// ------------------------------------------------------------------ Daten
+$all = $store->all();
+$taken = x25_seats_taken($all); $max = $C['max_seats'];
+$count = ['pruefung' => 0, 'zugelassen' => 0, 'abgesagt' => 0, 'warteliste' => 0, 'bezahlt' => 0];
+foreach ($all as $r) { $count[$r['status']] = ($count[$r['status']] ?? 0) + 1; if ($r['payment_status'] === 'bezahlt') { $count['bezahlt']++; } }
+
+// CSV-Export
+if (($_GET['export'] ?? '') === 'csv') {
+    header('Content-Type: text/csv; charset=utf-8'); header('Content-Disposition: attachment; filename="25experts-anmeldungen-' . date('Ymd') . '.csv"'); header('Cache-Control: no-store');
+    $out = fopen('php://output', 'w'); fwrite($out, "\xEF\xBB\xBF");
+    $cols = ['id', 'created_at', 'name', 'company', 'role', 'level', 'category', 'email', 'linkedin', 'question', 'status', 'admission_note', 'decided_at', 'decided_by', 'payment_method', 'payment_status', 'paid_at', 'invoice_no', 'invoice_date', 'invoice_due', 'ticket_no', 'ticket_sent_at', 'paypal_order_id', 'paypal_capture_id', 'edition', 'source'];
+    fputcsv($out, $cols, ';');
+    foreach (array_reverse($all) as $r) { fputcsv($out, array_map(static fn($c) => (string)($r[$c] ?? ''), $cols), ';'); }
+    exit;
+}
+
+// ------------------------------------------------------------------ Seite
+$h = static fn($s) => x25_e((string)$s);
+$btn = static function (int $id, string $do, string $label, string $cls = 'btn small', string $extra = '') use ($csrf) {
+    return '<form method="post" action="admin.php" style="display:inline"' . ($do === 'absagen' ? ' data-confirm="Absage wirklich senden?"' : '') . '><input type="hidden" name="csrf" value="' . x25_e($csrf) . '"><input type="hidden" name="do" value="' . $do . '"><input type="hidden" name="id" value="' . $id . '">' . $extra . '<button class="' . $cls . '" type="submit">' . x25_e($label) . '</button></form>';
+};
+$rowsHtml = '';
+foreach ($all as $r) {
+    $acts = '';
+    if (in_array($r['status'], ['pruefung', 'warteliste', 'abgesagt'], true)) { $acts .= $btn((int)$r['id'], 'zulassen', 'Zulassen'); }
+    if (in_array($r['status'], ['pruefung', 'warteliste', 'zugelassen'], true) && $r['payment_status'] !== 'bezahlt') {
+        $acts .= $btn((int)$r['id'], 'absagen', 'Absagen', 'btn small danger', '<select name="reason" style="padding:4px;font-size:12px"><option value="zielgruppe">nicht Zielgruppe</option><option value="ebene">Ebene</option><option value="voll">voll</option></select> ');
+    }
+    if ($r['status'] === 'pruefung') { $acts .= $btn((int)$r['id'], 'warteliste', 'Warteliste', 'btn small sec'); }
+    if ($r['status'] === 'zugelassen' && $r['payment_status'] !== 'bezahlt') {
+        $acts .= $btn((int)$r['id'], 'bezahlt', 'Zahlung eingegangen');
+        if (empty($r['invoice_no'])) { $acts .= $btn((int)$r['id'], 'rechnung', 'Rechnung senden', 'btn small sec'); }
+    }
+    if ($r['payment_status'] === 'bezahlt') { $acts .= $btn((int)$r['id'], 'ticket', 'Ticket erneut senden', 'btn small sec'); }
+    $links = '';
+    if ($r['status'] === 'zugelassen') { $links .= '<a href="' . $h(x25_pay_url($r)) . '">Zahlung</a> '; }
+    if (!empty($r['invoice_no'])) { $links .= '<a href="' . $h(x25_invoice_url($r)) . '">' . $h($r['invoice_no']) . '</a> '; }
+    if (!empty($r['ticket_no'])) { $links .= '<a href="' . $h(x25_ticket_url($r)) . '">' . $h($r['ticket_no']) . '</a>'; }
+    $rowsHtml .= '<tr><td>' . (int)$r['id'] . '<br><span class="meta">' . $h(x25_date($r['created_at'], 'd.m.y H:i')) . '</span></td>'
+        . '<td><strong>' . $h($r['name']) . '</strong><br>' . $h($r['company']) . '<br><span class="meta">' . $h($r['role']) . '</span>'
+        . '<details><summary class="meta" style="cursor:pointer">Frage / Details</summary><div style="max-width:420px;white-space:pre-wrap;font-family:Georgia,serif;color:var(--ink)">' . $h($r['question']) . '</div><p class="meta" style="margin:6px 0 0">' . $h($r['admission_note'] ?? '') . ($r['decided_by'] ?? '' ? ' · entschieden: ' . $h($r['decided_by']) . ' ' . $h(x25_date($r['decided_at'] ?? null, 'd.m.y H:i')) : '') . (!empty($r['linkedin']) ? ' · <a href="' . $h($r['linkedin']) . '" rel="noopener">LinkedIn</a>' : '') . '</p></details></td>'
+        . '<td>' . $h(X25_CATEGORIES[$r['category']] ?? $r['category']) . '<br><span class="meta">' . $h(X25_LEVELS[$r['level']] ?? $r['level']) . '</span></td>'
+        . '<td><a href="mailto:' . $h($r['email']) . '">' . $h($r['email']) . '</a></td>'
+        . '<td><span class="badge ' . $h($r['status']) . '">' . $h(X25_STATUS[$r['status']] ?? $r['status']) . '</span></td>'
+        . '<td>' . $h($r['payment_method'] ?: '–') . '<br><span class="badge ' . $h($r['payment_status']) . '">' . $h($r['payment_status']) . '</span>' . (!empty($r['paid_at']) ? '<br><span class="meta">' . $h(x25_date($r['paid_at'], 'd.m.y')) . '</span>' : '') . '</td>'
+        . '<td>' . $links . '</td><td>' . $acts . '</td></tr>';
+}
+$body = '<p class="kicker">Admin</p><h1>Anmeldungen · ' . $h($C['edition_name']) . '</h1>'
+    . ($flash !== '' ? '<div class="card ' . (str_starts_with($flash, 'Fehler') ? 'warn' : 'ok') . '"><strong>' . $h($flash) . '</strong></div>' : '')
+    . '<div class="card"><strong style="color:var(--ink);font-size:20px">' . $taken . ' / ' . $max . ' Plätze belegt</strong> <span class="meta">(Regel: ' . ($C['seats_rule'] === 'bezahlt' ? 'nur bezahlte' : 'zugelassene inkl. bezahlte') . ' zählen)</span><br>'
+    . '<span class="meta">gesamt ' . count($all) . ' · in Prüfung ' . $count['pruefung'] . ' · zugelassen ' . $count['zugelassen'] . ' · davon bezahlt ' . $count['bezahlt'] . ' · Warteliste ' . $count['warteliste'] . ' · abgesagt ' . $count['abgesagt'] . ' · Ablage: ' . $h($store->backend) . ' · PayPal: ' . $h($C['paypal_env']) . '</span><br>'
+    . '<a class="btn small sec" href="admin.php?export=csv">CSV-Export</a> <a class="btn small sec" href="admin.php">Aktualisieren</a></div>'
+    . '<table class="list"><thead><tr><th>#</th><th>Person</th><th>Typ / Ebene</th><th>E-Mail</th><th>Status</th><th>Zahlung</th><th>Links</th><th>Aktionen</th></tr></thead><tbody>' . ($rowsHtml ?: '<tr><td colspan="8" class="meta">Noch keine Anmeldungen.</td></tr>') . '</tbody></table>'
+    . '<h2>Daten der Edition löschen</h2><div class="card warn"><p class="meta">Löscht alle Anmeldungen, die bis zum gewählten Datum eingegangen sind (Datensparsamkeit; nach der Edition bzw. nach Ablauf der Aufbewahrungspflichten für Rechnungen [TBD: Rechnungsdaten 10 Jahre aufbewahren, vorher CSV-Export sichern]). Rechnungs- und Ticketzähler laufen weiter.</p>'
+    . '<form method="post" action="admin.php" data-confirm="Anmeldungen unwiderruflich löschen?"><input type="hidden" name="csrf" value="' . $h($csrf) . '"><input type="hidden" name="do" value="loeschen">'
+    . 'Eingegangen bis <input type="date" name="vor" value="' . date('Y-m-d') . '"> · Bestätigung: <input type="text" name="bestaetigung" placeholder="LÖSCHEN" size="10"> <button class="btn small danger" type="submit">Löschen</button></form></div>';
+x25_out(x25_page('Admin', $body, '<script src="seite.js" defer></script>', true));
+
+// ================================================================== Hilfsfunktionen
+/** Basic-Auth-Daten; auch hinter FastCGI/LiteSpeed (HTTP_AUTHORIZATION per .htaccess durchgereicht). */
+function x25_basic_credentials(): array
+{
+    if (isset($_SERVER['PHP_AUTH_USER'])) { return [(string)$_SERVER['PHP_AUTH_USER'], (string)($_SERVER['PHP_AUTH_PW'] ?? '')]; }
+    $hdr = (string)($_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? '');
+    if (stripos($hdr, 'basic ') === 0) {
+        $dec = base64_decode(trim(substr($hdr, 6)), true);
+        if ($dec !== false && str_contains($dec, ':')) { return explode(':', $dec, 2); }
+    }
+    return ['', ''];
+}
+/** CSRF-Token ohne Sitzung: HMAC über Benutzer und Stunde; gültig für die aktuelle und die vorige Stunde. */
+function x25_csrf_token(string $user, int $shift = 0): string
+{
+    return x25_sign('csrf|' . $user . '|' . (intdiv(time(), 3600) - $shift));
+}
+function x25_csrf_ok(string $user, string $tok): bool
+{
+    return $tok !== '' && (hash_equals(x25_csrf_token($user), $tok) || hash_equals(x25_csrf_token($user, 1), $tok));
+}

@@ -178,6 +178,10 @@ small { font-size: var(--x-fs-sm); }
 /* ---------- v4-Messaging: Kernerklärung im Hero, Geschichte in sechs Schritten, Kodex neu, zwei Sponsoring-Pakete ---------- */
 .x-hero__lead--kern { max-width: 66ch; font-size: var(--x-fs-md); line-height: 1.55; }
 .x-hero--edition .x-hero__lead--kern { max-width: 68ch; }
+.x-hero__lead--pos { max-width: 66ch; margin-top: var(--x-sp-4); font-size: var(--x-fs-md); line-height: 1.5; color: var(--x-neutral-200); }
+.x-footer__fine { margin-top: var(--x-sp-8); font-size: var(--x-fs-sm); line-height: 1.5; color: var(--x-neutral-300); max-width: 72ch; }
+.x-steps--five { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
+.x-numeral__label { overflow-wrap: anywhere; hyphens: auto; }  /* v5: „Versicherungsvertriebe" in der Mono-Zeile bei 390 px */
 @media (max-width: 767px) {
   .x-hero__lead--kern { font-size: 1.55rem; line-height: 1.5; }
   .x-hero, .x-hero--photo { min-height: 0; }
