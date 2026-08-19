@@ -30,9 +30,15 @@ function x25_rows_person(array $rec, bool $withMeta = false): array
     $rows = [
         ['Name', $rec['name']], ['Unternehmen', $rec['company']], ['Rolle', $rec['role']],
         ['Ebene', X25_LEVELS[$rec['level']] ?? $rec['level']], ['E-Mail', $rec['email']],
+        ['Telefon', ($rec['phone'] ?? '') !== '' ? $rec['phone'] : '–'],
         ['LinkedIn', ($rec['linkedin'] ?? '') !== '' ? $rec['linkedin'] : '–'],
         ['Unternehmenstyp', X25_CATEGORIES[$rec['category']] ?? $rec['category']],
     ];
+    if (($rec['invoice_company'] ?? '') !== '' || ($rec['invoice_address'] ?? '') !== '') {
+        $rows[] = ['Rechnung an', trim(($rec['invoice_company'] ?? '') . ', ' . str_replace("\n", ', ', (string)($rec['invoice_address'] ?? '')), ', ')];
+    }
+    if (($rec['order_no'] ?? '') !== '') { $rows[] = ['Bestellnummer', $rec['order_no']]; }
+    if (($rec['invoice_email'] ?? '') !== '') { $rows[] = ['Rechnungskontakt', $rec['invoice_email']]; }
     if ($withMeta) {
         $rows[] = ['Datenschutzhinweis', 'gelesen (Art. 6 Abs. 1 lit. b DSGVO)'];
         $rows[] = ['Edition', $rec['edition']];
@@ -229,13 +235,29 @@ function x25_mail_rechnung(array $rec): void
         . x25_h_p(x25_e($a1)) . x25_h_box(x25_h_rows($rows) . x25_h_btn($url, 'Rechnung ansehen / als PDF speichern'))
         . x25_h_p(x25_e($a2)) . x25_h_sig(), true, $pre);
     x25_send_person($rec, $subj, $html, $txt, 'rechnung');
+    $cc = strtolower(trim((string)($rec['invoice_email'] ?? '')));
+    if ($cc !== '' && $cc !== strtolower((string)$rec['email'])) {   // Kopie an den Rechnungskontakt (z. B. Buchhaltung)
+        x25_send_person(['email' => $cc, 'name' => x25_invoice_recipient($rec)[0]], $subj, $html, $txt, 'rechnung-kontakt');
+    }
+}
+
+/** Rechnungsempfänger: Rechnungsdaten aus dem Formular, sonst Unternehmen/Name des Anmelders. */
+function x25_invoice_recipient(array $rec): array
+{
+    $company = ($rec['invoice_company'] ?? '') !== '' ? (string)$rec['invoice_company'] : (string)$rec['company'];
+    $addr = trim((string)($rec['invoice_address'] ?? ''));
+    return [$company, $addr];
 }
 
 /** Rechnungszeilen (Pflichtangaben § 14 UStG) für Mail und Rechnungsseite. */
 function x25_invoice_rows(array $rec): array
 {
     $c = x25_conf(); $a = x25_amounts();
-    return [
+    [$invCompany, $invAddr] = x25_invoice_recipient($rec);
+    $extra = [];
+    if ($invAddr !== '') { $extra[] = ['Rechnungsanschrift', $invCompany . ', ' . str_replace("\n", ', ', $invAddr)]; }
+    if (($rec['order_no'] ?? '') !== '') { $extra[] = ['Bestellnummer', $rec['order_no']]; }
+    return array_merge([
         ['Rechnungsnummer', $rec['invoice_no']],
         ['Rechnungsdatum', x25_date($rec['invoice_date'], 'd.m.Y')],
         ['Leistungsdatum', $c['leistungsdatum'] . ' (Veranstaltungstage)'],
@@ -249,7 +271,7 @@ function x25_invoice_rows(array $rec): array
         ['BIC', (string)x25_cfg('BANK_BIC', '[TBD: BIC]')],
         ['Bank', (string)x25_cfg('BANK_NAME', '[TBD: Bank]')],
         ['Verwendungszweck', $rec['invoice_no'] . ' · ' . $rec['name']],
-    ];
+    ], $extra);
 }
 
 /** Ticket-Mail mit Ticketnummer, QR-Code (eingebettetes PNG) und allen weiteren Informationen. */

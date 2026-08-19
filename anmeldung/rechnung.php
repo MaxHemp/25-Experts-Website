@@ -29,11 +29,12 @@ $body = '<div class="noprint" style="margin-bottom:16px;"><button class="btn" ty
     . '<p class="kicker">Rechnung</p>'
     . '<div style="display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:24px;">'
     . '<div><p class="meta" style="margin:0 0 4px">Aussteller</p><strong style="color:var(--ink)">' . x25_e($issuer['name']) . '</strong><br>' . x25_e($issuer['addr']) . '<br>' . x25_e($issuer['mail']) . '<br>' . x25_e($issuer['tax']) . '<br>' . x25_e($issuer['vat']) . '</div>'
-    . '<div><p class="meta" style="margin:0 0 4px">Rechnungsempfänger</p><strong style="color:var(--ink)">' . x25_e($rec['company']) . '</strong><br>' . x25_e($rec['name']) . '<br>' . x25_e($rec['role']) . '<br><span class="meta">Anschrift laut Deiner Angabe [TBD: Rechnungsanschrift bei Bedarf per E-Mail nachreichen]</span></div>'
+    . '<div><p class="meta" style="margin:0 0 4px">Rechnungsempfänger</p><strong style="color:var(--ink)">' . x25_e(x25_invoice_recipient($rec)[0]) . '</strong><br>' . nl2br(x25_e(x25_invoice_recipient($rec)[1] !== '' ? x25_invoice_recipient($rec)[1] : $rec['name'])) . (x25_invoice_recipient($rec)[1] === '' ? '<br><span class="meta">Anschrift laut Deiner Angabe [TBD: Rechnungsanschrift bei Bedarf per E-Mail nachreichen]</span>' : '') . '</div>'
     . '</div>'
     . '<h1>Rechnung ' . x25_e($rec['invoice_no']) . ($paid ? ' <span class="badge bezahlt">bezahlt</span>' : '') . '</h1>'
     . '<div class="card"><table class="rows">'
     . '<tr><td>Rechnungsdatum</td><td>' . x25_e(x25_date($rec['invoice_date'], 'd.m.Y')) . '</td></tr>'
+    . (($rec['order_no'] ?? '') !== '' ? '<tr><td>Bestellnummer</td><td>' . x25_e($rec['order_no']) . '</td></tr>' : '')
     . '<tr><td>Leistungsdatum</td><td>' . x25_e($C['leistungsdatum']) . ' (Veranstaltungstage)</td></tr>'
     . '<tr><td>Zahlungsziel</td><td>' . x25_e(x25_date($rec['invoice_due'], 'd.m.Y')) . ' (' . (int)$C['payment_days'] . ' Tage ab Rechnungsdatum)</td></tr>'
     . '</table></div>'

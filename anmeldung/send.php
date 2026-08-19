@@ -5,7 +5,8 @@
  *   - als JSON (fetch aus assets/js/site.js)  → Antwort JSON {ok:true,status:"zugelassen"|"warteliste",pay_url} / {ok:false,error,fields}
  *   - als klassisches Formular-POST (ohne JS)  → Redirect 303 direkt auf die Zahlungsseite (zahlung.php)
  *     bzw. danke.html?status=warteliste bzw. zurück mit ?fehler=1&grund=…
- * Prüft Pflichtfelder (Feldliste v6: offene Frage optional), Honeypot, Rate-Limit, Origin, Header-Injection;
+ * Prüft Pflichtfelder (Feldliste v7: Wizard-Anmeldeseite mit Vor-/Nachname, Telefon und Rechnungsdaten;
+ * offene Frage optional; das alte Feld 'name' wird weiter akzeptiert), Honeypot, Rate-Limit, Origin, Header-Injection;
  * speichert die Anmeldung (lib/store.php, data/). Keine Vorprüfung: Jede gültige Anmeldung ist sofort zugelassen
  * und wird direkt zur Zahlung geleitet (Warteliste, wenn MAX_SEATS belegt). Die Gastgeber behalten sich vor,
  * Anmeldungen für ungültig zu erklären, wenn die Teilnahmebedingungen nicht erfüllt sind (aktion.php/admin.php).
@@ -68,16 +69,26 @@ if ($RATE_LIMIT > 0 && !x25_rate_ok($RATE_LIMIT * 6, $RATE_WINDOW, $RATE_SALT, '
     x25_respond(false, $RATE_MSG, 429, 'limit');
 }
 
-// ------------------------------------------------------------------ Validierung (Feldliste v5)
+// ------------------------------------------------------------------ Validierung (Feldliste v7)
 $errors = [];
 $d = [];
+$d['vorname']  = x25_line($in['vorname'] ?? '', 100);
+$d['nachname'] = x25_line($in['nachname'] ?? '', 100);
 $d['name']     = x25_line($in['name'] ?? '', 200);
+if ($d['name'] === '' && ($d['vorname'] !== '' || $d['nachname'] !== '')) {
+    $d['name'] = trim($d['vorname'] . ' ' . $d['nachname']);
+}
 $d['company']  = x25_line($in['company'] ?? '', 200);
 $d['role']     = x25_line($in['role'] ?? '', 200);
 $d['level']    = strtolower(x25_line($in['level'] ?? '', 40));
 $d['email']    = strtolower(x25_line($in['email'] ?? '', 254));
 $d['linkedin'] = x25_line($in['linkedin'] ?? '', 300);
 $d['question'] = x25_multiline($in['question'] ?? '', 5000);
+$d['phone']    = x25_line($in['phone'] ?? '', 60);
+$d['invoice_company'] = x25_line($in['invoice_company'] ?? '', 200);
+$d['invoice_address'] = x25_multiline($in['invoice_address'] ?? '', 500);
+$d['order_no']        = x25_line($in['order_no'] ?? '', 100);
+$d['invoice_email']   = strtolower(x25_line($in['invoice_email'] ?? '', 254));
 $d['category'] = strtolower(x25_line($in['category'] ?? '', 40));
 $privacy       = x25_truthy($in['privacy'] ?? ($in['consent'] ?? null));   // v5: privacy (consent = ältere Seitenversion)
 $d['source']   = x25_line($in['source'] ?? '', 500);
@@ -97,6 +108,9 @@ $emailOk = $d['email'] !== ''
 if (!$emailOk) { $errors['email'] = 'Bitte gib eine gültige E-Mail-Adresse an.'; }
 if ($d['linkedin'] !== '' && (!preg_match('~^https?://~i', $d['linkedin']) || filter_var($d['linkedin'], FILTER_VALIDATE_URL) === false)) {
     $errors['linkedin'] = 'Bitte gib eine vollständige LinkedIn-Adresse mit https:// an.';
+}
+if ($d['invoice_email'] !== '' && (filter_var($d['invoice_email'], FILTER_VALIDATE_EMAIL) === false || !PHPMailer\PHPMailer\PHPMailer::validateAddress($d['invoice_email']))) {
+    $errors['invoice_email'] = 'Bitte gib eine gültige Rechnungskontakt-E-Mail-Adresse an.';
 }
 if ($d['source'] !== '' && !str_starts_with($d['source'], $C['site']) && !str_starts_with($d['source'], 'http://localhost')) {
     $d['source'] = '';   // fremde/unerwartete Herkunft nicht übernehmen

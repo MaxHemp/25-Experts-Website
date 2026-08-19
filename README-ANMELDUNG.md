@@ -10,7 +10,7 @@ Deploy der Website: siehe `README-DEPLOY.md`. Diese Anleitung ergänzt Teil C do
 
 ## 1. Ablauf in acht Zeilen
 
-1. Teilnehmer meldet sich verbindlich auf der Landingpage an (Formular v6, offene Frage optional → `anmeldung/send.php`).
+1. Teilnehmer meldet sich verbindlich auf der eigenen Anmeldeseite an (`/editionen/change-management/anmeldung`, Wizard in vier Schritten: Persönliche Angaben → Rechnung → Dein Platz → Bestätigung; Feldliste v7 inkl. Rechnungsdaten, offene Frage optional → `anmeldung/send.php`). Rechnungsempfänger, -adresse und Bestellnummer erscheinen auf der Rechnung; der Rechnungskontakt erhält eine Kopie der Rechnungsmail.
 2. Keine Vorprüfung: Jede gültige Anmeldung ist sofort **zugelassen** und wird direkt auf die Zahlungsseite (`zahlung.php`) weitergeleitet; parallel kommt die Bestätigung mit dem Zahlungslink per Mail. Sind alle `MAX_SEATS` (25) belegt → **warteliste** (Person wird informiert). Die Domainlisten (`domains-zugelassen.txt`, `domains-freemail.txt`) dienen nur noch als Hinweis in der Gastgeber-Mail.
 3. Gastgeber erhalten je Anmeldung eine Info-Mail. Erfüllt eine Anmeldung die Teilnahmebedingungen nicht (kein Versicherer/Maklerpool/Vertrieb, falsche Ebene), erklärt Ihr sie im **Admin** für ungültig („Absagen"): Die Person erhält eine freundliche Mail; bereits gezahlte Beträge erstattet Ihr manuell.
 4. Alle Mails an Teilnehmer sind in Du-Form (Beschluss 19.08.2026).

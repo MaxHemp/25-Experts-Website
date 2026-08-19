@@ -120,7 +120,7 @@
   }
 
   /* ---------- Formular ---------- */
-  var form = document.querySelector('form[data-endpoint]');
+  var form = document.querySelector('form[data-endpoint]:not([data-wizard])');   // die Anmeldeseite (Wizard) übernimmt assets/js/anmeldung.js
   if (!form) { return; }
 
   var status = form.querySelector('.x-form__status');
