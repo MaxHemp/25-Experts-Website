@@ -330,6 +330,7 @@ h1, h2, h3, h4, h5 { overflow-wrap: break-word; }
 .x-hero__title { font-family: var(--x-font-display); font-size: var(--x-fs-display); font-weight: 800; letter-spacing: -0.025em; line-height: .98; color: var(--x-paper-50); margin: 0; text-wrap: balance; }
 .x-hero--photo .x-hero__title { font-size: clamp(4.8rem, 3rem + 7vw, 12.8rem); }
 .x-hero--photo .x-hero__title--edition, .x-hero__title--edition { text-transform: uppercase; font-size: clamp(4rem, 2rem + 6vw, 9.6rem); }
+.x-hero--photo .x-hero__title:not(.x-hero__title--edition) { white-space: nowrap; font-size: clamp(2.6rem, 1rem + 5vw, 8.2rem); } /* Startseiten-Claim einzeilig; Formel passt für „Werde einer von 25." – bei deutlich längerem Claim anpassen */
 .x-hero__title .x-dot { color: var(--x-signal-500); }
 /* Funktion der Edition in Akzentfarbe (Editionsname: „25 <Funktion> EXPERTS") */
 .x-fn { color: var(--x-signal-600); }
