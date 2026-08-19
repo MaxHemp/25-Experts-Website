@@ -38,6 +38,6 @@ $body = '<div class="noprint" style="margin-bottom:16px;"><button class="btn" ty
     . '<h2>Alle weiteren Informationen</h2><div class="card"><table class="rows">';
 foreach ($info as [$k, $v]) { $body .= '<tr><td>' . x25_e($k) . '</td><td>' . x25_e($v) . '</td></tr>'; }
 $body .= '</table></div>'
-    . '<p>Vorbereitung ist nicht nötig. Bringen Sie Ihre eine offene Frage mit, so wie Sie sie im Formular gestellt haben. Zwei Wochen vor dem Termin senden wir Ihnen alle Details zu Ablauf, Anreise und Abend.</p>'
-    . '<p class="meta">Bitte zeigen Sie dieses Ticket am Empfang vor (Ausdruck oder Smartphone). Der QR-Code führt auf diese Seite.</p>';
+    . '<p>Vorbereitung ist nicht nötig. Wenn Du eine offene Frage gestellt hast, bring sie mit. Zwei Wochen vor dem Termin senden wir Dir alle Details zu Ablauf, Anreise und Abend.</p>'
+    . '<p class="meta">Bitte zeig dieses Ticket am Empfang vor (Ausdruck oder Smartphone). Der QR-Code führt auf diese Seite.</p>';
 x25_out(x25_page('Ticket ' . $rec['ticket_no'], $body, '<script src="seite.js" defer></script>'));

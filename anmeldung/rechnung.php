@@ -29,7 +29,7 @@ $body = '<div class="noprint" style="margin-bottom:16px;"><button class="btn" ty
     . '<p class="kicker">Rechnung</p>'
     . '<div style="display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:24px;">'
     . '<div><p class="meta" style="margin:0 0 4px">Aussteller</p><strong style="color:var(--ink)">' . x25_e($issuer['name']) . '</strong><br>' . x25_e($issuer['addr']) . '<br>' . x25_e($issuer['mail']) . '<br>' . x25_e($issuer['tax']) . '<br>' . x25_e($issuer['vat']) . '</div>'
-    . '<div><p class="meta" style="margin:0 0 4px">Rechnungsempfänger</p><strong style="color:var(--ink)">' . x25_e($rec['company']) . '</strong><br>' . x25_e($rec['name']) . '<br>' . x25_e($rec['role']) . '<br><span class="meta">Anschrift laut Ihrer Angabe [TBD: Rechnungsanschrift bei Bedarf per E-Mail nachreichen]</span></div>'
+    . '<div><p class="meta" style="margin:0 0 4px">Rechnungsempfänger</p><strong style="color:var(--ink)">' . x25_e($rec['company']) . '</strong><br>' . x25_e($rec['name']) . '<br>' . x25_e($rec['role']) . '<br><span class="meta">Anschrift laut Deiner Angabe [TBD: Rechnungsanschrift bei Bedarf per E-Mail nachreichen]</span></div>'
     . '</div>'
     . '<h1>Rechnung ' . x25_e($rec['invoice_no']) . ($paid ? ' <span class="badge bezahlt">bezahlt</span>' : '') . '</h1>'
     . '<div class="card"><table class="rows">'
@@ -48,6 +48,6 @@ $body = '<div class="noprint" style="margin-bottom:16px;"><button class="btn" ty
 foreach ($rows as [$k, $v]) {
     if (in_array($k, ['Empfänger', 'IBAN', 'BIC', 'Bank', 'Verwendungszweck'], true)) { $body .= '<tr><td>' . x25_e($k) . '</td><td>' . x25_e((string)$v) . '</td></tr>'; }
 }
-$body .= '</table><p class="meta" style="margin-bottom:0">Bitte überweisen Sie den Rechnungsbetrag bis zum ' . x25_e(x25_date($rec['invoice_due'], 'd.m.Y')) . ' unter Angabe des Verwendungszwecks. Mit dem Zahlungseingang ist Ihr Platz verbindlich; Sie erhalten dann Ihr Ticket. [TBD: Hinweis auf Teilnahmebedingungen/Storno]</p></div>'
-    . '<p class="meta">Vielen Dank für Ihre Anmeldung. Bei Fragen zur Rechnung (Bestellnummer, abweichende Rechnungsanschrift) schreiben Sie an <a href="mailto:' . x25_e($issuer['mail']) . '">' . x25_e($issuer['mail']) . '</a>.</p>';
+$body .= '</table><p class="meta" style="margin-bottom:0">Bitte überweise den Rechnungsbetrag bis zum ' . x25_e(x25_date($rec['invoice_due'], 'd.m.Y')) . ' unter Angabe des Verwendungszwecks. Mit dem Zahlungseingang ist Dein Platz verbindlich; Du erhältst dann Dein Ticket. [TBD: Hinweis auf Teilnahmebedingungen/Storno]</p></div>'
+    . '<p class="meta">Vielen Dank für Deine Anmeldung. Bei Fragen zur Rechnung (Bestellnummer, abweichende Rechnungsanschrift) schreib an <a href="mailto:' . x25_e($issuer['mail']) . '">' . x25_e($issuer['mail']) . '</a>.</p>';
 x25_out(x25_page('Rechnung ' . $rec['invoice_no'], $body, '<script src="seite.js" defer></script>'));

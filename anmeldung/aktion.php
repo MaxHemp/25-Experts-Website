@@ -17,7 +17,7 @@ $s  = (string)($_REQUEST['s'] ?? '');
 $LABELS = ['zulassen' => 'Zulassen', 'absagen' => 'Absagen', 'bezahlt' => 'Zahlung eingegangen'];
 
 if (!isset($LABELS[$a]) || $id <= 0 || !x25_verify_sig($a . '|' . $id . '|' . $n, $s)) {
-    x25_out(x25_page('Link ungültig', '<h1>Dieser Link ist ungültig.</h1><p>Die Signatur passt nicht. Bitte nutzen Sie den Link aus der aktuellen Benachrichtigungsmail oder den <a href="admin.php">Admin-Bereich</a>.</p>'), 403);
+    x25_out(x25_page('Link ungültig', '<h1>Dieser Link ist ungültig.</h1><p>Die Signatur passt nicht. Bitte nutze den Link aus der aktuellen Benachrichtigungsmail oder den <a href="admin.php">Admin-Bereich</a>.</p>'), 403);
 }
 $rec = x25_store()->get($id);
 if ($rec === null) {
@@ -29,7 +29,7 @@ if (($rec['action_nonce'] ?? '') !== $n || $n === '') {
 
 $rows = x25_rows_person($rec, true);
 $summary = '<div class="card"><table class="rows">' . implode('', array_map(static fn($r) => '<tr><td>' . x25_e($r[0]) . '</td><td>' . x25_e((string)$r[1]) . '</td></tr>', $rows)) . '</table>'
-    . '<p class="meta">Ihre eine offene Frage:</p><p style="color:var(--ink);font-family:Georgia,serif;font-size:17px;">' . nl2br(x25_e($rec['question'])) . '</p></div>';
+    . '<p class="meta">Offene Frage (optional):</p><p style="color:var(--ink);font-family:Georgia,serif;font-size:17px;">' . nl2br(x25_e(x25_question($rec))) . '</p></div>';
 
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
     // Bestätigungsseite
@@ -43,8 +43,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
             . '<label><input type="radio" name="reason" value="voll"> Alle Plätze vergeben</label></p>';
     }
     $hint = match ($a) {
-        'zulassen' => 'Die Person erhält sofort die Zusage mit der Zahlungsaufforderung (PayPal oder Rechnung).',
-        'absagen' => 'Die Person erhält eine freundliche Absage (Wortlaut E-Mail 03).',
+        'zulassen' => 'Die Person erhält sofort die Bestätigung mit der Zahlungsaufforderung (PayPal oder Rechnung).',
+        'absagen' => 'Die Anmeldung wird für ungültig erklärt; die Person erhält eine freundliche E-Mail (bereits gezahlte Beträge werden erstattet).',
         default => 'Der Zahlungseingang wird verbucht, die Ticketnummer vergeben und das Ticket mit QR-Code an die Person gesendet.',
     };
     $body = '<p class="kicker">Gastgeber-Aktion</p><h1>' . x25_e($LABELS[$a]) . ': ' . x25_e($rec['name']) . ', ' . x25_e($rec['company']) . '</h1>'

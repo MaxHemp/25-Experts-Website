@@ -4,8 +4,9 @@
    2) Motion (nur ohne prefers-reduced-motion): Reveal-on-Scroll ([data-reveal], [data-reveal-group]),
       Grid25 füllt sich ([data-grid25]), Zähler ([data-count]), Marquee-Pause bei Hover (CSS) und
       bei Reduced Motion (CSS). Ken-Burns läuft in CSS (html.js + .x-hero--kenburns).
-   3) Anmeldeformular: Validierung, Honeypot, JSON-POST per fetch an data-endpoint,
-      Fallback ohne JS: klassischer POST an action. Danke-Seite: Text je Status (?status=…). */
+   3) Anmeldeformular: Validierung, Honeypot, JSON-POST per fetch an data-endpoint;
+      Antwort enthält pay_url → direkte Weiterleitung zur Zahlungsseite (sonst Danke-Seite je Status).
+      Fallback ohne JS: klassischer POST an action (send.php leitet dann selbst zur Zahlung). */
 (function () {
   'use strict';
 
@@ -166,7 +167,7 @@
     e.preventDefault();
     var bad = validate();
     if (bad) {
-      showStatus('error', 'Bitte prüfen Sie die markierten Felder.');
+      showStatus('error', 'Bitte prüfe die markierten Felder.');
       bad.focus();
       return;
     }
@@ -185,7 +186,7 @@
 
     var endpoint = form.getAttribute('data-endpoint');
     if (!endpoint || endpoint.indexOf('TBD') !== -1) {
-      showStatus('error', 'Der Formular-Endpunkt ist noch nicht konfiguriert. Bitte schreiben Sie uns per E-Mail.');
+      showStatus('error', 'Der Formular-Endpunkt ist noch nicht konfiguriert. Bitte schreib uns per E-Mail.');
       return;
     }
 
@@ -200,7 +201,8 @@
         });
       })
       .then(function (j) {
-        // send.php meldet den Status der Anmeldung (zugelassen | pruefung | warteliste); die Danke-Seite passt ihren Text daran an
+        // send.php liefert bei zugelassenen Anmeldungen pay_url → direkt zur Zahlungsseite; sonst Danke-Seite mit Status (z. B. Warteliste)
+        if (j && j.pay_url && /^https?:\/\//.test(j.pay_url)) { window.location.href = j.pay_url; return; }
         var thanks = form.getAttribute('data-thanks') || 'danke.html';
         window.location.href = thanks + (j && j.status ? '?status=' + encodeURIComponent(j.status) : '');
       })
@@ -209,7 +211,7 @@
         submit.textContent = 'Anmeldung absenden';
         var msg = (err && err.message && err.message.indexOf('HTTP') !== 0 && err.message.indexOf('Failed') !== 0 && err.message.indexOf('NetworkError') !== 0)
           ? err.message
-          : 'Die Anmeldung konnte nicht übertragen werden. Bitte versuchen Sie es erneut oder schreiben Sie uns per E-Mail.';
+          : 'Die Anmeldung konnte nicht übertragen werden. Bitte versuche es erneut oder schreib uns per E-Mail.';
         showStatus('error', msg);
       });
   });
@@ -223,10 +225,10 @@
   if (/[?&]fehler=1/.test(window.location.search)) {
     var reason = (window.location.search.match(/[?&]grund=([^&]*)/) || [])[1];
     var texte = {
-      pflicht: 'Bitte füllen Sie alle Pflichtfelder aus und prüfen Sie Ihre Angaben.',
-      email: 'Bitte geben Sie eine gültige E-Mail-Adresse an.',
-      limit: 'Zu viele Versuche in kurzer Zeit. Bitte versuchen Sie es in einer Stunde erneut.',
-      versand: 'Die Anmeldung konnte nicht übertragen werden. Bitte versuchen Sie es erneut oder schreiben Sie uns per E-Mail.'
+      pflicht: 'Bitte fülle alle Pflichtfelder aus und prüfe Deine Angaben.',
+      email: 'Bitte gib eine gültige E-Mail-Adresse an.',
+      limit: 'Zu viele Versuche in kurzer Zeit. Bitte versuche es in einer Stunde erneut.',
+      versand: 'Die Anmeldung konnte nicht übertragen werden. Bitte versuche es erneut oder schreib uns per E-Mail.'
     };
     showStatus('error', texte[reason] || texte.versand);
   }

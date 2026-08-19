@@ -76,7 +76,7 @@ function x25_conf(): array
         'edition_ort' => (string)x25_cfg('EDITION_ORT', 'Köln'),
         'edition_venue' => (string)x25_cfg('EDITION_VENUE', 'SESSEL HUB Rheinauhafen, Kranhaus Nord (Erdgeschoss), Im Zollhafen 12, 50678 Köln'),
         'edition_zeiten' => (string)x25_cfg('EDITION_ZEITEN', 'Tag 1: 09:45 bis 17:15 Uhr, anschließend Abend (Aperitif 18:15 Uhr, Dinner 19:00 Uhr) · Tag 2: 09:30 bis 13:30 Uhr'),
-        'edition_hotel' => (string)x25_cfg('EDITION_HOTEL', 'Hotel buchen Sie bitte selbst; ein Zimmerkontingent ist angefragt [TBD: Hotel, Stichwort], aber nicht garantiert.'),
+        'edition_hotel' => (string)x25_cfg('EDITION_HOTEL', 'Hotel buchst Du bitte selbst; ein Zimmerkontingent ist angefragt [TBD: Hotel, Stichwort], aber nicht garantiert.'),
         'edition_kontakt' => (string)x25_cfg('EDITION_KONTAKT', 'info@25-experts.de · [TBD: Kontaktnummer]'),
         'leistungsdatum' => (string)x25_cfg('EDITION_LEISTUNGSDATUM', '03.–04.12.2026'),
         'logo' => (string)x25_cfg('LOGO_URL', ''),

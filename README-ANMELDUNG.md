@@ -1,7 +1,8 @@
 # 25 EXPERTS – Anmeldestrecke einrichten und betreiben (Anleitung für Max)
 
-Stand 18.08.2026. Die Anmeldestrecke läuft komplett auf dem Hostinger-Webspace (PHP 8.1+, kein n8n, kein Netlify, kein Resend):
-Anmeldung → automatische Zulassungsprüfung → Zusage mit Zahlungsaufforderung (PayPal oder Rechnung) → Ticket mit QR-Code.
+Stand 19.08.2026 (v6: keine Vorprüfung mehr). Die Anmeldestrecke läuft komplett auf dem Hostinger-Webspace (PHP 8.1+, kein n8n, kein Netlify, kein Resend):
+Anmeldung → direkt zur Zahlung (PayPal oder Rechnung) → Ticket mit QR-Code. Die Gastgeber behalten sich vor,
+Anmeldungen für ungültig zu erklären, wenn die Teilnahmebedingungen nicht erfüllt sind (Admin).
 Alles liegt in `anmeldung/`. Konfiguration ausschließlich in `anmeldung/config.php` (nicht im Repo).
 Deploy der Website: siehe `README-DEPLOY.md`. Diese Anleitung ergänzt Teil C dort.
 
@@ -9,10 +10,10 @@ Deploy der Website: siehe `README-DEPLOY.md`. Diese Anleitung ergänzt Teil C do
 
 ## 1. Ablauf in acht Zeilen
 
-1. Teilnehmer meldet sich verbindlich auf der Landingpage an (Formular v5 → `anmeldung/send.php`).
-2. `send.php` prüft die E-Mail-Domain: steht sie in `anmeldung/data/domains-zugelassen.txt` (Versicherer, Maklerpools, Vertriebe) → **zugelassen** sofort; Freemail (`domains-freemail.txt`) oder unbekannte Firmendomain → **prüfung**.
-3. **zugelassen:** Person erhält Zusage + Zahlungsaufforderung (Link auf `zahlung.php`); Gastgeber erhalten eine Info-Mail. Sind alle `MAX_SEATS` (25) belegt → **warteliste** (Person wird informiert).
-4. **prüfung:** Person erhält Eingangsbestätigung („wir melden uns innerhalb von 3 Werktagen"); Gastgeber erhalten eine Prüf-Mail mit zwei signierten Einmal-Links **Zulassen** / **Absagen** (Klick → Bestätigungsseite → Bestätigen). Zulassen → Zusage + Zahlungsaufforderung; Absagen → freundliche Absage (E-Mail 03).
+1. Teilnehmer meldet sich verbindlich auf der Landingpage an (Formular v6, offene Frage optional → `anmeldung/send.php`).
+2. Keine Vorprüfung: Jede gültige Anmeldung ist sofort **zugelassen** und wird direkt auf die Zahlungsseite (`zahlung.php`) weitergeleitet; parallel kommt die Bestätigung mit dem Zahlungslink per Mail. Sind alle `MAX_SEATS` (25) belegt → **warteliste** (Person wird informiert). Die Domainlisten (`domains-zugelassen.txt`, `domains-freemail.txt`) dienen nur noch als Hinweis in der Gastgeber-Mail.
+3. Gastgeber erhalten je Anmeldung eine Info-Mail. Erfüllt eine Anmeldung die Teilnahmebedingungen nicht (kein Versicherer/Maklerpool/Vertrieb, falsche Ebene), erklärt Ihr sie im **Admin** für ungültig („Absagen"): Die Person erhält eine freundliche Mail; bereits gezahlte Beträge erstattet Ihr manuell.
+4. Alle Mails an Teilnehmer sind in Du-Form (Beschluss 19.08.2026).
 5. **Zahlungsseite** (`zahlung.php?t=TOKEN`): 450,00 € netto + 19 % USt. = 535,50 € brutto. (a) PayPal-Buttons: Order und Capture laufen serverseitig über die PayPal-REST-API (`paypal.php`), Betrag/Währung/Order-ID werden geprüft. (b) „Per Rechnung zahlen": Rechnungsnummer `25X-2026-0001` (fortlaufend), Rechnungsmail + druckbare Rechnungsseite (`rechnung.php`, „Als PDF speichern"), Zahlungsziel 14 Tage; Gastgeber erhalten Mail mit Link **Zahlung eingegangen**.
 6. **Zahlungseingang** (PayPal-Capture automatisch, Rechnung per Gastgeber-Link oder Admin) → Ticketnummer `25X-CM-001`, Ticket-Mail mit QR-Code (PNG eingebettet) und allen weiteren Informationen (Ort, Zeiten, Hotel, Kontakt), druckbare Ticketseite (`ticket.php`, QR zeigt darauf).
 7. **Admin** (`admin.php`, Basic-Auth): Liste, Platzzähler, Aktionen (Zulassen, Absagen, Warteliste, Zahlung eingegangen, Rechnung senden, Ticket erneut senden), CSV-Export, Löschroutine.
@@ -22,8 +23,8 @@ Deploy der Website: siehe `README-DEPLOY.md`. Diese Anleitung ergänzt Teil C do
 
 | Datei | Zweck |
 |---|---|
-| `send.php` | Formular-Handler: Validierung (Feldliste v5), Honeypot, Rate-Limit, Origin, Speicherung, Zulassungsentscheidung, Mails |
-| `aktion.php` | Gastgeber-Links aus den Mails: Zulassen / Absagen / Zahlung eingegangen (HMAC-signiert, einmalig) |
+| `send.php` | Formular-Handler: Validierung (Feldliste v6, Frage optional), Honeypot, Rate-Limit, Origin, Speicherung, Platzvergabe, Mails, Redirect zur Zahlung |
+| `aktion.php` | Gastgeber-Link aus der Rechnungs-Mail: Zahlung eingegangen (HMAC-signiert, einmalig); Zulassen/Absagen bleiben für den Admin |
 | `zahlung.php`, `zahlung.js` | Zahlungsseite mit PayPal-Buttons und Rechnungsoption |
 | `paypal.php` | PayPal REST v2: Order anlegen, Capture, Verifikation |
 | `rechnung.php` | Rechnung als druckbare Seite (Pflichtangaben § 14 UStG) |
@@ -32,8 +33,8 @@ Deploy der Website: siehe `README-DEPLOY.md`. Diese Anleitung ergänzt Teil C do
 | `config.example.php` | Vorlage für `config.php` (alle Schalter dokumentiert) |
 | `lib/x25.php`, `lib/flow.php`, `lib/store.php` | Grundlage (Konfiguration, Mailer, HTML-Bausteine), fachlicher Ablauf + Mailtexte, Datenablage (SQLite/JSON) |
 | `lib/PHPMailer.php` u. a., `lib/barcode.php` | PHPMailer (LGPL, LICENSE liegt bei), QR-Code-Generator (MIT, `LICENSE-barcode.txt`) |
-| `data/domains-zugelassen.txt` | Allowlist der Unternehmensdomains (eine je Zeile, `#` Kommentar) |
-| `data/domains-freemail.txt` | Freemail-Domains (manuelle Prüfung, Hinweis in der Bestätigung) |
+| `data/domains-zugelassen.txt` | Unternehmensdomains (eine je Zeile, `#` Kommentar); seit v6 nur noch Hinweis in der Gastgeber-Mail |
+| `data/domains-freemail.txt` | Freemail-Domains; seit v6 nur noch Hinweis in der Gastgeber-Mail |
 | `data/.htaccess`, `data/.gitkeep` | Verzeichnis gesperrt; DB-Dateien liegen nur auf dem Server (`.gitignore`) |
 | `.htaccess` | Schutz von `config.php`, `lib/`, `data/`; CSP-Ausnahme für das PayPal-SDK auf `zahlung.php`; Basic-Auth-Header für `admin.php` |
 

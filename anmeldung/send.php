@@ -2,12 +2,13 @@
 /**
  * 25 EXPERTS – Anmeldeformular-Handler (Schritt 1 der Anmeldestrecke)
  * Nimmt die verbindliche Anmeldung der Landingpage (editionen/change-management/#anmeldung) entgegen:
- *   - als JSON (fetch aus assets/js/site.js)  → Antwort JSON {ok:true,status:"zugelassen"|"pruefung"|"warteliste"} / {ok:false,error,fields}
- *   - als klassisches Formular-POST (ohne JS)  → Redirect 303 auf danke.html?status=… bzw. zurück mit ?fehler=1&grund=…
- * Prüft Pflichtfelder (Feldliste v5), Honeypot, Rate-Limit, Origin, Header-Injection; speichert die Anmeldung
- * (lib/store.php, data/) und entscheidet die Zulassung automatisch:
- *   E-Mail-Domain auf data/domains-zugelassen.txt  → zugelassen: Zusage + Zahlungsaufforderung sofort (Warteliste, wenn MAX_SEATS belegt)
- *   Freemail-Domain oder unbekannte Firmendomain   → prüfung: Eingangsbestätigung; Gastgeber erhalten Prüf-Mail mit Zulassen-/Absagen-Link
+ *   - als JSON (fetch aus assets/js/site.js)  → Antwort JSON {ok:true,status:"zugelassen"|"warteliste",pay_url} / {ok:false,error,fields}
+ *   - als klassisches Formular-POST (ohne JS)  → Redirect 303 direkt auf die Zahlungsseite (zahlung.php)
+ *     bzw. danke.html?status=warteliste bzw. zurück mit ?fehler=1&grund=…
+ * Prüft Pflichtfelder (Feldliste v6: offene Frage optional), Honeypot, Rate-Limit, Origin, Header-Injection;
+ * speichert die Anmeldung (lib/store.php, data/). Keine Vorprüfung: Jede gültige Anmeldung ist sofort zugelassen
+ * und wird direkt zur Zahlung geleitet (Warteliste, wenn MAX_SEATS belegt). Die Gastgeber behalten sich vor,
+ * Anmeldungen für ungültig zu erklären, wenn die Teilnahmebedingungen nicht erfüllt sind (aktion.php/admin.php).
  * Konfiguration: config.php (aus config.example.php), PHP >= 8.1, PHPMailer in lib/.
  */
 declare(strict_types=1);
@@ -62,7 +63,7 @@ if (isset($in['website']) && trim((string)$in['website']) !== '') {
 
 // ------------------------------------------------------------------ Rate-Limit (Datei, IP-Hash, kein Klartext)
 // Zwei Zähler je IP-Hash: alle Versuche (großzügig, gegen Hämmern) und tatsächlich angenommene Anmeldungen (RATE_LIMIT).
-$RATE_MSG = 'Zu viele Versuche in kurzer Zeit. Bitte versuchen Sie es in einer Stunde erneut.';
+$RATE_MSG = 'Zu viele Versuche in kurzer Zeit. Bitte versuche es in einer Stunde erneut.';
 if ($RATE_LIMIT > 0 && !x25_rate_ok($RATE_LIMIT * 6, $RATE_WINDOW, $RATE_SALT, 'v')) {
     x25_respond(false, $RATE_MSG, 429, 'limit');
 }
@@ -83,87 +84,85 @@ $d['source']   = x25_line($in['source'] ?? '', 500);
 $edition_in    = x25_line($in['edition'] ?? '', 200);
 $d['edition']  = $edition_in !== '' ? $edition_in : $C['edition'];
 
-foreach (['name' => 'Name', 'company' => 'Unternehmen', 'role' => 'Rolle', 'question' => 'Ihre eine offene Frage'] as $k => $label) {
+foreach (['name' => 'Name', 'company' => 'Unternehmen', 'role' => 'Rolle'] as $k => $label) {   // question ist seit v6 optional
     if ($d[$k] === '') { $errors[$k] = $label . ' fehlt.'; }
 }
 if ($d['level'] === '' || !isset(X25_LEVELS[$d['level']])) { $errors['level'] = 'Ebene fehlt oder ist ungültig.'; }
 if ($d['category'] === '' || !isset(X25_CATEGORIES[$d['category']])) { $errors['category'] = 'Unternehmenstyp fehlt oder ist ungültig.'; }
-if (!$privacy) { $errors['privacy'] = 'Bitte bestätigen Sie den Hinweis zum Datenschutz.'; }
+if (!$privacy) { $errors['privacy'] = 'Bitte bestätige den Hinweis zum Datenschutz.'; }
 $emailOk = $d['email'] !== ''
     && filter_var($d['email'], FILTER_VALIDATE_EMAIL) !== false
     && preg_match('/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/u', $d['email']) === 1
     && PHPMailer\PHPMailer\PHPMailer::validateAddress($d['email']);
-if (!$emailOk) { $errors['email'] = 'Bitte geben Sie eine gültige E-Mail-Adresse an.'; }
+if (!$emailOk) { $errors['email'] = 'Bitte gib eine gültige E-Mail-Adresse an.'; }
 if ($d['linkedin'] !== '' && (!preg_match('~^https?://~i', $d['linkedin']) || filter_var($d['linkedin'], FILTER_VALIDATE_URL) === false)) {
-    $errors['linkedin'] = 'Bitte geben Sie eine vollständige LinkedIn-Adresse mit https:// an.';
+    $errors['linkedin'] = 'Bitte gib eine vollständige LinkedIn-Adresse mit https:// an.';
 }
 if ($d['source'] !== '' && !str_starts_with($d['source'], $C['site']) && !str_starts_with($d['source'], 'http://localhost')) {
     $d['source'] = '';   // fremde/unerwartete Herkunft nicht übernehmen
 }
 if ($errors) {
     $reason = (count($errors) === 1 && isset($errors['email'])) ? 'email' : 'pflicht';
-    x25_respond(false, 'Bitte prüfen Sie Ihre Angaben: ' . implode(' ', array_values($errors)), 422, $reason, $errors);
+    x25_respond(false, 'Bitte prüfe Deine Angaben: ' . implode(' ', array_values($errors)), 422, $reason, $errors);
 }
 if ($RATE_LIMIT > 0 && !x25_rate_ok($RATE_LIMIT, $RATE_WINDOW, $RATE_SALT, 'm')) {
     x25_respond(false, $RATE_MSG, 429, 'limit');
 }
 
-// ------------------------------------------------------------------ Zulassung entscheiden und speichern
-$domainResult = x25_domain_check($d['email']);   // zugelassen | freemail | unbekannt
+// ------------------------------------------------------------------ Speichern (keine Vorprüfung: direkt zugelassen, Warteliste bei vollem Haus)
+$domainResult = x25_domain_check($d['email']);   // nur noch informativ für die Gastgeber-Mail
 $rec = $d + [
     'token' => x25_token(16), 'action_nonce' => x25_token(12), 'created_at' => gmdate('c'),
-    'status' => 'pruefung', 'payment_method' => '', 'payment_status' => 'offen',
-    'admission_note' => match ($domainResult) {
-        'zugelassen' => 'automatisch: Domain auf Allowlist',
-        'freemail' => 'Freemail-Adresse, manuelle Prüfung',
-        default => 'unbekannte Domain, manuelle Prüfung',
+    'status' => 'zugelassen', 'payment_method' => '', 'payment_status' => 'offen',
+    'admission_note' => 'Direktanmeldung' . match ($domainResult) {
+        'zugelassen' => ' (Domain auf Allowlist)',
+        'freemail' => ' (Freemail-Adresse)',
+        default => ' (Domain nicht auf Allowlist)',
     },
 ];
 $id = 0;
 try {
     $store = x25_store();
-    // Platzvergabe unter Sperre: Allowlist-Treffer werden zugelassen, solange Plätze frei sind, sonst Warteliste
-    $store->transaction(function (X25Store $s) use (&$rec, &$id, $domainResult) {
-        if ($domainResult === 'zugelassen') {
-            $rec['status'] = x25_seats_taken($s->all()) < x25_conf()['max_seats'] ? 'zugelassen' : 'warteliste';
-            $rec['decided_at'] = gmdate('c'); $rec['decided_by'] = 'automatisch';
-        }
+    // Platzvergabe unter Sperre: zugelassen, solange Plätze frei sind, sonst Warteliste
+    $store->transaction(function (X25Store $s) use (&$rec, &$id) {
+        $rec['status'] = x25_seats_taken($s->all()) < x25_conf()['max_seats'] ? 'zugelassen' : 'warteliste';
+        $rec['decided_at'] = gmdate('c'); $rec['decided_by'] = 'automatisch';
         $id = $s->insert($rec);
     });
     $rec = $store->get($id);
 
-    // Mails: (a) an den Anmelder je nach Status, (b) an die Gastgeber (Info bzw. Prüfauftrag mit Links)
+    // Mails: (a) Bestätigung mit Zahlungsaufforderung bzw. Warteliste an den Anmelder, (b) Info an die Gastgeber
     match ($rec['status']) {
         'zugelassen' => x25_mail_zusage($rec),
-        'warteliste' => x25_mail_warteliste($rec),
-        default => x25_mail_pruefung($rec, $domainResult === 'freemail'),
+        default => x25_mail_warteliste($rec),
     };
     x25_mail_hosts_neu($rec);
 } catch (PHPMailer\PHPMailer\Exception $e) {
     x25_log('Versand fehlgeschlagen (' . substr($e->getMessage(), 0, 200) . ')');   // keine personenbezogenen Daten
     if ($id > 0) { try { x25_store()->deleteWhere(static fn($r) => (int)$r['id'] === $id); } catch (Throwable) {} }   // kein Datensatz ohne Bestätigung
-    x25_respond(false, 'Die Anmeldung konnte nicht übertragen werden. Bitte versuchen Sie es erneut oder schreiben Sie uns per E-Mail.', 502, 'versand');
+    x25_respond(false, 'Die Anmeldung konnte nicht übertragen werden. Bitte versuche es erneut oder schreib uns per E-Mail.', 502, 'versand');
 } catch (Throwable $e) {
     x25_log('Fehler ' . get_class($e) . ': ' . substr($e->getMessage(), 0, 120));
     if ($id > 0) { try { x25_store()->deleteWhere(static fn($r) => (int)$r['id'] === $id); } catch (Throwable) {} }
-    x25_respond(false, 'Die Anmeldung konnte nicht übertragen werden. Bitte versuchen Sie es erneut oder schreiben Sie uns per E-Mail.', 500, 'versand');
+    x25_respond(false, 'Die Anmeldung konnte nicht übertragen werden. Bitte versuche es erneut oder schreib uns per E-Mail.', 500, 'versand');
 }
 
-x25_respond(true, null, 200, null, [], $rec['status']);
+x25_respond(true, null, 200, null, [], $rec['status'], $rec['status'] === 'zugelassen' ? x25_pay_url($rec) : '');
 
 // ================================================================== Antwort
 /** JSON (fetch) oder Redirect (klassisches Formular). Beendet das Skript. */
-function x25_respond(bool $ok, ?string $error, int $status, ?string $reason, array $fields = [], string $state = ''): void
+function x25_respond(bool $ok, ?string $error, int $status, ?string $reason, array $fields = [], string $state = '', string $payUrl = ''): void
 {
     global $wantsJson, $C;
     if ($wantsJson) {
         $out = ['ok' => $ok];
-        if ($ok) { $out['status'] = $state; }
+        if ($ok) { $out['status'] = $state; if ($payUrl !== '') { $out['pay_url'] = $payUrl; } }
         else { $out['error'] = $error ?? 'Fehler'; if ($fields) { $out['fields'] = array_keys($fields); } }
         x25_json($out, $status);
     }
     if ($ok) {
-        header('Location: ' . $C['thanks'] . ($state !== '' ? '?status=' . rawurlencode($state) : ''), true, 303);
+        // Ohne JS: zugelassen → direkt zur Zahlungsseite, sonst Danke-Seite mit Status
+        header('Location: ' . ($payUrl !== '' ? $payUrl : $C['thanks'] . ($state !== '' ? '?status=' . rawurlencode($state) : '')), true, 303);
         exit;
     }
     header('Location: ' . $C['landing'] . '?fehler=1&grund=' . rawurlencode($reason ?? 'versand') . '#anmeldung', true, 303);

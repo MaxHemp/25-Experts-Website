@@ -2,7 +2,7 @@
 
 Stand 18.08.2026 (Messaging v5: keine Sponsoring-Seite mehr; /sponsoring leitet auf /kontakt#partner). Dieses Verzeichnis ist der komplette Inhalt des GitHub-Repos, das Hostinger nach `public_html` ausrollt.
 Domain: **https://25-experts.de/** (Domain und E-Mail liegen bei Hostinger). Kein n8n, kein Netlify, kein Resend:
-Die komplette Anmeldestrecke (Anmeldung → Zulassungsprüfung → Zusage mit Zahlungsaufforderung per PayPal oder Rechnung → Ticket mit QR-Code → Admin) läuft in `anmeldung/` auf dem Hostinger-Webspace und verschickt alle Mails über ein Hostinger-Postfach. **Einrichtung und Betrieb der Anmeldestrecke (PayPal, Bankdaten, Admin, Allowlist, tägliche Aufgaben): `README-ANMELDUNG.md`.**
+Die komplette Anmeldestrecke (Anmeldung → Zahlung direkt bei der Anmeldung per PayPal oder Rechnung → Ticket mit QR-Code → Admin; keine Vorprüfung mehr, Stand 19.08.2026) läuft in `anmeldung/` auf dem Hostinger-Webspace und verschickt alle Mails über ein Hostinger-Postfach. **Einrichtung und Betrieb der Anmeldestrecke (PayPal, Bankdaten, Admin, Allowlist, tägliche Aufgaben): `README-ANMELDUNG.md`.**
 
 Was du selbst tust: **GitHub-Repo anlegen → Dateien hochladen → Repo in Hostinger verbinden → config.php und Postfach anlegen → testen.**
 Alles andere (Fotos nachladen, Redirects, Caching, Sicherheits-Header) ist vorbereitet.
@@ -69,7 +69,7 @@ Kurzfassung hier; die vollständige Schritt-für-Schritt-Anleitung (PayPal, Bank
     - `MAIL_TRANSPORT` bleibt `'smtp'`
     - Ordner `anmeldung/data/` muss für PHP beschreibbar sein (Standard bei Hostinger; sonst Rechte 755).
     Speichern. Die Datei ist per `.htaccess` gegen Direktaufruf gesperrt und wird von Git ignoriert (überlebt Deploys).
-11. **Test-Anmeldung:** https://25-experts.de/editionen/change-management/#anmeldung ausfüllen und absenden → Weiterleitung auf die Danke-Seite (Text je nach Status) → zwei Mails: Benachrichtigung bzw. Prüf-Mail mit Zulassen/Absagen-Links an `MAIL_TO`, Bestätigung oder Zusage mit Zahlungslink an die eingetragene Adresse. Danach die Strecke einmal durchspielen: Zulassen-Link → Zahlungsseite → „Per Rechnung zahlen" → Rechnungsmail → Link „Zahlung eingegangen" → Ticket-Mail mit QR; Admin unter /anmeldung/admin.php. Auch einmal mit deaktiviertem JavaScript testen (Redirect statt JSON) und einmal ein Pflichtfeld leer lassen (Fehlermeldung im Formular).
+11. **Test-Anmeldung:** https://25-experts.de/editionen/change-management/#anmeldung ausfüllen und absenden → Weiterleitung auf die Danke-Seite (Text je nach Status) → Weiterleitung direkt auf die Zahlungsseite; zwei Mails: Benachrichtigung an `MAIL_TO`, Bestätigung mit Zahlungslink an die eingetragene Adresse. Danach die Strecke einmal durchspielen: Zahlungsseite → „Per Rechnung zahlen" → Rechnungsmail → Link „Zahlung eingegangen" → Ticket-Mail mit QR; Admin unter /anmeldung/admin.php. Auch einmal mit deaktiviertem JavaScript testen (Redirect statt JSON) und einmal ein Pflichtfeld leer lassen (Fehlermeldung im Formular).
     Fehlersuche: Antwort „Konfiguration fehlt" → config.php fehlt/heißt falsch. „konnte nicht übertragen werden" → SMTP-Zugangsdaten prüfen (Postfachadresse als Benutzername, Port 465/SSL); Hostinger-Fehlerlog unter Erweitert → PHP-Konfiguration/„Fehlerprotokoll".
 
 ## Teil D: Domain, SSL, Suche
