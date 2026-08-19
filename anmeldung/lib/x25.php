@@ -322,12 +322,12 @@ function x25_h_rows(array $rows): string
 }
 function x25_h_sig(): string
 {
-    return x25_h_p('Mit freundlichen Grüßen<br>' . x25_e(x25_conf()['gastgeber']) . '<br><span style="color:' . X25_META . ';">Gastgeber · 25 EXPERTS</span>');
+    return x25_h_p('Mit freundlichen Grüßen<br>' . x25_e(x25_conf()['gastgeber']) . '<br><span style="color:' . X25_META . ';">Gastgeber und Moderator · 25 EXPERTS</span>');
 }
 function x25_t_sig(): string
 {
     $c = x25_conf();
-    return "Mit freundlichen Grüßen\n" . $c['gastgeber'] . "\nGastgeber · 25 EXPERTS\n\n--\n25 EXPERTS\n" . $c['footer'] . "\n"
+    return "Mit freundlichen Grüßen\n" . $c['gastgeber'] . "\nGastgeber und Moderator · 25 EXPERTS\n\n--\n25 EXPERTS\n" . $c['footer'] . "\n"
         . "Datenschutz: " . $c['site'] . "datenschutz · Impressum: " . $c['site'] . "impressum\n";
 }
 /** Komplette HTML-Mail. $withLinks: Datenschutz/Impressum im Fuß (Mails an Anmelder). */
