@@ -29,10 +29,10 @@ if (!is_file(X25_DIR . '/config.php')) {
     $accept = strtolower((string)($_SERVER['HTTP_ACCEPT'] ?? '')); $ctype = strtolower((string)($_SERVER['CONTENT_TYPE'] ?? ''));
     if (str_contains($ctype, 'application/json') || str_contains($accept, 'application/json')) {
         header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['ok' => false, 'error' => 'Konfiguration fehlt (anmeldung/config.php).'], JSON_UNESCAPED_UNICODE);
+        echo json_encode(['ok' => false, 'error' => 'Die Anmeldung ist gerade nicht erreichbar. Bitte versuche es später erneut oder schreib uns an info@25-experts.de.'], JSON_UNESCAPED_UNICODE);   // Ursache serverseitig: anmeldung/config.php fehlt
     } else {
         header('Content-Type: text/plain; charset=utf-8');
-        echo 'Konfiguration fehlt (anmeldung/config.php).';
+        echo 'Die Anmeldung ist gerade nicht erreichbar. Bitte versuche es später erneut oder schreib uns an info@25-experts.de.';
     }
     exit;
 }

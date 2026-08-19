@@ -20,7 +20,7 @@ define('SMTP_PASS', 'HIER-DAS-POSTFACH-PASSWORT');
 // --- Absender / Empfänger ------------------------------------------------------------------
 define('MAIL_FROM', 'info@25-experts.de');   // muss zum SMTP-Postfach passen (sonst lehnt Hostinger ab)
 define('MAIL_FROM_NAME', '25 EXPERTS');
-define('MAIL_TO', 'info@25-experts.de');     // Gastgeber-Postfach: Benachrichtigungen, Prüf-Mails mit Zulassen/Absagen-Links, Zahlungsmeldungen; mehrere: kommagetrennt
+define('MAIL_TO', 'info@25-experts.de');     // Gastgeber-Postfach: Benachrichtigung je Anmeldung, Zahlungsmeldungen; mehrere: kommagetrennt
 define('MAIL_TO_NAME', '25 EXPERTS Anmeldungen');
 // Antwortadresse für Mails an Anmelder (wenn sie auf Bestätigung/Zusage/Rechnung/Ticket antworten). Leer lassen = MAIL_TO.
 define('MAIL_CONFIRM_REPLY_TO', '');
@@ -44,11 +44,10 @@ define('LOGO_URL', SITE_URL . 'assets/img/25experts-logo-horizontal.png');   // 
 // Impressumszeile im Fuß aller Mails und Seiten (Pflichtangaben im Geschäftsverkehr; nach HR-Eintragung ergänzen)
 define('MAIL_FOOTER', '25 Experts Cologne UG (haftungsbeschränkt) i. G. · Sitz Köln · Moitzfeld 17, 51429 Bergisch Gladbach · Geschäftsführer: Maximilian Hempel · Amtsgericht Köln (Eintragung beantragt)');
 
-// --- Zulassung / Plätze -------------------------------------------------------------------
-define('REVIEW_DAYS', 3);              // „Wir prüfen die Zugehörigkeit und melden uns innerhalb von N Werktagen" [TBD: Frist]
-define('MAX_SEATS', 25);               // Plätze; ist das Kontingent belegt, landen automatisch zugelassene Anmeldungen auf der Warteliste
+// --- Plätze (seit v6 keine Vorprüfung: jede gültige Anmeldung ist sofort zugelassen) --------
+define('MAX_SEATS', 25);               // Plätze; ist das Kontingent belegt, landen neue Anmeldungen auf der Warteliste
 define('SEATS_COUNT', 'zugelassen');   // was zählt als belegt: 'zugelassen' (zugelassen inkl. bezahlt) oder 'bezahlt' (nur bezahlte)
-// Domainlisten (eine Domain je Zeile, # = Kommentar). Standardpfade in data/; hier nur ändern, wenn die Dateien woanders liegen.
+// Domainlisten (eine Domain je Zeile, # = Kommentar): seit v6 nur noch Hinweis in der Gastgeber-Mail.
 // define('DOMAINS_ALLOW_FILE', __DIR__ . '/data/domains-zugelassen.txt');
 // define('DOMAINS_FREEMAIL_FILE', __DIR__ . '/data/domains-freemail.txt');
 
@@ -84,7 +83,7 @@ define('ADMIN_USER', 'gastgeber');
 define('ADMIN_PASS_HASH', '');         // z. B. '$2y$10$…' ; leer = Admin gesperrt
 
 // --- Schutz -------------------------------------------------------------------------------
-// APP_SECRET signiert die Gastgeber-Links (Zulassen/Absagen/Zahlung eingegangen) und die Admin-Formulare (HMAC).
+// APP_SECRET signiert die Gastgeber-Links (Zahlung eingegangen) und die Admin-Formulare (HMAC).
 // Lange Zufallszeichenfolge (mind. 32 Zeichen), z. B.:  php -r 'echo bin2hex(random_bytes(32)), PHP_EOL;'
 define('APP_SECRET', 'BITTE-LANGE-ZUFAELLIGE-ZEICHENFOLGE-EINTRAGEN');
 define('RATE_LIMIT', 5);               // höchstens N Anmeldungen je IP-Hash …
