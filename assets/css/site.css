@@ -92,8 +92,8 @@ small { font-size: var(--x-fs-sm); }
 .x-person__body .x-meta { display: block; margin-bottom: var(--x-sp-4); }
 @media (max-width: 1023px) { .x-person:first-child, .x-person--offset { grid-column: 1 / -1; margin-top: 0; } }
 @media (max-width: 480px) { .x-person { grid-template-columns: 1fr; } }
-.x-person--foto { grid-template-columns: 16rem 1fr; }
-.x-person__foto { border-radius: var(--x-radius-card); overflow: hidden; }
+.x-person--foto { grid-template-columns: 1fr; }
+.x-person__foto { border-radius: var(--x-radius-card); overflow: hidden; max-width: 34rem; }
 .x-person__foto img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
 .x-hosts-duo { display: grid; grid-template-columns: 1fr 1fr; gap: var(--x-gutter); align-items: start; }
 .x-hosts-duo figure:last-child { margin-top: var(--x-sp-12); }
