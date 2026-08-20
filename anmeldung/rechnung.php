@@ -17,7 +17,7 @@ if ($rec === null || empty($rec['invoice_no'])) {
     x25_out(x25_page('Rechnung nicht gefunden', '<h1>Rechnung nicht gefunden.</h1><p>Der Link ist ungültig oder es wurde noch keine Rechnung erstellt.</p>'), 404);
 }
 $issuer = [
-    'name' => (string)x25_cfg('INVOICE_ISSUER_NAME', '25 Experts Cologne UG (haftungsbeschränkt) i. G.'),
+    'name' => (string)x25_cfg('INVOICE_ISSUER_NAME', '25 EXPERTS UG (haftungsbeschränkt) i. G.'),
     'addr' => (string)x25_cfg('INVOICE_ISSUER_ADDRESS', 'Moitzfeld 17 · 51429 Bergisch Gladbach'),
     'tax'  => (string)x25_cfg('INVOICE_TAX_ID', 'Steuernummer: [TBD]'),
     'vat'  => (string)x25_cfg('INVOICE_VAT_ID', 'USt-IdNr.: [TBD]'),

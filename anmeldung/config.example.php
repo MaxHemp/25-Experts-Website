@@ -42,7 +42,7 @@ define('ANMELDUNG_URL', SITE_URL . 'anmeldung/');        // öffentliche URL die
 define('LOGO_URL', SITE_URL . 'assets/img/25experts-logo-horizontal.png');   // Logo in HTML-Mails/Seiten ('' = ohne Logo)
 
 // Impressumszeile im Fuß aller Mails und Seiten (Pflichtangaben im Geschäftsverkehr; nach HR-Eintragung ergänzen)
-define('MAIL_FOOTER', '25 Experts Cologne UG (haftungsbeschränkt) i. G. · Sitz Köln · Moitzfeld 17, 51429 Bergisch Gladbach · Geschäftsführer: Maximilian Hempel · Amtsgericht Köln (Eintragung beantragt)');
+define('MAIL_FOOTER', '25 EXPERTS UG (haftungsbeschränkt) i. G. · Sitz Köln · Moitzfeld 17, 51429 Bergisch Gladbach · Geschäftsführer: Maximilian Hempel · Amtsgericht Köln (Eintragung beantragt)');
 
 // --- Plätze (seit v6 keine Vorprüfung: jede gültige Anmeldung ist sofort zugelassen) --------
 define('MAX_SEATS', 25);               // Plätze; ist das Kontingent belegt, landen neue Anmeldungen auf der Warteliste
@@ -59,12 +59,12 @@ define('PAYMENT_DAYS', 14);            // Zahlungsziel der Rechnung in Tagen
 define('INVOICE_PREFIX', '25X-');      // Rechnungsnummer: 25X-2026-0001, fortlaufend (Zähler in der Datenablage)
 define('INVOICE_YEAR', '2026');        // Jahreszahl in der Rechnungsnummer
 define('TICKET_PREFIX', '25X-CM-');    // Ticketnummer: 25X-CM-001, fortlaufend
-define('INVOICE_ISSUER_NAME', '25 Experts Cologne UG (haftungsbeschränkt) i. G.');   // Aussteller (Pflichtangabe § 14 UStG)
+define('INVOICE_ISSUER_NAME', '25 EXPERTS UG (haftungsbeschränkt) i. G.');   // Aussteller (Pflichtangabe § 14 UStG)
 define('INVOICE_ISSUER_ADDRESS', 'Moitzfeld 17 · 51429 Bergisch Gladbach');
 define('INVOICE_TAX_ID', 'Steuernummer: [TBD]');      // Steuernummer ODER USt-IdNr. ist Pflicht
 define('INVOICE_VAT_ID', 'USt-IdNr.: [TBD]');
 // Bankverbindung für Rechnungszahlungen [TBD]
-define('BANK_HOLDER', '25 Experts Cologne UG (haftungsbeschränkt)');
+define('BANK_HOLDER', '25 EXPERTS UG (haftungsbeschränkt)');
 define('BANK_IBAN', '[TBD: IBAN]');
 define('BANK_BIC', '[TBD: BIC]');
 define('BANK_NAME', '[TBD: Bank]');

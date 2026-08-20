@@ -47,7 +47,7 @@ if (!$vorschau) {
             '@type' => 'Place', 'name' => (string)($venueLd['name'] ?? $ed['venue'] ?? ''),
             'address' => ['@type' => 'PostalAddress', 'streetAddress' => (string)($venueLd['strasse'] ?? ''), 'postalCode' => (string)($venueLd['plz'] ?? ''), 'addressLocality' => (string)($venueLd['stadt'] ?? $ed['ort'] ?? ''), 'addressCountry' => 'DE'],
         ],
-        'organizer' => ['@type' => 'Organization', 'name' => '25 Experts Cologne UG (haftungsbeschränkt)', 'url' => $domain],
+        'organizer' => ['@type' => 'Organization', 'name' => '25 EXPERTS UG (haftungsbeschränkt)', 'url' => $domain],
         'offers' => [
             '@type' => 'Offer', 'name' => strip_tags($t('eventld.angebot.name')),
             'price' => (string)x25ed_preis($ed), 'priceCurrency' => 'EUR',

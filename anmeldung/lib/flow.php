@@ -266,7 +266,7 @@ function x25_invoice_rows(array $rec): array
         ['USt. ' . (int)round($a['rate'] * 100) . ' %', x25_money($a['vat'])],
         ['Brutto', x25_money($a['gross'])],
         ['Zahlungsziel', x25_date($rec['invoice_due'], 'd.m.Y') . ' (' . $c['payment_days'] . ' Tage ab Rechnungsdatum)'],
-        ['Empfänger', (string)x25_cfg('BANK_HOLDER', '25 Experts Cologne UG (haftungsbeschränkt)')],
+        ['Empfänger', (string)x25_cfg('BANK_HOLDER', '25 EXPERTS UG (haftungsbeschränkt)')],
         ['IBAN', (string)x25_cfg('BANK_IBAN', '[TBD: IBAN]')],
         ['BIC', (string)x25_cfg('BANK_BIC', '[TBD: BIC]')],
         ['Bank', (string)x25_cfg('BANK_NAME', '[TBD: Bank]')],

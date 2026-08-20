@@ -80,7 +80,7 @@ function x25_conf(): array
         'edition_kontakt' => (string)x25_cfg('EDITION_KONTAKT', 'info@25-experts.de · [TBD: Kontaktnummer]'),
         'leistungsdatum' => (string)x25_cfg('EDITION_LEISTUNGSDATUM', '03.–04.12.2026'),
         'logo' => (string)x25_cfg('LOGO_URL', ''),
-        'footer' => (string)x25_cfg('MAIL_FOOTER', '25 Experts Cologne UG (haftungsbeschränkt) · Sitz Köln'),
+        'footer' => (string)x25_cfg('MAIL_FOOTER', '25 EXPERTS UG (haftungsbeschränkt) · Sitz Köln'),
         'mail_to' => (string)x25_cfg('MAIL_TO', ''),
         'transport' => (string)x25_cfg('MAIL_TRANSPORT', 'smtp'),
         'dump' => (string)x25_cfg('MAIL_DUMP_DIR', sys_get_temp_dir() . '/25x-mails'),

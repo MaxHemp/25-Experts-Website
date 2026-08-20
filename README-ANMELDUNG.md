@@ -64,7 +64,7 @@ php -r 'echo password_hash("IhrLangesPasswort", PASSWORD_DEFAULT), PHP_EOL;'
 Ausgabe (`$2y$10$…`) als `ADMIN_PASS_HASH` in `config.php` eintragen. Das Klartext-Passwort merken (Passwortmanager), nur den Hash speichern. Ohne PHP-Terminal: Datei `hash.php` mit genau dieser Zeile per Dateimanager anlegen, einmal im Browser aufrufen, Hash kopieren, **Datei sofort löschen**.
 
 ### 3.3 PayPal einrichten (Business-Konto → Developer-App → Sandbox testen → Live)
-1. **PayPal-Business-Konto**: paypal.com → Geschäftskonto für die 25 Experts Cologne UG anlegen bzw. das bestehende auf „Business" umstellen; Bankkonto verknüpfen und bestätigen. Zahlungen gehen dorthin. [TBD: Kontoinhaber = UG i. G.; nach HR-Eintragung Firmendaten in PayPal aktualisieren]
+1. **PayPal-Business-Konto**: paypal.com → Geschäftskonto für die 25 EXPERTS UG anlegen bzw. das bestehende auf „Business" umstellen; Bankkonto verknüpfen und bestätigen. Zahlungen gehen dorthin. [TBD: Kontoinhaber = UG i. G.; nach HR-Eintragung Firmendaten in PayPal aktualisieren]
 2. **Developer-Dashboard**: developer.paypal.com → mit dem Business-Konto anmelden → „Apps & Credentials".
 3. **Sandbox-App**: Reiter **Sandbox** → „Create App" → Name z. B. `25 EXPERTS Anmeldung` → Typ „Merchant" → Create. Angezeigt werden **Client ID** und **Secret** (Secret ggf. „Show"). Unter Sandbox → „Accounts" gibt es Testkäufer (Personal) mit Passwort für Testzahlungen.
 4. **In config.php eintragen** (Dateimanager, nicht per Chat/E-Mail verschicken, nie ins Repo):
