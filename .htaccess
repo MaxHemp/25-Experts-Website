@@ -30,6 +30,11 @@ ServerSignature Off
   RewriteCond %{THE_REQUEST} \s/+([^?\s]+)\.html[?\s]
   RewriteRule ^ https://25-experts.de/%1 [L,R=301,NE]
 
+  # 1d) /editionen kollidiert mit dem gleichnamigen Ordner (Regel 2 greift wegen !-d nicht,
+  #     Regel 3 leitet auf /editionen/ → 403): explizit auf die Seite mappen
+  RewriteRule ^editionen/$ https://25-experts.de/editionen [L,R=301,NE]
+  RewriteRule ^editionen$ editionen.html [L]
+
   # 2) Saubere URLs: /format → format.html, /datenschutz → datenschutz.html (nur wenn die Datei existiert)
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
