@@ -28,6 +28,7 @@ code { background: var(--v-muted); padding: 1px 6px; border-radius: 4px; font-si
 .v-wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
 .v-main { padding-bottom: 96px; }
 .v-maxw { max-width: 72ch; }
+.v-mt { margin-top: 12px; }
 
 .v-top { background: var(--v-weiss); border-bottom: 2px solid var(--v-ink); }
 .v-top__inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 14px; padding-bottom: 14px; }
@@ -83,7 +84,7 @@ code { background: var(--v-muted); padding: 1px 6px; border-radius: 4px; font-si
 .v-feld { display: block; }
 .v-feld > span { display: block; font-weight: 600; color: var(--v-ink); font-size: 14.5px; margin-bottom: 4px; }
 .v-feld > span em { font-style: normal; color: var(--v-signal); font-size: 12px; margin-left: 6px; }
-.v-feld input[type="text"], .v-feld select, .v-feld textarea {
+.v-feld input[type="text"], .v-feld input[type="password"], .v-feld select, .v-feld textarea {
   width: 100%; padding: 10px 12px; border: 1px solid var(--v-linie); border-radius: 4px;
   font: 15px/1.5 inherit; font-family: inherit; color: var(--v-ink); background: #fff;
 }

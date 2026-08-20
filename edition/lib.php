@@ -362,6 +362,38 @@ function x25ed_anmeldungen_je_edition(): array
     }
 }
 
+// ------------------------------------------------------------------ Team-Zugang (Verwaltung + Anmeldungs-Admin)
+/** Zugangsdatei: über die Verwaltung gesetzte Zugangsdaten (überstimmen ADMIN_* aus config.php). */
+function x25ed_zugang_datei(): string
+{
+    return rtrim((string)x25ed_cfg('DATA_DIR', X25ED_ROOT . '/anmeldung/data'), '/') . '/verwaltung-zugang.json';
+}
+
+/** Aktueller Team-Zugang: ['user' => …, 'hash' => …]; Datei zuerst, sonst config.php; leer = nicht eingerichtet. */
+function x25ed_zugang(): array
+{
+    $f = x25ed_zugang_datei();
+    if (is_file($f)) {
+        $d = json_decode((string)file_get_contents($f), true);
+        if (is_array($d) && ($d['hash'] ?? '') !== '') {
+            return ['user' => (string)($d['user'] ?? 'gastgeber'), 'hash' => (string)$d['hash']];
+        }
+    }
+    return ['user' => (string)x25ed_cfg('ADMIN_USER', 'gastgeber'), 'hash' => (string)x25ed_cfg('ADMIN_PASS_HASH', '')];
+}
+
+/** Felder der Zugangsdatei setzen (Merge); legt die Datei bei Bedarf an (chmod 600). */
+function x25ed_zugang_merge(array $felder): void
+{
+    $f = x25ed_zugang_datei();
+    $d = is_file($f) ? (json_decode((string)file_get_contents($f), true) ?: []) : [];
+    $d = array_merge($d, $felder);
+    if (file_put_contents($f, json_encode($d, JSON_UNESCAPED_UNICODE), LOCK_EX) === false) {
+        throw new RuntimeException('Zugangsdatei nicht beschreibbar (Datenverzeichnis prüfen).');
+    }
+    @chmod($f, 0600);
+}
+
 // ------------------------------------------------------------------ Vorschau (Entwürfe)
 function x25ed_preview_sig(string $slug): string
 {

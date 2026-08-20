@@ -33,6 +33,7 @@ function xv_page(string $titel, string $body, int $status = 200): never
       <nav class="v-top__nav">
         <a href="index.php">Editionen</a>
         <a href="/anmeldung/admin.php">Anmeldungen</a>
+        <a href="einrichtung.php">Passwort</a>
         <a href="/" target="_blank" rel="noopener">Website ansehen ↗</a>
       </nav>
     </div>
@@ -49,27 +50,33 @@ HTML;
 }
 
 // ------------------------------------------------------------------ Zugang
-$XV_USER = (string)x25ed_cfg('ADMIN_USER', '');
-$XV_HASH = (string)x25ed_cfg('ADMIN_PASS_HASH', '');
-if ($XV_USER === '' || $XV_HASH === '') {
-    xv_page('Nicht eingerichtet', '<div class="v-card v-card--warn"><h1>Verwaltung ist noch nicht eingerichtet.</h1>'
-        . '<p>Bitte in <code>anmeldung/config.php</code> auf dem Server <code>ADMIN_USER</code> und <code>ADMIN_PASS_HASH</code> setzen '
-        . '(Passwort-Hash erzeugen: <code>php -r \'echo password_hash("DeinPasswort", PASSWORD_DEFAULT);\'</code>).</p></div>', 503);
-}
-$xvCred = ['', ''];
-if (isset($_SERVER['PHP_AUTH_USER'])) {
-    $xvCred = [(string)$_SERVER['PHP_AUTH_USER'], (string)($_SERVER['PHP_AUTH_PW'] ?? '')];
-} else {
+// Zugangsdaten: über die Verwaltung gesetzt (anmeldung/data/verwaltung-zugang.json) oder
+// ADMIN_USER/ADMIN_PASS_HASH aus config.php. Noch nichts eingerichtet → Erst-Einrichtung
+// (einrichtung.php, Bestätigungscode per E-Mail an die Gastgeber-Adresse).
+function xv_basic_credentials(): array
+{
+    if (isset($_SERVER['PHP_AUTH_USER'])) { return [(string)$_SERVER['PHP_AUTH_USER'], (string)($_SERVER['PHP_AUTH_PW'] ?? '')]; }
     $hdr = (string)($_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? '');
     if (stripos($hdr, 'basic ') === 0) {
         $dec = base64_decode(trim(substr($hdr, 6)), true);
-        if ($dec !== false && str_contains($dec, ':')) { $xvCred = explode(':', $dec, 2); }
+        if ($dec !== false && str_contains($dec, ':')) { return explode(':', $dec, 2); }
+    }
+    return ['', ''];
+}
+function xv_gate(): void
+{
+    $z = x25ed_zugang();
+    if ($z['hash'] === '') {
+        header('Location: einrichtung.php', true, 302);
+        exit;
+    }
+    $cred = xv_basic_credentials();
+    if ($cred[0] !== $z['user'] || !password_verify($cred[1], $z['hash'])) {
+        header('WWW-Authenticate: Basic realm="25 EXPERTS Verwaltung", charset="UTF-8"');
+        xv_page('Anmeldung erforderlich', '<div class="v-card"><h1>Anmeldung erforderlich.</h1><p>Bitte mit dem Team-Benutzer und Passwort anmelden (dieselben Zugangsdaten wie für die Anmeldungs-Übersicht).</p><p class="v-meta">Passwort vergessen? Der Zugang lässt sich über die Datei <code>anmeldung/data/verwaltung-zugang.json</code> auf dem Server zurücksetzen (Datei löschen und die Einrichtung neu durchlaufen).</p></div>', 401);
     }
 }
-if ($xvCred[0] !== $XV_USER || !password_verify($xvCred[1], $XV_HASH)) {
-    header('WWW-Authenticate: Basic realm="25 EXPERTS Verwaltung", charset="UTF-8"');
-    xv_page('Anmeldung erforderlich', '<div class="v-card"><h1>Anmeldung erforderlich.</h1><p>Bitte mit dem Team-Benutzer und Passwort anmelden (dieselben Zugangsdaten wie für die Anmeldungs-Übersicht).</p></div>', 401);
-}
+if (!defined('XV_OHNE_GATE')) { xv_gate(); }
 
 function xv_csrf(int $shift = 0): string
 {

@@ -11,9 +11,12 @@ declare(strict_types=1);
 require __DIR__ . '/lib/flow.php';
 
 // ------------------------------------------------------------------ Basic-Auth
-$user = (string)x25_cfg('ADMIN_USER', ''); $hash = (string)x25_cfg('ADMIN_PASS_HASH', '');
-if ($user === '' || $hash === '') {
-    x25_out(x25_page('Admin nicht eingerichtet', '<h1>Admin ist nicht eingerichtet.</h1><p>ADMIN_USER und ADMIN_PASS_HASH in config.php setzen (siehe README-ANMELDUNG.md).</p>'), 503);
+// Zugangsdaten: über /verwaltung/einrichtung.php gesetzt (anmeldung/data/verwaltung-zugang.json)
+// oder ADMIN_USER/ADMIN_PASS_HASH aus config.php.
+require_once dirname(__DIR__) . '/edition/lib.php';
+['user' => $user, 'hash' => $hash] = x25ed_zugang();
+if ($hash === '') {
+    x25_out(x25_page('Admin nicht eingerichtet', '<h1>Admin ist nicht eingerichtet.</h1><p>Bitte einmalig den Team-Zugang anlegen: <a href="../verwaltung/einrichtung.php">Verwaltung einrichten</a>.</p>'), 503);
 }
 [$u, $p] = x25_basic_credentials();
 if ($u !== $user || !password_verify($p, $hash)) {
