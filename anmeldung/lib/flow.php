@@ -43,7 +43,7 @@ function x25_rows_person(array $rec, bool $withMeta = false): array
         $rows[] = ['Datenschutzhinweis', 'gelesen (Art. 6 Abs. 1 lit. b DSGVO)'];
         $rows[] = ['Edition', $rec['edition']];
         $rows[] = ['Eingegangen', x25_date($rec['created_at']) . ' Uhr'];
-        $rows[] = ['Quelle', ($rec['source'] ?? '') !== '' ? $rec['source'] : x25_conf()['landing']];
+        $rows[] = ['Quelle', ($rec['source'] ?? '') !== '' ? $rec['source'] : x25_edition_for($rec)['landing']];
         $rows[] = ['Hinweis', $rec['admission_note'] ?? ''];
     }
     return $rows;
@@ -119,7 +119,7 @@ function x25_mark_paid(array $rec, string $method, string $by, array $details = 
         foreach ($details as $k => $v) { $f[$k] = $v; }
         if (($cur['ticket_no'] ?? '') === '') {
             $n = $s->nextNumber('ticket');
-            $f['ticket_no'] = (string)x25_cfg('TICKET_PREFIX', '25X-CM-') . str_pad((string)$n, 3, '0', STR_PAD_LEFT);
+            $f['ticket_no'] = x25_edition_for($cur)['ticket_prefix'] . str_pad((string)$n, 3, '0', STR_PAD_LEFT);
         }
         $s->update((int)$rec['id'], $f);
         return $s->get((int)$rec['id']);
@@ -158,12 +158,12 @@ function x25_qr_png(string $data): string
 /** E-Mail 02: Anmeldebestätigung + Zahlungsaufforderung (PayPal oder Rechnung über zahlung.php). */
 function x25_mail_zusage(array $rec): void
 {
-    $c = x25_conf(); $a = x25_amounts();
-    $subj = 'Deine Anmeldung · ' . $c['edition_name'] . ' · Zahlungsaufforderung';
+    $c = x25_conf(); $a = x25_amounts($rec); $ed = x25_edition_for($rec);
+    $subj = 'Deine Anmeldung · ' . $ed['name'] . ' · Zahlungsaufforderung';
     $pre = 'Einer von 25. Bitte wähle PayPal oder Rechnung; nach Zahlungseingang erhältst Du Dein Ticket.';
     $url = x25_pay_url($rec);
-    $a1 = 'vielen Dank für Deine verbindliche Anmeldung zu ' . $c['edition_name'] . ' am ' . $c['edition_datum'] . ' in ' . $c['edition_ort'] . '. Einer der 25 Plätze ist für Dich reserviert.';
-    $rows = [['Termin', $c['edition_datum']], ['Ort', $c['edition_venue']], ['Beitrag', x25_money($a['net']) . ' netto zzgl. ' . (int)round($a['rate'] * 100) . ' % USt. = ' . x25_money($a['gross']) . ' brutto']];
+    $a1 = 'vielen Dank für Deine verbindliche Anmeldung zu ' . $ed['name'] . ' am ' . $ed['datum'] . ' in ' . $ed['ort'] . '. Einer der ' . $ed['max_seats'] . ' Plätze ist für Dich reserviert.';
+    $rows = [['Termin', $ed['datum']], ['Ort', $ed['venue']], ['Beitrag', x25_money($a['net']) . ' netto zzgl. ' . (int)round($a['rate'] * 100) . ' % USt. = ' . x25_money($a['gross']) . ' brutto']];
     $a2 = 'Zahlungsaufforderung: Bitte begleiche den Teilnahmebeitrag über die folgende Seite. Dort kannst Du zwischen PayPal und Zahlung per Rechnung (Zahlungsziel ' . $c['payment_days'] . ' Tage) wählen. Mit dem Zahlungseingang ist Dein Platz verbindlich; Du erhältst dann Dein Ticket und alle weiteren Informationen. Solltest Du verhindert sein, sag uns bitte kurz Bescheid, damit wir den Platz weitergeben können.';
     $a2b = 'Hinweis: Der Tisch ist für die erste und zweite Führungsebene von Versicherern, Maklerpools und Versicherungsvertrieben gedacht. Wir behalten uns vor, Anmeldungen für ungültig zu erklären, wenn die Teilnahmebedingungen nicht erfüllt sind; bereits gezahlte Beträge werden dann vollständig erstattet.';
     $a3 = (trim((string)($rec['question'] ?? '')) !== ''
@@ -178,17 +178,17 @@ function x25_mail_zusage(array $rec): void
         . x25_h_p(x25_e($a1)) . x25_h_rows($rows)
         . x25_h_box(x25_h_p(x25_e($a2)) . x25_h_btn($url, 'Zur Zahlung: PayPal oder Rechnung') . x25_h_p('<span style="font-size:13px;color:' . X25_META . ';">Falls die Schaltfläche nicht funktioniert: ' . x25_e($url) . '</span>', 'margin:0;'))
         . x25_h_p('<span style="font-size:14px;color:' . X25_META . ';">' . x25_e($a2b) . '</span>')
-        . x25_h_p(x25_e($a3)) . x25_h_p(x25_e($a4)) . x25_h_sig(), true, $pre);
+        . x25_h_p(x25_e($a3)) . x25_h_p(x25_e($a4)) . x25_h_sig(), true, $pre, $ed['label']);
     x25_send_person($rec, $subj, $html, $txt, 'zusage');
 }
 
 /** E-Mail 03: Anmeldung für ungültig erklärt bzw. abgesagt. $reason: zielgruppe (Standard) | ebene | voll. */
 function x25_mail_absage(array $rec, string $reason): void
 {
-    $c = x25_conf();
-    $subj = 'Deine Anmeldung zu ' . $c['edition_name'];
+    $c = x25_conf(); $ed = x25_edition_for($rec);
+    $subj = 'Deine Anmeldung zu ' . $ed['name'];
     $pre = 'Wir können Deine Anmeldung leider nicht annehmen.';
-    $a1 = 'vielen Dank, dass Du Dich zu ' . $c['edition_name'] . ' angemeldet hast. Wir müssen Deine Anmeldung leider für ungültig erklären, weil die Teilnahmebedingungen nicht erfüllt sind.';
+    $a1 = 'vielen Dank, dass Du Dich zu ' . $ed['name'] . ' angemeldet hast. Wir müssen Deine Anmeldung leider für ungültig erklären, weil die Teilnahmebedingungen nicht erfüllt sind.';
     $a3 = match ($reason) {
         'ebene' => 'Der Tisch ist für die Verantwortlichen der Funktion bei Versicherern, Maklerpools und Versicherungsvertrieben gedacht: erste und zweite Führungsebene (Team-, Abteilungs- und Bereichsleitung sowie Vorstandsassistenz). Wenn Du uns die Person aus Deinem Haus nennst, die diese Verantwortung trägt, sprechen wir sie gern selbst an.',
         'voll' => 'Alle 25 Plätze dieser Edition sind bereits vergeben.',
@@ -201,39 +201,39 @@ function x25_mail_absage(array $rec, string $reason): void
     $txt = "Hallo " . $rec['name'] . ",\n\n" . x25_wrap($a1) . "\n\n" . x25_wrap($a3) . "\n\n" . x25_wrap($a2) . "\n\n" . x25_wrap($a4) . "\n\n" . x25_t_sig();
     $html = x25_html_shell($subj,
         x25_h_kicker('Deine Anmeldung') . x25_h_h1('Hallo ' . x25_e($rec['name']) . ',')
-        . x25_h_p(x25_e($a1)) . x25_h_box(x25_h_p(x25_e($a3), 'margin:0;')) . x25_h_p(x25_e($a2)) . x25_h_p(x25_e($a4)) . x25_h_sig(), true, $pre);
+        . x25_h_p(x25_e($a1)) . x25_h_box(x25_h_p(x25_e($a3), 'margin:0;')) . x25_h_p(x25_e($a2)) . x25_h_p(x25_e($a4)) . x25_h_sig(), true, $pre, $ed['label']);
     x25_send_person($rec, $subj, $html, $txt, 'absage');
 }
 
 /** Warteliste (alle Plätze belegt). */
 function x25_mail_warteliste(array $rec): void
 {
-    $c = x25_conf();
-    $subj = 'Deine Anmeldung zu ' . $c['edition_name'] . ' · Warteliste';
+    $c = x25_conf(); $ed = x25_edition_for($rec);
+    $subj = 'Deine Anmeldung zu ' . $ed['name'] . ' · Warteliste';
     $pre = 'Alle 25 Plätze sind vergeben. Wir führen Dich auf der Warteliste.';
-    $a1 = 'vielen Dank für Deine Anmeldung zu ' . $c['edition_name'] . ' am ' . $c['edition_datum'] . ' in ' . $c['edition_ort'] . '.';
-    $a2 = 'Der Raum hat genau 25 Plätze, und alle sind derzeit vergeben. Wir führen Dich auf der Warteliste und melden uns, sobald ein Platz frei wird. Es entsteht keine Zahlungspflicht; die Zahlungsaufforderung erhältst Du erst, wenn ein Platz für Dich frei ist.';
+    $a1 = 'vielen Dank für Deine Anmeldung zu ' . $ed['name'] . ' am ' . $ed['datum'] . ' in ' . $ed['ort'] . '.';
+    $a2 = 'Der Raum hat genau ' . $ed['max_seats'] . ' Plätze, und alle sind derzeit vergeben. Wir führen Dich auf der Warteliste und melden uns, sobald ein Platz frei wird. Es entsteht keine Zahlungspflicht; die Zahlungsaufforderung erhältst Du erst, wenn ein Platz für Dich frei ist.';
     $a3 = 'Solltest Du nicht auf der Warteliste bleiben wollen, genügt eine kurze Antwort auf diese E-Mail.';
     $txt = "Hallo " . $rec['name'] . ",\n\n" . x25_wrap($a1) . "\n\n" . x25_wrap($a2) . "\n\n" . x25_wrap($a3) . "\n\n" . x25_t_sig();
     $html = x25_html_shell($subj, x25_h_kicker('Warteliste') . x25_h_h1('Hallo ' . x25_e($rec['name']) . ',')
-        . x25_h_p(x25_e($a1)) . x25_h_box(x25_h_p(x25_e($a2), 'margin:0;'), X25_ORANGE) . x25_h_p(x25_e($a3)) . x25_h_sig(), true, $pre);
+        . x25_h_p(x25_e($a1)) . x25_h_box(x25_h_p(x25_e($a2), 'margin:0;'), X25_ORANGE) . x25_h_p(x25_e($a3)) . x25_h_sig(), true, $pre, $ed['label']);
     x25_send_person($rec, $subj, $html, $txt, 'warteliste');
 }
 
 /** E-Mail 04: Rechnung (HTML-Mail mit allen Pflichtangaben + Link zur druckbaren Rechnungsseite). */
 function x25_mail_rechnung(array $rec): void
 {
-    $c = x25_conf(); $a = x25_amounts();
-    $subj = 'Rechnung ' . $rec['invoice_no'] . ' · ' . $c['edition_name'];
+    $c = x25_conf(); $a = x25_amounts($rec); $ed = x25_edition_for($rec);
+    $subj = 'Rechnung ' . $rec['invoice_no'] . ' · ' . $ed['name'];
     $pre = 'Zahlungsziel ' . $c['payment_days'] . ' Tage. Die Rechnung findest Du unten und als druckbare Seite.';
     $url = x25_invoice_url($rec);
-    $a1 = 'anbei erhältst Du die Rechnung für Deine Teilnahme an ' . $c['edition_name'] . ' am ' . $c['edition_datum'] . '. Über den Link unten kannst Du die Rechnung als PDF speichern oder drucken (Browser: „Drucken" → „Als PDF speichern").';
+    $a1 = 'anbei erhältst Du die Rechnung für Deine Teilnahme an ' . $ed['name'] . ' am ' . $ed['datum'] . '. Über den Link unten kannst Du die Rechnung als PDF speichern oder drucken (Browser: „Drucken" → „Als PDF speichern").';
     $rows = x25_invoice_rows($rec);
     $a2 = 'Mit dem Zahlungseingang ist Dein Platz verbindlich; Du erhältst dann Dein Ticket und alle weiteren Informationen. Sollte Deine Buchhaltung eine Bestellnummer oder abweichende Rechnungsanschrift benötigen, antworte einfach auf diese E-Mail; wir stellen die Rechnung neu aus.';
     $txt = "Hallo " . $rec['name'] . ",\n\n" . x25_wrap($a1) . "\n\n" . x25_t_rows($rows) . "\nRechnung online (druckbar): " . $url . "\n\n" . x25_wrap($a2) . "\n\n" . x25_t_sig();
     $html = x25_html_shell($subj, x25_h_kicker('Rechnung') . x25_h_h1('Hallo ' . x25_e($rec['name']) . ',')
         . x25_h_p(x25_e($a1)) . x25_h_box(x25_h_rows($rows) . x25_h_btn($url, 'Rechnung ansehen / als PDF speichern'))
-        . x25_h_p(x25_e($a2)) . x25_h_sig(), true, $pre);
+        . x25_h_p(x25_e($a2)) . x25_h_sig(), true, $pre, $ed['label']);
     x25_send_person($rec, $subj, $html, $txt, 'rechnung');
     $cc = strtolower(trim((string)($rec['invoice_email'] ?? '')));
     if ($cc !== '' && $cc !== strtolower((string)$rec['email'])) {   // Kopie an den Rechnungskontakt (z. B. Buchhaltung)
@@ -252,7 +252,7 @@ function x25_invoice_recipient(array $rec): array
 /** Rechnungszeilen (Pflichtangaben § 14 UStG) für Mail und Rechnungsseite. */
 function x25_invoice_rows(array $rec): array
 {
-    $c = x25_conf(); $a = x25_amounts();
+    $c = x25_conf(); $a = x25_amounts($rec); $ed = x25_edition_for($rec);
     [$invCompany, $invAddr] = x25_invoice_recipient($rec);
     $extra = [];
     if ($invAddr !== '') { $extra[] = ['Rechnungsanschrift', $invCompany . ', ' . str_replace("\n", ', ', $invAddr)]; }
@@ -260,8 +260,8 @@ function x25_invoice_rows(array $rec): array
     return array_merge([
         ['Rechnungsnummer', $rec['invoice_no']],
         ['Rechnungsdatum', x25_date($rec['invoice_date'], 'd.m.Y')],
-        ['Leistungsdatum', $c['leistungsdatum'] . ' (Veranstaltungstage)'],
-        ['Leistung', 'Teilnahme ' . $c['edition_name'] . ', ' . $c['leistungsdatum'] . ', ' . $c['edition_ort'] . ' (1 Person: ' . $rec['name'] . ')'],
+        ['Leistungsdatum', $ed['leistungsdatum'] . ' (Veranstaltungstage)'],
+        ['Leistung', 'Teilnahme ' . $ed['name'] . ', ' . $ed['leistungsdatum'] . ', ' . $ed['ort'] . ' (1 Person: ' . $rec['name'] . ')'],
         ['Netto', x25_money($a['net'])],
         ['USt. ' . (int)round($a['rate'] * 100) . ' %', x25_money($a['vat'])],
         ['Brutto', x25_money($a['gross'])],
@@ -277,12 +277,12 @@ function x25_invoice_rows(array $rec): array
 /** Ticket-Mail mit Ticketnummer, QR-Code (eingebettetes PNG) und allen weiteren Informationen. */
 function x25_mail_ticket(array $rec): void
 {
-    $c = x25_conf();
-    $subj = 'Dein Ticket ' . $rec['ticket_no'] . ' · ' . $c['edition_name'];
+    $c = x25_conf(); $ed = x25_edition_for($rec);
+    $subj = 'Dein Ticket ' . $rec['ticket_no'] . ' · ' . $ed['name'];
     $pre = 'Dein Platz ist verbindlich. Ticket, Ort, Zeiten und Kontakt.';
     $url = x25_ticket_url($rec);
-    $a1 = 'Deine Zahlung ist eingegangen, Dein Platz bei ' . $c['edition_name'] . ' ist damit verbindlich. Anbei Dein Ticket; bitte zeig es am Empfang vor (Ausdruck oder Smartphone).';
-    $rows = [['Ticketnummer', $rec['ticket_no']], ['Name', $rec['name']], ['Unternehmen', $rec['company']], ['Termin', $c['edition_datum']], ['Zeiten', $c['edition_zeiten']], ['Ort', $c['edition_venue']], ['Hotel', $c['edition_hotel']], ['Kontakt', $c['edition_kontakt']]];
+    $a1 = 'Deine Zahlung ist eingegangen, Dein Platz bei ' . $ed['name'] . ' ist damit verbindlich. Anbei Dein Ticket; bitte zeig es am Empfang vor (Ausdruck oder Smartphone).';
+    $rows = [['Ticketnummer', $rec['ticket_no']], ['Name', $rec['name']], ['Unternehmen', $rec['company']], ['Termin', $ed['datum']], ['Zeiten', $ed['zeiten']], ['Ort', $ed['venue']], ['Hotel', $ed['hotel']], ['Kontakt', $ed['kontakt']]];
     $a2 = (trim((string)($rec['question'] ?? '')) !== ''
             ? 'Vorbereitung ist nicht nötig. Bring Deine offene Frage mit, so wie Du sie im Formular gestellt hast.'
             : 'Vorbereitung ist nicht nötig. Wenn Du magst, bring eine offene Frage aus Deinem Arbeitsalltag mit.')
@@ -300,7 +300,7 @@ function x25_mail_ticket(array $rec): void
             . '<p style="margin:0 0 12px 0;font-family:' . X25_MONO . ';font-size:24px;line-height:30px;font-weight:700;color:' . X25_INK . ';">' . x25_e($rec['ticket_no']) . '</p>'
             . x25_h_btn($url, 'Ticket öffnen / drucken') . '</td></tr></table>')
         . x25_h_sub('Alle weiteren Informationen') . x25_h_rows($rows)
-        . x25_h_p(x25_e($a2)) . x25_h_p(x25_e($a3)) . x25_h_sig(), true, $pre);
+        . x25_h_p(x25_e($a2)) . x25_h_p(x25_e($a3)) . x25_h_sig(), true, $pre, $ed['label']);
     x25_send_person($rec, $subj, $html, $txt, 'ticket', $png !== '' ? ['ticketqr' => [$png, 'ticket-qr.png', 'image/png']] : []);
 }
 
@@ -308,14 +308,14 @@ function x25_mail_ticket(array $rec): void
 /** Neue Anmeldung: Info (zugelassen/warteliste) bzw. Prüfauftrag mit den zwei signierten Links (prüfung). */
 function x25_mail_hosts_neu(array $rec): void
 {
-    $c = x25_conf();
+    $c = x25_conf(); $ed = x25_edition_for($rec);
     $status = $rec['status'];
     $label = X25_STATUS[$status] ?? $status;
-    $subj = 'Neue Anmeldung (' . $label . '): ' . $rec['name'] . ', ' . $rec['company'] . ' · ' . $c['edition_name'];
+    $subj = 'Neue Anmeldung (' . $label . '): ' . $rec['name'] . ', ' . $rec['company'] . ' · ' . $ed['name'];
     $rows = x25_rows_person($rec, true);
     $rows[] = ['Status', $label];
     $intro = match ($status) {
-        'warteliste' => 'Alle ' . $c['max_seats'] . ' Plätze sind belegt; die Anmeldung steht auf der Warteliste (Person ist informiert). Zulassen könnt Ihr sie im Admin, sobald ein Platz frei wird.',
+        'warteliste' => 'Alle ' . $ed['max_seats'] . ' Plätze dieser Edition sind belegt; die Anmeldung steht auf der Warteliste (Person ist informiert). Zulassen könnt Ihr sie im Admin, sobald ein Platz frei wird.',
         default => 'Direktanmeldung: Die Bestätigung mit Zahlungsaufforderung ist an die Person unterwegs (' . ($rec['admission_note'] ?? '') . '). Nichts weiter zu tun, bis die Zahlung eingeht (PayPal: automatisch; Rechnung: Ihr erhaltet eine Mail mit Link „Zahlung eingegangen"). Erfüllt die Anmeldung die Teilnahmebedingungen nicht, könnt Ihr sie im Admin für ungültig erklären.',
     };
     $btns = ''; $txtLinks = '';
@@ -327,7 +327,7 @@ function x25_mail_hosts_neu(array $rec): void
         . x25_h_sub('Offene Frage (optional)')
         . x25_h_box(x25_h_p(nl2br(x25_e(x25_question($rec))), 'margin:0;font-family:Georgia,\'Times New Roman\',serif;font-size:17px;line-height:26px;color:' . X25_INK . ';'), X25_ORANGE)
         . x25_h_p('<a href="' . x25_e(x25_admin_url()) . '" style="color:' . X25_PETROL . ';">Admin-Übersicht</a> · Antwortet direkt auf diese E-Mail, um die Person zu erreichen (Reply-To ist gesetzt).', 'font-size:14px;line-height:20px;color:' . X25_META . ';'),
-        false);
+        false, '', $ed['label']);
     x25_send_hosts($subj, $html, $txt, 'benachrichtigung', [$rec['email'], $rec['name']]);
 }
 /** Rechnung gewählt: Link „Zahlung eingegangen" (signiert, einmalig). */
@@ -336,7 +336,7 @@ function x25_mail_hosts_rechnung(array $rec): void
     $c = x25_conf();
     $subj = 'Rechnung ' . $rec['invoice_no'] . ' erstellt: ' . $rec['name'] . ', ' . $rec['company'];
     $url = x25_action_url($rec, 'bezahlt');
-    $intro = 'Die Person hat „Zahlung per Rechnung" gewählt. Rechnung ' . $rec['invoice_no'] . ' über ' . x25_money(x25_amounts()['gross']) . ' brutto ist versandt, Zahlungsziel ' . x25_date($rec['invoice_due'], 'd.m.Y') . '. Sobald der Betrag auf dem Konto ist, bitte hier markieren; die Person erhält dann automatisch das Ticket.';
+    $intro = 'Die Person hat „Zahlung per Rechnung" gewählt. Rechnung ' . $rec['invoice_no'] . ' über ' . x25_money(x25_amounts($rec)['gross']) . ' brutto ist versandt, Zahlungsziel ' . x25_date($rec['invoice_due'], 'd.m.Y') . '. Sobald der Betrag auf dem Konto ist, bitte hier markieren; die Person erhält dann automatisch das Ticket.';
     $rows = [['Name', $rec['name']], ['Unternehmen', $rec['company']], ['E-Mail', $rec['email']], ['Rechnung', $rec['invoice_no']], ['Rechnung online', x25_invoice_url($rec)]];
     $txt = x25_wrap($intro) . "\n\nZAHLUNG EINGEGANGEN: " . $url . "\n\n" . x25_t_rows($rows) . "\nAdmin: " . x25_admin_url() . "\n";
     $html = x25_html_shell($subj, x25_h_kicker('Rechnung') . x25_h_h1(x25_e($rec['name']) . '<br><span style="font-weight:400;color:' . X25_BODY . ';">' . x25_e($rec['company']) . '</span>')

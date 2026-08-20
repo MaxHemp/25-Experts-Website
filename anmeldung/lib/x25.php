@@ -138,10 +138,57 @@ function x25_action_url(array $rec, string $action): string
     return x25_conf()['base'] . 'aktion.php?a=' . rawurlencode($action) . '&id=' . (int)$rec['id'] . '&n=' . rawurlencode($nonce) . '&s=' . $sig;
 }
 
-// ------------------------------------------------------------------ Beträge
-function x25_amounts(): array
+// ------------------------------------------------------------------ Editions-Kontext je Anmeldung (v8: mehrere Editionen)
+/**
+ * Editionswerte für einen Anmeldedatensatz: zuerst die Live-Edition (edition/lib.php, Slug aus dem
+ * Datensatz), dann der beim Anmelden gespeicherte Snapshot ($rec['ed']), dann die config.php-Werte.
+ * Liefert: name, datum, datum_kurz, ort, venue, zeiten, hotel, kontakt, leistungsdatum,
+ *          label (Kopfzeile), landing, thanks, preis_net, ticket_prefix, max_seats, slug
+ */
+function x25_edition_for(?array $rec): array
 {
-    $net = round((float)x25_cfg('PRICE_NET', 450.0), 2);
+    $c = x25_conf();
+    $snap = is_array($rec['ed'] ?? null) ? $rec['ed'] : [];
+    $slug = (string)($rec['edition_slug'] ?? ($snap['slug'] ?? ''));
+    $live = [];
+    if ($slug !== '') {
+        try {
+            require_once dirname(X25_DIR) . '/edition/lib.php';
+            $live = x25ed_get($slug) ?? [];
+        } catch (Throwable) {
+            $live = [];
+        }
+    }
+    $w = static fn(string $liveKey, string $snapKey, $fallback) => ($live[$liveKey] ?? null) !== null && $live[$liveKey] !== '' ? $live[$liveKey] : (($snap[$snapKey] ?? null) !== null && ($snap[$snapKey] ?? '') !== '' ? $snap[$snapKey] : $fallback);
+    $name = (string)$w('name', 'name', $c['edition_name']);
+    $datumKurz = (string)$w('datum_kurz', 'datum_kurz', '');
+    $ort = (string)$w('ort', 'ort', $c['edition_ort']);
+    $landing = $slug !== '' ? rtrim($c['site'], '/') . '/editionen/' . $slug . '/' : $c['landing'];
+    return [
+        'slug' => $slug,
+        'name' => $name,
+        'datum' => (string)$w('datum_text', 'datum_text', $c['edition_datum']),
+        'datum_kurz' => $datumKurz,
+        'ort' => $ort,
+        'venue' => (string)$w('venue', 'venue', $c['edition_venue']),
+        'zeiten' => (string)$w('zeiten', 'zeiten', $c['edition_zeiten']),
+        'hotel' => (string)$w('hotel', 'hotel', $c['edition_hotel']),
+        'kontakt' => (string)$w('kontakt_zeile', 'kontakt_zeile', $c['edition_kontakt']),
+        'leistungsdatum' => (string)$w('leistungsdatum', 'leistungsdatum', $c['leistungsdatum']),
+        'label' => (string)($rec['edition'] ?? '') !== '' ? (string)$rec['edition'] : trim(implode(' · ', array_filter([$name, $datumKurz, $ort]))),
+        'landing' => $landing,
+        'thanks' => $slug !== '' ? $landing . 'danke' : $c['thanks'],
+        'preis_net' => round((float)$w('preis_net', 'preis_net', x25_cfg('PRICE_NET', 450.0)), 2),
+        'ticket_prefix' => (string)$w('ticket_prefix', 'ticket_prefix', x25_cfg('TICKET_PREFIX', '25X-CM-')),
+        'max_seats' => (int)$w('max_plaetze', 'max_plaetze', $c['max_seats']),
+    ];
+}
+
+// ------------------------------------------------------------------ Beträge
+/** Beträge; mit $rec gilt der Preis der Edition des Datensatzes (Snapshot bei der Anmeldung). */
+function x25_amounts(?array $rec = null): array
+{
+    $net = $rec !== null ? x25_edition_for($rec)['preis_net'] : round((float)x25_cfg('PRICE_NET', 450.0), 2);
     $rate = (float)x25_cfg('VAT_RATE', 0.19);
     $vat = round($net * $rate, 2);
     return ['net' => $net, 'rate' => $rate, 'vat' => $vat, 'gross' => round($net + $vat, 2), 'currency' => (string)x25_cfg('CURRENCY', 'EUR')];
@@ -330,10 +377,11 @@ function x25_t_sig(): string
     return "Mit freundlichen Grüßen\n" . $c['gastgeber'] . "\nGastgeber und Moderator · 25 EXPERTS\n\n--\n25 EXPERTS\n" . $c['footer'] . "\n"
         . "Datenschutz: " . $c['site'] . "datenschutz · Impressum: " . $c['site'] . "impressum\n";
 }
-/** Komplette HTML-Mail. $withLinks: Datenschutz/Impressum im Fuß (Mails an Anmelder). */
-function x25_html_shell(string $subject, string $body, bool $withLinks = true, string $preheader = ''): string
+/** Komplette HTML-Mail. $withLinks: Datenschutz/Impressum im Fuß; $editionLabel: Kopfzeile rechts (Standard: config EDITION). */
+function x25_html_shell(string $subject, string $body, bool $withLinks = true, string $preheader = '', ?string $editionLabel = null): string
 {
     $c = x25_conf();
+    if ($editionLabel !== null && $editionLabel !== '') { $c['edition'] = $editionLabel; }
     $logo = $c['logo'] !== ''
         ? '<img src="' . x25_e($c['logo']) . '" width="180" height="40" alt="25 EXPERTS" style="display:block;border:0;outline:none;width:180px;height:auto;font-family:' . X25_FONT . ';font-size:14px;font-weight:700;color:' . X25_INK . ';">'
         : '<span style="font-family:' . X25_FONT . ';font-size:16px;font-weight:700;letter-spacing:1px;color:' . X25_INK . ';">25 EXPERTS</span>';
@@ -368,10 +416,11 @@ function x25_html_shell(string $subject, string $body, bool $withLinks = true, s
 }
 
 // ------------------------------------------------------------------ Schlichte HTML-Seiten (Zahlung, Rechnung, Ticket, Admin)
-/** Gibt eine vollständige Seite aus. $extraHead z. B. für das PayPal-SDK. */
-function x25_page(string $title, string $body, string $extraHead = '', bool $wide = false): string
+/** Gibt eine vollständige Seite aus. $extraHead z. B. für das PayPal-SDK; $editionLabel: Kopfzeile rechts. */
+function x25_page(string $title, string $body, string $extraHead = '', bool $wide = false, ?string $editionLabel = null): string
 {
     $c = x25_conf();
+    if ($editionLabel !== null && $editionLabel !== '') { $c['edition'] = $editionLabel; }
     $logo = $c['logo'] !== '' ? '<img src="' . x25_e($c['logo']) . '" alt="25 EXPERTS" width="160" height="36">' : '<strong>25 EXPERTS</strong>';
     return '<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow">'
         . '<title>' . x25_e($title) . ' · 25 EXPERTS</title>'
@@ -444,12 +493,19 @@ function x25_read_domains(string $file): array
     }
     return $out;
 }
-/** Belegte Plätze nach Regel SEATS_COUNT ('zugelassen' = zugelassen inkl. bezahlt; 'bezahlt' = nur bezahlt). */
-function x25_seats_taken(array $all): int
+/** Standard-Slug für Altdatensätze ohne edition_slug (aus LANDING_PATH abgeleitet). */
+function x25_default_slug(): string
+{
+    return basename(trim((string)x25_cfg('LANDING_PATH', 'editionen/change-management/'), '/'));
+}
+
+/** Belegte Plätze nach Regel SEATS_COUNT; mit $slug nur die Anmeldungen dieser Edition. */
+function x25_seats_taken(array $all, ?string $slug = null): int
 {
     $rule = x25_conf()['seats_rule'];
     $n = 0;
     foreach ($all as $r) {
+        if ($slug !== null && (((string)($r['edition_slug'] ?? '') ?: x25_default_slug()) !== $slug)) { continue; }
         if (($r['status'] ?? '') !== 'zugelassen') { continue; }
         if ($rule === 'bezahlt' && ($r['payment_status'] ?? '') !== 'bezahlt') { continue; }
         $n++;

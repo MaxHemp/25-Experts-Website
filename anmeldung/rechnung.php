@@ -9,9 +9,10 @@ declare(strict_types=1);
 
 require __DIR__ . '/lib/flow.php';
 
-$C = x25_conf(); $A = x25_amounts();
+$C = x25_conf();
 $t = (string)($_GET['t'] ?? '');
 $rec = preg_match('/^[a-f0-9]{32}$/', $t) ? x25_store()->findByToken($t) : null;
+$A = x25_amounts($rec); $ED = $rec !== null ? x25_edition_for($rec) : null;
 if ($rec === null || empty($rec['invoice_no'])) {
     x25_out(x25_page('Rechnung nicht gefunden', '<h1>Rechnung nicht gefunden.</h1><p>Der Link ist ungültig oder es wurde noch keine Rechnung erstellt.</p>'), 404);
 }
@@ -35,11 +36,11 @@ $body = '<div class="noprint" style="margin-bottom:16px;"><button class="btn" ty
     . '<div class="card"><table class="rows">'
     . '<tr><td>Rechnungsdatum</td><td>' . x25_e(x25_date($rec['invoice_date'], 'd.m.Y')) . '</td></tr>'
     . (($rec['order_no'] ?? '') !== '' ? '<tr><td>Bestellnummer</td><td>' . x25_e($rec['order_no']) . '</td></tr>' : '')
-    . '<tr><td>Leistungsdatum</td><td>' . x25_e($C['leistungsdatum']) . ' (Veranstaltungstage)</td></tr>'
+    . '<tr><td>Leistungsdatum</td><td>' . x25_e($ED['leistungsdatum']) . ' (Veranstaltungstage)</td></tr>'
     . '<tr><td>Zahlungsziel</td><td>' . x25_e(x25_date($rec['invoice_due'], 'd.m.Y')) . ' (' . (int)$C['payment_days'] . ' Tage ab Rechnungsdatum)</td></tr>'
     . '</table></div>'
     . '<table class="list"><thead><tr><th>Pos.</th><th>Leistung</th><th>Menge</th><th style="text-align:right">Netto</th></tr></thead><tbody>'
-    . '<tr><td>1</td><td>Teilnahme ' . x25_e($C['edition_name']) . ', ' . x25_e($C['leistungsdatum']) . ', ' . x25_e($C['edition_ort']) . '<br><span class="meta">Teilnehmer: ' . x25_e($rec['name']) . ' · Teilnahmegebühr inkl. Verpflegung an beiden Tagen und Abendveranstaltung</span></td><td>1</td><td style="text-align:right">' . x25_e(x25_money($A['net'])) . '</td></tr>'
+    . '<tr><td>1</td><td>Teilnahme ' . x25_e($C['edition_name']) . ', ' . x25_e($ED['leistungsdatum']) . ', ' . x25_e($C['edition_ort']) . '<br><span class="meta">Teilnehmer: ' . x25_e($rec['name']) . ' · Teilnahmegebühr inkl. Verpflegung an beiden Tagen und Abendveranstaltung</span></td><td>1</td><td style="text-align:right">' . x25_e(x25_money($A['net'])) . '</td></tr>'
     . '</tbody><tfoot>'
     . '<tr><td colspan="3" style="text-align:right">Nettobetrag</td><td style="text-align:right">' . x25_e(x25_money($A['net'])) . '</td></tr>'
     . '<tr><td colspan="3" style="text-align:right">zzgl. ' . (int)round($A['rate'] * 100) . ' % USt.</td><td style="text-align:right">' . x25_e(x25_money($A['vat'])) . '</td></tr>'
@@ -51,4 +52,4 @@ foreach ($rows as [$k, $v]) {
 }
 $body .= '</table><p class="meta" style="margin-bottom:0">Bitte überweise den Rechnungsbetrag bis zum ' . x25_e(x25_date($rec['invoice_due'], 'd.m.Y')) . ' unter Angabe des Verwendungszwecks. Mit dem Zahlungseingang ist Dein Platz verbindlich; Du erhältst dann Dein Ticket. [TBD: Hinweis auf Teilnahmebedingungen/Storno]</p></div>'
     . '<p class="meta">Vielen Dank für Deine Anmeldung. Bei Fragen zur Rechnung (Bestellnummer, abweichende Rechnungsanschrift) schreib an <a href="mailto:' . x25_e($issuer['mail']) . '">' . x25_e($issuer['mail']) . '</a>.</p>';
-x25_out(x25_page('Rechnung ' . $rec['invoice_no'], $body, '<script src="seite.js" defer></script>'));
+x25_out(x25_page('Rechnung ' . $rec['invoice_no'], $body, '<script src="seite.js" defer></script>', false, $ED['label']));

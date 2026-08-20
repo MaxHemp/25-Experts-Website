@@ -71,7 +71,23 @@ $flash = (string)($_GET['m'] ?? '');
 
 // ------------------------------------------------------------------ Daten
 $all = $store->all();
-$taken = x25_seats_taken($all); $max = $C['max_seats'];
+// v8: mehrere Editionen – Filter über ?edition=slug (Altdatensätze zählen zur Standard-Edition)
+$edFilter = (string)($_GET['edition'] ?? '');
+$slugOf = static fn(array $r): string => (string)($r['edition_slug'] ?? '') !== '' ? (string)$r['edition_slug'] : x25_default_slug();
+$slugs = [];
+foreach ($all as $r) { $slugs[$slugOf($r)] = true; }
+try { require_once dirname(__DIR__) . '/edition/lib.php'; foreach (x25ed_all() as $edRow) { $slugs[(string)$edRow['slug']] = true; } } catch (Throwable) {}
+$slugs = array_keys($slugs); sort($slugs);
+if ($edFilter !== '' && preg_match('/^[a-z0-9-]{1,60}$/', $edFilter)) {
+    $all = array_values(array_filter($all, static fn($r) => $slugOf($r) === $edFilter));
+} else { $edFilter = ''; }
+if ($edFilter !== '') {
+    $edInfo = function_exists('x25ed_get') ? x25ed_get($edFilter) : null;
+    $taken = x25_seats_taken($store->all(), $edFilter);
+    $max = $edInfo !== null ? (int)($edInfo['max_plaetze'] ?? 25) : $C['max_seats'];
+} else {
+    $taken = x25_seats_taken($all); $max = $C['max_seats'];
+}
 $count = ['pruefung' => 0, 'zugelassen' => 0, 'abgesagt' => 0, 'warteliste' => 0, 'bezahlt' => 0];
 foreach ($all as $r) { $count[$r['status']] = ($count[$r['status']] ?? 0) + 1; if ($r['payment_status'] === 'bezahlt') { $count['bezahlt']++; } }
 
@@ -79,7 +95,7 @@ foreach ($all as $r) { $count[$r['status']] = ($count[$r['status']] ?? 0) + 1; i
 if (($_GET['export'] ?? '') === 'csv') {
     header('Content-Type: text/csv; charset=utf-8'); header('Content-Disposition: attachment; filename="25experts-anmeldungen-' . date('Ymd') . '.csv"'); header('Cache-Control: no-store');
     $out = fopen('php://output', 'w'); fwrite($out, "\xEF\xBB\xBF");
-    $cols = ['id', 'created_at', 'name', 'company', 'role', 'level', 'category', 'email', 'linkedin', 'question', 'status', 'admission_note', 'decided_at', 'decided_by', 'payment_method', 'payment_status', 'paid_at', 'invoice_no', 'invoice_date', 'invoice_due', 'ticket_no', 'ticket_sent_at', 'paypal_order_id', 'paypal_capture_id', 'edition', 'source'];
+    $cols = ['id', 'created_at', 'name', 'company', 'role', 'level', 'category', 'email', 'linkedin', 'question', 'status', 'admission_note', 'decided_at', 'decided_by', 'payment_method', 'payment_status', 'paid_at', 'invoice_no', 'invoice_date', 'invoice_due', 'ticket_no', 'ticket_sent_at', 'paypal_order_id', 'paypal_capture_id', 'edition', 'edition_slug', 'source'];
     fputcsv($out, $cols, ';');
     foreach (array_reverse($all) as $r) { fputcsv($out, array_map(static fn($c) => (string)($r[$c] ?? ''), $cols), ';'); }
     exit;
@@ -108,7 +124,7 @@ foreach ($all as $r) {
     if (!empty($r['invoice_no'])) { $links .= '<a href="' . $h(x25_invoice_url($r)) . '">' . $h($r['invoice_no']) . '</a> '; }
     if (!empty($r['ticket_no'])) { $links .= '<a href="' . $h(x25_ticket_url($r)) . '">' . $h($r['ticket_no']) . '</a>'; }
     $rowsHtml .= '<tr><td>' . (int)$r['id'] . '<br><span class="meta">' . $h(x25_date($r['created_at'], 'd.m.y H:i')) . '</span></td>'
-        . '<td><strong>' . $h($r['name']) . '</strong><br>' . $h($r['company']) . '<br><span class="meta">' . $h($r['role']) . '</span>'
+        . '<td><strong>' . $h($r['name']) . '</strong><br>' . $h($r['company']) . '<br><span class="meta">' . $h($r['role']) . '</span><br><span class="meta">' . $h($slugOf($r)) . '</span>'
         . '<details><summary class="meta" style="cursor:pointer">Frage / Details</summary><div style="max-width:420px;white-space:pre-wrap;font-family:Georgia,serif;color:var(--ink)">' . $h($r['question']) . '</div><p class="meta" style="margin:6px 0 0">' . $h($r['admission_note'] ?? '') . ($r['decided_by'] ?? '' ? ' · entschieden: ' . $h($r['decided_by']) . ' ' . $h(x25_date($r['decided_at'] ?? null, 'd.m.y H:i')) : '') . (!empty($r['linkedin']) ? ' · <a href="' . $h($r['linkedin']) . '" rel="noopener">LinkedIn</a>' : '') . '</p></details></td>'
         . '<td>' . $h(X25_CATEGORIES[$r['category']] ?? $r['category']) . '<br><span class="meta">' . $h(X25_LEVELS[$r['level']] ?? $r['level']) . '</span></td>'
         . '<td><a href="mailto:' . $h($r['email']) . '">' . $h($r['email']) . '</a></td>'
@@ -116,7 +132,10 @@ foreach ($all as $r) {
         . '<td>' . $h($r['payment_method'] ?: '–') . '<br><span class="badge ' . $h($r['payment_status']) . '">' . $h($r['payment_status']) . '</span>' . (!empty($r['paid_at']) ? '<br><span class="meta">' . $h(x25_date($r['paid_at'], 'd.m.y')) . '</span>' : '') . '</td>'
         . '<td>' . $links . '</td><td>' . $acts . '</td></tr>';
 }
-$body = '<p class="kicker">Admin</p><h1>Anmeldungen · ' . $h($C['edition_name']) . '</h1>'
+$edLinks = '<a class="btn small' . ($edFilter === '' ? '' : ' sec') . '" href="admin.php">Alle Editionen</a> ';
+foreach ($slugs as $sl) { $edLinks .= '<a class="btn small' . ($edFilter === $sl ? '' : ' sec') . '" href="admin.php?edition=' . rawurlencode($sl) . '">' . $h($sl) . '</a> '; }
+$body = '<p class="kicker">Admin · <a href="../verwaltung/index.php">Editionen verwalten</a></p><h1>Anmeldungen' . ($edFilter !== '' ? ' · ' . $h($edFilter) : '') . '</h1>'
+    . '<p>' . $edLinks . '</p>'
     . ($flash !== '' ? '<div class="card ' . (str_starts_with($flash, 'Fehler') ? 'warn' : 'ok') . '"><strong>' . $h($flash) . '</strong></div>' : '')
     . '<div class="card"><strong style="color:var(--ink);font-size:20px">' . $taken . ' / ' . $max . ' Plätze belegt</strong> <span class="meta">(Regel: ' . ($C['seats_rule'] === 'bezahlt' ? 'nur bezahlte' : 'zugelassene inkl. bezahlte') . ' zählen)</span><br>'
     . '<span class="meta">gesamt ' . count($all) . ' · in Prüfung ' . $count['pruefung'] . ' · zugelassen ' . $count['zugelassen'] . ' · davon bezahlt ' . $count['bezahlt'] . ' · Warteliste ' . $count['warteliste'] . ' · abgesagt ' . $count['abgesagt'] . ' · Ablage: ' . $h($store->backend) . ' · PayPal: ' . $h($C['paypal_env']) . '</span><br>'

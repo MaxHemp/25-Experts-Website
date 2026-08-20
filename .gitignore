@@ -1,6 +1,9 @@
 # Zugangsdaten bleiben lokal auf dem Server (per Dateimanager aus config.example.php anlegen)
 anmeldung/config.php
 # Datenablage der Anmeldestrecke (SQLite/JSON) bleibt auf dem Server, nie ins Repo
+# ebenso die Editions-Dateien der Verwaltung und der OG-Bild-Cache
+anmeldung/data/editionen/
+anmeldung/data/og-cache/
 anmeldung/data/*.sqlite
 anmeldung/data/*.sqlite-*
 anmeldung/data/*.json

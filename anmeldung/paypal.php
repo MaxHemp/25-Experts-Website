@@ -17,7 +17,7 @@ $raw = file_get_contents('php://input');
 $in = json_decode((string)$raw, true);
 if (!is_array($in)) { x25_json(['ok' => false, 'error' => 'Ungültige Anfrage.'], 400); }
 
-$C = x25_conf(); $A = x25_amounts();
+$C = x25_conf();
 $env = $C['paypal_env'];
 if (!in_array($env, ['sandbox', 'live'], true) || $C['paypal_client'] === '' || (string)x25_cfg('PAYPAL_SECRET', '') === '') {
     x25_json(['ok' => false, 'error' => 'PayPal ist nicht konfiguriert.'], 503);
@@ -25,6 +25,7 @@ if (!in_array($env, ['sandbox', 'live'], true) || $C['paypal_client'] === '' || 
 $t = (string)($in['t'] ?? '');
 $rec = preg_match('/^[a-f0-9]{32}$/', $t) ? x25_store()->findByToken($t) : null;
 if ($rec === null || $rec['status'] !== 'zugelassen') { x25_json(['ok' => false, 'error' => 'Für diese Anmeldung ist keine Zahlung offen.'], 404); }
+$A = x25_amounts($rec); $ED = x25_edition_for($rec);
 if ($rec['payment_status'] === 'bezahlt') { x25_json(['ok' => true, 'ticket' => $rec['ticket_no'] ?? '', 'already' => true]); }
 
 $action = (string)($in['action'] ?? '');
@@ -36,7 +37,7 @@ try {
             'purchase_units' => [[
                 'reference_id' => 'anmeldung-' . $rec['id'],
                 'custom_id' => (string)$rec['id'],
-                'description' => mb_substr('Teilnahme ' . $C['edition_name'] . ', ' . $C['leistungsdatum'] . ', ' . $C['edition_ort'], 0, 127),
+                'description' => mb_substr('Teilnahme ' . $ED['name'] . ', ' . $ED['leistungsdatum'] . ', ' . $ED['ort'], 0, 127),
                 'amount' => ['currency_code' => $A['currency'], 'value' => x25_money_api($A['gross']),
                     'breakdown' => ['item_total' => ['currency_code' => $A['currency'], 'value' => x25_money_api($A['net'])], 'tax_total' => ['currency_code' => $A['currency'], 'value' => x25_money_api($A['vat'])]]],
             ]],

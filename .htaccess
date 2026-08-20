@@ -30,10 +30,17 @@ ServerSignature Off
   RewriteCond %{THE_REQUEST} \s/+([^?\s]+)\.html[?\s]
   RewriteRule ^ https://25-experts.de/%1 [L,R=301,NE]
 
-  # 1d) /editionen kollidiert mit dem gleichnamigen Ordner (Regel 2 greift wegen !-d nicht,
-  #     Regel 3 leitet auf /editionen/ → 403): explizit auf die Seite mappen
-  RewriteRule ^editionen/$ https://25-experts.de/editionen [L,R=301,NE]
-  RewriteRule ^editionen$ editionen.html [L]
+  # 1d) Editionen dynamisch (edition/*.php; Inhalte aus der Verwaltung /verwaltung/):
+  #     /editionen → Übersicht, /editionen/{slug}/ → Landingpage, …/anmeldung, …/danke, …/og.jpg
+  RewriteRule ^editionen/?$ edition/uebersicht.php [L]
+  RewriteRule ^editionen/([a-z0-9-]+)/og\.jpg$ edition/og.php?slug=$1 [L,QSA]
+  RewriteRule ^editionen/([a-z0-9-]+)/anmeldung/?$ edition/anmeldung.php?slug=$1 [L,QSA]
+  RewriteRule ^editionen/([a-z0-9-]+)/danke/?$ edition/danke.php?slug=$1 [L,QSA]
+  RewriteRule ^editionen/([a-z0-9-]+)$ https://25-experts.de/editionen/$1/ [L,R=301,NE]
+  RewriteRule ^editionen/([a-z0-9-]+)/$ edition/seite.php?slug=$1 [L,QSA]
+
+  # 1e) Sitemap dynamisch (nimmt die Online-Editionen aus der Verwaltung auf)
+  RewriteRule ^sitemap\.xml$ edition/sitemap.php [L]
 
   # 2) Saubere URLs: /format → format.html, /datenschutz → datenschutz.html (nur wenn die Datei existiert)
   RewriteCond %{REQUEST_FILENAME} !-d

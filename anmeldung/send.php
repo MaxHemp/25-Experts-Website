@@ -93,7 +93,20 @@ $d['category'] = strtolower(x25_line($in['category'] ?? '', 40));
 $privacy       = x25_truthy($in['privacy'] ?? ($in['consent'] ?? null));   // v5: privacy (consent = ältere Seitenversion)
 $d['source']   = x25_line($in['source'] ?? '', 500);
 $edition_in    = x25_line($in['edition'] ?? '', 200);
-$d['edition']  = $edition_in !== '' ? $edition_in : $C['edition'];
+
+// v8: Edition über edition_slug (dynamische Anmeldeseiten /editionen/{slug}/anmeldung); ohne Slug gilt die config-Edition
+$edSlug = strtolower(x25_line($in['edition_slug'] ?? '', 60));
+$ED = null;
+if ($edSlug !== '') {
+    require_once dirname(__DIR__) . '/edition/lib.php';
+    $ED = x25ed_get($edSlug);
+    if ($ED === null || ($ED['status'] ?? '') !== 'online' || empty($ED['anmeldung_offen'])) {
+        x25_respond(false, 'Für diese Edition ist die Anmeldung derzeit nicht möglich. Bitte schreib uns an info@25-experts.de.', 409, 'edition');
+    }
+    $LANDING_URL = rtrim($C['site'], '/') . x25ed_url($ED);   // Redirect-Ziele (ohne JS) auf die Editions-Seiten
+    $THANKS_URL = $LANDING_URL . 'danke';
+}
+$d['edition']  = $edition_in !== '' ? $edition_in : ($ED !== null ? x25ed_label($ED) : $C['edition']);
 
 foreach (['name' => 'Name', 'company' => 'Unternehmen', 'role' => 'Rolle'] as $k => $label) {   // question ist seit v6 optional
     if ($d[$k] === '') { $errors[$k] = $label . ' fehlt.'; }
@@ -134,12 +147,18 @@ $rec = $d + [
         default => ' (Domain nicht auf Allowlist)',
     },
 ];
+if ($ED !== null) {
+    $rec['edition_slug'] = $edSlug;
+    $rec['ed'] = x25ed_snapshot($ED);   // Preis/Termin/Ort zum Zeitpunkt der Anmeldung (Fallback für Mails/Rechnung)
+}
+$seatSlug = $ED !== null ? $edSlug : x25_default_slug();
+$maxSeats = $ED !== null ? max(1, (int)($ED['max_plaetze'] ?? 25)) : (int)$C['max_seats'];
 $id = 0;
 try {
     $store = x25_store();
-    // Platzvergabe unter Sperre: zugelassen, solange Plätze frei sind, sonst Warteliste
-    $store->transaction(function (X25Store $s) use (&$rec, &$id) {
-        $rec['status'] = x25_seats_taken($s->all()) < x25_conf()['max_seats'] ? 'zugelassen' : 'warteliste';
+    // Platzvergabe unter Sperre: zugelassen, solange in DIESER Edition Plätze frei sind, sonst Warteliste
+    $store->transaction(function (X25Store $s) use (&$rec, &$id, $seatSlug, $maxSeats) {
+        $rec['status'] = x25_seats_taken($s->all(), $seatSlug) < $maxSeats ? 'zugelassen' : 'warteliste';
         $rec['decided_at'] = gmdate('c'); $rec['decided_by'] = 'automatisch';
         $id = $s->insert($rec);
     });
@@ -167,7 +186,9 @@ x25_respond(true, null, 200, null, [], $rec['status'], $rec['status'] === 'zugel
 /** JSON (fetch) oder Redirect (klassisches Formular). Beendet das Skript. */
 function x25_respond(bool $ok, ?string $error, int $status, ?string $reason, array $fields = [], string $state = '', string $payUrl = ''): void
 {
-    global $wantsJson, $C;
+    global $wantsJson, $C, $LANDING_URL, $THANKS_URL;
+    $landing = $LANDING_URL ?? $C['landing'];
+    $thanks = $THANKS_URL ?? $C['thanks'];
     if ($wantsJson) {
         $out = ['ok' => $ok];
         if ($ok) { $out['status'] = $state; if ($payUrl !== '') { $out['pay_url'] = $payUrl; } }
@@ -176,9 +197,9 @@ function x25_respond(bool $ok, ?string $error, int $status, ?string $reason, arr
     }
     if ($ok) {
         // Ohne JS: zugelassen → direkt zur Zahlungsseite, sonst Danke-Seite mit Status
-        header('Location: ' . ($payUrl !== '' ? $payUrl : $C['thanks'] . ($state !== '' ? '?status=' . rawurlencode($state) : '')), true, 303);
+        header('Location: ' . ($payUrl !== '' ? $payUrl : $thanks . ($state !== '' ? '?status=' . rawurlencode($state) : '')), true, 303);
         exit;
     }
-    header('Location: ' . $C['landing'] . '?fehler=1&grund=' . rawurlencode($reason ?? 'versand') . '#anmeldung', true, 303);
+    header('Location: ' . $landing . ($landing === $C['landing'] ? '?fehler=1&grund=' . rawurlencode($reason ?? 'versand') . '#anmeldung' : 'anmeldung?fehler=1&grund=' . rawurlencode($reason ?? 'versand')), true, 303);
     exit;
 }

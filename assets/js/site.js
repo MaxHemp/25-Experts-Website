@@ -111,6 +111,20 @@
     Array.prototype.forEach.call(counters, function (el) { cio.observe(el); });
   }
 
+  /* ---------- Editions-Karten: live aus der Verwaltung (edition/karten.php) ----------
+     Die statisch gebauten Karten bleiben als Fallback stehen; gelingt der Abruf,
+     werden sie durch den aktuellen Stand ersetzt (neue Editionen erscheinen sofort). */
+  var kartenZiele = document.querySelectorAll('[data-editionen-karten]');
+  if (kartenZiele.length) {
+    fetch('/edition/karten.php', { headers: { 'Accept': 'text/html' } })
+      .then(function (r) { return r.ok ? r.text() : ''; })
+      .then(function (html) {
+        if (!html || html.indexOf('x-edition') === -1) { return; }
+        Array.prototype.forEach.call(kartenZiele, function (el) { el.innerHTML = html; });
+      })
+      .catch(function () { /* Fallback: eingebaute Karten bleiben */ });
+  }
+
   /* ---------- Danke-Seite: Text passend zum Status aus send.php (?status=zugelassen|pruefung|warteliste) ---------- */
   var statusMatch = window.location.search.match(/[?&]status=([a-z]+)/);
   if (statusMatch) {

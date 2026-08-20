@@ -77,10 +77,11 @@ define('PAYPAL_CLIENT_ID', '');
 define('PAYPAL_SECRET', '');
 // define('PAYPAL_API_BASE', '');   // nur für automatische Tests (Mock-Server); in Produktion nicht setzen
 
-// --- Admin (admin.php, HTTP-Basic-Auth) ---------------------------------------------------
+// --- Admin (anmeldung/admin.php UND /verwaltung/, HTTP-Basic-Auth) ------------------------
+// Gilt für die Anmeldungs-Übersicht und die Editions-Verwaltung (/verwaltung/, README-VERWALTUNG.md).
 // Passwort-Hash erzeugen (Terminal oder Hostinger-SSH):  php -r 'echo password_hash("IhrPasswort", PASSWORD_DEFAULT), PHP_EOL;'
 define('ADMIN_USER', 'gastgeber');
-define('ADMIN_PASS_HASH', '');         // z. B. '$2y$10$…' ; leer = Admin gesperrt
+define('ADMIN_PASS_HASH', '');         // z. B. '$2y$10$…' ; leer = Admin und Verwaltung gesperrt
 
 // --- Schutz -------------------------------------------------------------------------------
 // APP_SECRET signiert die Gastgeber-Links (Zahlung eingegangen) und die Admin-Formulare (HMAC).

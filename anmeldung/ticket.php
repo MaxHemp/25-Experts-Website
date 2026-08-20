@@ -12,6 +12,7 @@ require __DIR__ . '/lib/flow.php';
 $C = x25_conf();
 $t = (string)($_GET['t'] ?? '');
 $rec = preg_match('/^[a-f0-9]{32}$/', $t) ? x25_store()->findByToken($t) : null;
+$ED = $rec !== null ? x25_edition_for($rec) : null;
 if ($rec === null || $rec['payment_status'] !== 'bezahlt' || empty($rec['ticket_no'])) {
     x25_out(x25_page('Ticket nicht gefunden', '<h1>Kein gültiges Ticket.</h1><p>Der Link ist ungültig oder die Zahlung ist noch nicht eingegangen. Bei Fragen: <a href="mailto:' . x25_e($C['mail_to']) . '">' . x25_e($C['mail_to']) . '</a>.</p>'), 404);
 }
@@ -27,9 +28,9 @@ if ($qr === 'png') {
     header('Content-Type: image/png'); header('Cache-Control: private, max-age=86400');
     echo $png; exit;
 }
-$info = [['Termin', $C['edition_datum']], ['Zeiten', $C['edition_zeiten']], ['Ort', $C['edition_venue']], ['Hotel', $C['edition_hotel']], ['Kontakt', $C['edition_kontakt']]];
+$info = [['Termin', $ED['datum']], ['Zeiten', $ED['zeiten']], ['Ort', $ED['venue']], ['Hotel', $ED['hotel']], ['Kontakt', $ED['kontakt']]];
 $body = '<div class="noprint" style="margin-bottom:16px;"><button class="btn" type="button" data-print>Drucken / als PDF speichern</button></div>'
-    . '<p class="kicker">Ticket</p><h1>' . x25_e($C['edition_name']) . '</h1>'
+    . '<p class="kicker">Ticket</p><h1>' . x25_e($ED['name']) . '</h1>'
     . '<div class="card" style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;">'
     . '<img class="qr" src="ticket.php?t=' . x25_e($t) . '&amp;qr=svg" width="220" height="220" alt="QR-Code: ' . x25_e($url) . '">'
     . '<div><p class="mono" style="margin:0 0 4px">Ticketnummer</p><p style="font-family:\'Courier New\',monospace;font-size:28px;font-weight:700;color:var(--ink);margin:0 0 16px">' . x25_e($rec['ticket_no']) . '</p>'
@@ -40,4 +41,4 @@ foreach ($info as [$k, $v]) { $body .= '<tr><td>' . x25_e($k) . '</td><td>' . x2
 $body .= '</table></div>'
     . '<p>Vorbereitung ist nicht nötig. Wenn Du eine offene Frage gestellt hast, bring sie mit. Zwei Wochen vor dem Termin senden wir Dir alle Details zu Ablauf, Anreise und Abend.</p>'
     . '<p class="meta">Bitte zeig dieses Ticket am Empfang vor (Ausdruck oder Smartphone). Der QR-Code führt auf diese Seite.</p>';
-x25_out(x25_page('Ticket ' . $rec['ticket_no'], $body, '<script src="seite.js" defer></script>'));
+x25_out(x25_page('Ticket ' . $rec['ticket_no'], $body, '<script src="seite.js" defer></script>', false, $ED['label']));

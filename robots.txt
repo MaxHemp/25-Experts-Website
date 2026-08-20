@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /editionen/*/danke
 Disallow: /editionen/change-management/danke.html
-Disallow: /editionen/change-management/danke
 
 Sitemap: https://25-experts.de/sitemap.xml

@@ -11,23 +11,24 @@ declare(strict_types=1);
 
 require __DIR__ . '/lib/flow.php';
 
-$C = x25_conf(); $A = x25_amounts();
+$C = x25_conf();
 $t = (string)($_REQUEST['t'] ?? '');
 $rec = preg_match('/^[a-f0-9]{32}$/', $t) ? x25_store()->findByToken($t) : null;
+$A = x25_amounts($rec); $ED = $rec !== null ? x25_edition_for($rec) : null;
 if ($rec === null) {
     x25_out(x25_page('Link ungültig', '<h1>Dieser Zahlungslink ist ungültig.</h1><p>Bitte nutze den Link aus Deiner Bestätigungs-Mail oder schreib an <a href="mailto:' . x25_e($C['mail_to']) . '">' . x25_e($C['mail_to']) . '</a>.</p>'), 404);
 }
 if ($rec['status'] !== 'zugelassen') {
     x25_out(x25_page('Keine Zahlung offen', '<h1>Für diese Anmeldung ist keine Zahlung offen.</h1><p>Stand: ' . x25_e(X25_STATUS[$rec['status']] ?? $rec['status']) . '. Bei Fragen schreib an <a href="mailto:' . x25_e($C['mail_to']) . '">' . x25_e($C['mail_to']) . '</a>.</p>'), 409);
 }
-$intro = '<p class="kicker">Zahlung</p><h1>Teilnahmebeitrag ' . x25_e($C['edition_name']) . '</h1>'
+$intro = '<p class="kicker">Zahlung</p><h1>Teilnahmebeitrag ' . x25_e($ED['name']) . '</h1>'
     . '<div class="card"><table class="rows"><tr><td>Teilnehmer</td><td>' . x25_e($rec['name']) . ', ' . x25_e($rec['company']) . '</td></tr>'
-    . '<tr><td>Termin</td><td>' . x25_e($C['edition_datum']) . ' · ' . x25_e($C['edition_ort']) . '</td></tr>'
+    . '<tr><td>Termin</td><td>' . x25_e($ED['datum']) . ' · ' . x25_e($ED['ort']) . '</td></tr>'
     . '<tr><td>Netto</td><td>' . x25_e(x25_money($A['net'])) . '</td></tr><tr><td>USt. ' . (int)round($A['rate'] * 100) . ' %</td><td>' . x25_e(x25_money($A['vat'])) . '</td></tr>'
     . '<tr><td>Brutto</td><td class="amount">' . x25_e(x25_money($A['gross'])) . '</td></tr></table></div>';
 
 if ($rec['payment_status'] === 'bezahlt') {
-    x25_out(x25_page('Bezahlt', $intro . '<div class="card ok"><h2 style="margin-top:0">Vielen Dank, Deine Zahlung ist eingegangen.</h2><p>Dein Ticket ' . x25_e($rec['ticket_no'] ?? '') . ' wurde per E-Mail versandt.</p><a class="btn" href="' . x25_e(x25_ticket_url($rec)) . '">Ticket öffnen</a></div>'));
+    x25_out(x25_page('Bezahlt', $intro . '<div class="card ok"><h2 style="margin-top:0">Vielen Dank, Deine Zahlung ist eingegangen.</h2><p>Dein Ticket ' . x25_e($rec['ticket_no'] ?? '') . ' wurde per E-Mail versandt.</p><a class="btn" href="' . x25_e(x25_ticket_url($rec)) . '">Ticket öffnen</a></div>', '', false, $ED['label']));
 }
 
 // (b) Rechnung gewählt
@@ -72,4 +73,4 @@ if ($paypalOn) {
     $sdk = 'https://www.paypal.com/sdk/js?client-id=' . rawurlencode($C['paypal_client']) . '&currency=' . rawurlencode($A['currency']) . '&intent=capture&locale=de_DE&disable-funding=credit';
     $head = '<script src="' . x25_e($sdk) . '"></script><script src="zahlung.js" defer></script>';
 }
-x25_out(x25_page('Zahlung', $body, $head));
+x25_out(x25_page('Zahlung', $body, $head, false, $ED['label']));
