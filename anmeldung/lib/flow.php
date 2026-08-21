@@ -266,10 +266,14 @@ function x25_invoice_rows(array $rec): array
         ['USt. ' . (int)round($a['rate'] * 100) . ' %', x25_money($a['vat'])],
         ['Brutto', x25_money($a['gross'])],
         ['Zahlungsziel', x25_date($rec['invoice_due'], 'd.m.Y') . ' (' . $c['payment_days'] . ' Tage ab Rechnungsdatum)'],
+    ], (string)x25_cfg('BANK_IBAN', '') !== '' ? [
         ['Empfänger', (string)x25_cfg('BANK_HOLDER', '25 EXPERTS UG (haftungsbeschränkt)')],
-        ['IBAN', (string)x25_cfg('BANK_IBAN', '[TBD: IBAN]')],
-        ['BIC', (string)x25_cfg('BANK_BIC', '[TBD: BIC]')],
-        ['Bank', (string)x25_cfg('BANK_NAME', '[TBD: Bank]')],
+        ['IBAN', (string)x25_cfg('BANK_IBAN', '')],
+        ['BIC', (string)x25_cfg('BANK_BIC', '')],
+        ['Bank', (string)x25_cfg('BANK_NAME', '')],
+        ['Verwendungszweck', $rec['invoice_no'] . ' · ' . $rec['name']],
+    ] : [
+        ['Zahlung', 'Die Bankverbindung senden wir Dir gesondert per E-Mail; bitte warte mit der Überweisung darauf.'],
         ['Verwendungszweck', $rec['invoice_no'] . ' · ' . $rec['name']],
     ], $extra);
 }
@@ -287,7 +291,7 @@ function x25_mail_ticket(array $rec): void
             ? 'Vorbereitung ist nicht nötig. Bring Deine offene Frage mit, so wie Du sie im Formular gestellt hast.'
             : 'Vorbereitung ist nicht nötig. Wenn Du magst, bring eine offene Frage aus Deinem Arbeitsalltag mit.')
         . ' Zwei Wochen vor dem Termin senden wir Dir alle Details zu Ablauf, Anreise und Abend.';
-    $a3 = 'Solltest Du verhindert sein, sag uns bitte kurz Bescheid; ein Ersatzteilnehmer aus Deinem Haus und derselben Funktion kann jederzeit benannt werden [TBD: Stornoregeln laut Teilnahmebedingungen].';
+    $a3 = 'Solltest Du verhindert sein, sag uns bitte kurz Bescheid; ein Ersatzteilnehmer aus Deinem Haus und derselben Funktion kann jederzeit benannt werden. Die Einzelheiten stehen in den Teilnahmebedingungen: ' . $c['site'] . 'teilnahmebedingungen';
     $png = x25_qr_png($url);
     $qrHtml = $png !== ''
         ? '<img src="cid:ticketqr" width="200" height="200" alt="QR-Code zum Ticket" style="display:block;width:200px;height:200px;border:0;">'

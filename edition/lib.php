@@ -87,6 +87,53 @@ function x25ed_seed(): void
         $ed = json_decode((string)file_get_contents($f), true);
         if (is_array($ed) && ($ed['slug'] ?? '') === $slug) { x25ed_save($ed); }
     }
+    x25ed_tbd_migration();
+}
+
+/** Einmalige Bereinigung (08/2026): gespeicherte Platzhalterwerte mit „[TBD" entfernen bzw. durch die
+ *  Werte des aktuellen Seeds ersetzen. Entfernte Textschlüssel fallen auf die Standardtexte
+ *  (texte.json) zurück; im Backend geänderte Texte ohne „[TBD" bleiben unangetastet. */
+function x25ed_tbd_migration(): void
+{
+    $marker = x25ed_dir() . '/.migration-tbd-2026-08';
+    if (is_file($marker)) { return; }
+    // Schlüssel, deren alte Standardtexte auf die entfernte Hotel-Sektion verwiesen: zurücksetzen.
+    $reset = ['landing' => ['faq.12.antwort', 'hotels.titel', 'hotels.text', 'hotels.kicker']];
+    foreach (glob(x25ed_dir() . '/*.json') ?: [] as $f) {
+        $ed = json_decode((string)file_get_contents($f), true);
+        if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
+        $seedFile = X25ED_DIR . '/seed/' . $ed['slug'] . '.json';
+        $seed = is_file($seedFile) ? json_decode((string)file_get_contents($seedFile), true) : null;
+        $dirty = false;
+        foreach (['landing', 'anmeldung', 'danke'] as $bereich) {
+            foreach ((array)($ed['texte'][$bereich] ?? []) as $k => $v) {
+                $weg = (is_string($v) && strpos($v, '[TBD') !== false) || in_array($k, $reset[$bereich] ?? [], true);
+                if ($weg) { unset($ed['texte'][$bereich][$k]); $dirty = true; }
+            }
+        }
+        foreach (['hotel', 'kontakt_zeile'] as $feld) {
+            if (is_string($ed[$feld] ?? null) && strpos($ed[$feld], '[TBD') !== false) {
+                $neu = (is_array($seed) && is_string($seed[$feld] ?? null) && strpos($seed[$feld], '[TBD') === false) ? $seed[$feld] : '';
+                $ed[$feld] = $neu; $dirty = true;
+            }
+        }
+        foreach (['kicker', 'fakten', 'meta'] as $feld) {
+            if (is_string($ed['karte'][$feld] ?? null) && strpos($ed['karte'][$feld], '[TBD') !== false
+                && is_string($seed['karte'][$feld] ?? null) && strpos($seed['karte'][$feld], '[TBD') === false) {
+                $ed['karte'][$feld] = $seed['karte'][$feld]; $dirty = true;
+            }
+        }
+        foreach (['punkte', 'aside'] as $feld) {
+            foreach ((array)($ed['karte'][$feld] ?? []) as $i => $v) {
+                if (is_string($v) && strpos($v, '[TBD') !== false
+                    && is_string($seed['karte'][$feld][$i] ?? null) && strpos($seed['karte'][$feld][$i], '[TBD') === false) {
+                    $ed['karte'][$feld][$i] = $seed['karte'][$feld][$i]; $dirty = true;
+                }
+            }
+        }
+        if ($dirty) { x25ed_save($ed); }
+    }
+    @file_put_contents($marker, gmdate('c'));
 }
 
 function x25ed_get(string $slug): ?array

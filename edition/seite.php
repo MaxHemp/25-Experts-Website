@@ -123,11 +123,6 @@ $enthalten = '';
 foreach (x25ed_lines($ed, 'landing', 'preis.enthalten') as $x) { $enthalten .= "\n              <li>{$x}</li>"; }
 $nicht = '';
 foreach (x25ed_lines($ed, 'landing', 'preis.nicht') as $x) { $nicht .= "\n              <li>{$x}</li>"; }
-$hotels = '';
-foreach (x25ed_items($ed, 'landing', 'hotel') as $i => $x) {
-    $n = $i + 1;
-    $hotels .= "\n            <li class=\"x-card x-card--muted x-card--flat\"><span class=\"x-kicker\">{$t('hotels.kicker')} {$n}</span><p>{$x}</p></li>";
-}
 $faq = '';
 foreach (x25ed_tuples($ed, 'landing', 'faq', 'frage', 'antwort') as [$ff, $fa]) {
     $faq .= <<<HTML
@@ -367,7 +362,7 @@ $body = <<<HTML
             </div>
             <div class="x-card">
               <p class="x-kicker">{$t('abend.kicker')}</p>
-              <p>{$t('abend.tbd')}</p>
+              <p>{$t('abend.ort')}</p>
               <p>{$t('abend.text')}</p>
             </div>
             <div class="x-card">
@@ -377,12 +372,6 @@ $body = <<<HTML
             </div>
           </div>
           <div class="x-location__pano">{$panoFoto}</div>
-        </div>
-        <div class="x-mt-16" data-reveal>
-          <h3 class="x-h3">{$t('hotels.titel')}</h3>
-          <p class="x-maxw">{$t('hotels.text')}</p>
-          <ul class="x-hotels x-mt-6">{$hotels}
-          </ul>
         </div>
       </div>
     </section>

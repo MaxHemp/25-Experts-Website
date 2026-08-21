@@ -59,7 +59,7 @@ if ($paypalOn) {
         . '<div id="paypal-buttons" data-token="' . x25_e($t) . '" data-api="paypal.php" data-ticket="' . x25_e(x25_ticket_url($rec)) . '"></div>'
         . '<p id="paypal-status" class="meta" aria-live="polite"></p>';
 } else {
-    $body .= '<p class="meta">PayPal ist derzeit nicht verfügbar [TBD: PayPal-Zugang in config.php eintragen]. Bitte zahle per Rechnung.</p>';
+    $body .= '<p class="meta">PayPal ist derzeit nicht verfügbar. Bitte zahle per Rechnung.</p>';
 }
 $body .= '</div>';
 if (($rec['payment_method'] ?? '') !== 'rechnung') {

@@ -119,6 +119,7 @@ function x25ed_shell(array $o): string
           <p class="x-footer__title">{$g('footer.titel.kontakt')}</p>
           <ul>
             <li><a href="mailto:{$e($mail)}">{$e($mail)}</a></li>
+            <li><a href="https://www.linkedin.com/company/141373969/" rel="noopener">LinkedIn</a></li>
             <li>{$g('location.name')}, Köln</li>
           </ul>
         </div>
@@ -129,6 +130,7 @@ function x25ed_shell(array $o): string
         <ul>
           <li><a href="/impressum">{$g('nav.impressum')}</a></li>
           <li><a href="/datenschutz">{$g('nav.datenschutz')}</a></li>
+          <li><a href="/teilnahmebedingungen">{$g('nav.teilnahmebedingungen')}</a></li>
           <li><a href="/neutralitaetskodex">{$g('nav.kodex')}</a></li>
         </ul>
       </div>

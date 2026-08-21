@@ -34,8 +34,8 @@ define('EDITION_ORT', 'Köln');
 define('EDITION_LEISTUNGSDATUM', '03.–04.12.2026');   // Leistungsdatum auf der Rechnung (Veranstaltungstage) und Leistungsbeschreibung
 define('EDITION_VENUE', 'SESSEL HUB Rheinauhafen, Kranhaus Nord (Erdgeschoss), Im Zollhafen 12, 50678 Köln');   // Ticket/Zusage
 define('EDITION_ZEITEN', 'Tag 1: 09:45 bis 17:15 Uhr, anschließend Abend (Aperitif 18:15 Uhr, Dinner 19:00 Uhr) · Tag 2: 09:30 bis 13:30 Uhr');
-define('EDITION_HOTEL', 'Hotel buchen Sie bitte selbst; ein Zimmerkontingent ist angefragt [TBD: Hotel, Stichwort], aber nicht garantiert.');
-define('EDITION_KONTAKT', 'info@25-experts.de · [TBD: Kontaktnummer]');
+define('EDITION_HOTEL', 'Hotel buchst Du bitte selbst; die Übernachtung ist nicht im Preis enthalten.');
+define('EDITION_KONTAKT', 'info@25-experts.de');
 define('SITE_URL', 'https://25-experts.de/');            // mit abschließendem Slash
 define('LANDING_PATH', 'editionen/change-management/');  // relativ zu SITE_URL; danke.html liegt darin
 define('ANMELDUNG_URL', SITE_URL . 'anmeldung/');        // öffentliche URL dieses Ordners (Links in Mails: zahlung.php, ticket.php, aktion.php, admin.php)
@@ -53,7 +53,7 @@ define('SEATS_COUNT', 'zugelassen');   // was zählt als belegt: 'zugelassen' (z
 
 // --- Preis / Rechnung ---------------------------------------------------------------------
 define('PRICE_NET', 450.00);           // Teilnahmebeitrag netto in EUR (450,00 € netto + 19 % USt. = 535,50 € brutto)
-define('VAT_RATE', 0.19);              // Umsatzsteuersatz [TBD: USt-Ausweis mit Steuerberater bestätigen]
+define('VAT_RATE', 0.19);              // Umsatzsteuersatz (19 %, bestätigt)
 define('CURRENCY', 'EUR');
 define('PAYMENT_DAYS', 14);            // Zahlungsziel der Rechnung in Tagen
 define('INVOICE_PREFIX', '25X-');      // Rechnungsnummer: 25X-2026-0001, fortlaufend (Zähler in der Datenablage)
@@ -61,13 +61,14 @@ define('INVOICE_YEAR', '2026');        // Jahreszahl in der Rechnungsnummer
 define('TICKET_PREFIX', '25X-CM-');    // Ticketnummer: 25X-CM-001, fortlaufend
 define('INVOICE_ISSUER_NAME', '25 EXPERTS UG (haftungsbeschränkt) i. G.');   // Aussteller (Pflichtangabe § 14 UStG)
 define('INVOICE_ISSUER_ADDRESS', 'Moitzfeld 17 · 51429 Bergisch Gladbach');
-define('INVOICE_TAX_ID', 'Steuernummer: [TBD]');      // Steuernummer ODER USt-IdNr. ist Pflicht
-define('INVOICE_VAT_ID', 'USt-IdNr.: [TBD]');
-// Bankverbindung für Rechnungszahlungen [TBD]
+define('INVOICE_TAX_ID', '');          // 'Steuernummer: …' eintragen, sobald vergeben (Steuernummer ODER USt-IdNr. ist Pflichtangabe auf Rechnungen); leer = Zeile entfällt
+define('INVOICE_VAT_ID', '');          // 'USt-IdNr.: …' eintragen, sobald erteilt; leer = Zeile entfällt
+// Bankverbindung für Rechnungszahlungen: eintragen, sobald das Geschäftskonto eröffnet ist.
+// Solange BANK_IBAN leer ist, steht auf Rechnung und Rechnungs-Mail, dass die Bankverbindung gesondert per E-Mail folgt.
 define('BANK_HOLDER', '25 EXPERTS UG (haftungsbeschränkt)');
-define('BANK_IBAN', '[TBD: IBAN]');
-define('BANK_BIC', '[TBD: BIC]');
-define('BANK_NAME', '[TBD: Bank]');
+define('BANK_IBAN', '');
+define('BANK_BIC', '');
+define('BANK_NAME', '');
 
 // --- PayPal (REST API v2 + JS-SDK) --------------------------------------------------------
 // 'off' = PayPal ausgeblendet (nur Rechnung); 'sandbox' = Testumgebung (developer.paypal.com, Sandbox-App); 'live' = echtes Geld.

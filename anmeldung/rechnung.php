@@ -19,8 +19,8 @@ if ($rec === null || empty($rec['invoice_no'])) {
 $issuer = [
     'name' => (string)x25_cfg('INVOICE_ISSUER_NAME', '25 EXPERTS UG (haftungsbeschränkt) i. G.'),
     'addr' => (string)x25_cfg('INVOICE_ISSUER_ADDRESS', 'Moitzfeld 17 · 51429 Bergisch Gladbach'),
-    'tax'  => (string)x25_cfg('INVOICE_TAX_ID', 'Steuernummer: [TBD]'),
-    'vat'  => (string)x25_cfg('INVOICE_VAT_ID', 'USt-IdNr.: [TBD]'),
+    'tax'  => (string)x25_cfg('INVOICE_TAX_ID', ''),
+    'vat'  => (string)x25_cfg('INVOICE_VAT_ID', ''),
     'mail' => (string)x25_cfg('MAIL_FROM', 'info@25-experts.de'),
 ];
 $paid = $rec['payment_status'] === 'bezahlt';
@@ -29,8 +29,8 @@ $body = '<div class="noprint" style="margin-bottom:16px;"><button class="btn" ty
     . ($rec['status'] === 'zugelassen' && !$paid ? '<a class="btn sec" href="' . x25_e(x25_pay_url($rec)) . '">Zur Zahlungsseite</a>' : '') . '</div>'
     . '<p class="kicker">Rechnung</p>'
     . '<div style="display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:24px;">'
-    . '<div><p class="meta" style="margin:0 0 4px">Aussteller</p><strong style="color:var(--ink)">' . x25_e($issuer['name']) . '</strong><br>' . x25_e($issuer['addr']) . '<br>' . x25_e($issuer['mail']) . '<br>' . x25_e($issuer['tax']) . '<br>' . x25_e($issuer['vat']) . '</div>'
-    . '<div><p class="meta" style="margin:0 0 4px">Rechnungsempfänger</p><strong style="color:var(--ink)">' . x25_e(x25_invoice_recipient($rec)[0]) . '</strong><br>' . nl2br(x25_e(x25_invoice_recipient($rec)[1] !== '' ? x25_invoice_recipient($rec)[1] : $rec['name'])) . (x25_invoice_recipient($rec)[1] === '' ? '<br><span class="meta">Anschrift laut Deiner Angabe [TBD: Rechnungsanschrift bei Bedarf per E-Mail nachreichen]</span>' : '') . '</div>'
+    . '<div><p class="meta" style="margin:0 0 4px">Aussteller</p><strong style="color:var(--ink)">' . x25_e($issuer['name']) . '</strong><br>' . x25_e($issuer['addr']) . '<br>' . x25_e($issuer['mail']) . ($issuer['tax'] !== '' ? '<br>' . x25_e($issuer['tax']) : '') . ($issuer['vat'] !== '' ? '<br>' . x25_e($issuer['vat']) : '') . '</div>'
+    . '<div><p class="meta" style="margin:0 0 4px">Rechnungsempfänger</p><strong style="color:var(--ink)">' . x25_e(x25_invoice_recipient($rec)[0]) . '</strong><br>' . nl2br(x25_e(x25_invoice_recipient($rec)[1] !== '' ? x25_invoice_recipient($rec)[1] : $rec['name'])) . (x25_invoice_recipient($rec)[1] === '' ? '<br><span class="meta">Eine abweichende Rechnungsanschrift kannst Du uns per E-Mail nachreichen.</span>' : '') . '</div>'
     . '</div>'
     . '<h1>Rechnung ' . x25_e($rec['invoice_no']) . ($paid ? ' <span class="badge bezahlt">bezahlt</span>' : '') . '</h1>'
     . '<div class="card"><table class="rows">'
@@ -48,8 +48,8 @@ $body = '<div class="noprint" style="margin-bottom:16px;"><button class="btn" ty
     . '</tfoot></table>'
     . '<h2>Zahlung</h2><div class="card"><table class="rows">';
 foreach ($rows as [$k, $v]) {
-    if (in_array($k, ['Empfänger', 'IBAN', 'BIC', 'Bank', 'Verwendungszweck'], true)) { $body .= '<tr><td>' . x25_e($k) . '</td><td>' . x25_e((string)$v) . '</td></tr>'; }
+    if (in_array($k, ['Empfänger', 'IBAN', 'BIC', 'Bank', 'Zahlung', 'Verwendungszweck'], true)) { $body .= '<tr><td>' . x25_e($k) . '</td><td>' . x25_e((string)$v) . '</td></tr>'; }
 }
-$body .= '</table><p class="meta" style="margin-bottom:0">Bitte überweise den Rechnungsbetrag bis zum ' . x25_e(x25_date($rec['invoice_due'], 'd.m.Y')) . ' unter Angabe des Verwendungszwecks. Mit dem Zahlungseingang ist Dein Platz verbindlich; Du erhältst dann Dein Ticket. [TBD: Hinweis auf Teilnahmebedingungen/Storno]</p></div>'
+$body .= '</table><p class="meta" style="margin-bottom:0">Bitte überweise den Rechnungsbetrag bis zum ' . x25_e(x25_date($rec['invoice_due'], 'd.m.Y')) . ' unter Angabe des Verwendungszwecks. Mit dem Zahlungseingang ist Dein Platz verbindlich; Du erhältst dann Dein Ticket. Es gelten die <a href="' . x25_e($C['site']) . 'teilnahmebedingungen">Teilnahmebedingungen</a>.</p></div>'
     . '<p class="meta">Vielen Dank für Deine Anmeldung. Bei Fragen zur Rechnung (Bestellnummer, abweichende Rechnungsanschrift) schreib an <a href="mailto:' . x25_e($issuer['mail']) . '">' . x25_e($issuer['mail']) . '</a>.</p>';
 x25_out(x25_page('Rechnung ' . $rec['invoice_no'], $body, '<script src="seite.js" defer></script>', false, $ED['label']));

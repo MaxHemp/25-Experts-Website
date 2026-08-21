@@ -77,6 +77,7 @@ $TEXT_LANDING = [
     ['landing', 'fuerwen.schluss', '„Für wen“: Schlusssatz', 'textarea', ''],
     ['landing', 'preis.meta', 'Preis: Kleingedrucktes', 'textarea', ''],
     ['landing', 'preis.storno', 'Storno-Hinweis', 'textarea', ''],
+    ['landing', 'abend.ort', 'Abendlocation (Name und Adresse)', 'textarea', ''],
     ['landing', 'eventld.beschreibung', 'Beschreibung für Suchmaschinen (Event)', 'textarea', ''],
 ];
 $TEXT_ANMELDUNG = [
@@ -97,7 +98,6 @@ $REPEATS = [
     ['tag2', 'landing', 'ablauf.tag2', 'Ablauf Tag 2', [['zeit', 'Zeit', 'zeit'], ['titel', 'Programmpunkt', 'text'], ['text', 'Beschreibung (optional)', 'textarea'], ['marker', 'Marker (optional)', 'marker']], ''],
     ['impulse', 'landing', 'impuls', 'Impulse', [['kicker', 'Kicker', 'text'], ['titel', 'Titel', 'text'], ['text', 'Text', 'textarea']], 'Die nummerierten Impulse auf der Landingpage.'],
     ['leitfragen', 'landing', 'leitfrage', 'Leitfragen', [['titel', 'Titel', 'text'], ['text', 'Text', 'textarea']], ''],
-    ['hotels', 'landing', 'hotel', 'Hotel-Empfehlungen', [['', 'Hotel', 'textarea']], ''],
     ['faq', 'landing', 'faq', 'Häufige Fragen (FAQ)', [['frage', 'Frage', 'text'], ['antwort', 'Antwort', 'textarea']], 'Erscheinen auf der Landingpage und in den Google-Suchergebnissen.'],
 ];
 // Zeilenlisten außerhalb der Karten
