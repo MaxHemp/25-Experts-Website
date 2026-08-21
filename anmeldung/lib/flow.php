@@ -266,11 +266,11 @@ function x25_invoice_rows(array $rec): array
         ['USt. ' . (int)round($a['rate'] * 100) . ' %', x25_money($a['vat'])],
         ['Brutto', x25_money($a['gross'])],
         ['Zahlungsziel', x25_date($rec['invoice_due'], 'd.m.Y') . ' (' . $c['payment_days'] . ' Tage ab Rechnungsdatum)'],
-    ], (string)x25_cfg('BANK_IBAN', '') !== '' ? [
-        ['Empfänger', (string)x25_cfg('BANK_HOLDER', '25 EXPERTS UG (haftungsbeschränkt)')],
-        ['IBAN', (string)x25_cfg('BANK_IBAN', '')],
-        ['BIC', (string)x25_cfg('BANK_BIC', '')],
-        ['Bank', (string)x25_cfg('BANK_NAME', '')],
+    ], (string)x25_cfg('BANK_IBAN', X25_BANK_IBAN) !== '' ? [
+        ['Empfänger', (string)x25_cfg('BANK_HOLDER', X25_BANK_HOLDER)],
+        ['IBAN', (string)x25_cfg('BANK_IBAN', X25_BANK_IBAN)],
+        ['BIC', (string)x25_cfg('BANK_BIC', X25_BANK_BIC)],
+        ['Bank', (string)x25_cfg('BANK_NAME', X25_BANK_NAME)],
         ['Verwendungszweck', $rec['invoice_no'] . ' · ' . $rec['name']],
     ] : [
         ['Zahlung', 'Die Bankverbindung senden wir Dir gesondert per E-Mail; bitte warte mit der Überweisung darauf.'],

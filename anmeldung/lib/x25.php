@@ -54,6 +54,14 @@ const X25_CATEGORIES = ['versicherer' => 'Versicherer', 'maklerpool' => 'Maklerp
 const X25_STATUS = ['pruefung' => 'in Prüfung', 'zugelassen' => 'zugelassen', 'abgesagt' => 'abgesagt', 'warteliste' => 'Warteliste'];
 const X25_PAY = ['offen' => 'offen', 'bezahlt' => 'bezahlt'];
 
+// Bankverbindung für Rechnungszahlungen (Stand 08/2026: vorläufig Privatkonto des Gastgebers,
+// bis das Geschäftskonto der UG eröffnet ist). In config.php per BANK_* überschreibbar;
+// steht auf jeder Rechnung, ist also keine geheime Angabe.
+const X25_BANK_HOLDER = 'Maximilian Hempel';
+const X25_BANK_IBAN = 'DE09 3406 0094 0104 8191 23';
+const X25_BANK_BIC = 'VBRSDE33XXX';
+const X25_BANK_NAME = 'Volksbank im Bergischen Land';
+
 /** Konfigurationswert (define in config.php) mit Fallback. */
 function x25_cfg(string $name, $default = null)
 {
