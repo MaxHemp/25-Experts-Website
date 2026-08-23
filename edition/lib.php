@@ -90,26 +90,26 @@ function x25ed_seed(): void
     x25ed_tbd_migration();
     x25ed_reframe_migration();
     x25ed_wording_migration();
+    x25ed_phrasen_sweep();
 }
 
-/** Einmalige Bereinigung (23.08.2026): negative/bevormundende Formulierungen und die sachlich
- *  ungenaue „KI sitzt mit am Tisch"-Rahmung ersetzt durch positivere, korrektere Standardtexte
- *  (die KI wird in gezielten Sessions fachlich geprüft, nicht dauerhaft „am Tisch"). Die
- *  aufgeführten Schlüssel fallen auf die neuen Standardtexte zurück; Backend-Änderungen ohne
- *  diese Formulierungen bleiben unangetastet. */
-function x25ed_wording_migration(): void
+/** Überholte Formulierungen, die in gespeicherten Editionen nicht mehr vorkommen dürfen.
+ *  Wird beim Ändern der Standardtexte erweitert. */
+function x25ed_alte_phrasen(): array
 {
-    $marker = x25ed_dir() . '/.migration-wording-2026-08';
-    if (is_file($marker)) { return; }
-    // Textschlüssel, die auf die neuen Standardtexte zurückfallen sollen
-    $reset = [
-        'landing' => ['eventld.beschreibung', 'fuerwen.1', 'kern', 'leitfrage.serif', 'meta.beschreibung',
-            'signatur.label', 'signatur.lead', 'signatur.titel', 'story.3.text', 'story.4.text', 'story.5.titel', 'impulse.lead'],
-    ];
-    // Überholte Formulierungen: Wo sie in gespeicherten Feldern stehen, gilt der Text als veraltet.
-    $alt = ['genau einer offenen Frage', 'genau eine offene Frage', 'niemand beantworten kann',
+    return ['genau einer offenen Frage', 'genau eine offene Frage', 'niemand beantworten kann',
         'noch niemand beantwortet hat', 'Du sollst Dein Haus', 'Du sollst Dein Unternehmen',
-        'sitzt mit am Tisch', 'Claude am Tisch', 'Claude live am Tisch', 'Alles Weitere ist Programm'];
+        'sitzt mit am Tisch', 'Claude am Tisch', 'Claude live am Tisch', 'Alles Weitere ist Programm',
+        'Signaturelemente', 'auch nicht gegen Geld', 'Der Eintritt sind Deine Fragen'];
+}
+
+/** Dauerhafte Selbstheilung (ohne Marker, daher idempotent und nicht durch einen früheren
+ *  Migrationslauf blockiert): Felder gespeicherter Editionen, die eine überholte Formulierung
+ *  enthalten, werden aus dem aktuellen Seed nachgezogen bzw. entfernt, damit der Standardtext
+ *  greift. Geschrieben wird nur, wenn tatsächlich etwas gefunden wurde. */
+function x25ed_phrasen_sweep(): void
+{
+    $alt = x25ed_alte_phrasen();
     $veraltet = static function ($wert) use ($alt): bool {
         if (!is_string($wert)) { return false; }
         foreach ($alt as $needle) { if (strpos($wert, $needle) !== false) { return true; } }
@@ -121,18 +121,11 @@ function x25ed_wording_migration(): void
         $seedFile = X25ED_DIR . '/seed/' . $ed['slug'] . '.json';
         $seed = is_file($seedFile) ? json_decode((string)file_get_contents($seedFile), true) : null;
         $dirty = false;
-        foreach ($reset as $bereich => $keys) {
-            foreach ($keys as $k) {
-                if (isset($ed['texte'][$bereich][$k])) { unset($ed['texte'][$bereich][$k]); $dirty = true; }
-            }
-        }
-        // Textschlüssel, die die überholten Formulierungen noch enthalten (auch abweichend benannte)
         foreach (['landing', 'anmeldung', 'danke'] as $bereich) {
             foreach ((array)($ed['texte'][$bereich] ?? []) as $k => $v) {
                 if ($veraltet($v)) { unset($ed['texte'][$bereich][$k]); $dirty = true; }
             }
         }
-        // Top-Level-Felder der Editions-Karte (werden nicht aus texte.json ergänzt): aus dem Seed nachziehen
         if ($veraltet($ed['kurz'] ?? null) && is_array($seed) && !$veraltet($seed['kurz'] ?? null)) {
             $ed['kurz'] = (string)$seed['kurz']; $dirty = true;
         }
@@ -146,6 +139,37 @@ function x25ed_wording_migration(): void
                 if ($veraltet($v) && is_array($seed) && !$veraltet($seed['karte'][$feld][$i] ?? null)) {
                     $ed['karte'][$feld][$i] = (string)$seed['karte'][$feld][$i]; $dirty = true;
                 }
+            }
+        }
+        if ($dirty) { x25ed_save($ed); }
+    }
+}
+
+/** Einmalige Bereinigung (23.08.2026): negative/bevormundende Formulierungen und die sachlich
+ *  ungenaue „KI sitzt mit am Tisch"-Rahmung ersetzt durch positivere, korrektere Standardtexte
+ *  (die KI wird in gezielten Sessions fachlich geprüft, nicht dauerhaft „am Tisch"). Die
+ *  aufgeführten Schlüssel fallen auf die neuen Standardtexte zurück; Backend-Änderungen ohne
+ *  diese Formulierungen bleiben unangetastet. */
+function x25ed_wording_migration(): void
+{
+    // Marker mit Version: Wird die Schlüsselliste erweitert, muss die Version steigen, damit der
+    // Lauf auf Servern erneut greift, die den vorherigen Marker schon geschrieben haben.
+    $marker = x25ed_dir() . '/.migration-wording-2026-08-v2';
+    if (is_file($marker)) { return; }
+    // Textschlüssel, die auf die neuen Standardtexte zurückfallen sollen (Formulierungen, die sich
+    // geändert haben, ohne dass eine erkennbare Altphrase darin steht)
+    $reset = [
+        'landing' => ['eventld.beschreibung', 'fuerwen.1', 'kern', 'leitfrage.serif', 'meta.beschreibung',
+            'signatur.label', 'signatur.lead', 'signatur.titel', 'story.2.text', 'story.3.text', 'story.4.text',
+            'story.5.titel', 'impulse.lead', 'fuerwen.3', 'fuerwen.4', 'leitfrage.1.text'],
+    ];
+    foreach (glob(x25ed_dir() . '/*.json') ?: [] as $f) {
+        $ed = json_decode((string)file_get_contents($f), true);
+        if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
+        $dirty = false;
+        foreach ($reset as $bereich => $keys) {
+            foreach ($keys as $k) {
+                if (isset($ed['texte'][$bereich][$k])) { unset($ed['texte'][$bereich][$k]); $dirty = true; }
             }
         }
         if ($dirty) { x25ed_save($ed); }
