@@ -31,7 +31,7 @@ $preisBetrag = x25ed_preis_text($ed);
 $kopf = x25ed_pagehead($t('kopf.titel'), $t('kopf.lead'), $t('kopf.kicker'));
 
 $ebeneOptionen = '';
-$ebeneWerte = ['', 'teamleitung', 'abteilungsleitung', 'bereichsleitung', 'vorstandsstab', 'sonstiges'];
+$ebeneWerte = ['', 'teamleitung', 'abteilungsleitung', 'bereichsleitung', 'vorstand', 'vorstandsstab', 'sonstiges'];
 foreach (x25ed_lines($ed, 'anmeldung', 'feld.ebene.optionen') as $i => $l) {
     $v = $ebeneWerte[$i] ?? '';
     $ebeneOptionen .= '<option value="' . $e($v) . '">' . $l . "</option>\n                  ";
@@ -140,6 +140,7 @@ HTML;
                     <label class="x-choice" for="a-cat-v"><input type="radio" id="a-cat-v" name="category" value="versicherer" required aria-required="true"><span><span class="x-choice__label">{$t('feld.typ.versicherer.label')}</span><span class="x-choice__hint">{$t('feld.typ.versicherer.hint')}</span></span></label>
                     <label class="x-choice" for="a-cat-m"><input type="radio" id="a-cat-m" name="category" value="maklerpool"><span><span class="x-choice__label">{$t('feld.typ.maklerpool.label')}</span><span class="x-choice__hint">{$t('feld.typ.maklerpool.hint')}</span></span></label>
                     <label class="x-choice" for="a-cat-t"><input type="radio" id="a-cat-t" name="category" value="vertrieb"><span><span class="x-choice__label">{$t('feld.typ.vertrieb.label')}</span><span class="x-choice__hint">{$t('feld.typ.vertrieb.hint')}</span></span></label>
+                    <label class="x-choice" for="a-cat-s"><input type="radio" id="a-cat-s" name="category" value="sonstiges"><span><span class="x-choice__label">{$t('feld.typ.sonstiges.label')}</span><span class="x-choice__hint">{$t('feld.typ.sonstiges.hint')}</span></span></label>
                   </div>
                   <span class="x-hint">{$t('feld.typ.hint')}</span>
                   <span class="x-error" role="alert">{$t('feld.typ.error')}</span>

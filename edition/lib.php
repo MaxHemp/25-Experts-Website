@@ -88,6 +88,37 @@ function x25ed_seed(): void
         if (is_array($ed) && ($ed['slug'] ?? '') === $slug) { x25ed_save($ed); }
     }
     x25ed_tbd_migration();
+    x25ed_reframe_migration();
+}
+
+/** Einmalige Bereinigung (22.08.2026): Konzept-Reframing („offene Fragen" statt „genau eine offene
+ *  Frage", Dienstleister-Regelung, Formulartexte). Die aufgeführten Schlüssel werden aus den
+ *  gespeicherten Editionstexten entfernt und fallen damit auf die neuen Standardtexte zurück;
+ *  alle übrigen im Backend gepflegten Texte bleiben unangetastet. */
+function x25ed_reframe_migration(): void
+{
+    $marker = x25ed_dir() . '/.migration-reframe-2026-08';
+    if (is_file($marker)) { return; }
+    $reset = [
+        'landing' => ['ablauf.tag1.2', 'ablauf.tag1.3', 'anmeldung.absatz2', 'anmeldung.absatz3', 'eventld.beschreibung',
+            'faq.1.antwort', 'faq.1.frage', 'faq.2.antwort', 'faq.3.antwort', 'faq.9.antwort', 'frage.link', 'frage.meta',
+            'frage.text', 'frage.titel', 'fuerwen.1', 'fuerwen.schluss', 'kern', 'leitfrage.meta', 'leitfrage.text',
+            'meta.beschreibung', 'story.1.text', 'story.2.text', 'story.2.titel', 'story.titel'],
+        'anmeldung' => ['feld.ebene.optionen', 'feld.frage', 'feld.frage.hint', 'feld.typ.hint'],
+        'danke' => ['schritt.3.text'],
+    ];
+    foreach (glob(x25ed_dir() . '/*.json') ?: [] as $f) {
+        $ed = json_decode((string)file_get_contents($f), true);
+        if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
+        $dirty = false;
+        foreach ($reset as $bereich => $keys) {
+            foreach ($keys as $k) {
+                if (isset($ed['texte'][$bereich][$k])) { unset($ed['texte'][$bereich][$k]); $dirty = true; }
+            }
+        }
+        if ($dirty) { x25ed_save($ed); }
+    }
+    @file_put_contents($marker, gmdate('c'));
 }
 
 /** Einmalige Bereinigung (08/2026): gespeicherte Platzhalterwerte mit „[TBD" entfernen bzw. durch die

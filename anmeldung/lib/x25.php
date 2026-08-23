@@ -49,8 +49,8 @@ const X25_INK = '#0B1F26'; const X25_PETROL = '#0B6470'; const X25_PAPER = '#FBF
 const X25_BODY = '#3D4442'; const X25_META = '#6B6E6A'; const X25_LINE = '#DDDAD1'; const X25_ORANGE = '#C2410C';
 
 // Feldwerte v5 (05-landingpage/form-handler.md, Feldliste v5)
-const X25_LEVELS = ['teamleitung' => 'Teamleitung', 'abteilungsleitung' => 'Abteilungsleitung', 'bereichsleitung' => 'Bereichsleitung', 'vorstandsstab' => 'Vorstandsstab', 'sonstiges' => 'Sonstiges'];
-const X25_CATEGORIES = ['versicherer' => 'Versicherer', 'maklerpool' => 'Maklerpool', 'vertrieb' => 'Versicherungsvertrieb'];
+const X25_LEVELS = ['teamleitung' => 'Teamleitung', 'abteilungsleitung' => 'Abteilungsleitung', 'bereichsleitung' => 'Bereichsleitung', 'vorstand' => 'Vorstand', 'vorstandsstab' => 'Vorstandsstab', 'sonstiges' => 'Sonstiges'];
+const X25_CATEGORIES = ['versicherer' => 'Versicherer', 'maklerpool' => 'Maklerpool', 'vertrieb' => 'Versicherungsvertrieb', 'sonstiges' => 'Sonstiges'];
 const X25_STATUS = ['pruefung' => 'in Prüfung', 'zugelassen' => 'zugelassen', 'abgesagt' => 'abgesagt', 'warteliste' => 'Warteliste'];
 const X25_PAY = ['offen' => 'offen', 'bezahlt' => 'bezahlt'];
 
