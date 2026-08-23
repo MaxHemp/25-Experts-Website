@@ -89,6 +89,33 @@ function x25ed_seed(): void
     }
     x25ed_tbd_migration();
     x25ed_reframe_migration();
+    x25ed_wording_migration();
+}
+
+/** Einmalige Bereinigung (23.08.2026): negative/bevormundende Formulierungen und die sachlich
+ *  ungenaue „KI sitzt mit am Tisch"-Rahmung ersetzt durch positivere, korrektere Standardtexte
+ *  (die KI wird in gezielten Sessions fachlich geprüft, nicht dauerhaft „am Tisch"). Die
+ *  aufgeführten Schlüssel fallen auf die neuen Standardtexte zurück; Backend-Änderungen ohne
+ *  diese Formulierungen bleiben unangetastet. */
+function x25ed_wording_migration(): void
+{
+    $marker = x25ed_dir() . '/.migration-wording-2026-08';
+    if (is_file($marker)) { return; }
+    $reset = [
+        'landing' => ['eventld.beschreibung', 'fuerwen.1', 'kern', 'leitfrage.serif', 'meta.beschreibung', 'signatur.titel', 'story.5.titel'],
+    ];
+    foreach (glob(x25ed_dir() . '/*.json') ?: [] as $f) {
+        $ed = json_decode((string)file_get_contents($f), true);
+        if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
+        $dirty = false;
+        foreach ($reset as $bereich => $keys) {
+            foreach ($keys as $k) {
+                if (isset($ed['texte'][$bereich][$k])) { unset($ed['texte'][$bereich][$k]); $dirty = true; }
+            }
+        }
+        if ($dirty) { x25ed_save($ed); }
+    }
+    @file_put_contents($marker, gmdate('c'));
 }
 
 /** Einmalige Bereinigung (22.08.2026): Konzept-Reframing („offene Fragen" statt „genau eine offene
