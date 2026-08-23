@@ -143,7 +143,6 @@ $heroFoto = x25ed_foto('location-panorama', '', 'eager');
 $dokFoto = x25ed_foto('dokument');
 $hochFoto = x25ed_foto('location-hoch');
 $panoFoto = x25ed_foto('location-panorama');
-$story = x25ed_story_steps($ed);
 $signatur = x25ed_signature($ed);
 $wert = x25ed_wert_section($ed, $anm, $t('wert.lead'));
 $kodex = x25ed_kodex_teaser($ed, $t('kodex.link'));
@@ -203,18 +202,6 @@ $body = <<<HTML
     </section>
 
     {$wert}
-
-    <section class="x-section" aria-labelledby="story-h">
-      <p class="x-side-label">{$t('story.label')}</p>
-      <div class="x-container">
-        <div class="x-section__head" data-reveal>
-          <p class="x-kicker">{$t('story.label')}</p>
-          <h2 id="story-h" class="x-h2">{$t('story.titel')}</h2>
-          <p class="x-lead">{$t('story.lead')}</p>
-        </div>
-        {$story}
-      </div>
-    </section>
 
     <section class="x-section x-section--muted" aria-labelledby="sig-h">
       <p class="x-side-label">{$t('signatur.label')}</p>

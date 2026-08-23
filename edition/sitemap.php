@@ -16,8 +16,6 @@ $urls = [
     $domain . 'neutralitaetskodex',
     $domain . 'ueber-uns',
     $domain . 'kontakt',
-    $domain . 'impressum',
-    $domain . 'datenschutz',
 ];
 foreach (x25ed_all() as $ed) {
     if (($ed['status'] ?? '') !== 'online') { continue; }

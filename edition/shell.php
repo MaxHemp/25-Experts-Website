@@ -160,16 +160,6 @@ function x25ed_pagehead(string $title, string $lead, string $kicker = ''): strin
 HTML;
 }
 
-/** Die sechs Geschichte-Schritte (Editions-Variante überschreibt die Bausteine). */
-function x25ed_story_steps(?array $ed): string
-{
-    $items = '';
-    foreach (x25ed_tuples($ed, 'landing', 'story', 'titel', 'text') as [$t, $d]) {
-        $items .= "\n          <li><h3 class=\"x-h4\">{$t}</h3><p>{$d}</p></li>";
-    }
-    return '<ol class="x-steps x-steps--row x-story" data-reveal-group>' . $items . "\n        </ol>";
-}
-
 /** Die drei Signaturelemente als Foto-Karten (Bausteine signatur.N.*). */
 function x25ed_signature(?array $ed): string
 {

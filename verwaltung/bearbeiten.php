@@ -93,7 +93,6 @@ $TEXT_ANMELDUNG = [
 $REPEATS = [
     ['fuerwen', 'landing', 'fuerwen', '„Für wen“: die Punkte', [['', 'Punkt', 'textarea']], 'Wer gehört an den Tisch? Ein Satz je Punkt.'],
     ['beispiele', 'landing', 'frage.beispiel', 'Beispiele für offene Fragen', [['', 'Beispiel', 'textarea']], 'Erscheinen kursiv im Kasten „Deine offene Frage“.'],
-    ['story', 'landing', 'story', 'Die Geschichte in sechs Schritten', [['titel', 'Titel', 'text'], ['text', 'Text', 'textarea']], 'Die sechs Schritte, angepasst auf das Thema der Edition.'],
     ['tag1', 'landing', 'ablauf.tag1', 'Ablauf Tag 1', [['zeit', 'Zeit', 'zeit'], ['titel', 'Programmpunkt', 'text'], ['text', 'Beschreibung (optional)', 'textarea'], ['marker', 'Marker (optional)', 'marker']], 'Marker: „signatur“ hebt den Punkt hervor, „foto:leinwand“ zeigt ein kleines Foto (Schlüssel aus der Fotoliste).'],
     ['tag2', 'landing', 'ablauf.tag2', 'Ablauf Tag 2', [['zeit', 'Zeit', 'zeit'], ['titel', 'Programmpunkt', 'text'], ['text', 'Beschreibung (optional)', 'textarea'], ['marker', 'Marker (optional)', 'marker']], ''],
     ['impulse', 'landing', 'impuls', 'Impulse', [['kicker', 'Kicker', 'text'], ['titel', 'Titel', 'text'], ['text', 'Text', 'textarea']], 'Die nummerierten Impulse auf der Landingpage.'],

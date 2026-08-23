@@ -167,8 +167,8 @@ function x25_mail_zusage(array $rec): void
     $a2 = 'Zahlungsaufforderung: Bitte begleiche den Teilnahmebeitrag über die folgende Seite. Dort kannst Du zwischen PayPal und Zahlung per Rechnung (Zahlungsziel ' . $c['payment_days'] . ' Tage) wählen. Mit dem Zahlungseingang ist Dein Platz verbindlich; Du erhältst dann Dein Ticket und alle weiteren Informationen. Solltest Du verhindert sein, sag uns bitte kurz Bescheid, damit wir den Platz weitergeben können.';
     $a2b = 'Hinweis: Der Tisch ist für die erste und zweite Führungsebene von Versicherern, Maklerpools und Versicherungsvertrieben gedacht. Wir behalten uns vor, Anmeldungen für ungültig zu erklären, wenn die Teilnahmebedingungen nicht erfüllt sind; bereits gezahlte Beträge werden dann vollständig erstattet.';
     $a3 = (trim((string)($rec['question'] ?? '')) !== ''
-            ? 'Vorbereitung ist nicht nötig. Bring Deine offene Frage mit, so wie Du sie im Formular gestellt hast. Aus den Fragen des Raums entsteht am ersten Vormittag die Arbeitsagenda; das ist das Programm.'
-            : 'Vorbereitung ist nicht nötig. Wenn Du magst, bring eine offene Frage aus Deinem Arbeitsalltag mit: Aus den Fragen des Raums entsteht am ersten Vormittag die Arbeitsagenda; das ist das Programm. Du kannst sie uns auch vorab schicken, antworte dazu einfach auf diese E-Mail.')
+            ? 'Vorbereitung ist nicht nötig. Bring Deine Fragen und Themen mit, so wie Du sie im Formular genannt hast. Aus den Fragen des Raums entsteht am ersten Vormittag die Arbeitsagenda; das ist das Programm.'
+            : 'Vorbereitung ist nicht nötig. Wenn Du magst, bring Fragen oder Themen aus Deinem Arbeitsalltag mit: Aus den Fragen des Raums entsteht am ersten Vormittag die Arbeitsagenda; das ist das Programm. Du kannst sie uns auch vorab schicken, antworte dazu einfach auf diese E-Mail.')
         . ' Mit Dir am Tisch: 24 weitere Führungskräfte derselben Funktion aus anderen Versicherern, Maklerpools und Versicherungsvertrieben, auf Augenhöhe.';
     $a4 = 'Zwei Wochen vor dem Termin senden wir Dir alle Details zu Ablauf, Anreise und Abend.';
     $txt = "Hallo " . $rec['name'] . ",\n\n" . x25_wrap($a1) . "\n\n" . x25_t_rows($rows) . "\n" . x25_wrap($a2) . "\n\nZur Zahlung (PayPal oder Rechnung):\n" . $url . "\n\n"
@@ -288,8 +288,8 @@ function x25_mail_ticket(array $rec): void
     $a1 = 'Deine Zahlung ist eingegangen, Dein Platz bei ' . $ed['name'] . ' ist damit verbindlich. Anbei Dein Ticket; bitte zeig es am Empfang vor (Ausdruck oder Smartphone).';
     $rows = [['Ticketnummer', $rec['ticket_no']], ['Name', $rec['name']], ['Unternehmen', $rec['company']], ['Termin', $ed['datum']], ['Zeiten', $ed['zeiten']], ['Ort', $ed['venue']], ['Hotel', $ed['hotel']], ['Kontakt', $ed['kontakt']]];
     $a2 = (trim((string)($rec['question'] ?? '')) !== ''
-            ? 'Vorbereitung ist nicht nötig. Bring Deine offene Frage mit, so wie Du sie im Formular gestellt hast.'
-            : 'Vorbereitung ist nicht nötig. Wenn Du magst, bring eine offene Frage aus Deinem Arbeitsalltag mit.')
+            ? 'Vorbereitung ist nicht nötig. Bring Deine Fragen und Themen mit, so wie Du sie im Formular genannt hast.'
+            : 'Vorbereitung ist nicht nötig. Wenn Du magst, bring Fragen oder Themen aus Deinem Arbeitsalltag mit.')
         . ' Zwei Wochen vor dem Termin senden wir Dir alle Details zu Ablauf, Anreise und Abend.';
     $a3 = 'Solltest Du verhindert sein, sag uns bitte kurz Bescheid; ein Ersatzteilnehmer aus Deinem Haus und derselben Funktion kann jederzeit benannt werden. Die Einzelheiten stehen in den Teilnahmebedingungen: ' . $c['site'] . 'teilnahmebedingungen';
     $png = x25_qr_png($url);
