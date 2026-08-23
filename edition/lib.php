@@ -100,7 +100,9 @@ function x25ed_alte_phrasen(): array
     return ['genau einer offenen Frage', 'genau eine offene Frage', 'niemand beantworten kann',
         'noch niemand beantwortet hat', 'Du sollst Dein Haus', 'Du sollst Dein Unternehmen',
         'sitzt mit am Tisch', 'Claude am Tisch', 'Claude live am Tisch', 'Alles Weitere ist Programm',
-        'Signaturelemente', 'auch nicht gegen Geld', 'Der Eintritt sind Deine Fragen', 'Vorstandsstab'];
+        'Signaturelemente', 'auch nicht gegen Geld', 'Der Eintritt sind Deine Fragen', 'Vorstandsstab',
+        'live mit auf dem Prüfstand', 'ab 21:00 offener Ausklang', 'liegen zu beidem günstig',
+        'unverändert wieder gestellt', 'Beträge werden dann erstattet'];
 }
 
 /** Dauerhafte Selbstheilung (ohne Marker, daher idempotent und nicht durch einen früheren
