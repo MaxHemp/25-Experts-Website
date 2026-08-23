@@ -101,16 +101,51 @@ function x25ed_wording_migration(): void
 {
     $marker = x25ed_dir() . '/.migration-wording-2026-08';
     if (is_file($marker)) { return; }
+    // Textschlüssel, die auf die neuen Standardtexte zurückfallen sollen
     $reset = [
-        'landing' => ['eventld.beschreibung', 'fuerwen.1', 'kern', 'leitfrage.serif', 'meta.beschreibung', 'signatur.titel', 'story.5.titel'],
+        'landing' => ['eventld.beschreibung', 'fuerwen.1', 'kern', 'leitfrage.serif', 'meta.beschreibung',
+            'signatur.label', 'signatur.lead', 'signatur.titel', 'story.3.text', 'story.4.text', 'story.5.titel', 'impulse.lead'],
     ];
+    // Überholte Formulierungen: Wo sie in gespeicherten Feldern stehen, gilt der Text als veraltet.
+    $alt = ['genau einer offenen Frage', 'genau eine offene Frage', 'niemand beantworten kann',
+        'noch niemand beantwortet hat', 'Du sollst Dein Haus', 'Du sollst Dein Unternehmen',
+        'sitzt mit am Tisch', 'Claude am Tisch', 'Claude live am Tisch', 'Alles Weitere ist Programm'];
+    $veraltet = static function ($wert) use ($alt): bool {
+        if (!is_string($wert)) { return false; }
+        foreach ($alt as $needle) { if (strpos($wert, $needle) !== false) { return true; } }
+        return false;
+    };
     foreach (glob(x25ed_dir() . '/*.json') ?: [] as $f) {
         $ed = json_decode((string)file_get_contents($f), true);
         if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
+        $seedFile = X25ED_DIR . '/seed/' . $ed['slug'] . '.json';
+        $seed = is_file($seedFile) ? json_decode((string)file_get_contents($seedFile), true) : null;
         $dirty = false;
         foreach ($reset as $bereich => $keys) {
             foreach ($keys as $k) {
                 if (isset($ed['texte'][$bereich][$k])) { unset($ed['texte'][$bereich][$k]); $dirty = true; }
+            }
+        }
+        // Textschlüssel, die die überholten Formulierungen noch enthalten (auch abweichend benannte)
+        foreach (['landing', 'anmeldung', 'danke'] as $bereich) {
+            foreach ((array)($ed['texte'][$bereich] ?? []) as $k => $v) {
+                if ($veraltet($v)) { unset($ed['texte'][$bereich][$k]); $dirty = true; }
+            }
+        }
+        // Top-Level-Felder der Editions-Karte (werden nicht aus texte.json ergänzt): aus dem Seed nachziehen
+        if ($veraltet($ed['kurz'] ?? null) && is_array($seed) && !$veraltet($seed['kurz'] ?? null)) {
+            $ed['kurz'] = (string)$seed['kurz']; $dirty = true;
+        }
+        foreach (['kicker', 'fakten', 'meta'] as $feld) {
+            if ($veraltet($ed['karte'][$feld] ?? null) && is_array($seed) && !$veraltet($seed['karte'][$feld] ?? null)) {
+                $ed['karte'][$feld] = (string)$seed['karte'][$feld]; $dirty = true;
+            }
+        }
+        foreach (['punkte', 'aside'] as $feld) {
+            foreach ((array)($ed['karte'][$feld] ?? []) as $i => $v) {
+                if ($veraltet($v) && is_array($seed) && !$veraltet($seed['karte'][$feld][$i] ?? null)) {
+                    $ed['karte'][$feld][$i] = (string)$seed['karte'][$feld][$i]; $dirty = true;
+                }
             }
         }
         if ($dirty) { x25ed_save($ed); }
