@@ -203,7 +203,7 @@ h1, h2, h3, h4, h5 { overflow-wrap: break-word; }
 .x-steps h3, .x-steps .x-h4 { margin: 0 0 var(--x-sp-2); }
 .x-steps p { margin: 0; }
 .x-steps--row { grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr)); gap: var(--x-sp-8) var(--x-sp-10); }
-.x-steps--row > li { grid-template-columns: 1fr; gap: var(--x-sp-3); }
+.x-steps--row > li { grid-template-columns: 1fr; gap: var(--x-sp-3); align-content: start; }
 .x-steps--row > li::before { border-top: 2px solid var(--x-ink-950); padding-top: var(--x-sp-3); }
 .x-dark .x-steps > li::before { color: var(--x-signal-300); border-color: var(--x-paper-50); }
 /* Kodex-Liste: fünf Punkte wörtlich, Serif, Mono-Nummer */
