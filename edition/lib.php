@@ -109,7 +109,9 @@ function x25ed_alte_phrasen(): array
         '03./04.', '3./4. Dezember', '3. und 4. Dezember 2026', '03.–04.12',
         'Freitag, 4. Dezember', 'Tag 1 · Donnerstag', 'am 3. Dezember um 10:15', 'am 3. Dezember um 10:55',
         'Abendessen am 3. Dezember mit Aperitif', 'Donnerstag früh bis Freitagmittag',
-        'Freitagnachmittag gehört Dir', '2026-12-03T09:45', '2026-12-04T'];
+        'Freitagnachmittag gehört Dir', '2026-12-03T09:45', '2026-12-04T',
+        // Agenda-Wortlaut vor dem 24.08.2026 (Arbeitsblöcke seither mit erklärendem Satz)
+        'Arbeitsblock 1, drei Tische', 'Formulierung der Thesen inklusive'];
 }
 
 /** Dauerhafte Selbstheilung (ohne Marker, daher idempotent und nicht durch einen früheren
