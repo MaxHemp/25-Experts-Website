@@ -160,27 +160,6 @@ function x25ed_pagehead(string $title, string $lead, string $kicker = ''): strin
 HTML;
 }
 
-/** Die drei Signaturelemente als Foto-Karten (Bausteine signatur.N.*). */
-function x25ed_signature(?array $ed): string
-{
-    $fotos = ['leinwand', 'kuverts', 'dokument'];
-    $items = '';
-    foreach (x25ed_tuples($ed, 'gemeinsam', 'signatur', 'titel', 'text') as $i => [$title, $text]) {
-        $nr = str_pad((string)($i + 1), 2, '0', STR_PAD_LEFT);
-        $img = x25ed_foto($fotos[$i] ?? 'leinwand');
-        $mehr = x25ed_g('signatur.mehr', $ed);
-        $items .= <<<HTML
-
-        <li class="x-sig">
-          <div class="x-sig__img"><span class="x-sig__nr">{$nr}</span>{$img}</div>
-          <h3 class="x-sig__title" id="sigcard-{$nr}">{$title}</h3>
-          <p class="x-sig__text">{$text}</p>
-          <a class="x-link x-link--arrow x-sig__more" href="/format#sig-{$nr}">{$mehr}</a>
-        </li>
-HTML;
-    }
-    return '<ul class="x-signature" data-reveal-group>' . $items . "\n      </ul>";
-}
 
 /** Wertversprechen-Sektion (Bausteine wert.N / diff.N). */
 function x25ed_wert_section(?array $ed, string $ctaHref, string $lead): string

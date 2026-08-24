@@ -143,7 +143,6 @@ $heroFoto = x25ed_foto('location-panorama', '', 'eager');
 $dokFoto = x25ed_foto('dokument');
 $hochFoto = x25ed_foto('location-hoch');
 $panoFoto = x25ed_foto('location-panorama');
-$signatur = x25ed_signature($ed);
 $wert = x25ed_wert_section($ed, $anm, $t('wert.lead'));
 $kodex = x25ed_kodex_teaser($ed, $t('kodex.link'));
 $hinweis = $vorschau ? '<div class="x-notice" role="note" style="margin:0"><p class="x-kicker">Vorschau</p><p>Diese Edition ist noch nicht veröffentlicht (Status: ' . x25ed_e(X25ED_STATUS[$ed['status']] ?? $ed['status']) . '). Diese Ansicht ist nur über den Vorschau-Link erreichbar.</p></div>' : '';
@@ -202,18 +201,6 @@ $body = <<<HTML
     </section>
 
     {$wert}
-
-    <section class="x-section x-section--muted" aria-labelledby="sig-h">
-      <p class="x-side-label">{$t('signatur.label')}</p>
-      <div class="x-container">
-        <div class="x-section__head" data-reveal>
-          <p class="x-kicker">{$t('signatur.label')}</p>
-          <h2 id="sig-h" class="x-h2">{$t('signatur.titel')}</h2>
-          <p class="x-lead">{$t('signatur.lead')}</p>
-        </div>
-        {$signatur}
-      </div>
-    </section>
 
     <section class="x-section" id="leitfrage" aria-labelledby="lf-h">
       <p class="x-side-label">{$t('leitfrage.kicker')}</p>
