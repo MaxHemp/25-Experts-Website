@@ -78,15 +78,15 @@ function x25_conf(): array
     $base = rtrim((string)x25_cfg('ANMELDUNG_URL', $site . 'anmeldung/'), '/') . '/';
     $c = [
         'site' => $site, 'landing' => $landing, 'thanks' => $landing . 'danke.html', 'base' => $base,
-        'edition' => (string)x25_cfg('EDITION', '25 CHANGE MANAGEMENT EXPERTS · 03./04.12.2026 · Köln'),
+        'edition' => (string)x25_cfg('EDITION', '25 CHANGE MANAGEMENT EXPERTS · 02./03.12.2026 · Köln'),
         'edition_name' => (string)x25_cfg('EDITION_NAME', '25 CHANGE MANAGEMENT EXPERTS'),
-        'edition_datum' => (string)x25_cfg('EDITION_DATUM', '3. und 4. Dezember 2026'),
+        'edition_datum' => (string)x25_cfg('EDITION_DATUM', '2. und 3. Dezember 2026'),
         'edition_ort' => (string)x25_cfg('EDITION_ORT', 'Köln'),
         'edition_venue' => (string)x25_cfg('EDITION_VENUE', 'SESSEL HUB Rheinauhafen, Kranhaus Nord (Erdgeschoss), Im Zollhafen 12, 50678 Köln'),
         'edition_zeiten' => (string)x25_cfg('EDITION_ZEITEN', 'Tag 1: 09:45 bis 17:15 Uhr, anschließend Abend (Aperitif 18:15 Uhr, Dinner 19:00 Uhr) · Tag 2: 09:30 bis 13:30 Uhr'),
         'edition_hotel' => (string)x25_cfg('EDITION_HOTEL', 'Hotel buchst Du bitte selbst; die Übernachtung ist nicht im Preis enthalten.'),
         'edition_kontakt' => (string)x25_cfg('EDITION_KONTAKT', 'info@25-experts.de'),
-        'leistungsdatum' => (string)x25_cfg('EDITION_LEISTUNGSDATUM', '03.–04.12.2026'),
+        'leistungsdatum' => (string)x25_cfg('EDITION_LEISTUNGSDATUM', '02.–03.12.2026'),
         'logo' => (string)x25_cfg('LOGO_URL', ''),
         'footer' => (string)x25_cfg('MAIL_FOOTER', '25 EXPERTS UG (haftungsbeschränkt) · Sitz Köln'),
         'mail_to' => (string)x25_cfg('MAIL_TO', ''),

@@ -27,11 +27,11 @@ define('MAIL_CONFIRM_REPLY_TO', '');
 define('HOSTS_SIGNATURE', 'Maximilian Hempel und Simon Moser');   // Grußformel in allen Mails an Anmelder
 
 // --- Edition / Website ---------------------------------------------------------------------
-define('EDITION', '25 CHANGE MANAGEMENT EXPERTS · 03./04.12.2026 · Köln');   // Kopfzeile in Mails/Seiten
+define('EDITION', '25 CHANGE MANAGEMENT EXPERTS · 02./03.12.2026 · Köln');   // Kopfzeile in Mails/Seiten
 define('EDITION_NAME', '25 CHANGE MANAGEMENT EXPERTS');
-define('EDITION_DATUM', '3. und 4. Dezember 2026');
+define('EDITION_DATUM', '2. und 3. Dezember 2026');
 define('EDITION_ORT', 'Köln');
-define('EDITION_LEISTUNGSDATUM', '03.–04.12.2026');   // Leistungsdatum auf der Rechnung (Veranstaltungstage) und Leistungsbeschreibung
+define('EDITION_LEISTUNGSDATUM', '02.–03.12.2026');   // Leistungsdatum auf der Rechnung (Veranstaltungstage) und Leistungsbeschreibung
 define('EDITION_VENUE', 'SESSEL HUB Rheinauhafen, Kranhaus Nord (Erdgeschoss), Im Zollhafen 12, 50678 Köln');   // Ticket/Zusage
 define('EDITION_ZEITEN', 'Tag 1: 09:45 bis 17:15 Uhr, anschließend Abend (Aperitif 18:15 Uhr, Dinner 19:00 Uhr) · Tag 2: 09:30 bis 13:30 Uhr');
 define('EDITION_HOTEL', 'Hotel buchst Du bitte selbst; die Übernachtung ist nicht im Preis enthalten.');

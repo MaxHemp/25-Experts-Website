@@ -32,9 +32,9 @@ $GRUND = [
         ['kurz', 'Kurzbeschreibung', 'textarea', 'Erscheint auf der Karte der Startseite und der Editionen-Übersicht (2–3 Sätze).'],
     ],
     'Termin & Ort' => [
-        ['datum_text', 'Termin ausgeschrieben', 'text', 'z. B. „3. und 4. Dezember 2026“ (Mails, Landingpage).'],
-        ['datum_kurz', 'Termin kurz', 'text', 'z. B. „03./04.12.2026“ (Karten, Kopfzeilen, Share-Bild).'],
-        ['datum_start', 'Beginn (technisch)', 'text', 'Format JJJJ-MM-TTTHH:MM:SS+01:00, z. B. „2026-12-03T09:45:00+01:00“ – für Google/Suchmaschinen und die Sortierung.'],
+        ['datum_text', 'Termin ausgeschrieben', 'text', 'z. B. „2. und 3. Dezember 2026“ (Mails, Landingpage).'],
+        ['datum_kurz', 'Termin kurz', 'text', 'z. B. „02./03.12.2026“ (Karten, Kopfzeilen, Share-Bild).'],
+        ['datum_start', 'Beginn (technisch)', 'text', 'Format JJJJ-MM-TTTHH:MM:SS+01:00, z. B. „2026-12-02T09:45:00+01:00“ – für Google/Suchmaschinen und die Sortierung.'],
         ['datum_ende', 'Ende (technisch)', 'text', 'gleiches Format wie Beginn.'],
         ['anmeldung_ab', 'Anmeldung möglich ab', 'text', 'Datum JJJJ-MM-TT (nur für Suchmaschinen; das Öffnen/Schließen der Anmeldung schaltest Du in der Übersicht).'],
         ['ort', 'Stadt', 'text', 'z. B. „Köln“.'],
@@ -42,7 +42,7 @@ $GRUND = [
         ['zeiten', 'Zeiten', 'textarea', 'z. B. „Tag 1: 09:45 bis 17:15 Uhr … · Tag 2: …“ (Ticket-Mail).'],
         ['hotel', 'Hotel-Hinweis', 'textarea', 'Erscheint in der Ticket-Mail.'],
         ['kontakt_zeile', 'Kontaktzeile', 'text', 'z. B. „info@25-experts.de · 0221 …“ (Ticket-Mail).'],
-        ['leistungsdatum', 'Leistungsdatum (Rechnung)', 'text', 'z. B. „03.–04.12.2026“ – Pflichtangabe auf der Rechnung.'],
+        ['leistungsdatum', 'Leistungsdatum (Rechnung)', 'text', 'z. B. „02.–03.12.2026“ – Pflichtangabe auf der Rechnung.'],
     ],
     'Preis & Plätze' => [
         ['preis_net', 'Teilnahmebeitrag netto (€)', 'zahl', 'Nettobetrag in Euro, z. B. 450. Die Umsatzsteuer wird automatisch ergänzt.'],
@@ -60,7 +60,7 @@ $VENUE_LD = [
 // Karte (Startseite/Übersicht)
 $KARTE = [
     ['kicker', 'Zeile über dem Namen', 'text', 'z. B. „Dezember 2026 · Anmeldung geöffnet · in Köln“.'],
-    ['fakten', 'Fakten (eine je Zeile)', 'zeilen', 'Kurze Fakten wie „03./04.12.2026“, „25 Plätze“, „Rheinauhafen Köln“.'],
+    ['fakten', 'Fakten (eine je Zeile)', 'zeilen', 'Kurze Fakten wie „02./03.12.2026“, „25 Plätze“, „Rheinauhafen Köln“.'],
     ['meta', 'Kleingedrucktes', 'text', 'optionale Zusatzzeile unter dem Text.'],
     ['punkte', 'Detailpunkte auf der Editionen-Übersicht (einer je Zeile)', 'karte-liste', 'z. B. „<strong>Impulse:</strong> …“ – erscheinen nur auf der Übersichtsseite.'],
     ['aside', 'Randspalte (nur bei Status „Angekündigt“, ein Absatz je Zeile)', 'karte-liste', ''],
@@ -70,7 +70,7 @@ $TEXT_LANDING = [
     ['landing', 'meta.titel', 'Seitentitel (Browser/Google)', 'text', ''],
     ['landing', 'meta.beschreibung', 'Beschreibung (Google/Teilen)', 'textarea', '1–2 Sätze; erscheint in Suchergebnissen und beim Teilen des Links.'],
     ['landing', 'hero.kicker', 'Kopfbereich: Zeile über der Überschrift', 'text', ''],
-    ['landing', 'hero.meta', 'Kopfbereich: Termin-Zeile', 'text', 'z. B. „03./04. Dezember 2026 · Köln, Rheinauhafen · 25 Plätze“.'],
+    ['landing', 'hero.meta', 'Kopfbereich: Termin-Zeile', 'text', 'z. B. „02./03. Dezember 2026 · Köln, Rheinauhafen · 25 Plätze“.'],
     ['landing', 'kern', 'Kern-Erklärung', 'textarea', 'Der zentrale Absatz im Kopfbereich: Was ist diese Edition?'],
     ['landing', 'hero.note', 'Kopfbereich: Randnotiz', 'textarea', ''],
     ['landing', 'fuerwen.titel', '„Für wen“: Überschrift', 'textarea', ''],

@@ -102,7 +102,14 @@ function x25ed_alte_phrasen(): array
         'sitzt mit am Tisch', 'Claude am Tisch', 'Claude live am Tisch', 'Alles Weitere ist Programm',
         'Signaturelemente', 'auch nicht gegen Geld', 'Der Eintritt sind Deine Fragen', 'Vorstandsstab',
         'live mit auf dem Prüfstand', 'ab 21:00 offener Ausklang', 'liegen zu beidem günstig',
-        'unverändert wieder gestellt', 'Beträge werden dann erstattet'];
+        'unverändert wieder gestellt', 'Beträge werden dann erstattet',
+        // Alter Termin der CM-Edition (bis 24.08.2026: Do./Fr. 03./04.12.2026, jetzt Mi./Do. 02./03.12.2026).
+        // Achtung: „Donnerstag, 3. Dezember 2026" ist seither der GÜLTIGE Tag 2 und darf hier nicht stehen;
+        // nur Fragmente aufnehmen, die im neuen Stand nicht mehr vorkommen können.
+        '03./04.', '3./4. Dezember', '3. und 4. Dezember 2026', '03.–04.12',
+        'Freitag, 4. Dezember', 'Tag 1 · Donnerstag', 'am 3. Dezember um 10:15', 'am 3. Dezember um 10:55',
+        'Abendessen am 3. Dezember mit Aperitif', 'Donnerstag früh bis Freitagmittag',
+        'Freitagnachmittag gehört Dir', '2026-12-03T09:45', '2026-12-04T'];
 }
 
 /** Dauerhafte Selbstheilung (ohne Marker, daher idempotent und nicht durch einen früheren
@@ -130,6 +137,13 @@ function x25ed_phrasen_sweep(): void
         }
         if ($veraltet($ed['kurz'] ?? null) && is_array($seed) && !$veraltet($seed['kurz'] ?? null)) {
             $ed['kurz'] = (string)$seed['kurz']; $dirty = true;
+        }
+        // Terminfelder der Edition (Karten, JSON-LD, Ticket-Mail, Rechnung) ebenfalls nachziehen,
+        // wenn sie eine überholte Angabe enthalten – z. B. nach einer Terminverschiebung im Seed.
+        foreach (['datum_text', 'datum_kurz', 'datum_start', 'datum_ende', 'leistungsdatum', 'zeiten'] as $feld) {
+            if ($veraltet($ed[$feld] ?? null) && is_array($seed) && isset($seed[$feld]) && !$veraltet($seed[$feld])) {
+                $ed[$feld] = (string)$seed[$feld]; $dirty = true;
+            }
         }
         foreach (['kicker', 'fakten', 'meta'] as $feld) {
             if ($veraltet($ed['karte'][$feld] ?? null) && is_array($seed) && !$veraltet($seed['karte'][$feld] ?? null)) {
@@ -452,7 +466,7 @@ function x25ed_name_html(array $ed): string
     return x25ed_e((string)($ed['name'] ?? ''));
 }
 
-/** Kopfzeile „NAME · 03./04.12.2026 · Köln" (Formulare, Mails, Datensätze). */
+/** Kopfzeile „NAME · 02./03.12.2026 · Köln" (Formulare, Mails, Datensätze). */
 function x25ed_label(array $ed): string
 {
     return trim(implode(' · ', array_filter([(string)($ed['name'] ?? ''), (string)($ed['datum_kurz'] ?? ''), (string)($ed['ort'] ?? '')])));
