@@ -135,6 +135,24 @@ function x25ed_phrasen_sweep(): void
                 if ($veraltet($v)) { unset($ed['texte'][$bereich][$k]); $dirty = true; }
             }
         }
+        // Lücken in nummerierten Listen (prefix.1, prefix.2 …) aus dem Seed schließen: Entfernt eine
+        // Migration einen Zwischeneintrag, bricht x25ed_items()/x25ed_tuples() sonst an der Lücke ab
+        // (z. B. Agenda ohne Einträge). Geheilt wird nur, wenn die Edition NACH der Lücke noch einen
+        // Geschwister-Eintrag derselben Liste führt; bewusst gekürzte Listen (Enden gelöscht) bleiben kurz.
+        foreach (['landing', 'anmeldung', 'danke'] as $bereich) {
+            if (!is_array($seed)) { break; }
+            $eigen = (array)($ed['texte'][$bereich] ?? []);
+            foreach ((array)($seed['texte'][$bereich] ?? []) as $k => $v) {
+                if (isset($eigen[$k]) || !is_string($v) || $veraltet($v)) { continue; }
+                if (!preg_match('/^(.+)\.(\d+)(\..+)?$/', $k, $m)) { continue; }
+                for ($j = (int)$m[2] + 1; $j <= 200; $j++) {
+                    if (isset($eigen[$m[1] . '.' . $j . ($m[3] ?? '')])) {
+                        $ed['texte'][$bereich][$k] = $v; $eigen[$k] = $v; $dirty = true;
+                        break;
+                    }
+                }
+            }
+        }
         if ($veraltet($ed['kurz'] ?? null) && is_array($seed) && !$veraltet($seed['kurz'] ?? null)) {
             $ed['kurz'] = (string)$seed['kurz']; $dirty = true;
         }

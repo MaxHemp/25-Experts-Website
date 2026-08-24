@@ -100,10 +100,6 @@ HTML;
 }
 
 // ------------------------------------------------------------------ Sektionen
-$fw = '';
-foreach (x25ed_items($ed, 'landing', 'fuerwen') as $x) { $fw .= "\n              <li>{$x}</li>"; }
-$beispiele = '';
-foreach (x25ed_items($ed, 'landing', 'frage.beispiel') as $x) { $beispiele .= "\n              <li>{$x}</li>"; }
 $leitfragen = '';
 foreach (x25ed_tuples($ed, 'landing', 'leitfrage', 'titel', 'text') as [$lt, $lx]) { $leitfragen .= "\n            <li><div><strong>{$lt}</strong> {$lx}</div></li>"; }
 $impulse = '';
@@ -143,7 +139,6 @@ $heroFoto = x25ed_foto('location-panorama', '', 'eager');
 $dokFoto = x25ed_foto('dokument');
 $hochFoto = x25ed_foto('location-hoch');
 $panoFoto = x25ed_foto('location-panorama');
-$wert = x25ed_wert_section($ed, $anm, $t('wert.lead'));
 $kodex = x25ed_kodex_teaser($ed, $t('kodex.link'));
 $hinweis = $vorschau ? '<div class="x-notice" role="note" style="margin:0"><p class="x-kicker">Vorschau</p><p>Diese Edition ist noch nicht veröffentlicht (Status: ' . x25ed_e(X25ED_STATUS[$ed['status']] ?? $ed['status']) . '). Diese Ansicht ist nur über den Vorschau-Link erreichbar.</p></div>' : '';
 
@@ -172,35 +167,6 @@ $body = <<<HTML
       </div>
       <p class="x-hero__symbol" aria-hidden="true">{$g('symbolbild')}</p>
     </section>
-
-    <section class="x-section" aria-labelledby="fw-h">
-      <p class="x-side-label">{$t('fuerwen.label')}</p>
-      <div class="x-container">
-        <div class="x-section__head" data-reveal>
-          <p class="x-kicker">{$t('fuerwen.label')}</p>
-          <h2 id="fw-h" class="x-h2">{$t('fuerwen.titel')}</h2>
-        </div>
-        <div class="x-forwhom" data-reveal-group>
-          <div class="x-forwhom__yes">
-            <ul class="x-list x-list--check x-list--loose x-lead">{$fw}
-            </ul>
-            <p class="x-lead x-mt-8">{$t('fuerwen.schluss')}</p>
-          </div>
-          <div class="x-forwhom__no x-forwhom__frage">
-            <p class="x-kicker">{$t('frage.kicker')}</p>
-            <h3 class="x-h3">{$t('frage.titel')}</h3>
-            <p>{$t('frage.text')}</p>
-            <p class="x-meta x-mt-6">{$t('frage.beispiel-label')}</p>
-            <ul class="x-list x-list--loose x-serif x-forwhom__beispiele">{$beispiele}
-            </ul>
-            <p class="x-meta x-mt-4">{$t('frage.meta')}</p>
-            <p class="x-mt-4"><a class="x-link x-link--arrow" href="{$anm}">{$t('frage.link')}</a></p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {$wert}
 
     <section class="x-section" id="leitfrage" aria-labelledby="lf-h">
       <p class="x-side-label">{$t('leitfrage.kicker')}</p>
@@ -360,20 +326,6 @@ $body = <<<HTML
         </div>
         <div class="x-split__body x-accordion" data-reveal>
           {$faq}
-        </div>
-      </div>
-    </section>
-
-    <section class="x-section x-section--ink x-dark x-cta" aria-labelledby="cta2-h">
-      <div class="x-container x-cta__inner">
-        <div data-reveal>
-          <p class="x-kicker">{$t('cta.kicker')}</p>
-          <h2 id="cta2-h" class="x-h2">{$t('cta.titel')}</h2>
-          <p class="x-lead">{$t('cta.lead')}</p>
-        </div>
-        <div class="x-actions" data-reveal>
-          <a class="x-btn x-btn--on-dark x-btn--lg" href="{$anm}">{$g('cta.anmelden')}</a>
-          <a class="x-btn x-btn--on-dark-outline x-btn--lg" href="/neutralitaetskodex">{$t('cta.button2')}</a>
         </div>
       </div>
     </section>
