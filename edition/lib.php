@@ -111,7 +111,13 @@ function x25ed_alte_phrasen(): array
         'Abendessen am 3. Dezember mit Aperitif', 'Donnerstag früh bis Freitagmittag',
         'Freitagnachmittag gehört Dir', '2026-12-03T09:45', '2026-12-04T',
         // Agenda-Wortlaut vor dem 24.08.2026 (Arbeitsblöcke seither mit erklärendem Satz)
-        'Arbeitsblock 1, drei Tische', 'Formulierung der Thesen inklusive'];
+        'Arbeitsblock 1, drei Tische', 'Formulierung der Thesen inklusive',
+        // Story-Reframing 28.08.2026: Netzwerk/Community vor Dissenspapier, kurze Header.
+        // Fragmente der ALTEN Fassungen (kern, meta, eventld, dp.*); im neuen Stand nicht mehr vorhanden.
+        'jede und jeder mit eigenen Fragen und Themen aus der Praxis', 'Gängige KI-Werkzeuge live geprüft',
+        'Was Du am Montag danach in der Hand hast', 'geprüft gegen die Gegenargumente der KI',
+        'kleinste gemeinsame Aussage', 'unverändert erneut gestellt', 'was Du bewusst liegen lässt',
+        'nennt Thesen und Begründungen', 'bevor es jemand anderes gelesen hat'];
 }
 
 /** Dauerhafte Selbstheilung (ohne Marker, daher idempotent und nicht durch einen früheren
