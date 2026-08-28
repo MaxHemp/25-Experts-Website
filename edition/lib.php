@@ -117,7 +117,17 @@ function x25ed_alte_phrasen(): array
         'jede und jeder mit eigenen Fragen und Themen aus der Praxis', 'Gängige KI-Werkzeuge live geprüft',
         'Was Du am Montag danach in der Hand hast', 'geprüft gegen die Gegenargumente der KI',
         'kleinste gemeinsame Aussage', 'unverändert erneut gestellt', 'was Du bewusst liegen lässt',
-        'nennt Thesen und Begründungen', 'bevor es jemand anderes gelesen hat'];
+        'Thesen und Begründungen, keine Urheber', 'bevor es jemand anderes gelesen hat',
+        // Klartext-Lektorat 28.08.2026: Rätselsätze und „der Raum"-Metaphern durch konkrete Sätze ersetzt.
+        'Fragen des Raums', 'worin sich der Raum einig', 'was wird aus der Funktion',
+        'Was wird aus Phasenplänen', 'wie das System in sechs Monaten arbeitet',
+        'schneller verschieben als Curricula', 'Veränderung ohne Enddatum',
+        'Management im Kontext der Arbeit mit KI', 'Woran der Raum arbeitet',
+        'formuliert der Raum seine Thesen', 'Der Raum challengt fachlich',
+        'Preis dafür, dass die anderen 24', 'Der Tisch steht nicht zufällig hier',
+        'Eingeladen ist die Funktion, nicht', 'Plätze am Tisch gehören der Funktion',
+        'Zusammenstellung des Raums', 'nennst sie dem Raum', 'Bis dahin stehen die Rollen',
+        'unter Bedingungen fremdbestimmten Tempos'];
 }
 
 /** Dauerhafte Selbstheilung (ohne Marker, daher idempotent und nicht durch einen früheren
