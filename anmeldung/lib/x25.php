@@ -295,18 +295,46 @@ function x25_mailer(): PHPMailer
     $m->setFrom((string)x25_cfg('MAIL_FROM', $m->Username), (string)x25_cfg('MAIL_FROM_NAME', '25 EXPERTS'));
     return $m;
 }
-/** Versand oder (Testmodus 'file') Ablage als .eml in MAIL_DUMP_DIR. */
+/** Versand oder (Testmodus 'file') Ablage als .eml in MAIL_DUMP_DIR.
+ *  Jeder Versuch landet im Mail-Protokoll (data/mail.log, Ansicht in admin.php). */
 function x25_dispatch(PHPMailer $m, string $tag): void
 {
     $c = x25_conf();
+    $to = implode(', ', array_map(static fn(array $a) => (string)$a[0], $m->getToAddresses()));
     if ($c['transport'] === 'file') {
         if (!is_dir($c['dump'])) { @mkdir($c['dump'], 0700, true); }
         if (!$m->preSend()) { throw new MailException('preSend fehlgeschlagen'); }
         $file = rtrim($c['dump'], '/') . '/' . date('Ymd-His') . '-' . $tag . '-' . bin2hex(random_bytes(3)) . '.eml';
         file_put_contents($file, $m->getSentMIMEMessage());
+        x25_mail_protokoll($tag, $to, 'TESTMODUS – nicht verschickt, nur abgelegt (MAIL_TRANSPORT file)');
         return;
     }
-    $m->send();
+    try {
+        $m->send();
+        x25_mail_protokoll($tag, $to, 'OK (SMTP angenommen)');
+    } catch (MailException $e) {
+        x25_mail_protokoll($tag, $to, 'FEHLER: ' . ($m->ErrorInfo !== '' ? $m->ErrorInfo : $e->getMessage()));
+        throw $e;
+    }
+}
+/** Mail-Protokoll: eine Zeile je Versandversuch in DATA_DIR/mail.log (Verzeichnis ist per
+ *  .htaccess gesperrt; Einsicht über admin.php). Rotiert bei ~500 KB nach mail.log.1. */
+function x25_mail_protokoll(string $tag, string $to, string $ergebnis): void
+{
+    $dir = (string)x25_cfg('DATA_DIR', X25_DIR . '/data');
+    if (!is_dir($dir)) { @mkdir($dir, 0750, true); }
+    $file = rtrim($dir, '/') . '/mail.log';
+    if (is_file($file) && (int)@filesize($file) > 500_000) { @rename($file, $file . '.1'); }
+    $zeile = date('d.m.Y H:i:s') . ' | ' . $tag . ' | an: ' . $to . ' | ' . str_replace(["\r", "\n"], ' ', $ergebnis) . "\n";
+    @file_put_contents($file, $zeile, FILE_APPEND | LOCK_EX);
+}
+/** Letzte Zeilen des Mail-Protokolls, neueste zuerst (für admin.php). */
+function x25_mail_protokoll_lesen(int $n = 25): array
+{
+    $file = rtrim((string)x25_cfg('DATA_DIR', X25_DIR . '/data'), '/') . '/mail.log';
+    if (!is_file($file)) { return []; }
+    $lines = array_filter(array_map('trim', file($file) ?: []), static fn($l) => $l !== '');
+    return array_reverse(array_slice($lines, -$n));
 }
 /** Mail an die Gastgeber (MAIL_TO). */
 function x25_send_hosts(string $subject, string $html, string $text, string $tag, ?array $replyTo = null): void

@@ -38,6 +38,25 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
             $limit = $before !== '' ? (new DateTimeImmutable($before . ' 23:59:59'))->getTimestamp() : time();
             $n = $store->deleteWhere(static fn($r) => (int)strtotime((string)$r['created_at']) <= $limit);
             $flash = $n . ' Anmeldung(en) gelöscht (eingegangen bis ' . ($before !== '' ? $before : 'heute') . ').';
+        } elseif ($do === 'testmail') {
+            $an = trim((string)($_POST['an'] ?? ''));
+            if ($an === '') { $an = trim(explode(',', $C['mail_to'])[0]); }
+            if (!PHPMailer\PHPMailer\PHPMailer::validateAddress($an)) { throw new RuntimeException('Bitte eine gültige Empfängeradresse angeben.'); }
+            $m = x25_mailer();
+            $m->addAddress($an);
+            $m->Subject = '25 EXPERTS – Test-Mail der Anmeldestrecke';
+            $m->isHTML(false);
+            $m->Body = 'Diese Test-Mail wurde über admin.php ausgelöst (' . date('d.m.Y H:i:s') . ").\n"
+                . 'Transport: ' . $C['transport'] . ' · SMTP-Host: ' . (string)x25_cfg('SMTP_HOST', '') . ' · Absender: ' . (string)x25_cfg('MAIL_FROM', '') . "\n"
+                . 'Kommt diese Mail an, funktioniert der Versand. Prüfe sonst das Mail-Protokoll unten auf der Admin-Seite.';
+            try {
+                x25_dispatch($m, 'testmail');
+                $flash = $C['transport'] === 'smtp'
+                    ? 'Test-Mail an ' . $an . ' übergeben. Bitte Posteingang UND Spam-Ordner prüfen.'
+                    : 'ACHTUNG Testmodus (MAIL_TRANSPORT ' . $C['transport'] . '): Test-Mail wurde NICHT verschickt, nur als Datei abgelegt.';
+            } catch (PHPMailer\PHPMailer\Exception $e) {
+                throw new RuntimeException('SMTP-Fehler: ' . mb_substr($m->ErrorInfo !== '' ? $m->ErrorInfo : $e->getMessage(), 0, 220));
+            }
         } else {
             $rec = $store->get($id);
             if ($rec === null) { throw new RuntimeException('Datensatz nicht gefunden.'); }
@@ -143,6 +162,7 @@ $body = '<p class="kicker">Admin · <a href="../verwaltung/index.php">Editionen 
     . '<div class="card"><strong style="color:var(--ink);font-size:20px">' . $taken . ' / ' . $max . ' Plätze belegt</strong> <span class="meta">(Regel: ' . ($C['seats_rule'] === 'bezahlt' ? 'nur bezahlte' : 'zugelassene inkl. bezahlte') . ' zählen)</span><br>'
     . '<span class="meta">gesamt ' . count($all) . ' · in Prüfung ' . $count['pruefung'] . ' · zugelassen ' . $count['zugelassen'] . ' · davon bezahlt ' . $count['bezahlt'] . ' · Warteliste ' . $count['warteliste'] . ' · abgesagt ' . $count['abgesagt'] . ' · Ablage: ' . $h($store->backend) . ' · PayPal: ' . $h($C['paypal_env']) . '</span><br>'
     . '<a class="btn small sec" href="admin.php?export=csv">CSV-Export</a> <a class="btn small sec" href="admin.php">Aktualisieren</a></div>'
+    . x25_admin_mail_card($csrf, $C, $h)
     . '<table class="list"><thead><tr><th>#</th><th>Person</th><th>Typ / Ebene</th><th>E-Mail</th><th>Status</th><th>Zahlung</th><th>Links</th><th>Aktionen</th></tr></thead><tbody>' . ($rowsHtml ?: '<tr><td colspan="8" class="meta">Noch keine Anmeldungen.</td></tr>') . '</tbody></table>'
     . '<h2>Daten der Edition löschen</h2><div class="card warn"><p class="meta">Löscht alle Anmeldungen, die bis zum gewählten Datum eingegangen sind (Datensparsamkeit; nach der Edition bzw. nach Ablauf der Aufbewahrungspflichten für Rechnungen [TBD: Rechnungsdaten 10 Jahre aufbewahren, vorher CSV-Export sichern]). Rechnungs- und Ticketzähler laufen weiter.</p>'
     . '<form method="post" action="admin.php" data-confirm="Anmeldungen unwiderruflich löschen?"><input type="hidden" name="csrf" value="' . $h($csrf) . '"><input type="hidden" name="do" value="loeschen">'
@@ -150,6 +170,33 @@ $body = '<p class="kicker">Admin · <a href="../verwaltung/index.php">Editionen 
 x25_out(x25_page('Admin', $body, '<script src="seite.js" defer></script>', true));
 
 // ================================================================== Hilfsfunktionen
+/** Mailversand-Karte: Konfigurations-Check, Test-Mail, Mail-Protokoll (Fehlersuche „keine E-Mails"). */
+function x25_admin_mail_card(string $csrf, array $C, callable $h): string
+{
+    $checks = [];
+    $smtpUser = (string)x25_cfg('SMTP_USER', '');
+    $smtpPass = (string)x25_cfg('SMTP_PASS', '');
+    if ($C['transport'] !== 'smtp') {
+        $checks[] = 'MAIL_TRANSPORT steht auf „' . $C['transport'] . '“ – es werden KEINE E-Mails verschickt (Testmodus: Ablage als Datei). In config.php auf \'smtp\' stellen.';
+    }
+    if ($smtpUser === '') { $checks[] = 'SMTP_USER ist leer – in config.php die vollständige Postfach-Adresse eintragen (z. B. info@25-experts.de).'; }
+    if ($smtpPass === '' || str_starts_with($smtpPass, 'HIER-DAS-POSTFACH')) { $checks[] = 'SMTP_PASS ist nicht gesetzt (leer oder Platzhalter aus config.example.php) – jeder Versand schlägt fehl.'; }
+    if ($smtpUser !== '' && (string)x25_cfg('MAIL_FROM', $smtpUser) !== $smtpUser) { $checks[] = 'MAIL_FROM weicht vom SMTP-Postfach (SMTP_USER) ab – Hostinger lehnt fremde Absenderadressen ab.'; }
+    if ($C['mail_to'] === '') { $checks[] = 'MAIL_TO ist leer – die Gastgeber erhalten keine Benachrichtigungen über neue Anmeldungen.'; }
+    $checkHtml = $checks
+        ? '<div class="card warn"><strong>Konfigurations-Check:</strong><ul style="margin:6px 0 0 18px">' . implode('', array_map(static fn($c) => '<li>' . $h($c) . '</li>', $checks)) . '</ul></div>'
+        : '<p class="meta">Konfigurations-Check: keine Auffälligkeiten (Transport smtp, Postfach und Absender gesetzt).</p>';
+    $log = x25_mail_protokoll_lesen(25);
+    $logHtml = $log
+        ? '<div style="font-family:ui-monospace,monospace;font-size:12px;line-height:1.7;overflow-x:auto;white-space:nowrap">' . implode('<br>', array_map(static fn($l) => $h($l), $log)) . '</div>'
+        : '<p class="meta">Noch keine Einträge. Das Protokoll füllt sich mit jedem Versandversuch (auch Test-Mails); vor diesem Update gab es noch kein Protokoll.</p>';
+    return '<h2>Mailversand</h2><div class="card">' . $checkHtml
+        . '<form method="post" action="admin.php" style="margin:10px 0"><input type="hidden" name="csrf" value="' . $h($csrf) . '"><input type="hidden" name="do" value="testmail">'
+        . 'Test-Mail an <input type="email" name="an" placeholder="' . $h(trim(explode(',', $C['mail_to'])[0])) . '" size="28"> <button class="btn small" type="submit">Test-Mail senden</button>'
+        . ' <span class="meta">Leer = Gastgeber-Postfach. Zum Test der Zustellung auch mal eine externe Adresse (GMX/Web.de/Gmail) eintragen und den Spam-Ordner prüfen.</span></form>'
+        . '<details><summary style="cursor:pointer"><strong>Mail-Protokoll</strong> <span class="meta">(letzte ' . count($log) . ' Versandversuche, neueste zuerst)</span></summary>' . $logHtml . '</details></div>';
+}
+
 /** Basic-Auth-Daten; auch hinter FastCGI/LiteSpeed (HTTP_AUTHORIZATION per .htaccess durchgereicht). */
 function x25_basic_credentials(): array
 {

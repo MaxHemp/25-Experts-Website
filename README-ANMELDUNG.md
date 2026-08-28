@@ -115,6 +115,7 @@ Formular: Pflichtfelder/Werte v5, E-Mail-Validierung, Honeypot, Origin-Prüfung,
 |---|---|
 | Formular meldet „Konfiguration fehlt" | `config.php` fehlt oder heißt anders |
 | „konnte nicht übertragen werden" | SMTP-Zugang prüfen (Postfachadresse als Benutzer, Port 465/SSL); Hostinger-Fehlerlog |
+| Anmeldung läuft durch, aber keine E-Mails kommen an | In `admin.php` den Abschnitt **Mailversand** nutzen: Der Konfigurations-Check zeigt typische Ursachen (z. B. `MAIL_TRANSPORT 'file'` = Testmodus, dann wird nichts verschickt; SMTP_PASS-Platzhalter). „Test-Mail senden" zeigt SMTP-Fehler im Klartext; das Mail-Protokoll listet jeden Versandversuch mit Ergebnis. Steht dort „OK (SMTP angenommen)", aber die Mail fehlt trotzdem: Spam-Ordner prüfen und Test-Mail an eine externe Adresse (GMX/Gmail) schicken – kommt sie dort nicht an, bei Hostinger SPF/DKIM für 25-experts.de aktivieren (hPanel → E-Mail → Domain-Einstellungen) |
 | Gastgeber-Link zeigt „bereits verwendet" | Link war schon ausgeführt oder eine andere Aktion hat den Datensatz verändert → Admin nutzen |
 | Gastgeber-Link zeigt „ungültig" | `APP_SECRET` wurde geändert oder Link beschädigt (Zeilenumbruch) → Admin nutzen |
 | Admin fragt immer wieder nach Passwort | Hash falsch eingetragen (muss mit `$2y$` beginnen) oder Authorization-Header kommt nicht an (Rewrite-Regel in `anmeldung/.htaccess`, „Basic-Auth" – Hostinger-Support fragen, ob `mod_rewrite` aktiv ist) |
