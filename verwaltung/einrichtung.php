@@ -2,13 +2,14 @@
 /**
  * 25 EXPERTS – Verwaltung: Zugang einrichten und Passwort ändern (ohne Terminal/Dateimanager).
  *
- * Erst-Einrichtung (noch kein Zugang gesetzt):
+ * Erst-Einrichtung (noch kein Zugang gesetzt) UND Zurücksetzen (Zugangsdaten vergessen):
  *   1. „Code anfordern“ → ein Bestätigungscode geht per E-Mail an die Gastgeber-Adresse (MAIL_TO,
- *      info@25-experts.de). Damit kann nur das Team den Zugang anlegen.
+ *      info@25-experts.de). Damit kann nur das Team den Zugang anlegen bzw. neu setzen.
  *   2. Code + Benutzername + Passwort eintragen → Zugang wird in anmeldung/data/verwaltung-zugang.json
- *      gespeichert (gilt für /verwaltung/ UND /anmeldung/admin.php).
- * Passwort ändern (eingerichtet): normale Anmeldung nötig, dann neues Passwort setzen.
+ *      gespeichert (gilt für /verwaltung/ UND /anmeldung/admin.php); ein vorhandener Zugang wird ersetzt.
+ * Passwort ändern (angemeldet): normale Anmeldung, dann neues Passwort setzen.
  * Schutz: Code gehasht + 15 Minuten gültig + höchstens 5 Versuche; Anforderungen ratenbegrenzt.
+ * Vertrauensanker ist in allen Fällen das Gastgeber-Postfach – wie bei der Erst-Einrichtung.
  */
 declare(strict_types=1);
 
@@ -25,14 +26,15 @@ if (!is_file(X25ED_ROOT . '/anmeldung/config.php')) {
 
 $zugang = x25ed_zugang();
 $eingerichtet = $zugang['hash'] !== '';
+$angemeldet = $eingerichtet && xv_zugang_ok($zugang);
 $flash = '';
-$modus = $eingerichtet ? 'aendern' : (is_setup_code_offen() ? 'code' : 'start');
+$modus = is_setup_code_offen() ? 'code' : 'start';
 
 // ------------------------------------------------------------------ Aktionen
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     $do = (string)($_POST['do'] ?? '');
     try {
-        if (!$eingerichtet && $do === 'code') {
+        if (!$angemeldet && $do === 'code') {
             require_once X25ED_ROOT . '/anmeldung/lib/x25.php';
             if (!x25_rate_ok(3, 3600, (string)x25ed_cfg('RATE_SALT', 'x25'), 'vcode')) {
                 throw new RuntimeException('Zu viele Code-Anforderungen. Bitte in einer Stunde erneut versuchen.');
@@ -40,9 +42,11 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
             $code = (string)random_int(10000000, 99999999);
             x25ed_zugang_merge(['setup_code' => password_hash($code, PASSWORD_DEFAULT), 'setup_bis' => time() + 900, 'setup_versuche' => 0]);
             $mailTo = x25_conf()['mail_to'];
-            $txt = "Einrichtungscode für die 25-EXPERTS-Verwaltung (gültig 15 Minuten):\n\n    " . $code . "\n\n"
+            $was = $eingerichtet ? 'Zurücksetzen des Zugangs' : 'Einrichtung';
+            $txt = 'Bestätigungscode für die ' . $was . " der 25-EXPERTS-Verwaltung (gültig 15 Minuten):\n\n    " . $code . "\n\n"
                  . "Diesen Code auf https://25-experts.de/verwaltung/einrichtung.php eintragen und dort Benutzername und Passwort festlegen.\n"
-                 . "Wenn Ihr diese Einrichtung nicht angestoßen habt, könnt Ihr die Mail ignorieren.\n";
+                 . ($eingerichtet ? "Der bisherige Zugang wird dabei ersetzt.\n" : '')
+                 . "Wenn Ihr das nicht angestoßen habt, könnt Ihr die Mail ignorieren; der bestehende Zugang bleibt dann gültig.\n";
             $html = x25_html_shell('Einrichtungscode Verwaltung',
                 x25_h_kicker('Verwaltung einrichten') . x25_h_h1('Euer Einrichtungscode')
                 . x25_h_box('<p style="margin:0;font-family:' . X25_MONO . ';font-size:32px;letter-spacing:6px;font-weight:700;color:' . X25_INK . ';">' . $e($code) . '</p>')
@@ -51,7 +55,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
             x25_send_hosts('Einrichtungscode Verwaltung · 25 EXPERTS', $html, $txt, 'verwaltung-code');
             $modus = 'code';
             $flash = 'Der Code ist unterwegs an ' . $mailTo . ' (gültig 15 Minuten).';
-        } elseif (!$eingerichtet && $do === 'setzen') {
+        } elseif (!$angemeldet && $do === 'setzen') {
             $d = is_file(x25ed_zugang_datei()) ? (json_decode((string)file_get_contents(x25ed_zugang_datei()), true) ?: []) : [];
             $codeHash = (string)($d['setup_code'] ?? '');
             if ($codeHash === '' || time() > (int)($d['setup_bis'] ?? 0)) { throw new RuntimeException('Kein gültiger Code (abgelaufen?). Bitte einen neuen Code anfordern.'); }
@@ -66,9 +70,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                 throw new RuntimeException('Der Code stimmt nicht. Bitte prüfen (8 Ziffern aus der E-Mail).');
             }
             [$user, $hash] = xv_neues_passwort();
-            x25ed_zugang_merge(['user' => $user, 'hash' => $hash, 'setup_code' => '', 'setup_bis' => 0, 'setup_versuche' => 0, 'eingerichtet_am' => gmdate('c')]);
-            xv_page('Zugang eingerichtet', '<div class="v-card v-card--ok"><h1>Der Zugang ist eingerichtet.</h1>'
-                . '<p>Benutzername: <strong>' . $e($user) . '</strong> · Dein Passwort gilt ab sofort für die <a href="index.php">Verwaltung</a> und die <a href="/anmeldung/admin.php">Anmeldungs-Übersicht</a>.</p>'
+            x25ed_zugang_merge(['user' => $user, 'hash' => $hash, 'setup_code' => '', 'setup_bis' => 0, 'setup_versuche' => 0, ($eingerichtet ? 'zurueckgesetzt_am' : 'eingerichtet_am') => gmdate('c')]);
+            xv_page('Zugang eingerichtet', '<div class="v-card v-card--ok"><h1>' . ($eingerichtet ? 'Der Zugang ist neu gesetzt.' : 'Der Zugang ist eingerichtet.') . '</h1>'
+                . '<p>Benutzername: <strong>' . $e($user) . '</strong> · Dein Passwort gilt ab sofort für die <a href="index.php">Verwaltung</a> und die <a href="/anmeldung/admin.php">Anmeldungs-Übersicht</a>.'
+                . ($eingerichtet ? ' Die alten Zugangsdaten gelten nicht mehr; der Browser fragt beim nächsten Aufruf neu (ggf. Browser-Fenster einmal schließen).' : '') . '</p>'
                 . '<p><a class="v-btn v-btn--gross" href="index.php">Zur Verwaltung</a></p></div>');
         } elseif ($do === 'aendern') {
             xv_gate();   // nur mit gültiger Anmeldung
@@ -82,6 +87,14 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     } catch (Throwable $ex) {
         $flash = 'Fehler: ' . $ex->getMessage();
     }
+}
+
+/** Angemeldet? Prüft die Basic-Auth-Daten gegen den Zugang, OHNE eine Anmeldung zu erzwingen
+ *  (damit der Zurücksetzen-Weg auch ohne bekanntes Passwort erreichbar bleibt). */
+function xv_zugang_ok(array $z): bool
+{
+    $cred = xv_basic_credentials();
+    return $cred[0] !== '' && $cred[0] === $z['user'] && password_verify($cred[1], $z['hash']);
 }
 
 /** Benutzername/Passwort aus dem Formular prüfen → [user, hash]. */
@@ -107,8 +120,7 @@ function is_setup_code_offen(): bool
 // ------------------------------------------------------------------ Seite
 $flashHtml = $flash !== '' ? '<div class="v-card ' . (str_starts_with($flash, 'Fehler') ? 'v-card--warn' : 'v-card--ok') . '"><strong>' . $e($flash) . '</strong></div>' : '';
 
-if ($eingerichtet) {
-    xv_gate();
+if ($angemeldet) {
     $csrf = xv_csrf();
     $body = '<p class="v-kicker"><a href="index.php">Verwaltung</a> → Passwort</p><div class="v-kopfzeile"><div><h1>Passwort ändern</h1>'
         . '<p class="v-meta v-maxw">Die Zugangsdaten gelten für die Verwaltung und die Anmeldungs-Übersicht. Sie liegen nur auf dem Server (anmeldung/data/), nie im Git.</p></div></div>'
@@ -122,7 +134,7 @@ if ($eingerichtet) {
     xv_page('Passwort ändern', $body);
 }
 
-// Erst-Einrichtung
+// Erst-Einrichtung oder Zurücksetzen (Zugangsdaten vergessen)
 $schrittCode = <<<HTML
     <form method="post" action="einrichtung.php" class="v-card v-form">
       <input type="hidden" name="do" value="setzen">
@@ -146,8 +158,15 @@ $schrittStart = <<<HTML
     </form>
 HTML;
 
-$body = '<p class="v-kicker">Verwaltung</p><div class="v-kopfzeile"><div><h1>Verwaltung einrichten</h1>'
-    . '<p class="v-meta v-maxw">Einmalige Einrichtung des Team-Zugangs für die Editions-Verwaltung und die Anmeldungs-Übersicht. Dauert eine Minute.</p></div></div>'
-    . $flashHtml
+$titel = $eingerichtet ? 'Zugang zurücksetzen' : 'Verwaltung einrichten';
+$intro = $eingerichtet
+    ? 'Zugangsdaten vergessen? Kein Problem: Ein Bestätigungscode geht an das Gastgeber-Postfach; damit legst Du Benutzername und Passwort neu fest. Der bisherige Zugang wird ersetzt.'
+    : 'Einmalige Einrichtung des Team-Zugangs für die Editions-Verwaltung und die Anmeldungs-Übersicht. Dauert eine Minute.';
+$hinweisLogin = $eingerichtet
+    ? '<p class="v-meta v-maxw">Passwort doch bekannt? Dann einfach <a href="index.php">anmelden</a> und hier das Passwort ändern.</p>'
+    : '';
+$body = '<p class="v-kicker">Verwaltung</p><div class="v-kopfzeile"><div><h1>' . $e($titel) . '</h1>'
+    . '<p class="v-meta v-maxw">' . $e($intro) . '</p></div></div>'
+    . $flashHtml . $hinweisLogin
     . ($modus === 'code' ? $schrittCode . $schrittStart : $schrittStart);
-xv_page('Einrichtung', $body);
+xv_page($titel, $body);

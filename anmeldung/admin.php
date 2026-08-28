@@ -21,7 +21,7 @@ if ($hash === '') {
 [$u, $p] = x25_basic_credentials();
 if ($u !== $user || !password_verify($p, $hash)) {
     header('WWW-Authenticate: Basic realm="25 EXPERTS Anmeldungen", charset="UTF-8"');
-    x25_out(x25_page('Anmeldung erforderlich', '<h1>Anmeldung erforderlich.</h1><p>Bitte mit Admin-Benutzer und Passwort anmelden.</p>'), 401);
+    x25_out(x25_page('Anmeldung erforderlich', '<h1>Anmeldung erforderlich.</h1><p>Bitte mit Admin-Benutzer und Passwort anmelden (dieselben Zugangsdaten wie für die Verwaltung).</p><p class="meta">Zugangsdaten vergessen? <a href="../verwaltung/einrichtung.php">Zugang zurücksetzen</a> – ein Bestätigungscode geht an das Gastgeber-Postfach (info@25-experts.de), damit legst Du Benutzername und Passwort neu fest.</p>'), 401);
 }
 $csrf = x25_csrf_token($user);
 $store = x25_store(); $C = x25_conf();

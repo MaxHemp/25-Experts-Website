@@ -73,7 +73,7 @@ function xv_gate(): void
     $cred = xv_basic_credentials();
     if ($cred[0] !== $z['user'] || !password_verify($cred[1], $z['hash'])) {
         header('WWW-Authenticate: Basic realm="25 EXPERTS Verwaltung", charset="UTF-8"');
-        xv_page('Anmeldung erforderlich', '<div class="v-card"><h1>Anmeldung erforderlich.</h1><p>Bitte mit dem Team-Benutzer und Passwort anmelden (dieselben Zugangsdaten wie für die Anmeldungs-Übersicht).</p><p class="v-meta">Passwort vergessen? Der Zugang lässt sich über die Datei <code>anmeldung/data/verwaltung-zugang.json</code> auf dem Server zurücksetzen (Datei löschen und die Einrichtung neu durchlaufen).</p></div>', 401);
+        xv_page('Anmeldung erforderlich', '<div class="v-card"><h1>Anmeldung erforderlich.</h1><p>Bitte mit dem Team-Benutzer und Passwort anmelden (dieselben Zugangsdaten wie für die Anmeldungs-Übersicht).</p><p class="v-meta">Zugangsdaten vergessen? <a href="einrichtung.php">Zugang zurücksetzen</a> – ein Bestätigungscode geht an das Gastgeber-Postfach (info@25-experts.de), damit legst Du Benutzername und Passwort neu fest.</p></div>', 401);
     }
 }
 if (!defined('XV_OHNE_GATE')) { xv_gate(); }
