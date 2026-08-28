@@ -63,14 +63,13 @@ define('INVOICE_ISSUER_NAME', '25 EXPERTS UG (haftungsbeschränkt) i. G.');   //
 define('INVOICE_ISSUER_ADDRESS', 'Moitzfeld 17 · 51429 Bergisch Gladbach');
 define('INVOICE_TAX_ID', '');          // 'Steuernummer: …' eintragen, sobald vergeben (Steuernummer ODER USt-IdNr. ist Pflichtangabe auf Rechnungen); leer = Zeile entfällt
 define('INVOICE_VAT_ID', '');          // 'USt-IdNr.: …' eintragen, sobald erteilt; leer = Zeile entfällt
-// Bankverbindung für Rechnungszahlungen. Stand 08/2026: vorläufig das Privatkonto von
-// Maximilian Hempel; nach Eröffnung des Geschäftskontos der UG hier umstellen.
+// Bankverbindung für Rechnungszahlungen: Geschäftskonto der UG bei Finom (aktiv seit 08/2026).
 // BANK_IBAN auf '' setzen, wenn vorübergehend keine Bankverbindung genannt werden soll
 // (Rechnung und Mail sagen dann, dass die Bankverbindung gesondert per E-Mail folgt).
-define('BANK_HOLDER', 'Maximilian Hempel');
-define('BANK_IBAN', 'DE09 3406 0094 0104 8191 23');
-define('BANK_BIC', 'VBRSDE33XXX');
-define('BANK_NAME', 'Volksbank im Bergischen Land');
+define('BANK_HOLDER', '25 EXPERTS');
+define('BANK_IBAN', 'DE07 1001 8000 0097 5134 41');
+define('BANK_BIC', 'FNOMDEB2XXX');
+define('BANK_NAME', 'Finom');
 
 // --- PayPal (REST API v2 + JS-SDK) --------------------------------------------------------
 // 'off' = PayPal ausgeblendet (nur Rechnung); 'sandbox' = Testumgebung (developer.paypal.com, Sandbox-App); 'live' = echtes Geld.
