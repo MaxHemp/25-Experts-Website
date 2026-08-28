@@ -183,6 +183,9 @@ function x25_admin_mail_card(string $csrf, array $C, callable $h): string
     if ($smtpPass === '' || str_starts_with($smtpPass, 'HIER-DAS-POSTFACH')) { $checks[] = 'SMTP_PASS ist nicht gesetzt (leer oder Platzhalter aus config.example.php) – jeder Versand schlägt fehl.'; }
     if ($smtpUser !== '' && (string)x25_cfg('MAIL_FROM', $smtpUser) !== $smtpUser) { $checks[] = 'MAIL_FROM weicht vom SMTP-Postfach (SMTP_USER) ab – Hostinger lehnt fremde Absenderadressen ab.'; }
     if ($C['mail_to'] === '') { $checks[] = 'MAIL_TO ist leer – die Gastgeber erhalten keine Benachrichtigungen über neue Anmeldungen.'; }
+    if ((string)x25_cfg('INVOICE_TAX_ID', '') === '' && (string)x25_cfg('INVOICE_VAT_ID', '') === '') {
+        $checks[] = 'Auf den Rechnungen fehlt Steuernummer und USt-IdNr. – eine davon ist Pflichtangabe nach § 14 UStG. INVOICE_TAX_ID oder INVOICE_VAT_ID in config.php eintragen.';
+    }
     $checkHtml = $checks
         ? '<div class="card warn"><strong>Konfigurations-Check:</strong><ul style="margin:6px 0 0 18px">' . implode('', array_map(static fn($c) => '<li>' . $h($c) . '</li>', $checks)) . '</ul></div>'
         : '<p class="meta">Konfigurations-Check: keine Auffälligkeiten (Transport smtp, Postfach und Absender gesetzt).</p>';
@@ -190,7 +193,7 @@ function x25_admin_mail_card(string $csrf, array $C, callable $h): string
     $logHtml = $log
         ? '<div style="font-family:ui-monospace,monospace;font-size:12px;line-height:1.7;overflow-x:auto;white-space:nowrap">' . implode('<br>', array_map(static fn($l) => $h($l), $log)) . '</div>'
         : '<p class="meta">Noch keine Einträge. Das Protokoll füllt sich mit jedem Versandversuch (auch Test-Mails); vor diesem Update gab es noch kein Protokoll.</p>';
-    return '<h2>Mailversand</h2><div class="card">' . $checkHtml
+    return '<h2>Mailversand &amp; Rechnung</h2><div class="card">' . $checkHtml
         . '<form method="post" action="admin.php" style="margin:10px 0"><input type="hidden" name="csrf" value="' . $h($csrf) . '"><input type="hidden" name="do" value="testmail">'
         . 'Test-Mail an <input type="email" name="an" placeholder="' . $h(trim(explode(',', $C['mail_to'])[0])) . '" size="28"> <button class="btn small" type="submit">Test-Mail senden</button>'
         . ' <span class="meta">Leer = Gastgeber-Postfach. Zum Test der Zustellung auch mal eine externe Adresse (GMX/Web.de/Gmail) eintragen und den Spam-Ordner prüfen.</span></form>'

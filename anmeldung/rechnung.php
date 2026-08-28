@@ -64,9 +64,6 @@ $bankHtml = $bank['iban'] !== ''
       . '<tr><th scope="row">Verwendungszweck</th><td colspan="3" class="mono-wert"><strong>' . $e($zweck) . '</strong></td></tr></table>'
     : '<p>Die Bankverbindung senden wir gesondert per E-Mail; bitte erst danach überweisen. Verwendungszweck: <strong class="mono-wert">' . $e($zweck) . '</strong></p>';
 
-$steuerWarnung = ($issuer['tax'] === '' && $issuer['vat'] === '')
-    ? '<div class="noprint warnung">Hinweis (nur am Bildschirm sichtbar): Weder Steuernummer noch USt-IdNr. sind gesetzt – eine davon ist Pflichtangabe nach § 14 UStG. Bitte INVOICE_TAX_ID oder INVOICE_VAT_ID in anmeldung/config.php eintragen.</div>' : '';
-
 // Vorberechnete, bereits maskierte Werte für das Template
 $extra_btn = ($rec['status'] === 'zugelassen' && !$paid) ? '<a class="btn sec" href="' . $e(x25_pay_url($rec)) . '">Zur Zahlungsseite</a>' : '';
 $paidBadge = $paid ? '<span class="badge-bezahlt">Bezahlt</span>' : '';
@@ -86,7 +83,6 @@ $body = <<<HTML
   {$extra_btn}
   <span class="meta">Tipp für ein sauberes PDF: Im Druckdialog „Kopf- und Fußzeilen" abwählen, falls angeboten.</span>
 </div>
-{$steuerWarnung}
 <div class="blatt">
   <header class="kopf">
     <img class="kopf__logo" src="{$vLogo}" alt="25 EXPERTS" width="220" height="49">
@@ -170,7 +166,6 @@ strong{font-weight:600;color:var(--ink)}
 .meta{color:var(--meta);font-size:12.5px}
 
 .aktionen{max-width:210mm;margin:16px auto 12px;padding:0 8px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.warnung{max-width:210mm;margin:0 auto 12px;padding:10px 14px;background:#FBE9D8;border-left:4px solid var(--orange);color:#8A3A10;font-size:13.5px}
 .btn{display:inline-block;background:var(--petrol);color:#fff;border:0;border-radius:4px;padding:11px 18px;font:600 14px "Plus Jakarta Sans",Arial,sans-serif;text-decoration:none;cursor:pointer}
 .btn.sec{background:#fff;color:var(--ink);border:1px solid var(--ink)}
 
