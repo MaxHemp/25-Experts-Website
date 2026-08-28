@@ -86,7 +86,7 @@ function x25_conf(): array
         'edition_hotel' => (string)x25_cfg('EDITION_HOTEL', 'Hotel buchst Du bitte selbst; die Übernachtung ist nicht im Preis enthalten.'),
         'edition_kontakt' => (string)x25_cfg('EDITION_KONTAKT', 'info@25-experts.de'),
         'leistungsdatum' => (string)x25_cfg('EDITION_LEISTUNGSDATUM', '02.–03.12.2026'),
-        'logo' => (string)x25_cfg('LOGO_URL', ''),
+        'logo' => (string)x25_cfg('LOGO_URL', $site . 'assets/img/25experts-logo-horizontal.png'),
         'footer' => (string)x25_cfg('MAIL_FOOTER', '25 EXPERTS UG (haftungsbeschränkt) · Sitz Köln'),
         'mail_to' => (string)x25_cfg('MAIL_TO', ''),
         'transport' => (string)x25_cfg('MAIL_TRANSPORT', 'smtp'),
