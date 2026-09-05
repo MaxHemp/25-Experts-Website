@@ -135,12 +135,12 @@ function x25ed_anmeldung_2027_migration(): void
     }
 }
 
-/** Einmaliger Import der vier freigegebenen Editionen, auch über vorhandene Entwürfe.
+/** Einmaliger Import der freigegebenen Editionen einschließlich Security, auch über vorhandene Entwürfe.
  * Bestehende Editionsdaten werden gesichert; spätere Backend-Änderungen bleiben bestehen. */
 function x25ed_editionen_2027_migration(): void
 {
     $revision = 'editionen-2027-v1';
-    foreach (['vertrieb', 'female', 'operations', 'data'] as $slug) {
+    foreach (['security', 'vertrieb', 'female', 'operations', 'data'] as $slug) {
         $marker = x25ed_dir() . '/.migration-' . $revision . '-' . $slug;
         if (is_file($marker)) { continue; }
         $seedFile = X25ED_DIR . '/seed/' . $slug . '.json';
@@ -217,6 +217,7 @@ function x25ed_phrasen_sweep(): void
     foreach (glob(x25ed_dir() . '/*.json') ?: [] as $f) {
         $ed = json_decode((string)file_get_contents($f), true);
         if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
+        if ($ed['slug'] !== 'change-management') { continue; }
         $seedFile = X25ED_DIR . '/seed/' . $ed['slug'] . '.json';
         $seed = is_file($seedFile) ? json_decode((string)file_get_contents($seedFile), true) : null;
         $dirty = false;
@@ -291,7 +292,7 @@ function x25ed_wording_migration(): void
         $ed = json_decode((string)file_get_contents($f), true);
         if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
         // Diese historischen Korrekturen gelten nur für die ursprünglichen Editionen.
-        if (!in_array($ed['slug'], ['change-management', 'security'], true)) { continue; }
+        if (!in_array($ed['slug'], ['change-management'], true)) { continue; }
         $dirty = false;
         foreach ($reset as $bereich => $keys) {
             foreach ($keys as $k) {
@@ -323,7 +324,7 @@ function x25ed_reframe_migration(): void
         $ed = json_decode((string)file_get_contents($f), true);
         if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
         // Diese historischen Korrekturen gelten nur für die ursprünglichen Editionen.
-        if (!in_array($ed['slug'], ['change-management', 'security'], true)) { continue; }
+        if (!in_array($ed['slug'], ['change-management'], true)) { continue; }
         $dirty = false;
         foreach ($reset as $bereich => $keys) {
             foreach ($keys as $k) {
@@ -348,7 +349,7 @@ function x25ed_tbd_migration(): void
         $ed = json_decode((string)file_get_contents($f), true);
         if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
         // Diese historischen Korrekturen gelten nur für die ursprünglichen Editionen.
-        if (!in_array($ed['slug'], ['change-management', 'security'], true)) { continue; }
+        if (!in_array($ed['slug'], ['change-management'], true)) { continue; }
         $seedFile = X25ED_DIR . '/seed/' . $ed['slug'] . '.json';
         $seed = is_file($seedFile) ? json_decode((string)file_get_contents($seedFile), true) : null;
         $dirty = false;
