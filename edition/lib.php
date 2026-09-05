@@ -90,7 +90,38 @@ function x25ed_seed(): void
     x25ed_tbd_migration();
     x25ed_reframe_migration();
     x25ed_wording_migration();
+    x25ed_editionen_2027_migration();
     x25ed_phrasen_sweep();
+}
+
+/** Einmaliger Import der vier freigegebenen Editionen, auch über vorhandene Entwürfe.
+ * Bestehende Editionsdaten werden gesichert; spätere Backend-Änderungen bleiben bestehen. */
+function x25ed_editionen_2027_migration(): void
+{
+    $revision = 'editionen-2027-v1';
+    foreach (['vertrieb', 'female', 'operations', 'data'] as $slug) {
+        $marker = x25ed_dir() . '/.migration-' . $revision . '-' . $slug;
+        if (is_file($marker)) { continue; }
+        $seedFile = X25ED_DIR . '/seed/' . $slug . '.json';
+        if (!is_file($seedFile)) { continue; }
+        $seed = json_decode((string)file_get_contents($seedFile), true);
+        if (!is_array($seed) || ($seed['content_revision'] ?? '') !== $revision || ($seed['slug'] ?? '') !== $slug) { continue; }
+        $file = x25ed_dir() . '/' . $slug . '.json';
+        $old = is_file($file) ? json_decode((string)file_get_contents($file), true) : [];
+        if (!is_array($old)) { throw new RuntimeException('Vorhandene Edition konnte nicht gelesen werden.'); }
+        if (($old['content_revision'] ?? '') !== $revision) {
+            $backup = x25ed_dir() . '/.' . $slug . '-before-' . $revision . '.json';
+            if (is_file($file) && !is_file($backup) && !copy($file, $backup)) {
+                throw new RuntimeException('Sicherung der bisherigen Edition fehlgeschlagen.');
+            }
+            if (is_file($backup)) { @chmod($backup, 0640); }
+            if (isset($old['created_at'])) { $seed['created_at'] = $old['created_at']; }
+            x25ed_save(array_replace($old, $seed));
+        }
+        if (file_put_contents($marker, gmdate('c'), LOCK_EX) === false) {
+            throw new RuntimeException('Editionsimport konnte nicht abgeschlossen werden.');
+        }
+    }
 }
 
 /** Überholte Formulierungen, die in gespeicherten Editionen nicht mehr vorkommen dürfen.
@@ -218,6 +249,8 @@ function x25ed_wording_migration(): void
     foreach (glob(x25ed_dir() . '/*.json') ?: [] as $f) {
         $ed = json_decode((string)file_get_contents($f), true);
         if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
+        // Diese historischen Korrekturen gelten nur für die ursprünglichen Editionen.
+        if (!in_array($ed['slug'], ['change-management', 'security'], true)) { continue; }
         $dirty = false;
         foreach ($reset as $bereich => $keys) {
             foreach ($keys as $k) {
@@ -248,6 +281,8 @@ function x25ed_reframe_migration(): void
     foreach (glob(x25ed_dir() . '/*.json') ?: [] as $f) {
         $ed = json_decode((string)file_get_contents($f), true);
         if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
+        // Diese historischen Korrekturen gelten nur für die ursprünglichen Editionen.
+        if (!in_array($ed['slug'], ['change-management', 'security'], true)) { continue; }
         $dirty = false;
         foreach ($reset as $bereich => $keys) {
             foreach ($keys as $k) {
@@ -271,6 +306,8 @@ function x25ed_tbd_migration(): void
     foreach (glob(x25ed_dir() . '/*.json') ?: [] as $f) {
         $ed = json_decode((string)file_get_contents($f), true);
         if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
+        // Diese historischen Korrekturen gelten nur für die ursprünglichen Editionen.
+        if (!in_array($ed['slug'], ['change-management', 'security'], true)) { continue; }
         $seedFile = X25ED_DIR . '/seed/' . $ed['slug'] . '.json';
         $seed = is_file($seedFile) ? json_decode((string)file_get_contents($seedFile), true) : null;
         $dirty = false;
@@ -380,7 +417,7 @@ function x25ed_texte(): array
 /** Platzhalter-Werte; Editions-Kontext ergänzt site/landing/anmeldung. */
 function x25ed_vars(?array $ed = null): array
 {
-    $v = x25ed_texte()['vars'] ?? [];
+    $v = array_replace(x25ed_texte()['vars'] ?? [], (array)($ed['vars'] ?? []));
     $v['site'] = '/';
     $v['landing'] = $ed ? x25ed_url($ed) : '/editionen';
     $v['anmeldung'] = $ed ? x25ed_url($ed) . 'anmeldung' : '/editionen';
@@ -425,7 +462,7 @@ function x25ed_txt(?array $ed, string $bereich, string $key, ?string $fallback =
 /** Gemeinsamer Text (Seitenhülle, Bausteine). */
 function x25ed_g(string $key, ?array $ed = null): string
 {
-    return x25ed_render((string)(x25ed_texte()['gemeinsam'][$key] ?? ''), x25ed_vars($ed));
+    return x25ed_txt($ed, 'gemeinsam', $key, '');
 }
 
 /** Rohtext (ohne Platzhalter-Ersetzung, für die Verwaltung); null, wenn der Schlüssel nirgends existiert. */

@@ -28,7 +28,7 @@ $e = static fn(?string $s): string => x25ed_e($s);
 $canon = x25ed_abs_url($ed);
 $anm = x25ed_url($ed) . 'anmeldung';
 $nameHtml = x25ed_name_html($ed);
-$kern = trim($t('kern') . ' ' . (x25ed_texte()['vars']['am_tisch'] ?? ''));
+$kern = trim($t('kern') . ' ' . (x25ed_vars($ed)['am_tisch'] ?? ''));
 $domain = (string)(x25ed_texte()['domain'] ?? 'https://25-experts.de/');
 
 // ------------------------------------------------------------------ JSON-LD (Event + FAQ)
@@ -57,8 +57,12 @@ if (!$vorschau) {
         ],
         'url' => $canon,
     ];
-    if (($ed['anmeldung_ab'] ?? '') !== '') { $event['offers']['validFrom'] = (string)$ed['anmeldung_ab']; }
-    $ld .= '  <script type="application/ld+json">' . "\n  " . json_encode($event, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n  </script>\n";
+    if (empty($ed['anmeldung_offen'])) { unset($event['offers']); }
+    if (!empty($ed['anmeldung_offen']) && ($ed['anmeldung_ab'] ?? '') !== '') { $event['offers']['validFrom'] = (string)$ed['anmeldung_ab']; }
+    // Vorläufige Termine nicht als bestätigte Events an Suchmaschinen melden.
+    if (empty($ed['termin_vorlaeufig'])) {
+        $ld .= '  <script type="application/ld+json">' . "\n  " . json_encode($event, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n  </script>\n";
+    }
     $faqEntities = [];
     foreach (x25ed_tuples($ed, 'landing', 'faq', 'frage', 'antwort') as [$f, $a]) {
         $faqEntities[] = ['@type' => 'Question', 'name' => strip_tags($f), 'acceptedAnswer' => ['@type' => 'Answer', 'text' => strip_tags($a)]];
