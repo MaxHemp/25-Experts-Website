@@ -91,7 +91,48 @@ function x25ed_seed(): void
     x25ed_reframe_migration();
     x25ed_wording_migration();
     x25ed_editionen_2027_migration();
+    x25ed_anmeldung_2027_migration();
     x25ed_phrasen_sweep();
+}
+
+/** Vom Gastgeber freigegebener Buchungsstart: bestehende Editionen gezielt aktualisieren.
+ * Fachinhalte und spätere Änderungen im Backend werden nicht erneut importiert. */
+function x25ed_anmeldung_2027_migration(): void
+{
+    $revision = 'anmeldung-2027-v1';
+    $textKeys = [
+        'gemeinsam' => ['cta.anmelden'],
+        'landing' => ['hero.note', 'anmeldung.kicker', 'anmeldung.titel', 'anmeldung.lead',
+            'anmeldung.absatz1', 'anmeldung.absatz3', 'anmeldung.button', 'preis.kicker',
+            'preis.meta', 'preis.storno', 'eventld.angebot.name', 'eventld.angebot.beschreibung',
+            'faq.3.antwort', 'faq.4.antwort'],
+        'anmeldung' => ['kopf.kicker', 'kopf.lead', 'meta.titel', 'meta.beschreibung',
+            'bestaetigung.hinweis', 'bestaetigung.anmeldung', 'paket.preis.zusatz'],
+    ];
+    foreach (['vertrieb', 'female', 'operations', 'data'] as $slug) {
+        $marker = x25ed_dir() . '/.migration-' . $revision . '-' . $slug;
+        if (is_file($marker)) { continue; }
+        $seedFile = X25ED_DIR . '/seed/' . $slug . '.json';
+        $file = x25ed_dir() . '/' . $slug . '.json';
+        if (!is_file($seedFile) || !is_file($file)) { continue; }
+        $seed = json_decode((string)file_get_contents($seedFile), true);
+        $ed = json_decode((string)file_get_contents($file), true);
+        if (!is_array($seed) || !is_array($ed) || ($seed['registration_revision'] ?? '') !== $revision) { continue; }
+        $backup = x25ed_dir() . '/.' . $slug . '-before-' . $revision . '.json';
+        if (!is_file($backup) && !copy($file, $backup)) { throw new RuntimeException('Editionssicherung fehlgeschlagen.'); }
+        @chmod($backup, 0640);
+        foreach (['status', 'anmeldung_offen', 'anmeldung_ab', 'leistungsdatum', 'registration_revision'] as $key) {
+            $ed[$key] = $seed[$key];
+        }
+        foreach (['kicker', 'fakten'] as $key) { $ed['karte'][$key] = $seed['karte'][$key]; }
+        foreach ($textKeys as $section => $keys) {
+            foreach ($keys as $key) { $ed['texte'][$section][$key] = $seed['texte'][$section][$key]; }
+        }
+        x25ed_save($ed);
+        if (file_put_contents($marker, gmdate('c'), LOCK_EX) === false) {
+            throw new RuntimeException('Buchungsstart konnte nicht gespeichert werden.');
+        }
+    }
 }
 
 /** Einmaliger Import der vier freigegebenen Editionen, auch über vorhandene Entwürfe.
