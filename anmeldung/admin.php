@@ -117,7 +117,7 @@ foreach ($all as $r) { $count[$r['status']] = ($count[$r['status']] ?? 0) + 1; i
 if (($_GET['export'] ?? '') === 'csv') {
     header('Content-Type: text/csv; charset=utf-8'); header('Content-Disposition: attachment; filename="25experts-anmeldungen-' . date('Ymd') . '.csv"'); header('Cache-Control: no-store');
     $out = fopen('php://output', 'w'); fwrite($out, "\xEF\xBB\xBF");
-    $cols = ['id', 'created_at', 'name', 'company', 'role', 'level', 'category', 'email', 'linkedin', 'question', 'status', 'admission_note', 'decided_at', 'decided_by', 'payment_method', 'payment_status', 'paid_at', 'invoice_no', 'invoice_date', 'invoice_due', 'ticket_no', 'ticket_sent_at', 'paypal_order_id', 'paypal_capture_id', 'edition', 'edition_slug', 'source'];
+    $cols = ['id', 'created_at', 'name', 'company', 'role', 'level', 'category', 'email', 'linkedin', 'question', 'status', 'admission_note', 'decided_at', 'decided_by', 'payment_method', 'payment_status', 'paid_at', 'invoice_no', 'invoice_date', 'invoice_due', 'ticket_no', 'ticket_sent_at', 'paypal_order_id', 'paypal_capture_id', 'edition', 'edition_slug', 'source', 'review_due_at', 'booking_confirmed_at'];
     fputcsv($out, $cols, ';');
     foreach (array_reverse($all) as $r) { fputcsv($out, array_map(static fn($c) => (string)($r[$c] ?? ''), $cols), ';'); }
     exit;
@@ -131,6 +131,7 @@ $btn = static function (int $id, string $do, string $label, string $cls = 'btn s
 $rowsHtml = '';
 foreach ($all as $r) {
     $acts = '';
+    $due = $r['status']==='pruefung' ? '<br><span class="meta">Rückmeldung bis '. $h(x25_date($r['review_due_at'] ?? null, 'd.m.Y H:i')).'</span>' : '';
     if (in_array($r['status'], ['pruefung', 'warteliste', 'abgesagt'], true)) { $acts .= $btn((int)$r['id'], 'zulassen', 'Zulassen'); }
     if (in_array($r['status'], ['pruefung', 'warteliste', 'zugelassen'], true) && $r['payment_status'] !== 'bezahlt') {
         $acts .= $btn((int)$r['id'], 'absagen', 'Absagen', 'btn small danger', '<select name="reason" style="padding:4px;font-size:12px"><option value="zielgruppe">nicht Zielgruppe</option><option value="ebene">Ebene</option><option value="voll">voll</option></select> ');
@@ -142,7 +143,7 @@ foreach ($all as $r) {
     }
     if ($r['payment_status'] === 'bezahlt') { $acts .= $btn((int)$r['id'], 'ticket', 'Ticket erneut senden', 'btn small sec'); }
     $links = '';
-    if ($r['status'] === 'zugelassen') { $links .= '<a href="' . $h(x25_pay_url($r)) . '">Zahlung</a> '; }
+    if ($r['status'] === 'zugelassen') { $links .= '<a href="'.$h(x25_prepare_url($r)).'">Vorbereitung</a> '; $links .= '<a href="' . $h(x25_pay_url($r)) . '">Zahlung</a> '; }
     if (!empty($r['invoice_no'])) { $links .= '<a href="' . $h(x25_invoice_url($r)) . '">' . $h($r['invoice_no']) . '</a> '; }
     if (!empty($r['ticket_no'])) { $links .= '<a href="' . $h(x25_ticket_url($r)) . '">' . $h($r['ticket_no']) . '</a>'; }
     $rowsHtml .= '<tr><td>' . (int)$r['id'] . '<br><span class="meta">' . $h(x25_date($r['created_at'], 'd.m.y H:i')) . '</span></td>'
@@ -150,14 +151,14 @@ foreach ($all as $r) {
         . '<details><summary class="meta" style="cursor:pointer">Frage / Details</summary><div style="max-width:420px;white-space:pre-wrap;font-family:Georgia,serif;color:var(--ink)">' . $h($r['question']) . '</div><p class="meta" style="margin:6px 0 0">' . $h($r['admission_note'] ?? '') . ($r['decided_by'] ?? '' ? ' · entschieden: ' . $h($r['decided_by']) . ' ' . $h(x25_date($r['decided_at'] ?? null, 'd.m.y H:i')) : '') . (!empty($r['linkedin']) ? ' · <a href="' . $h($r['linkedin']) . '" rel="noopener">LinkedIn</a>' : '') . '</p></details></td>'
         . '<td>' . $h(X25_CATEGORIES[$r['category']] ?? $r['category']) . '<br><span class="meta">' . $h(X25_LEVELS[$r['level']] ?? $r['level']) . '</span></td>'
         . '<td><a href="mailto:' . $h($r['email']) . '">' . $h($r['email']) . '</a></td>'
-        . '<td><span class="badge ' . $h($r['status']) . '">' . $h(X25_STATUS[$r['status']] ?? $r['status']) . '</span></td>'
+        . '<td><span class="badge ' . $h($r['status']) . '">' . $h(X25_STATUS[$r['status']] ?? $r['status']) . '</span>'.$due.'</td>'
         . '<td>' . $h($r['payment_method'] ?: '–') . '<br><span class="badge ' . $h($r['payment_status']) . '">' . $h($r['payment_status']) . '</span>' . (!empty($r['paid_at']) ? '<br><span class="meta">' . $h(x25_date($r['paid_at'], 'd.m.y')) . '</span>' : '') . '</td>'
         . '<td>' . $links . '</td><td>' . $acts . '</td></tr>';
 }
 $edLinks = '<a class="btn small' . ($edFilter === '' ? '' : ' sec') . '" href="admin.php">Alle Editionen</a> ';
 foreach ($slugs as $sl) { $edLinks .= '<a class="btn small' . ($edFilter === $sl ? '' : ' sec') . '" href="admin.php?edition=' . rawurlencode($sl) . '">' . $h($sl) . '</a> '; }
-$body = '<p class="kicker">Admin · <a href="../verwaltung/index.php">Editionen verwalten</a></p><h1>Anmeldungen' . ($edFilter !== '' ? ' · ' . $h($edFilter) : '') . '</h1>'
-    . '<p>' . $edLinks . '</p>'
+$body = '<p class="kicker">Admin · <a href="../verwaltung/index.php">Editionen verwalten</a> · <a href="../verwaltung/einladungen.php">Persönlich einladen</a> · <a href="../verwaltung/begleitung.php">Vorbereitung und Begleitung</a></p><h1>Anmeldungen' . ($edFilter !== '' ? ' · ' . $h($edFilter) : '') . '</h1>'
+    . '<p>' . $edLinks . '</p><div class="card"><p>Neue Anfragen werden vor der Zahlung persönlich geprüft. Bitte Verantwortung, Erfahrung, Anliegen und Unternehmenszuordnung prüfen. Höchstens zwei Teilnehmer pro Unternehmen; unterschiedliche Schreibweisen und Konzerngesellschaften bei der Auswahl abgleichen. Persönlich eingeladene Personen sind bereits fachlich geprüft.</p></div>'
     . ($flash !== '' ? '<div class="card ' . (str_starts_with($flash, 'Fehler') ? 'warn' : 'ok') . '"><strong>' . $h($flash) . '</strong></div>' : '')
     . '<div class="card"><strong style="color:var(--ink);font-size:20px">' . $taken . ' / ' . $max . ' Plätze belegt</strong> <span class="meta">(Regel: ' . ($C['seats_rule'] === 'bezahlt' ? 'nur bezahlte' : 'zugelassene inkl. bezahlte') . ' zählen)</span><br>'
     . '<span class="meta">gesamt ' . count($all) . ' · in Prüfung ' . $count['pruefung'] . ' · zugelassen ' . $count['zugelassen'] . ' · davon bezahlt ' . $count['bezahlt'] . ' · Warteliste ' . $count['warteliste'] . ' · abgesagt ' . $count['abgesagt'] . ' · Ablage: ' . $h($store->backend) . ' · PayPal: ' . $h($C['paypal_env']) . '</span><br>'
@@ -220,3 +221,4 @@ function x25_csrf_ok(string $user, string $tok): bool
 {
     return $tok !== '' && (hash_equals(x25_csrf_token($user), $tok) || hash_equals(x25_csrf_token($user, 1), $tok));
 }
+

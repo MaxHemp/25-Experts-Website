@@ -36,7 +36,7 @@ if (!is_file(X25_DIR . '/config.php')) {
     }
     exit;
 }
-require X25_DIR . '/config.php';
+require_once X25_DIR . '/config.php';
 require __DIR__ . '/Exception.php';
 require __DIR__ . '/PHPMailer.php';
 require __DIR__ . '/SMTP.php';
@@ -547,3 +547,4 @@ function x25_seats_taken(array $all, ?string $slug = null): int
     }
     return $n;
 }
+

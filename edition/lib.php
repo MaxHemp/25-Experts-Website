@@ -93,6 +93,35 @@ function x25ed_seed(): void
     x25ed_editionen_2027_migration();
     x25ed_anmeldung_2027_migration();
     x25ed_phrasen_sweep();
+    x25ed_experience_migration();
+}
+
+/** Freigegebene neue Betreuung und Auswahl. Fachtexte, Termine, Buchungen bleiben erhalten. */
+function x25ed_experience_migration(): void
+{
+    $revision='experience-2026-09-v1'; $source=X25ED_DIR.'/experience.json';
+    if(!is_file($source)) { return; }
+    $patches=json_decode((string)file_get_contents($source),true);
+    if(!is_array($patches)) { throw new RuntimeException('Editionsaktualisierung nicht lesbar.'); }
+    foreach($patches as $slug=>$patch) {
+        if(!x25ed_slug_ok((string)$slug)) { continue; }
+        $marker=x25ed_dir().'/.migration-'.$revision.'-'.$slug;
+        $file=x25ed_dir().'/'.$slug.'.json';
+        if(is_file($marker)||!is_file($file)) { continue; }
+        $ed=json_decode((string)file_get_contents($file),true);
+        if(!is_array($ed)) { throw new RuntimeException('Edition nicht lesbar.'); }
+        if(($ed['experience_revision']??'')!==$revision) {
+            $backup=x25ed_dir().'/.'.$slug.'-before-'.$revision.'.json';
+            if(!is_file($backup)&&!copy($file,$backup)) { throw new RuntimeException('Sicherung fehlgeschlagen.'); }
+            chmod($backup,0640);
+            foreach($patch as $key=>$value) {
+                if($key==='texte') { foreach($value as $section=>$values) { $ed['texte'][$section]=array_replace((array)($ed['texte'][$section]??[]),$values); } }
+                else { $ed[$key]=$value; }
+            }
+            x25ed_save($ed);
+        }
+        if(file_put_contents($marker,gmdate('c'),LOCK_EX)===false) { throw new RuntimeException('Editionsaktualisierung nicht gespeichert.'); }
+    }
 }
 
 /** Vom Gastgeber freigegebener Buchungsstart: bestehende Editionen gezielt aktualisieren.
@@ -218,6 +247,7 @@ function x25ed_phrasen_sweep(): void
         $ed = json_decode((string)file_get_contents($f), true);
         if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
         if ($ed['slug'] !== 'change-management') { continue; }
+        if (!empty($ed['experience_revision'])) { continue; }
         $seedFile = X25ED_DIR . '/seed/' . $ed['slug'] . '.json';
         $seed = is_file($seedFile) ? json_decode((string)file_get_contents($seedFile), true) : null;
         $dirty = false;
@@ -292,7 +322,7 @@ function x25ed_wording_migration(): void
         $ed = json_decode((string)file_get_contents($f), true);
         if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
         // Diese historischen Korrekturen gelten nur für die ursprünglichen Editionen.
-        if (!in_array($ed['slug'], ['change-management'], true)) { continue; }
+        if (!in_array($ed['slug'], ['change-management'], true) || !empty($ed['experience_revision'])) { continue; }
         $dirty = false;
         foreach ($reset as $bereich => $keys) {
             foreach ($keys as $k) {
@@ -324,7 +354,7 @@ function x25ed_reframe_migration(): void
         $ed = json_decode((string)file_get_contents($f), true);
         if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
         // Diese historischen Korrekturen gelten nur für die ursprünglichen Editionen.
-        if (!in_array($ed['slug'], ['change-management'], true)) { continue; }
+        if (!in_array($ed['slug'], ['change-management'], true) || !empty($ed['experience_revision'])) { continue; }
         $dirty = false;
         foreach ($reset as $bereich => $keys) {
             foreach ($keys as $k) {
@@ -349,7 +379,7 @@ function x25ed_tbd_migration(): void
         $ed = json_decode((string)file_get_contents($f), true);
         if (!is_array($ed) || !x25ed_slug_ok((string)($ed['slug'] ?? ''))) { continue; }
         // Diese historischen Korrekturen gelten nur für die ursprünglichen Editionen.
-        if (!in_array($ed['slug'], ['change-management'], true)) { continue; }
+        if (!in_array($ed['slug'], ['change-management'], true) || !empty($ed['experience_revision'])) { continue; }
         $seedFile = X25ED_DIR . '/seed/' . $ed['slug'] . '.json';
         $seed = is_file($seedFile) ? json_decode((string)file_get_contents($seedFile), true) : null;
         $dirty = false;

@@ -58,7 +58,7 @@ function x25ed_karte_online(array $ed): string
               {$metaHtml}
               <div class="x-actions">{$anm}<a class="x-link x-link--arrow" href="{$e($url)}" style="color:var(--x-neutral-300)">Alle Details</a></div>
             </div>
-            <div class="x-edition__aside">{$foto}</div>
+            <div class="x-edition__aside">{$foto}<span class="x-photo-label">Symbolbild · Atmosphäre der Serie</span></div>
           </article>
 HTML;
 }
@@ -93,3 +93,4 @@ function x25ed_karte_teaser(array $ed): string
           </article>
 HTML;
 }
+

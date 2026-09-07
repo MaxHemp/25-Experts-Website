@@ -120,12 +120,12 @@
 
     var data = {};
     var fd = new FormData(form);
-    fd.forEach(function (v, k) { if (k !== 'website' && k !== 'binding') { data[k] = v; } });
+    fd.forEach(function (v, k) { if (k !== 'website') { data[k] = v; } });
     var privacy = form.querySelector('input[name="privacy"]');
     if (privacy) { data.privacy = privacy.checked; }
     data.name = ((data.vorname || '') + ' ' + (data.nachname || '')).trim();
     data.edition = form.getAttribute('data-edition') || '';
-    data.source = window.location.href;
+    data.source = window.location.origin + window.location.pathname;
     data.submitted_at = new Date().toISOString();
 
     var endpoint = form.getAttribute('data-endpoint');
@@ -154,3 +154,4 @@
       });
   });
 })();
+

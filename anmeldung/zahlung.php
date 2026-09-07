@@ -31,6 +31,29 @@ if ($rec['payment_status'] === 'bezahlt') {
     x25_out(x25_page('Bezahlt', $intro . '<div class="card ok"><h2 style="margin-top:0">Vielen Dank, Deine Zahlung ist eingegangen.</h2><p>Dein Ticket ' . x25_e($rec['ticket_no'] ?? '') . ' wurde per E-Mail versandt.</p><a class="btn" href="' . x25_e(x25_ticket_url($rec)) . '">Ticket öffnen</a></div>', '', false, $ED['label']));
 }
 
+// Kostenfreie Anfrage und kostenpflichtige Buchung sind klar getrennt.
+if (x25_booking_required($rec)) {
+    $csrf=x25_sign('buchung|'.$t);
+    if (($_SERVER['REQUEST_METHOD']??'GET')==='POST' && ($_POST['weg']??'')==='buchen') {
+        if (!hash_equals($csrf,(string)($_POST['csrf']??'')) || ($_POST['terms']??'')!=='ja') { x25_out(x25_page('Bitte bestätigen',$intro.'<p>Bitte bestätige die Buchung und die Teilnahmebedingungen über Deinen persönlichen Zahlungslink.</p>'),403); }
+        $company=x25_line($_POST['invoice_company']??'',200);
+        $address=x25_multiline($_POST['invoice_address']??'',500);
+        if ($company===''||$address==='') { x25_out(x25_page('Angaben fehlen',$intro.'<p>Bitte ergänze Rechnungsempfänger und Rechnungsadresse. <a href="zahlung.php?t='.x25_e($t).'">Zurück zur Buchung</a></p>'),422); }
+        x25_store()->transaction(function(X25Store $s) use ($rec,$company,$address) {
+            $cur=$s->get((int)$rec['id']);
+            if(!$cur||$cur['status']!=='zugelassen') { throw new RuntimeException('Keine Zusage verfügbar.'); }
+            if(empty($cur['booking_confirmed_at'])) { $s->update((int)$cur['id'],['booking_confirmed_at'=>gmdate('c'),'terms_version'=>'2026-09-07','invoice_company'=>$company,'invoice_address'=>$address]); }
+        });
+        header('Location: zahlung.php?t='.rawurlencode($t).'&gebucht=1',true,303);exit;
+    }
+    $form='<div class="card"><h2>Dein Platz ist für Dich freigegeben.</h2><p>Mit der folgenden Buchung verpflichtest Du Dich zur Zahlung von '.x25_e(x25_money($A['gross'])).' inklusive Umsatzsteuer. Anschließend wählst Du PayPal oder Rechnung. Enthalten sind beide Tage, Vorbereitung und Dossier, Verpflegung, Aperitif und Dinner, das interne Dissenspapier, Dein Kuvert und das Online-Wiedersehen nach sechs Wochen. Anreise und Übernachtung sind nicht enthalten.</p>'
+        .'<form method="post" action="zahlung.php"><input type="hidden" name="t" value="'.x25_e($t).'"><input type="hidden" name="weg" value="buchen"><input type="hidden" name="csrf" value="'.x25_e($csrf).'">'
+        .'<p><label>Rechnungsempfänger / Unternehmen<br><input name="invoice_company" maxlength="200" required value="'.x25_e($rec['invoice_company']?:$rec['company']).'"></label></p>'
+        .'<p><label>Rechnungsadresse<br><textarea name="invoice_address" rows="3" maxlength="500" required style="width:100%">'.x25_e($rec['invoice_address']??'').'</textarea></label></p>'
+        .'<p><label><input type="checkbox" name="terms" value="ja" required> Ich akzeptiere die <a href="/teilnahmebedingungen" target="_blank" rel="noopener">Teilnahmebedingungen</a> und buche die oben genannte Edition zum angezeigten Preis und Termin verbindlich.</label></p><button class="btn" type="submit">Zahlungspflichtig buchen</button></form></div>';
+    x25_out(x25_page('Teilnahme verbindlich buchen',$intro.$form,'',false,$ED['label']));
+}
+
 // (b) Rechnung gewählt
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && (string)($_POST['weg'] ?? '') === 'rechnung') {
     try {
@@ -45,6 +68,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && (string)($_POST['weg'] ?
 
 $paypalOn = in_array($C['paypal_env'], ['sandbox', 'live'], true) && $C['paypal_client'] !== '';
 $body = $intro;
+if (!empty($rec['booking_confirmed_at'])) { $body.='<div class="card ok"><p>Deine verbindliche Buchung ist bestätigt. Bitte wähle jetzt Deinen Zahlungsweg.</p></div>'; }
 if (($rec['payment_method'] ?? '') === 'rechnung' && !empty($rec['invoice_no'])) {
     $body .= '<div class="card ok"><h2 style="margin-top:0">Rechnung ' . x25_e($rec['invoice_no']) . ' ist unterwegs.</h2>'
         . '<p>Wir haben Dir die Rechnung per E-Mail gesandt (Zahlungsziel ' . x25_e(x25_date($rec['invoice_due'], 'd.m.Y')) . '). Nach Zahlungseingang erhältst Du Dein Ticket und alle weiteren Informationen.</p>'

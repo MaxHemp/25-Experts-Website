@@ -26,6 +26,19 @@ $canon = rtrim(x25ed_abs_url($ed), '/') . '/anmeldung';
 $landing = x25ed_url($ed);
 $label = x25ed_label($ed);
 $endpoint = '/anmeldung/send.php';
+require_once dirname(__DIR__) . '/anmeldung/lib/curation.php';
+$invitation=(string)($_GET['einladung']??'');
+$invite=$invitation!==''?x25_invite_read($invitation,(string)$ed['slug']):null;
+$invEmail=$invite!==null?(string)$invite['email']:'';
+$invNotice='';
+if($invitation!=='') {
+    header('Referrer-Policy: no-referrer');
+    header('Cache-Control: no-store');
+    $invNotice=$invite!==null
+        ? '<div class="x-invitation"><p class="x-kicker">Deine persönliche Einladung</p><p>Deine fachliche Passung ist bereits geprüft. Vervollständige Deine Angaben; anschließend kannst Du verbindlich buchen, sofern ein Platz frei ist.</p></div>'
+        : '<div class="x-invitation" role="alert"><p>Dieser Einladungslink ist nicht mehr gültig. Bitte kontaktiere die Gastgeber oder <a href="'.$e($landing.'anmeldung').'">stelle eine neue Teilnahme-Anfrage</a>.</p></div>';
+}
+
 $preisBetrag = x25ed_preis_text($ed);
 
 $kopf = x25ed_pagehead($t('kopf.titel'), $t('kopf.lead'), $t('kopf.kicker'));
@@ -62,6 +75,8 @@ HTML;
         <div class="x-card x-card--lg x-wizard" data-reveal>
           <form class="x-form" method="post" action="{$endpoint}" data-wizard data-endpoint="{$endpoint}" data-thanks="{$landing}danke" data-edition="{$e($label)}" data-msg-fehler="{$t('nav.fehler')}" novalidate>
             <input type="hidden" name="edition_slug" value="{$e($ed['slug'])}">
+            <input type="hidden" name="invitation" value="{$e($invitation)}">
+            {$invNotice}
             <ol class="x-wizard__tabs">{$tabs}
             </ol>
 
@@ -91,7 +106,7 @@ HTML;
                 </div>
                 <div class="x-field">
                   <label for="a-email">{$t('feld.email')} <span class="x-req" aria-hidden="true">*</span></label>
-                  <input type="email" id="a-email" name="email" autocomplete="email" required aria-required="true" inputmode="email" aria-describedby="a-email-hint">
+                  <input type="email" id="a-email" name="email" value="{$e($invEmail)}" autocomplete="email" required aria-required="true" inputmode="email" aria-describedby="a-email-hint">
                   <span class="x-hint" id="a-email-hint">{$t('feld.email.hint')}</span>
                   <span class="x-error" role="alert">{$t('feld.email.error')}</span>
                 </div>
@@ -108,13 +123,13 @@ HTML;
               <p class="x-wizard__hinweis">{$t('schritt2.hinweis')}</p>
               <div class="x-form__grid">
                 <div class="x-field x-field--full">
-                  <label for="a-invoice-company">{$t('feld.rechnungsempfaenger')} <span class="x-req" aria-hidden="true">*</span></label>
-                  <input type="text" id="a-invoice-company" name="invoice_company" autocomplete="organization" required aria-required="true">
+                  <label for="a-invoice-company">{$t('feld.rechnungsempfaenger')} (optional)</label>
+                  <input type="text" id="a-invoice-company" name="invoice_company" autocomplete="organization">
                   <span class="x-error" role="alert">{$t('feld.rechnungsempfaenger.error')}</span>
                 </div>
                 <div class="x-field x-field--full">
-                  <label for="a-invoice-address">{$t('feld.rechnungsadresse')} <span class="x-req" aria-hidden="true">*</span></label>
-                  <textarea id="a-invoice-address" name="invoice_address" rows="3" autocomplete="street-address" required aria-required="true"></textarea>
+                  <label for="a-invoice-address">{$t('feld.rechnungsadresse')} (optional)</label>
+                  <textarea id="a-invoice-address" name="invoice_address" rows="3" autocomplete="street-address"></textarea>
                   <span class="x-error" role="alert">{$t('feld.rechnungsadresse.error')}</span>
                 </div>
                 <div class="x-field">
@@ -160,9 +175,10 @@ HTML;
                   <span class="x-error" role="alert">{$t('feld.linkedin.error')}</span>
                 </div>
                 <div class="x-field x-field--full x-field--frage">
-                  <label for="a-question">{$t('feld.frage')}</label>
-                  <textarea id="a-question" name="question" rows="5" aria-describedby="a-question-hint"></textarea>
+                  <label for="a-question">{$t('feld.frage')} <span class="x-req" aria-hidden="true">*</span></label>
+                  <textarea id="a-question" name="question" rows="5" required aria-required="true" aria-describedby="a-question-hint"></textarea>
                   <span class="x-hint" id="a-question-hint">{$t('feld.frage.hint')}</span>
+                  <span class="x-error" role="alert">{$t('feld.frage.error')}</span>
                 </div>
               </div>
             </div>
@@ -229,8 +245,9 @@ x25ed_out(x25ed_shell([
     'body' => $body,
     'canonical' => $canon,
     'cta_href' => '#inhalt',
-    'noindex' => $vorschau,
+    'noindex' => $vorschau || $invitation !== '',
     'og_image' => rtrim(x25ed_abs_url($ed), '/') . '/og.jpg',
     'og_image_alt' => 'Anmeldung: ' . x25ed_label($ed),
     'extra_head' => '  <script src="' . $anmJs . '" defer></script>' . "\n",
-]), 200, $vorschau ? 0 : 600);
+ ]), 200, ($vorschau || $invitation !== '') ? 0 : 600);
+

@@ -33,6 +33,8 @@ function xv_page(string $titel, string $body, int $status = 200): never
       <nav class="v-top__nav">
         <a href="index.php">Editionen</a>
         <a href="/anmeldung/admin.php">Anmeldungen</a>
+        <a href="einladungen.php">Einladungen</a>
+        <a href="begleitung.php">Begleitung</a>
         <a href="einrichtung.php">Passwort</a>
         <a href="/" target="_blank" rel="noopener">Website ansehen ↗</a>
       </nav>
@@ -106,3 +108,4 @@ function xv_ansehen_url(array $ed): string
     }
     return $url;
 }
+

@@ -139,7 +139,7 @@ foreach (x25ed_lines($ed, 'anmeldung', 'paket.fakten') as $x) { $paketFakten .= 
 $dayHtml1 = x25ed_schedule($ed, $t('ablauf.tag1.titel'), $t('ablauf.tag1.meta'), 'ablauf.tag1');
 $dayHtml2 = x25ed_schedule($ed, $t('ablauf.tag2.titel'), $t('ablauf.tag2.meta'), 'ablauf.tag2');
 $preisBetrag = x25ed_preis_text($ed);
-$heroFoto = x25ed_foto('location-panorama', '', 'eager');
+$heroFoto = x25ed_foto((string)($ed['hero_foto'] ?? 'location-panorama'), '', 'eager');
 $dokFoto = x25ed_foto('dokument');
 $hochFoto = x25ed_foto('location-hoch');
 $panoFoto = x25ed_foto('location-panorama');
@@ -149,11 +149,12 @@ $hinweis = $vorschau ? '<div class="x-notice" role="note" style="margin:0"><p cl
 $body = <<<HTML
 
     {$hinweis}
-    <section class="x-hero x-hero--photo x-hero--edition x-hero--kenburns x-dark" aria-labelledby="hero-title">
+    <section class="x-hero x-hero--photo x-hero--edition x-dark" aria-labelledby="hero-title">
       <div class="x-hero__media">{$heroFoto}</div>
       <div class="x-hero__scrim x-hero__scrim--top"></div>
       <div class="x-container x-hero__inner">
         <div class="x-hero__copy">
+          <p class="x-kicker x-edition-label">Edition {$e((string)($ed['edition_number'] ?? '01'))} · {$e((string)$ed['thema'])}</p>
           <p class="x-hero__kicker" data-reveal>{$t('hero.kicker')}</p>
           <h1 class="x-hero__title x-hero__title--edition" id="hero-title" data-reveal style="--x-reveal-delay:80ms">{$nameHtml}</h1>
           <p class="x-hero__meta" data-reveal style="--x-reveal-delay:160ms">{$t('hero.meta')}</p>
@@ -170,6 +171,15 @@ $body = <<<HTML
         <p class="x-hero__side x-hero__note" data-reveal style="--x-reveal-delay:420ms">{$t('hero.note')}</p>
       </div>
       <p class="x-hero__symbol" aria-hidden="true">{$g('symbolbild')}</p>
+    </section>
+
+    <section class="x-promise" aria-label="Persönliche Betreuung">
+      <div class="x-container x-promise__grid">
+        <p><span>Die Auswahl</span><strong>25 Teilnehmer</strong>Persönlich geprüft. Höchstens zwei pro Unternehmen.</p>
+        <p><span>Vor dem Treffen</span><strong>Deine Fragen vorbereitet</strong>Dossier mit Spannungsfeldern und Praxisfällen.</p>
+        <p><span>In Köln</span><strong>Zeit für Begegnungen</strong>Begleitete Gespräche, Aperitif und Dinner.</p>
+        <p><span>Nach sechs Wochen</span><strong>Gemeinsam weiterdenken</strong>Ein moderiertes Online-Wiedersehen gehört dazu.</p>
+      </div>
     </section>
 
     <section class="x-section" id="leitfrage" aria-labelledby="lf-h">
@@ -348,3 +358,4 @@ x25ed_out(x25ed_shell([
     'og_image' => rtrim($canon, '/') . '/og.jpg',
     'og_image_alt' => x25ed_label($ed) . ' · 25-experts.de',
 ]), 200, $vorschau ? 0 : 600);
+

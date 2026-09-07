@@ -25,6 +25,7 @@ if (!in_array($env, ['sandbox', 'live'], true) || $C['paypal_client'] === '' || 
 $t = (string)($in['t'] ?? '');
 $rec = preg_match('/^[a-f0-9]{32}$/', $t) ? x25_store()->findByToken($t) : null;
 if ($rec === null || $rec['status'] !== 'zugelassen') { x25_json(['ok' => false, 'error' => 'Für diese Anmeldung ist keine Zahlung offen.'], 404); }
+if (x25_booking_required($rec)) { x25_json(['ok'=>false,'error'=>'Bitte zuerst die zugesagte Teilnahme verbindlich buchen.'],409); }
 $A = x25_amounts($rec); $ED = x25_edition_for($rec);
 if ($rec['payment_status'] === 'bezahlt') { x25_json(['ok' => true, 'ticket' => $rec['ticket_no'] ?? '', 'already' => true]); }
 

@@ -91,12 +91,14 @@ $d['order_no']        = x25_line($in['order_no'] ?? '', 100);
 $d['invoice_email']   = strtolower(x25_line($in['invoice_email'] ?? '', 254));
 $d['category'] = strtolower(x25_line($in['category'] ?? '', 40));
 $privacy       = x25_truthy($in['privacy'] ?? ($in['consent'] ?? null));   // v5: privacy (consent = ältere Seitenversion)
-$d['source']   = x25_line($in['source'] ?? '', 500);
+$d['source'] = x25_line(explode('?', (string)($in['source'] ?? ''))[0], 500);
+$invitation = x25_line($in['invitation'] ?? '', 100);
 $edition_in    = x25_line($in['edition'] ?? '', 200);
 
 // v8: Edition über edition_slug (dynamische Anmeldeseiten /editionen/{slug}/anmeldung); ohne Slug gilt die config-Edition
 $edSlug = strtolower(x25_line($in['edition_slug'] ?? '', 60));
 $ED = null;
+if ($edSlug === '') { $edSlug = x25_default_slug(); }
 if ($edSlug !== '') {
     require_once dirname(__DIR__) . '/edition/lib.php';
     $ED = x25ed_get($edSlug);
@@ -108,11 +110,13 @@ if ($edSlug !== '') {
 }
 $d['edition']  = $edition_in !== '' ? $edition_in : ($ED !== null ? x25ed_label($ED) : $C['edition']);
 
-foreach (['name' => 'Name', 'company' => 'Unternehmen', 'role' => 'Rolle'] as $k => $label) {   // question ist seit v6 optional
+foreach (['name' => 'Name', 'company' => 'Unternehmen', 'role' => 'Rolle'] as $k => $label) {   // Verantwortung und Anliegen werden vor der Zahlung geprüft
     if ($d[$k] === '') { $errors[$k] = $label . ' fehlt.'; }
 }
 if ($d['level'] === '' || !isset(X25_LEVELS[$d['level']])) { $errors['level'] = 'Ebene fehlt oder ist ungültig.'; }
 if ($d['category'] === '' || !isset(X25_CATEGORIES[$d['category']])) { $errors['category'] = 'Unternehmenstyp fehlt oder ist ungültig.'; }
+if (trim($d['question']) === '') { $errors['question'] = 'Bitte nenne eine aktuelle Frage oder Entscheidung.'; }
+if (!x25_truthy($in['binding'] ?? null)) { $errors['binding'] = 'Bitte bestätige die Teilnahme-Anfrage und die Bedingungen.'; }
 if (!$privacy) { $errors['privacy'] = 'Bitte bestätige den Hinweis zum Datenschutz.'; }
 $emailOk = $d['email'] !== ''
     && filter_var($d['email'], FILTER_VALIDATE_EMAIL) !== false
@@ -140,7 +144,7 @@ if ($RATE_LIMIT > 0 && !x25_rate_ok($RATE_LIMIT, $RATE_WINDOW, $RATE_SALT, 'm'))
 $domainResult = x25_domain_check($d['email']);   // nur noch informativ für die Gastgeber-Mail
 $rec = $d + [
     'token' => x25_token(16), 'action_nonce' => x25_token(12), 'created_at' => gmdate('c'),
-    'status' => 'zugelassen', 'payment_method' => '', 'payment_status' => 'offen',
+    'status' => 'pruefung', 'payment_method' => '', 'payment_status' => 'offen',
     'admission_note' => 'Direktanmeldung' . match ($domainResult) {
         'zugelassen' => ' (Domain auf Allowlist)',
         'freemail' => ' (Freemail-Adresse)',
@@ -157,9 +161,10 @@ $id = 0;
 try {
     $store = x25_store();
     // Platzvergabe unter Sperre: zugelassen, solange in DIESER Edition Plätze frei sind, sonst Warteliste
-    $store->transaction(function (X25Store $s) use (&$rec, &$id, $seatSlug, $maxSeats) {
-        $rec['status'] = x25_seats_taken($s->all(), $seatSlug) < $maxSeats ? 'zugelassen' : 'warteliste';
-        $rec['decided_at'] = gmdate('c'); $rec['decided_by'] = 'automatisch';
+    $store->transaction(function (X25Store $s) use (&$rec, &$id, $seatSlug, $maxSeats, $invitation) {
+        $rec = x25_new_admission($s->all(), $rec, $invitation, $maxSeats);
+        $rec['request_confirmed_at'] = gmdate('c');
+        $rec['terms_version'] = '2026-09-07';
         $id = $s->insert($rec);
     });
     $rec = $store->get($id);
@@ -167,9 +172,12 @@ try {
     // Mails: (a) Bestätigung mit Zahlungsaufforderung bzw. Warteliste an den Anmelder, (b) Info an die Gastgeber
     match ($rec['status']) {
         'zugelassen' => x25_mail_zusage($rec),
-        default => x25_mail_warteliste($rec),
+        'warteliste' => x25_mail_warteliste($rec),
+        default => x25_mail_pruefung($rec),
     };
     x25_mail_hosts_neu($rec);
+} catch (InvalidArgumentException $e) {
+    x25_respond(false, $e->getMessage(), 422, 'pflicht');
 } catch (PHPMailer\PHPMailer\Exception $e) {
     x25_log('Versand fehlgeschlagen (' . substr($e->getMessage(), 0, 200) . ')');   // keine personenbezogenen Daten
     if ($id > 0) { try { x25_store()->deleteWhere(static fn($r) => (int)$r['id'] === $id); } catch (Throwable) {} }   // kein Datensatz ohne Bestätigung
@@ -203,3 +211,4 @@ function x25_respond(bool $ok, ?string $error, int $status, ?string $reason, arr
     header('Location: ' . $landing . ($landing === $C['landing'] ? '?fehler=1&grund=' . rawurlencode($reason ?? 'versand') . '#anmeldung' : 'anmeldung?fehler=1&grund=' . rawurlencode($reason ?? 'versand')), true, 303);
     exit;
 }
+
