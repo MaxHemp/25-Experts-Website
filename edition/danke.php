@@ -16,7 +16,7 @@ $t = static fn(string $k): string => x25ed_txt($ed, 'danke', $k);
 $e = static fn(?string $s): string => x25ed_e($s);
 $canon = rtrim(x25ed_abs_url($ed), '/') . '/danke';
 $landing = x25ed_url($ed);
-$foto = x25ed_foto('kuverts', '', 'eager');
+$foto = x25ed_editionsfoto($ed, 'kuverts', '', 'eager');
 
 $body = <<<HTML
 

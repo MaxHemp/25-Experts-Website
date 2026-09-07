@@ -767,6 +767,24 @@ function x25ed_can_view(array $ed): bool
 }
 
 // ------------------------------------------------------------------ HTML-Bausteine der öffentlichen Seiten
+/** Female-Edition: ausschließlich die geprüften Motive mit Frauen verwenden.
+ * Die Auswahl gilt auch für bestehende Backend-Daten und neu gesetzte foto:-Marker.
+ */
+function x25ed_editionsfoto(array $ed, string $key, string $cls = '', string $loading = 'lazy'): string
+{
+    if (($ed['slug'] ?? '') !== 'female') { return x25ed_foto($key, $cls, $loading); }
+    $photos = [
+        'gespraech' => ['female-gespraech-v1.webp', 1536, 1024, 'Teilnehmerinnen im fachlichen Gespräch am Tisch.'],
+        'arbeit' => ['female-arbeitsphase-v1.webp', 1122, 1402, 'Zwei Teilnehmerinnen besprechen ein Dokument; ein Kuvert liegt auf dem Tisch.'],
+        'dinner' => ['female-dinner-v1.webp', 1536, 1024, 'Teilnehmerinnen beim gemeinsamen Dinner.'],
+    ];
+    $slot = $key === 'dinner' ? 'dinner' : (in_array($key, ['dokument', 'arbeitsblock', 'kuverts', 'siegel', 'location-hoch'], true) ? 'arbeit' : 'gespraech');
+    [$file, $w, $h, $alt] = $photos[$slot];
+    $ld = $loading === 'eager' ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"';
+    $c = $cls !== '' ? ' class="' . x25ed_e($cls) . '"' : '';
+    return '<img' . $c . ' src="/assets/img/editionen/' . $file . '" width="' . $w . '" height="' . $h . '" alt="' . x25ed_e('KI-generiertes Symbolbild: ' . $alt) . '"' . $ld . '>';
+}
+
 /** <img> aus dem Foto-Manifest (lokale Dateien unter /assets/img/fotos/). */
 function x25ed_foto(string $key, string $cls = '', string $loading = 'lazy', ?string $alt = null): string
 {

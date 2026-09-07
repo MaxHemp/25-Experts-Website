@@ -88,7 +88,7 @@ function x25ed_schedule(array $ed, string $day, string $meta, string $prefix): s
         $d = $desc !== '' ? '<p class="x-timeline__desc">' . $desc . '</p>' : '';
         $chip = '';
         foreach ($markers as $m) {
-            if (str_starts_with((string)$m, 'foto:')) { $chip = x25ed_foto(substr((string)$m, 5), 'x-timeline__chip'); }
+            if (str_starts_with((string)$m, 'foto:')) { $chip = x25ed_editionsfoto($ed, substr((string)$m, 5), 'x-timeline__chip'); }
         }
         $lis .= '<li' . $c . '><time class="x-timeline__time" datetime="' . x25ed_e($t) . '">' . $t . '</time><span class="x-timeline__dot" aria-hidden="true"></span><div class="x-timeline__body"><p class="x-timeline__title">' . $txt . '</p>' . $d . $chip . '</div></li>' . "\n              ";
     }
@@ -139,10 +139,12 @@ foreach (x25ed_lines($ed, 'anmeldung', 'paket.fakten') as $x) { $paketFakten .= 
 $dayHtml1 = x25ed_schedule($ed, $t('ablauf.tag1.titel'), $t('ablauf.tag1.meta'), 'ablauf.tag1');
 $dayHtml2 = x25ed_schedule($ed, $t('ablauf.tag2.titel'), $t('ablauf.tag2.meta'), 'ablauf.tag2');
 $preisBetrag = x25ed_preis_text($ed);
-$heroFoto = x25ed_foto((string)($ed['hero_foto'] ?? 'location-panorama'), '', 'eager');
-$dokFoto = x25ed_foto('dokument');
-$hochFoto = x25ed_foto('location-hoch');
-$panoFoto = x25ed_foto('location-panorama');
+$heroFoto = x25ed_editionsfoto($ed, ($slug === 'female' ? 'gespraech' : (string)($ed['hero_foto'] ?? 'location-panorama')), '', 'eager');
+$dokFoto = x25ed_editionsfoto($ed, 'dokument');
+$hochFoto = x25ed_editionsfoto($ed, 'location-hoch');
+$panoFoto = x25ed_editionsfoto($ed, 'location-panorama');
+$docCaption = $slug === 'female' ? 'KI-generiertes Symbolbild: Teilnehmerinnen besprechen ihre Ergebnisse.' : $t('dp.bildunterschrift');
+$locationCaption = $slug === 'female' ? 'KI-generiertes Symbolbild: Gemeinsame Arbeit in einer kleinen Runde.' : $t('anreise.bild.hoch');
 $kodex = x25ed_kodex_teaser($ed, $t('kodex.link'));
 $hinweis = $vorschau ? '<div class="x-notice" role="note" style="margin:0"><p class="x-kicker">Vorschau</p><p>Diese Edition ist noch nicht veröffentlicht (Status: ' . x25ed_e(X25ED_STATUS[$ed['status']] ?? $ed['status']) . '). Diese Ansicht ist nur über den Vorschau-Link erreichbar.</p></div>' : '';
 
@@ -229,7 +231,7 @@ $body = <<<HTML
 
     <section class="x-section x-section--muted" id="dissenspapier" aria-labelledby="dp-h">
       <div class="x-container x-grid x-grid--center">
-        <figure class="x-figure x-figure--4x5 x-col-5" data-reveal>{$dokFoto}<figcaption>{$t('dp.bildunterschrift')}</figcaption></figure>
+        <figure class="x-figure x-figure--4x5 x-col-5" data-reveal>{$dokFoto}<figcaption>{$docCaption}</figcaption></figure>
         <div class="x-col-6 x-offset-1" data-reveal>
           <p class="x-kicker">{$t('dp.kicker')}</p>
           <h2 id="dp-h" class="x-h2">{$t('dp.titel')}</h2>
@@ -301,7 +303,7 @@ $body = <<<HTML
           <h2 id="ort-h" class="x-h2">{$t('anreise.titel')}</h2>
         </div>
         <div class="x-location" data-reveal-group>
-          <div class="x-location__hoch">{$hochFoto}<p class="x-symbol x-mt-2">{$t('anreise.bild.hoch')}</p></div>
+          <div class="x-location__hoch">{$hochFoto}<p class="x-symbol x-mt-2">{$locationCaption}</p></div>
           <div class="x-location__cards">
             <div class="x-card x-card--lg">
               <p class="x-kicker">{$t('warumkoeln.kicker')}</p>
@@ -358,4 +360,3 @@ x25ed_out(x25ed_shell([
     'og_image' => rtrim($canon, '/') . '/og.jpg',
     'og_image_alt' => x25ed_label($ed) . ' · 25-experts.de',
 ]), 200, $vorschau ? 0 : 600);
-

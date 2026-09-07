@@ -41,7 +41,8 @@ function x25ed_karte_online(array $ed): string
     $meta = x25ed_render((string)($karte['meta'] ?? ''), $vars);
     $nameHtml = x25ed_name_html($ed);
     $url = x25ed_url($ed);
-    $foto = ($ed['foto'] ?? '') !== '' ? x25ed_foto((string)$ed['foto']) : x25ed_foto('location-hoch');
+    $fotoKey = ($ed['slug'] ?? '') === 'female' ? 'gespraech' : (string)(($ed['foto'] ?? '') ?: 'location-hoch');
+    $foto = x25ed_editionsfoto($ed, $fotoKey);
     $cta = x25ed_g('cta.platz-anmelden', $ed);
     $anm = !empty($ed['anmeldung_offen'])
         ? '<a class="x-btn x-btn--on-dark" href="' . $e($url . 'anmeldung') . '">' . $cta . '</a>'
@@ -93,4 +94,3 @@ function x25ed_karte_teaser(array $ed): string
           </article>
 HTML;
 }
-
