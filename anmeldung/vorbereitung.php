@@ -4,7 +4,7 @@ require __DIR__.'/lib/flow.php';
 header('Referrer-Policy: no-referrer');
 $token=(string)($_REQUEST['t']??'');
 $rec=preg_match('/^[a-f0-9]{32}$/',$token)?x25_store()->findByToken($token):null;
-if (!$rec || $rec['status']!=='zugelassen') { x25_out(x25_page('Link nicht verfügbar','<h1>Dieser persönliche Link ist nicht verfügbar.</h1><p>Bitte nutze den Vorbereitungslink aus Deiner Zusage oder wende Dich an die Gastgeber.</p>'),404); }
+if (!$rec || $rec['status']!=='zugelassen') { x25_out(x25_page('Link nicht verfügbar','<h1>Dieser persönliche Link ist nicht verfügbar.</h1><p>Bitte nutze den Vorbereitungslink aus Deiner Zusage oder wende Dich an das Organisationsteam.</p>'),404); }
 $h=static fn($s):string=>x25_e((string)$s);$ed=x25_edition_for($rec);$csrf=x25_sign('vorbereitung|'.$token);$flash='';
 if (($_SERVER['REQUEST_METHOD']??'GET')==='POST') {
     if (!hash_equals($csrf,(string)($_POST['csrf']??''))) { x25_out(x25_page('Anfrage abgelehnt','<h1>Bitte lade Deine Vorbereitungsseite erneut.</h1>'),403); }
@@ -31,8 +31,8 @@ if (!empty($settings['dossier_ready'])) {
         if(trim((string)($settings[$k]??''))!=='') { $dossier.='<h3>'.$title.'</h3><p style="white-space:pre-wrap">'.$h($settings[$k]).'</p>'; }
     }
 }
-if ($dossier==='') { $dossier='<p>Die Gastgeber bereiten aus Euren Fragen ein kurzes Dossier vor. Sobald es freigegeben ist, findest Du es hier.</p>'; }
-$meeting='<p>Unser moderiertes Online-Wiedersehen ist sechs Wochen nach der Edition vorgesehen. Den genauen Termin und Zugangslink erhältst Du von den Gastgebern; nach der Terminierung findest Du beides auch hier.</p>';
+if ($dossier==='') { $dossier='<p>Das Organisationsteam bereitet aus Euren Fragen ein kurzes Dossier vor. Sobald es freigegeben ist, findest Du es hier.</p>'; }
+$meeting='<p>Unser moderiertes Online-Wiedersehen ist sechs Wochen nach der Edition vorgesehen. Den genauen Termin und Zugangslink erhältst Du vom Organisationsteam; nach der Terminierung findest Du beides auch hier.</p>';
 if (!empty($settings['meeting_date'])) { $meeting.='<p><strong>'.$h($settings['meeting_date']).'</strong></p>'; }
 if (!empty($settings['meeting_url']) && filter_var($settings['meeting_url'],FILTER_VALIDATE_URL) && str_starts_with($settings['meeting_url'],'https://')) { $meeting.='<p><a class="btn" href="'.$h($settings['meeting_url']).'" rel="noreferrer noopener">Zum Online-Wiedersehen</a></p>'; }
 $care=(array)($rec['care']??[]);

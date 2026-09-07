@@ -8,7 +8,7 @@
  * Prüft Pflichtfelder (Feldliste v7: Wizard-Anmeldeseite mit Vor-/Nachname, Telefon und Rechnungsdaten;
  * offene Frage optional; das alte Feld 'name' wird weiter akzeptiert), Honeypot, Rate-Limit, Origin, Header-Injection;
  * speichert die Anmeldung (lib/store.php, data/). Keine Vorprüfung: Jede gültige Anmeldung ist sofort zugelassen
- * und wird direkt zur Zahlung geleitet (Warteliste, wenn MAX_SEATS belegt). Die Gastgeber behalten sich vor,
+ * und wird direkt zur Zahlung geleitet (Warteliste, wenn MAX_SEATS belegt). Der Veranstalter behält sich vor,
  * Anmeldungen für ungültig zu erklären, wenn die Teilnahmebedingungen nicht erfüllt sind (aktion.php/admin.php).
  * Konfiguration: config.php (aus config.example.php), PHP >= 8.1, PHPMailer in lib/.
  */
@@ -141,7 +141,7 @@ if ($RATE_LIMIT > 0 && !x25_rate_ok($RATE_LIMIT, $RATE_WINDOW, $RATE_SALT, 'm'))
 }
 
 // ------------------------------------------------------------------ Speichern (keine Vorprüfung: direkt zugelassen, Warteliste bei vollem Haus)
-$domainResult = x25_domain_check($d['email']);   // nur noch informativ für die Gastgeber-Mail
+$domainResult = x25_domain_check($d['email']);   // nur noch informativ für das Organisationsteam-Mail
 $rec = $d + [
     'token' => x25_token(16), 'action_nonce' => x25_token(12), 'created_at' => gmdate('c'),
     'status' => 'pruefung', 'payment_method' => '', 'payment_status' => 'offen',
@@ -169,7 +169,7 @@ try {
     });
     $rec = $store->get($id);
 
-    // Mails: (a) Bestätigung mit Zahlungsaufforderung bzw. Warteliste an den Anmelder, (b) Info an die Gastgeber
+    // Mails: (a) Bestätigung mit Zahlungsaufforderung bzw. Warteliste an den Anmelder, (b) Info an das Organisationsteam
     match ($rec['status']) {
         'zugelassen' => x25_mail_zusage($rec),
         'warteliste' => x25_mail_warteliste($rec),

@@ -94,6 +94,38 @@ function x25ed_seed(): void
     x25ed_anmeldung_2027_migration();
     x25ed_phrasen_sweep();
     x25ed_experience_migration();
+    x25ed_roles_migration();
+}
+
+/** Nur die freigegebene Rollenbezeichnung in vorhandenen Texten korrigieren. */
+function x25ed_roles_migration(): void
+{
+    $source=X25ED_DIR.'/rollen.json';
+    if(!is_file($source)) { return; }
+    $replacements=json_decode((string)file_get_contents($source),true);
+    if(!is_array($replacements)) { throw new RuntimeException('Rollentexte nicht lesbar.'); }
+    $rewrite=function($value) use (&$rewrite,$replacements) {
+        if(is_string($value)) { return str_replace(array_keys($replacements),array_values($replacements),$value); }
+        if(is_array($value)) { foreach($value as $key=>$item) { $value[$key]=$rewrite($item); } }
+        return $value;
+    };
+    foreach(glob(x25ed_dir().'/*.json')?:[] as $file) {
+        $slug=basename($file,'.json');
+        if(!x25ed_slug_ok($slug)) { continue; }
+        $marker=x25ed_dir().'/.migration-roles-2026-09-v1-'.$slug;
+        if(is_file($marker)) { continue; }
+        $ed=json_decode((string)file_get_contents($file),true);
+        if(!is_array($ed)) { throw new RuntimeException('Edition nicht lesbar.'); }
+        $texts=$rewrite($ed['texte']??[]);
+        if($texts!==($ed['texte']??[])) {
+            $backup=x25ed_dir().'/.'.$slug.'-before-roles-2026-09-v1.json';
+            if(!is_file($backup)&&!copy($file,$backup)) { throw new RuntimeException('Sicherung fehlgeschlagen.'); }
+            chmod($backup,0640);
+            $ed['texte']=$texts;
+            x25ed_save($ed);
+        }
+        if(file_put_contents($marker,gmdate('c'),LOCK_EX)===false) { throw new RuntimeException('Rollenaktualisierung nicht gespeichert.'); }
+    }
 }
 
 /** Freigegebene neue Betreuung und Auswahl. Fachtexte, Termine, Buchungen bleiben erhalten. */

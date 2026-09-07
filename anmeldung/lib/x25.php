@@ -97,7 +97,7 @@ function x25_conf(): array
         'payment_days' => (int)x25_cfg('PAYMENT_DAYS', 14),
         'paypal_env' => (string)x25_cfg('PAYPAL_ENV', 'off'),
         'paypal_client' => (string)x25_cfg('PAYPAL_CLIENT_ID', ''),
-        'gastgeber' => (string)x25_cfg('HOSTS_SIGNATURE', 'Maximilian Hempel und Simon Moser'),
+        'gastgeber' => (string)x25_cfg('HOST_SIGNATURE', 'Maximilian Hempel'),
     ];
     return $c;
 }
@@ -335,7 +335,7 @@ function x25_mail_protokoll_lesen(int $n = 25): array
     $lines = array_filter(array_map('trim', file($file) ?: []), static fn($l) => $l !== '');
     return array_reverse(array_slice($lines, -$n));
 }
-/** Mail an die Gastgeber (MAIL_TO). */
+/** Mail an das Organisationsteam (MAIL_TO). */
 function x25_send_hosts(string $subject, string $html, string $text, string $tag, ?array $replyTo = null): void
 {
     $m = x25_mailer();
@@ -404,12 +404,12 @@ function x25_h_rows(array $rows): string
 }
 function x25_h_sig(): string
 {
-    return x25_h_p('Mit freundlichen Grüßen<br>' . x25_e(x25_conf()['gastgeber']) . '<br><span style="color:' . X25_META . ';">Gastgeber und Moderator · 25 EXPERTS</span>');
+    return x25_h_p('Mit freundlichen Grüßen<br>' . x25_e(x25_conf()['gastgeber']) . '<br><span style="color:' . X25_META . ';">Gastgeber · 25 EXPERTS</span>');
 }
 function x25_t_sig(): string
 {
     $c = x25_conf();
-    return "Mit freundlichen Grüßen\n" . $c['gastgeber'] . "\nGastgeber und Moderator · 25 EXPERTS\n\n--\n25 EXPERTS\n" . $c['footer'] . "\n"
+    return "Mit freundlichen Grüßen\n" . $c['gastgeber'] . "\nGastgeber · 25 EXPERTS\n\n--\n25 EXPERTS\n" . $c['footer'] . "\n"
         . "Datenschutz: " . $c['site'] . "datenschutz · Impressum: " . $c['site'] . "impressum\n";
 }
 /** Komplette HTML-Mail. $withLinks: Datenschutz/Impressum im Fuß; $editionLabel: Kopfzeile rechts (Standard: config EDITION). */

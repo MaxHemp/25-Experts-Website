@@ -54,7 +54,7 @@ HTML;
 // ------------------------------------------------------------------ Zugang
 // Zugangsdaten: über die Verwaltung gesetzt (anmeldung/data/verwaltung-zugang.json) oder
 // ADMIN_USER/ADMIN_PASS_HASH aus config.php. Noch nichts eingerichtet → Erst-Einrichtung
-// (einrichtung.php, Bestätigungscode per E-Mail an die Gastgeber-Adresse).
+// (einrichtung.php, Bestätigungscode per E-Mail an das Organisationsteam-Adresse).
 function xv_basic_credentials(): array
 {
     if (isset($_SERVER['PHP_AUTH_USER'])) { return [(string)$_SERVER['PHP_AUTH_USER'], (string)($_SERVER['PHP_AUTH_PW'] ?? '')]; }

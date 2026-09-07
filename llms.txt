@@ -12,7 +12,8 @@
 - Teilnahme-Anfrage mit persönlicher Prüfung vor der Zahlung (PayPal oder Rechnung nach Zusage): https://25-experts.de/editionen/change-management/anmeldung
 - Nach sechs Wochen: moderiertes Online-Wiedersehen, im Teilnahmebeitrag enthalten
 - Was Teilnehmer mitnehmen: ein belastbares Netzwerk derselben Funktion, Impulse aus anderen Häusern und das Dissenspapier mit den gemeinsamen Thesen
-- Gastgeber: Maximilian Hempel (Gastgeber und Geschäftsführer), Simon Moser (Moderator und Co-Host)
+- Gastgeber und Geschäftsführer: Maximilian Hempel
+- Moderator: Simon Moser
 - Kontakt: info@25-experts.de · Veranstalter: 25 EXPERTS UG (haftungsbeschränkt) i. G., Köln
 
 ## Seiten
@@ -32,4 +33,5 @@
 - [25 FEMALE EXPERTS](https://25-experts.de/editionen/female/) · 14./15. April 2027 (vorläufig)
 - [25 OPERATIONS EXPERTS](https://25-experts.de/editionen/operations/) · 9./10. Juni 2027 (vorläufig)
 - [25 SECURITY EXPERTS](https://25-experts.de/editionen/security/) · 28./29. Januar 2027 (vorläufig)
+- [25 SUSTAINABILITY EXPERTS](https://25-experts.de/editionen/sustainability/) · 7./8. Oktober 2027 (vorläufig)
 - [25 VERTRIEBS EXPERTS](https://25-experts.de/editionen/vertrieb/) · 18./19. März 2027 (vorläufig)

@@ -36,7 +36,7 @@ if($invitation!=='') {
     header('Cache-Control: no-store');
     $invNotice=$invite!==null
         ? '<div class="x-invitation"><p class="x-kicker">Deine persönliche Einladung</p><p>Deine fachliche Passung ist bereits geprüft. Vervollständige Deine Angaben; anschließend kannst Du verbindlich buchen, sofern ein Platz frei ist.</p></div>'
-        : '<div class="x-invitation" role="alert"><p>Dieser Einladungslink ist nicht mehr gültig. Bitte kontaktiere die Gastgeber oder <a href="'.$e($landing.'anmeldung').'">stelle eine neue Teilnahme-Anfrage</a>.</p></div>';
+        : '<div class="x-invitation" role="alert"><p>Dieser Einladungslink ist nicht mehr gültig. Bitte kontaktiere das Organisationsteam oder <a href="'.$e($landing.'anmeldung').'">stelle eine neue Teilnahme-Anfrage</a>.</p></div>';
 }
 
 $preisBetrag = x25ed_preis_text($ed);

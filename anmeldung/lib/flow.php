@@ -175,7 +175,7 @@ function x25_mail_zusage(array $rec): void
     $a1 = 'Deine Teilnahme an ' . $ed['name'] . ' am ' . $ed['datum'] . ' in ' . $ed['ort'] . ' ist freigegeben. Einer der ' . $ed['max_seats'] . ' Plätze ist für Dich reserviert.';
     $rows = [['Termin', $ed['datum']], ['Ort', $ed['venue']], ['Beitrag', x25_money($a['net']) . ' netto zzgl. ' . (int)round($a['rate'] * 100) . ' % USt. = ' . x25_money($a['gross']) . ' brutto']];
     $a2 = 'Über die folgende Seite kannst Du Deine zugesagte Teilnahme verbindlich buchen und den Teilnahmebeitrag bezahlen. Dort kannst Du zwischen PayPal und Zahlung per Rechnung (Zahlungsziel ' . $c['payment_days'] . ' Tage) wählen. Mit dem Zahlungseingang ist Dein Platz verbindlich; Du erhältst dann Dein Ticket und alle weiteren Informationen. Solltest Du verhindert sein, sag uns bitte kurz Bescheid, damit wir den Platz weitergeben können.';
-    $a2b = 'Die 25 Teilnehmerplätze sind persönlich vergeben. Gastgeber und Impulsgeber kommen hinzu. Während der fachlichen Arbeitsphasen wird nicht fotografiert oder gefilmt.';
+    $a2b = 'Die 25 Teilnehmerplätze sind persönlich vergeben. Gastgeber, Moderator und Impulsgeber kommen hinzu. Während der fachlichen Arbeitsphasen wird nicht fotografiert oder gefilmt.';
     $a3 = 'Dein persönlicher Vorbereitungslink: ' . x25_prepare_url($rec) . ' – ergänze dort bitte bis zwei Wochen vor dem Treffen Deine aktuelle Entscheidung, eine eigene Erfahrung und das, was Du von anderen verstehen möchtest. Keine vertraulichen Unternehmens- oder Kundendaten angeben.';
     $a4 = 'Wir bereiten daraus das Dossier vor und vermitteln passende Gespräche. Sechs Wochen nach der Edition treffen wir uns moderiert online wieder. Den genauen Termin und Zugang teilen wir Dir persönlich mit.';
     $txt = "Hallo " . $rec['name'] . ",\n\n" . x25_wrap($a1) . "\n\n" . x25_t_rows($rows) . "\n" . x25_wrap($a2) . "\n\nZur Zahlung (PayPal oder Rechnung):\n" . $url . "\n\n"
@@ -312,7 +312,7 @@ function x25_mail_ticket(array $rec): void
     x25_send_person($rec, $subj, $html, $txt, 'ticket', $png !== '' ? ['ticketqr' => [$png, 'ticket-qr.png', 'image/png']] : []);
 }
 
-// ================================================================== Mails an die Gastgeber (MAIL_TO)
+// ================================================================== Mails an das Organisationsteam (MAIL_TO)
 /** Neue Anmeldung: Info (zugelassen/warteliste) bzw. Prüfauftrag mit den zwei signierten Links (prüfung). */
 function x25_mail_hosts_neu(array $rec): void
 {

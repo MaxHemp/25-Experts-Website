@@ -183,7 +183,7 @@ function x25_admin_mail_card(string $csrf, array $C, callable $h): string
     if ($smtpUser === '') { $checks[] = 'SMTP_USER ist leer – in config.php die vollständige Postfach-Adresse eintragen (z. B. info@25-experts.de).'; }
     if ($smtpPass === '' || str_starts_with($smtpPass, 'HIER-DAS-POSTFACH')) { $checks[] = 'SMTP_PASS ist nicht gesetzt (leer oder Platzhalter aus config.example.php) – jeder Versand schlägt fehl.'; }
     if ($smtpUser !== '' && (string)x25_cfg('MAIL_FROM', $smtpUser) !== $smtpUser) { $checks[] = 'MAIL_FROM weicht vom SMTP-Postfach (SMTP_USER) ab – Hostinger lehnt fremde Absenderadressen ab.'; }
-    if ($C['mail_to'] === '') { $checks[] = 'MAIL_TO ist leer – die Gastgeber erhalten keine Benachrichtigungen über neue Anmeldungen.'; }
+    if ($C['mail_to'] === '') { $checks[] = 'MAIL_TO ist leer – das Organisationsteam erhält keine Benachrichtigungen über neue Anmeldungen.'; }
     if ((string)x25_cfg('INVOICE_TAX_ID', '') === '' && (string)x25_cfg('INVOICE_VAT_ID', '') === '') {
         $checks[] = 'Auf den Rechnungen fehlt Steuernummer und USt-IdNr. – eine davon ist Pflichtangabe nach § 14 UStG. INVOICE_TAX_ID oder INVOICE_VAT_ID in config.php eintragen.';
     }

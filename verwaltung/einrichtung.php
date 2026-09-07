@@ -3,7 +3,7 @@
  * 25 EXPERTS – Verwaltung: Zugang einrichten und Passwort ändern (ohne Terminal/Dateimanager).
  *
  * Erst-Einrichtung (noch kein Zugang gesetzt) UND Zurücksetzen (Zugangsdaten vergessen):
- *   1. „Code anfordern“ → ein Bestätigungscode geht per E-Mail an die Gastgeber-Adresse (MAIL_TO,
+ *   1. „Code anfordern“ → ein Bestätigungscode geht per E-Mail an das Organisationsteam-Adresse (MAIL_TO,
  *      info@25-experts.de). Damit kann nur das Team den Zugang anlegen bzw. neu setzen.
  *   2. Code + Benutzername + Passwort eintragen → Zugang wird in anmeldung/data/verwaltung-zugang.json
  *      gespeichert (gilt für /verwaltung/ UND /anmeldung/admin.php); ein vorhandener Zugang wird ersetzt.
@@ -153,7 +153,7 @@ $schrittStart = <<<HTML
     <form method="post" action="einrichtung.php" class="v-card v-form">
       <input type="hidden" name="do" value="code">
       <h2>Schritt 1: Bestätigungscode anfordern</h2>
-      <p class="v-meta v-maxw">Zum Schutz vor Fremden schickt der Server einen Code an die Gastgeber-Adresse (info@25-experts.de). Nur wer dieses Postfach lesen kann, kann den Zugang einrichten.</p>
+      <p class="v-meta v-maxw">Zum Schutz vor Fremden schickt der Server einen Code an das Organisationsteam-Adresse (info@25-experts.de). Nur wer dieses Postfach lesen kann, kann den Zugang einrichten.</p>
       <p class="v-mt"><button class="v-btn v-btn--gross" type="submit">Code per E-Mail anfordern</button></p>
     </form>
 HTML;
@@ -170,3 +170,4 @@ $body = '<p class="v-kicker">Verwaltung</p><div class="v-kopfzeile"><div><h1>' .
     . $flashHtml . $hinweisLogin
     . ($modus === 'code' ? $schrittCode . $schrittStart : $schrittStart);
 xv_page($titel, $body);
+

@@ -59,20 +59,20 @@ function x25_new_admission(array $all, array $rec, string $invitation, int $max)
     $slug=(string)$rec['edition_slug'];
     foreach ($all as $row) {
         if (($row['edition_slug']??x25_default_slug())===$slug && strtolower((string)($row['email']??''))===$rec['email'] && ($row['status']??'')!=='abgesagt') {
-            throw new InvalidArgumentException('Zu dieser E-Mail besteht bereits eine Anfrage für diese Edition. Bitte nutze Deine Bestätigung oder kontaktiere die Gastgeber.');
+            throw new InvalidArgumentException('Zu dieser E-Mail besteht bereits eine Anfrage für diese Edition. Bitte nutze Deine Bestätigung oder kontaktiere das Organisationsteam.');
         }
     }
     $rec['admission_mode']='persoenlich'; $rec['review_due_at']=x25_review_due();
     $rec['status']='pruefung'; $rec['admission_note']='Fachliche Passung und Zusammensetzung persönlich prüfen.';
     if ($invitation !== '') {
         $invite=x25_invite_read($invitation,$slug);
-        if (!$invite || !hash_equals($invite['email'],$rec['email'])) { throw new InvalidArgumentException('Der Einladungslink ist abgelaufen oder gehört zu einer anderen E-Mail-Adresse. Bitte kontaktiere die Gastgeber.'); }
+        if (!$invite || !hash_equals($invite['email'],$rec['email'])) { throw new InvalidArgumentException('Der Einladungslink ist abgelaufen oder gehört zu einer anderen E-Mail-Adresse. Bitte kontaktiere das Organisationsteam.'); }
         $hash=hash('sha256',$invitation);
         foreach($all as $row) { if (($row['invitation_hash']??'')===$hash) { throw new InvalidArgumentException('Diese Einladung wurde bereits verwendet. Bitte nutze Deine Bestätigung.'); } }
         $rec['invitation_hash']=$hash;
         $limit=x25_admission_limit($all,$rec,$max);
         $rec['status']=$limit===''?'zugelassen':'warteliste';
-        $rec['admission_note']=$limit===''?'Persönliche Einladung; fachliche Prüfung durch Gastgeber erfolgt.':$limit;
+        $rec['admission_note']=$limit===''?'Persönliche Einladung; fachliche Prüfung durch den Veranstalter erfolgt.':$limit;
         $rec['decided_at']=gmdate('c'); $rec['decided_by']='persoenliche-einladung';
     }
     return $rec;

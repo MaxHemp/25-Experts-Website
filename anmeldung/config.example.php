@@ -24,7 +24,7 @@ define('MAIL_TO', 'info@25-experts.de');     // Gastgeber-Postfach: Benachrichti
 define('MAIL_TO_NAME', '25 EXPERTS Anmeldungen');
 // Antwortadresse für Mails an Anmelder (wenn sie auf Bestätigung/Zusage/Rechnung/Ticket antworten). Leer lassen = MAIL_TO.
 define('MAIL_CONFIRM_REPLY_TO', '');
-define('HOSTS_SIGNATURE', 'Maximilian Hempel und Simon Moser');   // Grußformel in allen Mails an Anmelder
+define('HOST_SIGNATURE', 'Maximilian Hempel');   // Grußformel in allen Mails an Anmelder
 
 // --- Edition / Website ---------------------------------------------------------------------
 define('EDITION', '25 CHANGE MANAGEMENT EXPERTS · 02./03.12.2026 · Köln');   // Kopfzeile in Mails/Seiten
@@ -105,3 +105,4 @@ define('STORE_BACKEND', 'auto');
 // in MAIL_DUMP_DIR abgelegt (nur für lokale Tests, nie auf dem Live-Server verwenden).
 define('MAIL_TRANSPORT', 'smtp');
 define('MAIL_DUMP_DIR', sys_get_temp_dir() . '/25x-mails');
+
