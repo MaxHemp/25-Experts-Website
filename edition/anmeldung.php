@@ -41,7 +41,22 @@ if($invitation!=='') {
 
 $preisBetrag = x25ed_preis_text($ed);
 
-$kopf = x25ed_pagehead($t('kopf.titel'), $t('kopf.lead'), $t('kopf.kicker'));
+$requestTitle = $invite !== null ? 'Deine Einladung annehmen' : 'Teilnahme kostenfrei anfragen';
+$requestInfo = $invite !== null ? 'Deine Einladung liegt vor. Nach Deinen Angaben kannst Du verbindlich buchen, sofern ein Platz frei ist.' : 'In drei Schritten zu Deiner Anfrage. Wir melden uns innerhalb von zwei Werktagen. Noch keine Buchung, keine Zahlungspflicht.';
+$requestButton = $invite !== null ? 'Weiter zur verbindlichen Buchung' : 'Teilnahme kostenfrei anfragen';
+$requestConsent = $invite !== null ? 'Ich möchte meine Einladung nutzen und anschließend die Buchungsangaben prüfen. Mit diesem Schritt buche ich noch nicht verbindlich.' : 'Ich möchte meine Teilnahme kostenfrei anfragen. Eine verbindliche Buchung erfolgt erst in einem eigenen Schritt nach der Zusage.';
+$gross = number_format(x25ed_preis($ed) * 1.19, 2, ',', '.') . ' €';
+$eventDate = $e((string)$ed['datum_text']);
+$example = [
+ 'change-management'=>'Wir führen einen KI-Assistenten ein. Wie nehme ich skeptische Kolleginnen und Kollegen mit und erkenne, ob unsere Begleitung wirkt?',
+ 'security'=>'Wie können wir KI-Werkzeuge freigeben, ohne vertrauliche Daten ungeschützt weiterzugeben?',
+ 'vertrieb'=>'Wie nutzen wir KI in der Beratung, ohne das persönliche Vertrauen unserer Kunden zu verlieren?',
+ 'operations'=>'Fachbereich und IT priorisieren unterschiedlich. Wie kommen wir zu gemeinsamen Entscheidungen über Automatisierung?',
+ 'female'=>'Ich übernehme fachliche Verantwortung für KI-Projekte. Wie mache ich meinen Beitrag sichtbar und gewinne Unterstützung?',
+ 'data'=>'Unsere Datenqualität schwankt. Welche Verbesserungen bringen für unsere KI-Anwendung zuerst einen messbaren Nutzen?',
+ 'sustainability'=>'Wie vergleichen wir die Wirkung verschiedener Maßnahmen, wenn die Daten noch unvollständig sind?'
+][$slug] ?? 'Welche Entscheidung beschäftigt Dich gerade, und welche Erfahrungen anderer Häuser würden Dir helfen?';
+$kopf = '<section class="x-request-head"><div class="x-container"><p class="x-kicker">'.$e($ed['name']).' · '.$eventDate.'</p><h1 class="x-h2">'.$requestTitle.'</h1><p>'.$requestInfo.'</p><a class="x-link" href="#leistungen">Preis und Leistungen ansehen</a></div></section>';
 
 $ebeneOptionen = '';
 $ebeneWerte = ['', 'teamleitung', 'abteilungsleitung', 'bereichsleitung', 'vorstand', 'vorstandsstab', 'sonstiges'];
@@ -49,10 +64,11 @@ foreach (x25ed_lines($ed, 'anmeldung', 'feld.ebene.optionen') as $i => $l) {
     $v = $ebeneWerte[$i] ?? '';
     $ebeneOptionen .= '<option value="' . $e($v) . '">' . $l . "</option>\n                  ";
 }
+$stepNames = ['Deine Kontaktdaten', 'Dein Anliegen', 'Prüfen und senden'];
 $tabs = '';
-for ($i = 1; $i <= 4; $i++) {
+for ($i = 1; $i <= 3; $i++) {
     $act = $i === 1 ? ' is-active' : '';
-    $tabs .= "\n          <li class=\"x-wizard__tab{$act}\" data-step-tab=\"{$i}\"><button type=\"button\"><span class=\"x-wizard__num\">{$i}</span><span>" . $t('schritt' . $i . '.tab') . '</span></button></li>';
+    $tabs .= "\n          <li class=\"x-wizard__tab{$act}\" data-step-tab=\"{$i}\"><button type=\"button\"><span class=\"x-wizard__num\">{$i}</span><span>" . $stepNames[$i - 1] . '</span></button></li>';
 }
 $paket = '';
 foreach (x25ed_lines($ed, 'anmeldung', 'paket.enthalten') as $x) { $paket .= "\n            <li>{$x}</li>"; }
@@ -72,16 +88,17 @@ HTML;
 } else {
     $formTeil = <<<HTML
 
-        <div class="x-card x-card--lg x-wizard" data-reveal>
+        <div class="x-card x-card--lg x-wizard" id="anfrage-formular">
           <form class="x-form" method="post" action="{$endpoint}" data-wizard data-endpoint="{$endpoint}" data-thanks="{$landing}danke" data-edition="{$e($label)}" data-msg-fehler="{$t('nav.fehler')}" novalidate>
             <input type="hidden" name="edition_slug" value="{$e($ed['slug'])}">
             <input type="hidden" name="invitation" value="{$e($invitation)}">
             {$invNotice}
-            <ol class="x-wizard__tabs">{$tabs}
+            <p class="x-wizard__progress x-wizard__jsonly" aria-live="polite" aria-atomic="true">Schritt 1 von 3 · Deine Kontaktdaten</p>
+            <ol class="x-wizard__tabs x-wizard__jsonly">{$tabs}
             </ol>
 
             <div class="x-wizard__step is-active" data-step="1">
-              <p class="x-kicker">{$t('schritt1.titel')}</p>
+              <p class="x-kicker">Deine Kontaktdaten</p>
               <div class="x-form__grid">
                 <div class="x-field">
                   <label for="a-vorname">{$t('feld.vorname')} <span class="x-req" aria-hidden="true">*</span></label>
@@ -101,7 +118,7 @@ HTML;
                 <div class="x-field">
                   <label for="a-role">{$t('feld.rolle')} <span class="x-req" aria-hidden="true">*</span></label>
                   <input type="text" id="a-role" name="role" autocomplete="organization-title" required aria-required="true" aria-describedby="a-role-hint">
-                  <span class="x-hint" id="a-role-hint">{$t('feld.rolle.hint')}</span>
+                  <span class="x-hint" id="a-role-hint">Fachliche Verantwortung zählt – auch ohne Führungsposition.</span>
                   <span class="x-error" role="alert">{$t('feld.rolle.error')}</span>
                 </div>
                 <div class="x-field">
@@ -119,35 +136,7 @@ HTML;
             </div>
 
             <div class="x-wizard__step" data-step="2">
-              <p class="x-kicker">{$t('schritt2.titel')}</p>
-              <p class="x-wizard__hinweis">{$t('schritt2.hinweis')}</p>
-              <div class="x-form__grid">
-                <div class="x-field x-field--full">
-                  <label for="a-invoice-company">{$t('feld.rechnungsempfaenger')} (optional)</label>
-                  <input type="text" id="a-invoice-company" name="invoice_company" autocomplete="organization">
-                  <span class="x-error" role="alert">{$t('feld.rechnungsempfaenger.error')}</span>
-                </div>
-                <div class="x-field x-field--full">
-                  <label for="a-invoice-address">{$t('feld.rechnungsadresse')} (optional)</label>
-                  <textarea id="a-invoice-address" name="invoice_address" rows="3" autocomplete="street-address"></textarea>
-                  <span class="x-error" role="alert">{$t('feld.rechnungsadresse.error')}</span>
-                </div>
-                <div class="x-field">
-                  <label for="a-order-no">{$t('feld.bestellnummer')}</label>
-                  <input type="text" id="a-order-no" name="order_no" aria-describedby="a-order-hint">
-                  <span class="x-hint" id="a-order-hint">{$t('feld.bestellnummer.hint')}</span>
-                </div>
-                <div class="x-field">
-                  <label for="a-invoice-email">{$t('feld.rechnungsmail')}</label>
-                  <input type="email" id="a-invoice-email" name="invoice_email" inputmode="email" aria-describedby="a-invoice-email-hint">
-                  <span class="x-hint" id="a-invoice-email-hint">{$t('feld.rechnungsmail.hint')}</span>
-                  <span class="x-error" role="alert">{$t('feld.rechnungsmail.error')}</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="x-wizard__step" data-step="3">
-              <p class="x-kicker">{$t('schritt3.titel')}</p>
+              <p class="x-kicker">Deine Verantwortung und Frage</p>
               <div class="x-form__grid">
                 <fieldset class="x-field x-field--full x-fieldset">
                   <legend>{$t('feld.typ.legend')} <span class="x-req" aria-hidden="true">*</span></legend>
@@ -161,14 +150,6 @@ HTML;
                   <span class="x-error" role="alert">{$t('feld.typ.error')}</span>
                 </fieldset>
                 <div class="x-field">
-                  <label for="a-level">{$t('feld.ebene')} <span class="x-req" aria-hidden="true">*</span></label>
-                  <select class="x-select" id="a-level" name="level" required aria-required="true" aria-describedby="a-level-hint">
-                  {$ebeneOptionen}
-                  </select>
-                  <span class="x-hint" id="a-level-hint">{$t('feld.ebene.hint')}</span>
-                  <span class="x-error" role="alert">{$t('feld.ebene.error')}</span>
-                </div>
-                <div class="x-field">
                   <label for="a-linkedin">{$t('feld.linkedin')}</label>
                   <input type="url" id="a-linkedin" name="linkedin" inputmode="url" placeholder="https://www.linkedin.com/in/…" aria-describedby="a-linkedin-hint">
                   <span class="x-hint" id="a-linkedin-hint">{$t('feld.linkedin.hint')}</span>
@@ -176,25 +157,27 @@ HTML;
                 </div>
                 <div class="x-field x-field--full x-field--frage">
                   <label for="a-question">{$t('feld.frage')} <span class="x-req" aria-hidden="true">*</span></label>
-                  <textarea id="a-question" name="question" rows="5" required aria-required="true" aria-describedby="a-question-hint"></textarea>
-                  <span class="x-hint" id="a-question-hint">{$t('feld.frage.hint')}</span>
+                  <textarea id="a-question" name="question" rows="3" maxlength="5000" required aria-required="true" aria-describedby="a-question-hint"></textarea>
+                  <span class="x-hint" id="a-question-hint">Ein bis drei Sätze reichen. Beispiel: {$e($example)}<br>Bitte keine vertraulichen Unternehmens- oder Kundendaten eingeben.</span>
                   <span class="x-error" role="alert">{$t('feld.frage.error')}</span>
                 </div>
               </div>
             </div>
 
-            <div class="x-wizard__step" data-step="4">
-              <p class="x-kicker">{$t('schritt4.titel')}</p>
+            <div class="x-wizard__step" data-step="3">
+              <p class="x-kicker">Prüfen und senden</p>
+              <div class="x-review-event"><strong>{$e($ed['name'])}</strong><p>{$eventDate} · {$e((string)$ed['venue'])}</p><p>Bei späterer Buchung: {$preisBetrag} netto · {$gross} inkl. 19 % USt.</p><p>Die Anfrage selbst kostet nichts.</p></div>
+              <div class="x-review x-wizard__jsonly" data-review></div>
               <div class="x-form__grid">
                 <div class="x-field x-field--full">
-                  <label class="x-choice x-choice--bare" for="a-binding"><input type="checkbox" id="a-binding" name="binding" value="ja" required aria-required="true"> <span>{$t('bestaetigung.anmeldung')} <span class="x-req" aria-hidden="true">*</span></span></label>
+                  <label class="x-choice x-choice--bare" for="a-binding"><input type="checkbox" id="a-binding" name="binding" value="ja" required aria-required="true"> <span>{$requestConsent} <span class="x-req" aria-hidden="true">*</span></span></label>
                   <span class="x-error" role="alert">{$t('bestaetigung.anmeldung.error')}</span>
                 </div>
                 <div class="x-field x-field--full">
                   <label class="x-choice x-choice--bare" for="a-privacy"><input type="checkbox" id="a-privacy" name="privacy" value="ja" required aria-required="true"> <span>{$t('bestaetigung.datenschutz')} <span class="x-req" aria-hidden="true">*</span></span></label>
                   <span class="x-error" role="alert">{$t('bestaetigung.datenschutz.error')}</span>
                 </div>
-                <p class="x-meta">{$t('bestaetigung.hinweis')}</p>
+                <p class="x-meta">Erst mit Deiner verbindlichen Buchung entsteht eine Zahlungspflicht.</p>
               </div>
             </div>
 
@@ -207,7 +190,7 @@ HTML;
               <button type="button" class="x-wizard__back x-wizard__jsonly" hidden>&larr; {$t('nav.zurueck')}</button>
               <span class="x-wizard__spacer"></span>
               <button type="button" class="x-btn x-btn--primary x-btn--lg x-wizard__next x-wizard__jsonly">{$t('nav.weiter')}</button>
-              <button type="submit" class="x-btn x-btn--primary x-btn--lg x-wizard__submit">{$t('nav.absenden')}</button>
+              <button type="submit" class="x-btn x-btn--primary x-btn--lg x-wizard__submit">{$requestButton}</button>
             </div>
             <p class="x-meta x-mt-6">{$t('nav.pflicht')}</p>
           </form>
@@ -225,14 +208,15 @@ $body = <<<HTML
       <div class="x-container x-anmeldeseite">
         {$formTeil}
 
-        <aside class="x-card x-card--ink x-paket" data-reveal>
+        <aside class="x-card x-card--ink x-paket" id="leistungen">
           <p class="x-kicker">{$t('paket.kicker')}</p>
           <h2 class="x-h3">{$t('paket.titel')}</h2>
-          <p class="x-paket__preis">{$preisBetrag}<small>{$t('paket.preis.zusatz')}</small></p>
+          <p class="x-paket__preis">{$preisBetrag}<small>netto bei verbindlicher Buchung<br>{$gross} inkl. 19 % USt.</small></p>
           <ul class="x-facts">{$fakten}</ul>
           <p class="x-paket__sub">{$t('paket.enthalten.titel')}</p>
           <ul class="x-list x-list--check x-list--loose">{$paket}
           </ul>
+          <p class="x-meta">Anreise und Übernachtung sind nicht enthalten.</p>
         </aside>
       </div>
     </section>
@@ -244,7 +228,8 @@ x25ed_out(x25ed_shell([
     'description' => strip_tags($t('meta.beschreibung')),
     'body' => $body,
     'canonical' => $canon,
-    'cta_href' => '#inhalt',
+    'cta_href' => '#anfrage-formular',
+    'cta_label' => $invite !== null ? 'Zur Einladung' : 'Zur kostenfreien Anfrage',
     'noindex' => $vorschau || $invitation !== '',
     'og_image' => rtrim(x25ed_abs_url($ed), '/') . '/og.jpg',
     'og_image_alt' => 'Anmeldung: ' . x25ed_label($ed),

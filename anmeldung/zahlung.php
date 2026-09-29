@@ -38,11 +38,14 @@ if (x25_booking_required($rec)) {
         if (!hash_equals($csrf,(string)($_POST['csrf']??'')) || ($_POST['terms']??'')!=='ja') { x25_out(x25_page('Bitte bestätigen',$intro.'<p>Bitte bestätige die Buchung und die Teilnahmebedingungen über Deinen persönlichen Zahlungslink.</p>'),403); }
         $company=x25_line($_POST['invoice_company']??'',200);
         $address=x25_multiline($_POST['invoice_address']??'',500);
+        $order=x25_line($_POST['order_no']??'',100);
+        $invoiceEmail=strtolower(x25_line($_POST['invoice_email']??'',254));
+        if ($invoiceEmail!=='' && !filter_var($invoiceEmail,FILTER_VALIDATE_EMAIL)) { x25_out(x25_page('Angaben prüfen',$intro.'<p>Bitte prüfe die Rechnungskontakt-E-Mail-Adresse. <a href="zahlung.php?t='.x25_e($t).'">Zurück zur Buchung</a></p>'),422); }
         if ($company===''||$address==='') { x25_out(x25_page('Angaben fehlen',$intro.'<p>Bitte ergänze Rechnungsempfänger und Rechnungsadresse. <a href="zahlung.php?t='.x25_e($t).'">Zurück zur Buchung</a></p>'),422); }
-        x25_store()->transaction(function(X25Store $s) use ($rec,$company,$address) {
+        x25_store()->transaction(function(X25Store $s) use ($rec,$company,$address,$order,$invoiceEmail) {
             $cur=$s->get((int)$rec['id']);
             if(!$cur||$cur['status']!=='zugelassen') { throw new RuntimeException('Keine Zusage verfügbar.'); }
-            if(empty($cur['booking_confirmed_at'])) { $s->update((int)$cur['id'],['booking_confirmed_at'=>gmdate('c'),'terms_version'=>'2026-09-07','invoice_company'=>$company,'invoice_address'=>$address]); }
+            if(empty($cur['booking_confirmed_at'])) { $s->update((int)$cur['id'],['booking_confirmed_at'=>gmdate('c'),'terms_version'=>'2026-09-07','invoice_company'=>$company,'invoice_address'=>$address,'order_no'=>$order,'invoice_email'=>$invoiceEmail]); }
         });
         header('Location: zahlung.php?t='.rawurlencode($t).'&gebucht=1',true,303);exit;
     }
@@ -50,6 +53,8 @@ if (x25_booking_required($rec)) {
         .'<form method="post" action="zahlung.php"><input type="hidden" name="t" value="'.x25_e($t).'"><input type="hidden" name="weg" value="buchen"><input type="hidden" name="csrf" value="'.x25_e($csrf).'">'
         .'<p><label>Rechnungsempfänger / Unternehmen<br><input name="invoice_company" maxlength="200" required value="'.x25_e($rec['invoice_company']?:$rec['company']).'"></label></p>'
         .'<p><label>Rechnungsadresse<br><textarea name="invoice_address" rows="3" maxlength="500" required style="width:100%">'.x25_e($rec['invoice_address']??'').'</textarea></label></p>'
+        .'<p><label>Bestellnummer (optional)<br><input name="order_no" maxlength="100" value="'.x25_e($rec['order_no']??'').'"></label></p>'
+        .'<p><label>Rechnungskontakt-E-Mail (optional)<br><input type="email" name="invoice_email" maxlength="254" value="'.x25_e($rec['invoice_email']??'').'"></label></p>'
         .'<p><label><input type="checkbox" name="terms" value="ja" required> Ich akzeptiere die <a href="/teilnahmebedingungen" target="_blank" rel="noopener">Teilnahmebedingungen</a> und buche die oben genannte Edition zum angezeigten Preis und Termin verbindlich.</label></p><button class="btn" type="submit">Zahlungspflichtig buchen</button></form></div>';
     x25_out(x25_page('Teilnahme verbindlich buchen',$intro.$form,'',false,$ED['label']));
 }
@@ -75,7 +80,7 @@ if (($rec['payment_method'] ?? '') === 'rechnung' && !empty($rec['invoice_no']))
         . '<a class="btn" href="' . x25_e(x25_invoice_url($rec)) . '">Rechnung ansehen / als PDF speichern</a></div>';
     if ($paypalOn) { $body .= '<p class="meta">Du möchtest doch lieber sofort per PayPal zahlen? Dann nutze die Schaltflächen unten; die Rechnung gilt dann als erledigt.</p>'; }
 } else {
-    $body .= '<p>Bitte wähle Deinen Zahlungsweg. Mit dem Zahlungseingang ist Dein Platz verbindlich; Du erhältst dann Dein Ticket und alle weiteren Informationen.</p>';
+    $body .= '<p>Bitte wähle Deinen Zahlungsweg. Deine Buchung ist verbindlich bestätigt. Nach Zahlungseingang erhältst Du Dein Ticket und alle weiteren Informationen.</p>';
 }
 $body .= '<div class="card"><h2 style="margin-top:0">PayPal</h2>';
 if ($paypalOn) {

@@ -89,6 +89,7 @@ $d['invoice_company'] = x25_line($in['invoice_company'] ?? '', 200);
 $d['invoice_address'] = x25_multiline($in['invoice_address'] ?? '', 500);
 $d['order_no']        = x25_line($in['order_no'] ?? '', 100);
 $d['invoice_email']   = strtolower(x25_line($in['invoice_email'] ?? '', 254));
+$d['invoice_company'] = $d['invoice_address'] = $d['order_no'] = $d['invoice_email'] = ''; // erst bei verbindlicher Buchung
 $d['category'] = strtolower(x25_line($in['category'] ?? '', 40));
 $privacy       = x25_truthy($in['privacy'] ?? ($in['consent'] ?? null));   // v5: privacy (consent = ältere Seitenversion)
 $d['source'] = x25_line(explode('?', (string)($in['source'] ?? ''))[0], 500);
@@ -113,7 +114,7 @@ $d['edition']  = $edition_in !== '' ? $edition_in : ($ED !== null ? x25ed_label(
 foreach (['name' => 'Name', 'company' => 'Unternehmen', 'role' => 'Rolle'] as $k => $label) {   // Verantwortung und Anliegen werden vor der Zahlung geprüft
     if ($d[$k] === '') { $errors[$k] = $label . ' fehlt.'; }
 }
-if ($d['level'] === '' || !isset(X25_LEVELS[$d['level']])) { $errors['level'] = 'Ebene fehlt oder ist ungültig.'; }
+if ($d['level'] !== '' && !isset(X25_LEVELS[$d['level']])) { $errors['level'] = 'Ebene fehlt oder ist ungültig.'; }
 if ($d['category'] === '' || !isset(X25_CATEGORIES[$d['category']])) { $errors['category'] = 'Unternehmenstyp fehlt oder ist ungültig.'; }
 if (trim($d['question']) === '') { $errors['question'] = 'Bitte nenne eine aktuelle Frage oder Entscheidung.'; }
 if (!x25_truthy($in['binding'] ?? null)) { $errors['binding'] = 'Bitte bestätige die Teilnahme-Anfrage und die Bedingungen.'; }
@@ -188,6 +189,8 @@ try {
     x25_respond(false, 'Die Anmeldung konnte nicht übertragen werden. Bitte versuche es erneut oder schreib uns per E-Mail.', 500, 'versand');
 }
 
+require_once __DIR__ . '/lib/receipt.php';
+x25_receipt_save($rec);
 x25_respond(true, null, 200, null, [], $rec['status'], $rec['status'] === 'zugelassen' ? x25_pay_url($rec) : '');
 
 // ================================================================== Antwort

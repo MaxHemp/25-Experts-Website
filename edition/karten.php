@@ -29,39 +29,15 @@ function x25ed_karten_html(): string
 
 function x25ed_karte_online(array $ed): string
 {
-    $e = static fn(?string $s): string => x25ed_e($s);
-    $karte = (array)($ed['karte'] ?? []);
-    $vars = x25ed_vars($ed);
-    $kicker = x25ed_render((string)($karte['kicker'] ?? ''), $vars);
-    $fakten = '';
-    foreach (array_filter(array_map('trim', explode("\n", (string)($karte['fakten'] ?? '')))) as $f) {
-        $fakten .= '<li>' . x25ed_render($f, $vars) . '</li>';
-    }
-    $text = x25ed_render((string)($ed['kurz'] ?? ''), $vars);
-    $meta = x25ed_render((string)($karte['meta'] ?? ''), $vars);
-    $nameHtml = x25ed_name_html($ed);
-    $url = x25ed_url($ed);
-    $fotoKey = ($ed['slug'] ?? '') === 'female' ? 'gespraech' : (string)(($ed['foto'] ?? '') ?: 'location-hoch');
-    $foto = x25ed_editionsfoto($ed, $fotoKey);
-    $cta = x25ed_g('cta.platz-anmelden', $ed);
-    $anm = !empty($ed['anmeldung_offen'])
-        ? '<a class="x-btn x-btn--on-dark" href="' . $e($url . 'anmeldung') . '">' . $cta . '</a>'
-        : '<a class="x-btn x-btn--on-dark" href="' . $e($url) . '">Zur Edition</a>';
-    $metaHtml = $meta !== '' ? '<p class="x-meta" style="color:var(--x-neutral-300)">' . $meta . '</p>' : '';
-    return <<<HTML
-
-          <article class="x-edition x-edition--ink x-edition--photo x-dark" aria-label="{$e((string)$ed['name'])}">
-            <div class="x-edition__main">
-              <p class="x-kicker">{$kicker}</p>
-              <h3 class="x-edition__name"><a href="{$e($url)}" style="color:inherit;text-decoration:none">{$nameHtml}</a></h3>
-              <ul class="x-facts">{$fakten}</ul>
-              <p>{$text}</p>
-              {$metaHtml}
-              <div class="x-actions">{$anm}<a class="x-link x-link--arrow" href="{$e($url)}" style="color:var(--x-neutral-300)">Alle Details</a></div>
-            </div>
-            <div class="x-edition__aside">{$foto}<span class="x-photo-label">Symbolbild · Atmosphäre der Serie</span></div>
-          </article>
-HTML;
+    $name = x25ed_e((string)$ed['name']);
+    $date = x25ed_e((string)$ed['datum_text']);
+    $status = !empty($ed['termin_vorlaeufig']) ? 'Termin vorläufig' : 'Termin bestätigt';
+    $url = x25ed_e(x25ed_url($ed));
+    $featured = ($ed['slug'] ?? '') === 'change-management';
+    $cls = $featured ? ' ux-edition--featured' : '';
+    $tag = $featured ? '<p class="x-kicker">Die nächste Runde</p>' : '';
+    $intro = $featured ? '<p>Veränderung im Versicherungsunternehmen gestalten: Erfahrungen teilen, Entscheidungen schärfen und nächste Schritte entwickeln.</p>' : '';
+    return '<article class="ux-edition' . $cls . '" aria-label="' . $name . '">' . $tag . '<h3><a href="' . $url . '">' . $name . '</a></h3><p class="ux-edition__date">' . $date . ' · ' . $status . '</p>' . $intro . '<a class="x-link" href="' . $url . '">Edition entdecken <span aria-hidden="true">→</span></a></article>';
 }
 
 function x25ed_karte_teaser(array $ed): string

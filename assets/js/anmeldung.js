@@ -1,157 +1,103 @@
-/* 25 EXPERTS — Anmeldeseite: Wizard in vier Schritten (Persönliche Angaben → Rechnung → Dein Platz → Bestätigung).
-   Progressive Enhancement: ohne JavaScript stehen alle Schritte untereinander und das Formular
-   sendet klassisch an anmeldung/send.php (dort Redirect zur Zahlungsseite).
-   Mit JavaScript: Schrittnavigation mit Validierung je Schritt, JSON-POST, Weiterleitung auf pay_url. */
+/* Kostenfreie Anfrage: Kontaktdaten → Anliegen → prüfen. Keine Daten an Analytics. */
 (function () {
   'use strict';
-
   var form = document.querySelector('form[data-wizard]');
-  if (!form) { return; }
-
-  var steps = Array.prototype.slice.call(form.querySelectorAll('.x-wizard__step'));
-  var tabs = Array.prototype.slice.call(form.querySelectorAll('.x-wizard__tab'));
+  if (!form) return;
+  var steps = Array.from(form.querySelectorAll('[data-step]'));
+  var tabs = Array.from(form.querySelectorAll('[data-step-tab]'));
   var back = form.querySelector('.x-wizard__back');
   var next = form.querySelector('.x-wizard__next');
   var submit = form.querySelector('.x-wizard__submit');
   var status = form.querySelector('.x-form__status');
-  var current = 1;
-  var maxVisited = 1;
-
-  function showStatus(kind, text) {
-    if (!status) { return; }
-    status.hidden = false;
-    status.className = 'x-form__status x-form__status--' + kind;
-    status.textContent = text;
-  }
-  function hideStatus() { if (status) { status.hidden = true; } }
-
-  function markInvalid(el, invalid) {
+  var progress = form.querySelector('.x-wizard__progress');
+  var current = 1, busy = false;
+  var names = ['Deine Kontaktdaten', 'Dein Anliegen', 'Prüfen und senden'];
+  function message(text) { status.textContent = text; status.hidden = false; status.setAttribute('role','alert'); }
+  function mark(el, invalid) {
     var field = el.closest('.x-field');
-    if (field) { field.classList.toggle('is-invalid', invalid); }
+    if (field) field.classList.toggle('is-invalid', invalid);
     el.setAttribute('aria-invalid', invalid ? 'true' : 'false');
   }
-
-  function validateStep(n) {
-    var step = steps[n - 1];
-    var firstBad = null;
-    Array.prototype.forEach.call(step.querySelectorAll('[required]'), function (el) {
-      var ok = true;
-      if (el.type === 'checkbox') { ok = el.checked; }
-      else if (el.type === 'radio') {
-        var group = step.querySelectorAll('input[name="' + el.name + '"]');
-        ok = Array.prototype.some.call(group, function (r) { return r.checked; });
-        Array.prototype.forEach.call(group, function (r) { markInvalid(r, !ok); });
-        if (!ok && !firstBad) { firstBad = el; }
-        return;
-      }
-      else if (el.type === 'email') { ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()); }
-      else { ok = el.value.trim().length > 0; }
-      markInvalid(el, !ok);
-      if (!ok && !firstBad) { firstBad = el; }
+  form.querySelectorAll('.x-field').forEach(function (field, i) {
+    var error = field.querySelector('.x-error');
+    if (!error) return;
+    error.id = 'field-error-' + i;
+    field.querySelectorAll('input,select,textarea').forEach(function (el) {
+      el.setAttribute('aria-describedby', ((el.getAttribute('aria-describedby') || '') + ' ' + error.id).trim());
     });
-    Array.prototype.forEach.call(step.querySelectorAll('input[type="email"]:not([required]), input[type="url"]'), function (el) {
-      var v = el.value.trim();
-      if (!v) { return; }
-      var ok = el.type === 'email' ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) : /^https?:\/\//i.test(v);
-      markInvalid(el, !ok);
-      if (!ok && !firstBad) { firstBad = el; }
+  });
+  function validate(n) {
+    var bad = null;
+    steps[n-1].querySelectorAll('input,select,textarea').forEach(function (el) {
+      if (el.type === 'hidden' || el.disabled) return;
+      var ok = el.checkValidity();
+      if (el.required && !['radio','checkbox'].includes(el.type)) ok = ok && el.value.trim().length > 0;
+      if (el.type === 'email' && el.value.trim()) ok = ok && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(el.value.trim());
+      if (el.type === 'url' && el.value.trim()) ok = ok && /^https?:\/\//i.test(el.value.trim());
+      mark(el, !ok);
+      if (!ok && !bad) bad = el;
     });
-    return firstBad;
+    return bad;
   }
-
-  function goTo(n, quiet) {
-    current = n;
-    if (n > maxVisited) { maxVisited = n; }
-    steps.forEach(function (st, i) { st.classList.toggle('is-active', i === n - 1); });
-    tabs.forEach(function (t, i) {
-      t.classList.toggle('is-active', i === n - 1);
-      t.classList.toggle('is-done', i < n - 1);
-    });
-    back.hidden = n === 1;
-    next.hidden = n === steps.length;
-    submit.hidden = n !== steps.length;
-    hideStatus();
-    // Rechnungsempfänger mit dem Unternehmen aus Schritt 1 vorbelegen
-    if (n === 2) {
-      var inv = form.querySelector('input[name="invoice_company"]');
-      var comp = form.querySelector('input[name="company"]');
-      if (inv && comp && !inv.value.trim()) { inv.value = comp.value; }
-    }
-    if (quiet) { return; }
-    var kick = steps[n - 1].querySelector('.x-kicker');
-    if (kick) { kick.setAttribute('tabindex', '-1'); kick.focus({ preventScroll: true }); }
-    form.scrollIntoView({ block: 'start', behavior: 'smooth' });
-  }
-
-  submit.hidden = true;
-  goTo(1, true);
-
-  next.addEventListener('click', function () {
-    var bad = validateStep(current);
-    if (bad) { showStatus('error', form.getAttribute('data-msg-fehler') || 'Bitte prüfe die markierten Felder.'); bad.focus(); return; }
-    goTo(current + 1);
-  });
-  back.addEventListener('click', function () { goTo(current - 1); });
-  tabs.forEach(function (t, i) {
-    t.querySelector('button').addEventListener('click', function () {
-      var target = i + 1;
-      if (target === current) { return; }
-      if (target < current) { goTo(target); return; }
-      // vorwärts nur Schritt für Schritt, mit Validierung
-      var bad = validateStep(current);
-      if (bad) { showStatus('error', form.getAttribute('data-msg-fehler') || 'Bitte prüfe die markierten Felder.'); bad.focus(); return; }
-      if (target <= maxVisited + 1) { goTo(Math.min(target, current + 1)); }
-    });
-  });
-
-  Array.prototype.forEach.call(form.querySelectorAll('input, textarea, select'), function (el) {
-    el.addEventListener('input', function () { markInvalid(el, false); });
-    el.addEventListener('change', function () { markInvalid(el, false); });
-  });
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    for (var i = 1; i <= steps.length; i++) {
-      var bad = validateStep(i);
-      if (bad) { goTo(i); showStatus('error', form.getAttribute('data-msg-fehler') || 'Bitte prüfe die markierten Felder.'); bad.focus(); return; }
-    }
-    var hp = form.querySelector('input[name="website"]');
-    if (hp && hp.value) { window.location.href = form.getAttribute('data-thanks') || 'danke.html'; return; }
-
-    var data = {};
-    var fd = new FormData(form);
-    fd.forEach(function (v, k) { if (k !== 'website') { data[k] = v; } });
-    var privacy = form.querySelector('input[name="privacy"]');
-    if (privacy) { data.privacy = privacy.checked; }
-    data.name = ((data.vorname || '') + ' ' + (data.nachname || '')).trim();
-    data.edition = form.getAttribute('data-edition') || '';
-    data.source = window.location.origin + window.location.pathname;
-    data.submitted_at = new Date().toISOString();
-
-    var endpoint = form.getAttribute('data-endpoint');
-    submit.disabled = true;
-    var label = submit.textContent;
-    submit.textContent = 'Wird gesendet …';
-    fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) })
-      .then(function (r) {
-        return r.json().catch(function () { return { ok: r.ok }; }).then(function (j) {
-          if (!r.ok || !j.ok) { throw new Error(j && j.error ? j.error : 'HTTP ' + r.status); }
-          return j;
-        });
-      })
-      .then(function (j) {
-        if (j && j.pay_url && /^https?:\/\//.test(j.pay_url)) { window.location.href = j.pay_url; return; }
-        var thanks = form.getAttribute('data-thanks') || 'danke.html';
-        window.location.href = thanks + (j && j.status ? '?status=' + encodeURIComponent(j.status) : '');
-      })
-      .catch(function (err) {
-        submit.disabled = false;
-        submit.textContent = label;
-        var msg = (err && err.message && err.message.indexOf('HTTP') !== 0 && err.message.indexOf('Failed') !== 0 && err.message.indexOf('NetworkError') !== 0)
-          ? err.message
-          : 'Die Anmeldung konnte nicht übertragen werden. Bitte versuche es erneut oder schreib uns per E-Mail.';
-        showStatus('error', msg);
+  function review() {
+    var box = form.querySelector('[data-review]');
+    if (!box) return;
+    box.replaceChildren();
+    [[1,'Deine Kontaktdaten',[['vorname','Vorname'],['nachname','Nachname'],['company','Unternehmen'],['role','Rolle'],['email','E-Mail'],['phone','Telefon']]],
+     [2,'Dein Anliegen',[['category','Unternehmenstyp'],['question','Deine Frage'],['linkedin','LinkedIn']]]].forEach(function (group) {
+      var section=document.createElement('section'), title=document.createElement('h3');
+      title.className='x-h4';title.textContent=group[1];section.append(title);
+      var dl=document.createElement('dl');
+      group[2].forEach(function (f) {
+        var el=form.elements.namedItem(f[0]), value=el ? el.value : '';
+        if (f[0]==='category') value=({versicherer:'Versicherer',maklerpool:'Maklerpool',vertrieb:'Versicherungsvertrieb',sonstiges:'Sonstiges'})[value] || value;
+        if (!value) return;
+        var dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=f[1];dd.textContent=value;
+        if(f[0]==='email') dd.className='x-review__email';
+        dl.append(dt,dd);
       });
+      section.append(dl);
+      var edit=document.createElement('button');edit.type='button';edit.className='x-btn x-btn--secondary';edit.textContent=group[1]+' bearbeiten';
+      edit.addEventListener('click',function(){go(group[0]);});section.append(edit);box.append(section);
+    });
+  }
+  function go(n, quiet) {
+    current=n;
+    steps.forEach(function(s,i){s.classList.toggle('is-active',i===n-1);});
+    tabs.forEach(function(t,i){t.classList.toggle('is-active',i===n-1);t.classList.toggle('is-done',i<n-1);var b=t.querySelector('button');if(i===n-1)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
+    back.hidden=n===1;next.hidden=n===steps.length;submit.hidden=n!==steps.length;status.hidden=true;
+    if(progress) progress.textContent='Schritt '+n+' von '+steps.length+' · '+names[n-1];
+    if(n===steps.length)review();
+    if(!quiet){var h=steps[n-1].querySelector('.x-kicker');if(h){h.tabIndex=-1;h.focus({preventScroll:true});}(form.closest('.x-wizard')||form).scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
+  }
+  function advance(target) {
+    if(busy)return;
+    if(target>current)for(var n=current;n<target;n++){var bad=validate(n);if(bad){go(n,true);message('Bitte prüfe die markierten Felder.');bad.focus();return;}}
+    go(target);
+  }
+  next.addEventListener('click',function(){advance(current+1);});
+  back.addEventListener('click',function(){advance(current-1);});
+  tabs.forEach(function(t,i){t.querySelector('button').addEventListener('click',function(){advance(i+1);});});
+  form.querySelectorAll('input,textarea,select').forEach(function(el){el.addEventListener('input',function(){mark(el,false);});el.addEventListener('change',function(){mark(el,false);});});
+  form.addEventListener('submit',function(ev){
+    ev.preventDefault();if(busy)return;
+    if(current<steps.length){advance(current+1);return;}
+    for(var n=1;n<=steps.length;n++){var bad=validate(n);if(bad){go(n,true);message('Bitte prüfe die markierten Felder.');bad.focus();return;}}
+    var data={};new FormData(form).forEach(function(v,k){data[k]=v;});
+    data.name=((data.vorname||'')+' '+(data.nachname||'')).trim();data.privacy=form.elements.privacy.checked;
+    data.edition=form.dataset.edition;data.source=location.origin+location.pathname;
+    busy=true;submit.disabled=true;var label=submit.textContent;submit.textContent='Wird gesendet …';
+    fetch(form.dataset.endpoint,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)})
+    .then(function(r){return r.json().then(function(j){if(!r.ok||!j.ok){var err=new Error(j.error||'Die Anfrage konnte nicht gesendet werden.');err.fields=j.fields||[];throw err;}return j;});})
+    .then(function(j){
+      if(j.pay_url){var target=new URL(j.pay_url,location.href);if(target.origin!==location.origin)throw new Error('Der Buchungslink konnte nicht geöffnet werden. Bitte nutze Deine Bestätigungsmail.');location.assign(target.href);return;}
+      location.assign(form.dataset.thanks);
+    })
+    .catch(function(err){busy=false;submit.disabled=false;submit.textContent=label;
+      var first=null;(err.fields||[]).forEach(function(name){var el=form.querySelector('[name="'+name.replace(/[^a-z_]/g,'')+'"]');if(el){mark(el,true);if(!first)first=el;}});
+      if(first){var step=first.closest('[data-step]');go(Number(step.dataset.step),true);first.focus();}
+      message(err.fields ? err.message : 'Die Übertragung wurde nicht bestätigt. Deine Angaben bleiben erhalten. Prüfe bitte Deinen Posteingang, bevor Du erneut sendest. Bei Fragen: info@25-experts.de.');
+    });
   });
+  go(1,true);
 })();
-

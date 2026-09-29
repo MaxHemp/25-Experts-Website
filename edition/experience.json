@@ -41,7 +41,7 @@
     "eventld.angebot.name": "Teilnahme nach persönlicher Freigabe",
     "eventld.angebot.beschreibung": "450 € netto zzgl. USt. Zahlung nach Zusage per PayPal oder Rechnung.",
     "faq.3.frage": "Wie kann ich teilnehmen?",
-    "faq.3.antwort": "Du kannst Deine Teilnahme online anfragen. Wir prüfen Verantwortung, Erfahrungen und Anliegen und melden uns innerhalb von zwei Werktagen. Erst nach Zusage wird die Zahlung fällig. Mit einer persönlichen Einladung ist die fachliche Prüfung bereits erfolgt. Die 25 Teilnehmerplätze umfassen höchstens zwei Teilnehmer pro Unternehmen.",
+    "faq.3.antwort": "Du kannst Deine Teilnahme online anfragen. Wir prüfen Verantwortung, Erfahrungen und Anliegen und melden uns innerhalb von zwei Werktagen. Erst Deine ausdrückliche verbindliche Buchung nach Zusage begründet eine Zahlungspflicht. Mit einer persönlichen Einladung ist die fachliche Prüfung bereits erfolgt. Die 25 Teilnehmerplätze umfassen höchstens zwei Teilnehmer pro Unternehmen.",
     "faq.4.antwort": "450 € netto zzgl. 19 % USt. (535,50 € brutto). Enthalten sind beide Tage, Vorbereitung und Dossier, Verpflegung, Aperitif und Dinner, die interne Ausgabe des Dissenspapiers, Dein Kuvert und das Online-Wiedersehen nach sechs Wochen. Anreise und Übernachtung buchst Du selbst.",
     "faq.5.antwort": "Vorab sammeln wir Deine aktuelle Entscheidung, eine eigene Erfahrung und das, was Du von anderen verstehen möchtest. Daraus bereiten wir drei Spannungsfelder und zwei Praxisfälle vor. Zu Beginn legt die Gruppe gemeinsam die Prioritäten fest.",
     "faq.7.antwort": "Für die fachlichen Gespräche gilt die Chatham House Rule: Erkenntnisse dürfen genutzt werden, Identitäten und Zugehörigkeiten der Beteiligten bleiben geschützt. Ausdrücklich als vertraulich bezeichnete Fallgespräche werden auch inhaltlich nicht weitergegeben. Während der Arbeitsphasen wird nicht fotografiert oder gefilmt. Kontaktvermittlung erfolgt nur mit Zustimmung der Beteiligten; persönliche Kontaktdaten sind keine pauschale Gegenleistung für Partner.",
@@ -57,14 +57,14 @@
     "ablauf.tag1.7": "13:30 | Der 26. Experte, Runde 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Frage des Vormittags live an ChatGPT und Claude. Antworten ungeschnitten auf der Leinwand. Die Gruppe challengt fachlich: Was trägt, was nicht. Sicher und DSGVO-konform. | signatur foto:leinwand"
    },
    "anmeldung": {
-    "kopf.lead": "In vier kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Die Zahlung folgt erst nach Zusage; persönlich eingeladene Teilnehmer können direkt buchen.",
+    "kopf.lead": "In drei kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Nach Zusage entscheidest Du über die verbindliche Buchung.",
     "feld.ebene.hint": "Entscheidend sind Deine Verantwortung und die Passung zum Thema. Unter „Sonstiges“ kannst Du Deine fachliche Verantwortung bei Position erläutern.",
     "feld.frage": "Welche Entscheidung beschäftigt Dich gerade?",
     "feld.frage.hint": "Ein bis drei Sätze genügen. Bitte keine vertraulichen Unternehmens- oder Kundendaten angeben. Diese Frage hilft uns bei der Zusammenstellung und Vorbereitung der Gruppe.",
     "feld.frage.error": "Bitte nenne uns eine aktuelle Frage oder Entscheidung.",
     "nav.absenden": "Teilnahme anfragen",
     "bestaetigung.anmeldung.error": "Bitte bestätige Deine Teilnahme-Anfrage und die Bedingungen.",
-    "bestaetigung.hinweis": "Die Anfrage ist kostenfrei. Eine Zahlung wird erst nach Zusage fällig. Mit Deinem persönlichen Einladungslink ist die fachliche Prüfung bereits erfolgt. Es stehen 25 Teilnehmerplätze zur Verfügung; Gastgeber, Moderator und Impulsgeber kommen hinzu.",
+    "bestaetigung.hinweis": "Die Anfrage ist kostenfrei. Eine Zahlungspflicht entsteht erst mit Deiner ausdrücklichen verbindlichen Buchung nach Zusage. Mit Deinem persönlichen Einladungslink ist die fachliche Prüfung bereits erfolgt. Es stehen 25 Teilnehmerplätze zur Verfügung; Gastgeber, Moderator und Impulsgeber kommen hinzu.",
     "paket.enthalten": "Teilnahme an beiden Tagen\nPersönliche Vorbereitung und Dossier\nVerpflegung während der Edition\nGemeinsamer Abend mit Aperitif und Dinner\nInterne Ausgabe des Dissenspapiers\nDein persönliches Kuvert\nModeriertes Online-Wiedersehen nach sechs Wochen",
     "schritt2.hinweis": "Die Rechnungsangaben werden erst nach einer Zusage benötigt. Du kannst sie für die anschließende Buchung bereits hinterlegen.",
     "schritt3.titel": "Deine Verantwortung und Dein Anliegen",
@@ -76,7 +76,7 @@
     "bestaetigung.anmeldung": "Ich frage meine Teilnahme an 25 CHANGE MANAGEMENT EXPERTS am 2. und 3. Dezember 2026 in Köln an. Die Anfrage ist kostenfrei. Nach Zusage kann ich zum Preis von 450 € netto zzgl. 19 % USt. (535,50 € brutto) verbindlich buchen. Ich akzeptiere die <a class=\"x-link\" href=\"/teilnahmebedingungen\">Teilnahmebedingungen</a>."
    },
    "danke": {
-    "lead.standard": "Danke für Deine Anfrage. Wir prüfen, wie Deine Verantwortung und Deine Anliegen zur Edition passen, und melden uns innerhalb von zwei Werktagen. Bis zur Zusage ist keine Zahlung erforderlich.",
+    "lead.standard": "Danke für Deine Anfrage. Wir prüfen, wie Deine Verantwortung und Deine Anliegen zur Edition passen, und melden uns innerhalb von zwei Werktagen. Die Anfrage ist kostenfrei und noch keine verbindliche Buchung.",
     "lead.zugelassen": "Deine Teilnahme ist zugesagt. Den persönlichen Zahlungslink findest Du in Deiner Bestätigung per E-Mail. Nach Zahlungseingang erhältst Du Dein Ticket.",
     "titel.standard": "Deine Anfrage ist bei uns.",
     "schritt.1.titel": "Persönliche Rückmeldung",
@@ -137,7 +137,7 @@
     "eventld.angebot.name": "Teilnahme nach persönlicher Freigabe",
     "eventld.angebot.beschreibung": "450 € netto zzgl. USt. Zahlung nach Zusage per PayPal oder Rechnung. Termin vorläufig.",
     "faq.3.frage": "Wie kann ich teilnehmen?",
-    "faq.3.antwort": "Du kannst Deine Teilnahme online anfragen. Wir prüfen Verantwortung, Erfahrungen und Anliegen und melden uns innerhalb von zwei Werktagen. Erst nach Zusage wird die Zahlung fällig. Mit einer persönlichen Einladung ist die fachliche Prüfung bereits erfolgt. Die 25 Teilnehmerplätze umfassen höchstens zwei Teilnehmer pro Unternehmen. Der angegebene Veranstaltungstermin ist vorläufig.",
+    "faq.3.antwort": "Du kannst Deine Teilnahme online anfragen. Wir prüfen Verantwortung, Erfahrungen und Anliegen und melden uns innerhalb von zwei Werktagen. Erst Deine ausdrückliche verbindliche Buchung nach Zusage begründet eine Zahlungspflicht. Mit einer persönlichen Einladung ist die fachliche Prüfung bereits erfolgt. Die 25 Teilnehmerplätze umfassen höchstens zwei Teilnehmer pro Unternehmen. Der angegebene Veranstaltungstermin ist vorläufig.",
     "faq.4.antwort": "450 € netto zzgl. 19 % USt. (535,50 € brutto). Enthalten sind beide Tage, Vorbereitung und Dossier, Verpflegung, Aperitif und Dinner, die interne Ausgabe des Dissenspapiers, Dein Kuvert und das Online-Wiedersehen nach sechs Wochen. Anreise und Übernachtung buchst Du selbst.",
     "faq.5.antwort": "Vorab sammeln wir Deine aktuelle Entscheidung, eine eigene Erfahrung und das, was Du von anderen verstehen möchtest. Daraus bereiten wir drei Spannungsfelder und zwei Praxisfälle vor. Zu Beginn legt die Gruppe gemeinsam die Prioritäten fest.",
     "faq.7.antwort": "Für die fachlichen Gespräche gilt die Chatham House Rule: Erkenntnisse dürfen genutzt werden, Identitäten und Zugehörigkeiten der Beteiligten bleiben geschützt. Ausdrücklich als vertraulich bezeichnete Fallgespräche werden auch inhaltlich nicht weitergegeben. Während der Arbeitsphasen wird nicht fotografiert oder gefilmt. Kontaktvermittlung erfolgt nur mit Zustimmung der Beteiligten; persönliche Kontaktdaten sind keine pauschale Gegenleistung für Partner.",
@@ -149,14 +149,14 @@
     "ablauf.tag1.7": "13:30 | Der 26. Experte, Runde 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  An einem fiktiven Sicherheitsvorfall prüft Ihr eine von KI vorgeschlagene Reaktion: Welche Informationen fehlen, welche Maßnahmen haben Vorrang und wer muss entscheiden? Ihr vergleicht die Antworten mit Eurer eigenen Einschätzung. Vertrauliche Vorfalldaten bleiben außen vor. | signatur foto:leinwand"
    },
    "anmeldung": {
-    "kopf.lead": "In vier kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Die Zahlung folgt erst nach Zusage; persönlich eingeladene Teilnehmer können direkt buchen. Der angegebene Veranstaltungstermin ist vorläufig.",
+    "kopf.lead": "In drei kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Nach Zusage entscheidest Du über die verbindliche Buchung. Der angegebene Veranstaltungstermin ist vorläufig.",
     "feld.ebene.hint": "Entscheidend sind Deine Verantwortung und die Passung zum Thema. Unter „Sonstiges“ kannst Du Deine fachliche Verantwortung bei Position erläutern.",
     "feld.frage": "Welche Entscheidung beschäftigt Dich gerade?",
     "feld.frage.hint": "Ein bis drei Sätze genügen. Bitte keine vertraulichen Unternehmens- oder Kundendaten angeben. Diese Frage hilft uns bei der Zusammenstellung und Vorbereitung der Gruppe.",
     "feld.frage.error": "Bitte nenne uns eine aktuelle Frage oder Entscheidung.",
     "nav.absenden": "Teilnahme anfragen",
     "bestaetigung.anmeldung.error": "Bitte bestätige Deine Teilnahme-Anfrage und die Bedingungen.",
-    "bestaetigung.hinweis": "Die Anfrage ist kostenfrei. Eine Zahlung wird erst nach Zusage fällig. Mit Deinem persönlichen Einladungslink ist die fachliche Prüfung bereits erfolgt. Es stehen 25 Teilnehmerplätze zur Verfügung; Gastgeber, Moderator und Impulsgeber kommen hinzu.",
+    "bestaetigung.hinweis": "Die Anfrage ist kostenfrei. Eine Zahlungspflicht entsteht erst mit Deiner ausdrücklichen verbindlichen Buchung nach Zusage. Mit Deinem persönlichen Einladungslink ist die fachliche Prüfung bereits erfolgt. Es stehen 25 Teilnehmerplätze zur Verfügung; Gastgeber, Moderator und Impulsgeber kommen hinzu.",
     "paket.enthalten": "Teilnahme an beiden Tagen\nPersönliche Vorbereitung und Dossier\nVerpflegung während der Edition\nGemeinsamer Abend mit Aperitif und Dinner\nInterne Ausgabe des Dissenspapiers\nDein persönliches Kuvert\nModeriertes Online-Wiedersehen nach sechs Wochen",
     "schritt2.hinweis": "Die Rechnungsangaben werden erst nach einer Zusage benötigt. Du kannst sie für die anschließende Buchung bereits hinterlegen.",
     "schritt3.titel": "Deine Verantwortung und Dein Anliegen",
@@ -168,7 +168,7 @@
     "bestaetigung.anmeldung": "Ich frage meine Teilnahme an 25 SECURITY EXPERTS am 28./29. Januar 2027 (vorläufig) in Köln an. Die Anfrage ist kostenfrei. Nach Zusage kann ich zum Preis von 450 € netto zzgl. 19 % USt. (535,50 € brutto) verbindlich buchen. Ich akzeptiere die <a class=\"x-link\" href=\"/teilnahmebedingungen\">Teilnahmebedingungen</a>. Der angegebene Veranstaltungstermin ist vorläufig."
    },
    "danke": {
-    "lead.standard": "Danke für Deine Anfrage. Wir prüfen, wie Deine Verantwortung und Deine Anliegen zur Edition passen, und melden uns innerhalb von zwei Werktagen. Bis zur Zusage ist keine Zahlung erforderlich.",
+    "lead.standard": "Danke für Deine Anfrage. Wir prüfen, wie Deine Verantwortung und Deine Anliegen zur Edition passen, und melden uns innerhalb von zwei Werktagen. Die Anfrage ist kostenfrei und noch keine verbindliche Buchung.",
     "lead.zugelassen": "Deine Teilnahme ist zugesagt. Den persönlichen Zahlungslink findest Du in Deiner Bestätigung per E-Mail. Nach Zahlungseingang erhältst Du Dein Ticket.",
     "titel.standard": "Deine Anfrage ist bei uns.",
     "schritt.1.titel": "Persönliche Rückmeldung",
@@ -229,7 +229,7 @@
     "eventld.angebot.name": "Teilnahme nach persönlicher Freigabe",
     "eventld.angebot.beschreibung": "450 € netto zzgl. USt. Zahlung nach Zusage per PayPal oder Rechnung. Termin vorläufig.",
     "faq.3.frage": "Wie kann ich teilnehmen?",
-    "faq.3.antwort": "Du kannst Deine Teilnahme online anfragen. Wir prüfen Verantwortung, Erfahrungen und Anliegen und melden uns innerhalb von zwei Werktagen. Erst nach Zusage wird die Zahlung fällig. Mit einer persönlichen Einladung ist die fachliche Prüfung bereits erfolgt. Die 25 Teilnehmerplätze umfassen höchstens zwei Teilnehmer pro Unternehmen. Der angegebene Veranstaltungstermin ist vorläufig.",
+    "faq.3.antwort": "Du kannst Deine Teilnahme online anfragen. Wir prüfen Verantwortung, Erfahrungen und Anliegen und melden uns innerhalb von zwei Werktagen. Erst Deine ausdrückliche verbindliche Buchung nach Zusage begründet eine Zahlungspflicht. Mit einer persönlichen Einladung ist die fachliche Prüfung bereits erfolgt. Die 25 Teilnehmerplätze umfassen höchstens zwei Teilnehmer pro Unternehmen. Der angegebene Veranstaltungstermin ist vorläufig.",
     "faq.4.antwort": "450 € netto zzgl. 19 % USt. (535,50 € brutto). Enthalten sind beide Tage, Vorbereitung und Dossier, Verpflegung, Aperitif und Dinner, die interne Ausgabe des Dissenspapiers, Dein Kuvert und das Online-Wiedersehen nach sechs Wochen. Anreise und Übernachtung buchst Du selbst.",
     "faq.5.antwort": "Vorab sammeln wir Deine aktuelle Entscheidung, eine eigene Erfahrung und das, was Du von anderen verstehen möchtest. Daraus bereiten wir drei Spannungsfelder und zwei Praxisfälle vor. Zu Beginn legt die Gruppe gemeinsam die Prioritäten fest.",
     "faq.7.antwort": "Für die fachlichen Gespräche gilt die Chatham House Rule: Erkenntnisse dürfen genutzt werden, Identitäten und Zugehörigkeiten der Beteiligten bleiben geschützt. Ausdrücklich als vertraulich bezeichnete Fallgespräche werden auch inhaltlich nicht weitergegeben. Während der Arbeitsphasen wird nicht fotografiert oder gefilmt. Kontaktvermittlung erfolgt nur mit Zustimmung der Beteiligten; persönliche Kontaktdaten sind keine pauschale Gegenleistung für Partner.",
@@ -241,14 +241,14 @@
     "ablauf.tag1.7": "13:30 | Der 26. Experte, Runde 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  An einem fiktiven Kundenbestand entwickelt die Gruppe mit KI einen Betreuungsplan. Ihr prüft die Vorschläge auf Nutzen, passende Ansprache und Beratungsqualität; echte Kundendaten werden nicht verwendet. | signatur foto:leinwand"
    },
    "anmeldung": {
-    "kopf.lead": "In vier kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Die Zahlung folgt erst nach Zusage; persönlich eingeladene Teilnehmer können direkt buchen. Der angegebene Veranstaltungstermin ist vorläufig.",
+    "kopf.lead": "In drei kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Nach Zusage entscheidest Du über die verbindliche Buchung. Der angegebene Veranstaltungstermin ist vorläufig.",
     "feld.ebene.hint": "Entscheidend sind Deine Verantwortung und die Passung zum Thema. Unter „Sonstiges“ kannst Du Deine fachliche Verantwortung bei Position erläutern.",
     "feld.frage": "Welche Entscheidung beschäftigt Dich gerade?",
     "feld.frage.hint": "Ein bis drei Sätze genügen. Bitte keine vertraulichen Unternehmens- oder Kundendaten angeben. Diese Frage hilft uns bei der Zusammenstellung und Vorbereitung der Gruppe.",
     "feld.frage.error": "Bitte nenne uns eine aktuelle Frage oder Entscheidung.",
     "nav.absenden": "Teilnahme anfragen",
     "bestaetigung.anmeldung.error": "Bitte bestätige Deine Teilnahme-Anfrage und die Bedingungen.",
-    "bestaetigung.hinweis": "Die Anfrage ist kostenfrei. Eine Zahlung wird erst nach Zusage fällig. Mit Deinem persönlichen Einladungslink ist die fachliche Prüfung bereits erfolgt. Es stehen 25 Teilnehmerplätze zur Verfügung; Gastgeber, Moderator und Impulsgeber kommen hinzu.",
+    "bestaetigung.hinweis": "Die Anfrage ist kostenfrei. Eine Zahlungspflicht entsteht erst mit Deiner ausdrücklichen verbindlichen Buchung nach Zusage. Mit Deinem persönlichen Einladungslink ist die fachliche Prüfung bereits erfolgt. Es stehen 25 Teilnehmerplätze zur Verfügung; Gastgeber, Moderator und Impulsgeber kommen hinzu.",
     "paket.enthalten": "Teilnahme an beiden Tagen\nPersönliche Vorbereitung und Dossier\nVerpflegung während der Edition\nGemeinsamer Abend mit Aperitif und Dinner\nInterne Ausgabe des Dissenspapiers\nDein persönliches Kuvert\nModeriertes Online-Wiedersehen nach sechs Wochen",
     "schritt2.hinweis": "Die Rechnungsangaben werden erst nach einer Zusage benötigt. Du kannst sie für die anschließende Buchung bereits hinterlegen.",
     "schritt3.titel": "Deine Verantwortung und Dein Anliegen",
@@ -260,7 +260,7 @@
     "bestaetigung.anmeldung": "Ich frage meine Teilnahme an 25 VERTRIEBS EXPERTS am 18./19. März 2027 (vorläufig) in Köln an. Die Anfrage ist kostenfrei. Nach Zusage kann ich zum Preis von 450 € netto zzgl. 19 % USt. (535,50 € brutto) verbindlich buchen. Ich akzeptiere die <a class=\"x-link\" href=\"/teilnahmebedingungen\">Teilnahmebedingungen</a>. Der angegebene Veranstaltungstermin ist vorläufig."
    },
    "danke": {
-    "lead.standard": "Danke für Deine Anfrage. Wir prüfen, wie Deine Verantwortung und Deine Anliegen zur Edition passen, und melden uns innerhalb von zwei Werktagen. Bis zur Zusage ist keine Zahlung erforderlich.",
+    "lead.standard": "Danke für Deine Anfrage. Wir prüfen, wie Deine Verantwortung und Deine Anliegen zur Edition passen, und melden uns innerhalb von zwei Werktagen. Die Anfrage ist kostenfrei und noch keine verbindliche Buchung.",
     "lead.zugelassen": "Deine Teilnahme ist zugesagt. Den persönlichen Zahlungslink findest Du in Deiner Bestätigung per E-Mail. Nach Zahlungseingang erhältst Du Dein Ticket.",
     "titel.standard": "Deine Anfrage ist bei uns.",
     "schritt.1.titel": "Persönliche Rückmeldung",
@@ -321,7 +321,7 @@
     "eventld.angebot.name": "Teilnahme nach persönlicher Freigabe",
     "eventld.angebot.beschreibung": "450 € netto zzgl. USt. Zahlung nach Zusage per PayPal oder Rechnung. Termin vorläufig.",
     "faq.3.frage": "Wie kann ich teilnehmen?",
-    "faq.3.antwort": "Du kannst Deine Teilnahme online anfragen. Wir prüfen Verantwortung, Erfahrungen und Anliegen und melden uns innerhalb von zwei Werktagen. Erst nach Zusage wird die Zahlung fällig. Mit einer persönlichen Einladung ist die fachliche Prüfung bereits erfolgt. Die 25 Teilnehmerplätze umfassen höchstens zwei Teilnehmer pro Unternehmen. Der angegebene Veranstaltungstermin ist vorläufig.",
+    "faq.3.antwort": "Du kannst Deine Teilnahme online anfragen. Wir prüfen Verantwortung, Erfahrungen und Anliegen und melden uns innerhalb von zwei Werktagen. Erst Deine ausdrückliche verbindliche Buchung nach Zusage begründet eine Zahlungspflicht. Mit einer persönlichen Einladung ist die fachliche Prüfung bereits erfolgt. Die 25 Teilnehmerplätze umfassen höchstens zwei Teilnehmer pro Unternehmen. Der angegebene Veranstaltungstermin ist vorläufig.",
     "faq.4.antwort": "450 € netto zzgl. 19 % USt. (535,50 € brutto). Enthalten sind beide Tage, Vorbereitung und Dossier, Verpflegung, Aperitif und Dinner, die interne Ausgabe des Dissenspapiers, Dein Kuvert und das Online-Wiedersehen nach sechs Wochen. Anreise und Übernachtung buchst Du selbst.",
     "faq.5.antwort": "Vorab sammeln wir Deine aktuelle Entscheidung, eine eigene Erfahrung und das, was Du von anderen verstehen möchtest. Daraus bereiten wir drei Spannungsfelder und zwei Praxisfälle vor. Zu Beginn legt die Gruppe gemeinsam die Prioritäten fest.",
     "faq.7.antwort": "Für die fachlichen Gespräche gilt die Chatham House Rule: Erkenntnisse dürfen genutzt werden, Identitäten und Zugehörigkeiten der Beteiligten bleiben geschützt. Ausdrücklich als vertraulich bezeichnete Fallgespräche werden auch inhaltlich nicht weitergegeben. Während der Arbeitsphasen wird nicht fotografiert oder gefilmt. Kontaktvermittlung erfolgt nur mit Zustimmung der Beteiligten; persönliche Kontaktdaten sind keine pauschale Gegenleistung für Partner.",
@@ -333,14 +333,14 @@
     "ablauf.tag1.7": "13:30 | Der 26. Experte, Runde 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Teilnehmerinnen bearbeiten anonymisierte Entscheidungsfälle: ein abgelehntes Projektbudget, unklare Zuständigkeiten oder eine neue Führungsaufgabe. KI übernimmt im Gesprächstraining eine kritische Gegenposition; die Gruppe bewertet Argumente und entwickelt nächste Schritte. | signatur foto:leinwand"
    },
    "anmeldung": {
-    "kopf.lead": "In vier kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Die Zahlung folgt erst nach Zusage; persönlich eingeladene Teilnehmer können direkt buchen. Der angegebene Veranstaltungstermin ist vorläufig.",
+    "kopf.lead": "In drei kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Nach Zusage entscheidest Du über die verbindliche Buchung. Der angegebene Veranstaltungstermin ist vorläufig.",
     "feld.ebene.hint": "Entscheidend sind Deine Verantwortung und die Passung zum Thema. Unter „Sonstiges“ kannst Du Deine fachliche Verantwortung bei Position erläutern.",
     "feld.frage": "Welche Entscheidung beschäftigt Dich gerade?",
     "feld.frage.hint": "Ein bis drei Sätze genügen. Bitte keine vertraulichen Unternehmens- oder Kundendaten angeben. Diese Frage hilft uns bei der Zusammenstellung und Vorbereitung der Gruppe.",
     "feld.frage.error": "Bitte nenne uns eine aktuelle Frage oder Entscheidung.",
     "nav.absenden": "Teilnahme anfragen",
     "bestaetigung.anmeldung.error": "Bitte bestätige Deine Teilnahme-Anfrage und die Bedingungen.",
-    "bestaetigung.hinweis": "Die Anfrage ist kostenfrei. Eine Zahlung wird erst nach Zusage fällig. Mit Deinem persönlichen Einladungslink ist die fachliche Prüfung bereits erfolgt. Es stehen 25 Teilnehmerplätze zur Verfügung; Gastgeber, Moderator und Impulsgeber kommen hinzu.",
+    "bestaetigung.hinweis": "Die Anfrage ist kostenfrei. Eine Zahlungspflicht entsteht erst mit Deiner ausdrücklichen verbindlichen Buchung nach Zusage. Mit Deinem persönlichen Einladungslink ist die fachliche Prüfung bereits erfolgt. Es stehen 25 Teilnehmerplätze zur Verfügung; Gastgeber, Moderator und Impulsgeber kommen hinzu.",
     "paket.enthalten": "Teilnahme an beiden Tagen\nPersönliche Vorbereitung und Dossier\nVerpflegung während der Edition\nGemeinsamer Abend mit Aperitif und Dinner\nInterne Ausgabe des Dissenspapiers\nDein persönliches Kuvert\nModeriertes Online-Wiedersehen nach sechs Wochen",
     "schritt2.hinweis": "Die Rechnungsangaben werden erst nach einer Zusage benötigt. Du kannst sie für die anschließende Buchung bereits hinterlegen.",
     "schritt3.titel": "Deine Verantwortung und Dein Anliegen",
@@ -352,7 +352,7 @@
     "bestaetigung.anmeldung": "Ich frage meine Teilnahme an 25 FEMALE EXPERTS am 14./15. April 2027 (vorläufig) in Köln an. Die Anfrage ist kostenfrei. Nach Zusage kann ich zum Preis von 450 € netto zzgl. 19 % USt. (535,50 € brutto) verbindlich buchen. Ich akzeptiere die <a class=\"x-link\" href=\"/teilnahmebedingungen\">Teilnahmebedingungen</a>. Der angegebene Veranstaltungstermin ist vorläufig."
    },
    "danke": {
-    "lead.standard": "Danke für Deine Anfrage. Wir prüfen, wie Deine Verantwortung und Deine Anliegen zur Edition passen, und melden uns innerhalb von zwei Werktagen. Bis zur Zusage ist keine Zahlung erforderlich.",
+    "lead.standard": "Danke für Deine Anfrage. Wir prüfen, wie Deine Verantwortung und Deine Anliegen zur Edition passen, und melden uns innerhalb von zwei Werktagen. Die Anfrage ist kostenfrei und noch keine verbindliche Buchung.",
     "lead.zugelassen": "Deine Teilnahme ist zugesagt. Den persönlichen Zahlungslink findest Du in Deiner Bestätigung per E-Mail. Nach Zahlungseingang erhältst Du Dein Ticket.",
     "titel.standard": "Deine Anfrage ist bei uns.",
     "schritt.1.titel": "Persönliche Rückmeldung",
@@ -413,7 +413,7 @@
     "eventld.angebot.name": "Teilnahme nach persönlicher Freigabe",
     "eventld.angebot.beschreibung": "450 € netto zzgl. USt. Zahlung nach Zusage per PayPal oder Rechnung. Termin vorläufig.",
     "faq.3.frage": "Wie kann ich teilnehmen?",
-    "faq.3.antwort": "Du kannst Deine Teilnahme online anfragen. Wir prüfen Verantwortung, Erfahrungen und Anliegen und melden uns innerhalb von zwei Werktagen. Erst nach Zusage wird die Zahlung fällig. Mit einer persönlichen Einladung ist die fachliche Prüfung bereits erfolgt. Die 25 Teilnehmerplätze umfassen höchstens zwei Teilnehmer pro Unternehmen. Der angegebene Veranstaltungstermin ist vorläufig.",
+    "faq.3.antwort": "Du kannst Deine Teilnahme online anfragen. Wir prüfen Verantwortung, Erfahrungen und Anliegen und melden uns innerhalb von zwei Werktagen. Erst Deine ausdrückliche verbindliche Buchung nach Zusage begründet eine Zahlungspflicht. Mit einer persönlichen Einladung ist die fachliche Prüfung bereits erfolgt. Die 25 Teilnehmerplätze umfassen höchstens zwei Teilnehmer pro Unternehmen. Der angegebene Veranstaltungstermin ist vorläufig.",
     "faq.4.antwort": "450 € netto zzgl. 19 % USt. (535,50 € brutto). Enthalten sind beide Tage, Vorbereitung und Dossier, Verpflegung, Aperitif und Dinner, die interne Ausgabe des Dissenspapiers, Dein Kuvert und das Online-Wiedersehen nach sechs Wochen. Anreise und Übernachtung buchst Du selbst.",
     "faq.5.antwort": "Vorab sammeln wir Deine aktuelle Entscheidung, eine eigene Erfahrung und das, was Du von anderen verstehen möchtest. Daraus bereiten wir drei Spannungsfelder und zwei Praxisfälle vor. Zu Beginn legt die Gruppe gemeinsam die Prioritäten fest.",
     "faq.7.antwort": "Für die fachlichen Gespräche gilt die Chatham House Rule: Erkenntnisse dürfen genutzt werden, Identitäten und Zugehörigkeiten der Beteiligten bleiben geschützt. Ausdrücklich als vertraulich bezeichnete Fallgespräche werden auch inhaltlich nicht weitergegeben. Während der Arbeitsphasen wird nicht fotografiert oder gefilmt. Kontaktvermittlung erfolgt nur mit Zustimmung der Beteiligten; persönliche Kontaktdaten sind keine pauschale Gegenleistung für Partner.",
@@ -425,14 +425,14 @@
     "ablauf.tag1.7": "13:30 | Der 26. Experte, Runde 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Gruppe übersetzt einen beispielhaften KI-Anwendungsfall in einen umsetzbaren Auftrag: Welches Problem lösen wir, was muss das System leisten, wer entscheidet und woran erkennen wir eine erfolgreiche Umsetzung? Die KI prüft Anforderungen auf Lücken und formuliert Gegenfragen. | signatur foto:leinwand"
    },
    "anmeldung": {
-    "kopf.lead": "In vier kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Die Zahlung folgt erst nach Zusage; persönlich eingeladene Teilnehmer können direkt buchen. Der angegebene Veranstaltungstermin ist vorläufig.",
+    "kopf.lead": "In drei kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Nach Zusage entscheidest Du über die verbindliche Buchung. Der angegebene Veranstaltungstermin ist vorläufig.",
     "feld.ebene.hint": "Entscheidend sind Deine Verantwortung und die Passung zum Thema. Unter „Sonstiges“ kannst Du Deine fachliche Verantwortung bei Position erläutern.",
     "feld.frage": "Welche Entscheidung beschäftigt Dich gerade?",
     "feld.frage.hint": "Ein bis drei Sätze genügen. Bitte keine vertraulichen Unternehmens- oder Kundendaten angeben. Diese Frage hilft uns bei der Zusammenstellung und Vorbereitung der Gruppe.",
     "feld.frage.error": "Bitte nenne uns eine aktuelle Frage oder Entscheidung.",
     "nav.absenden": "Teilnahme anfragen",
     "bestaetigung.anmeldung.error": "Bitte bestätige Deine Teilnahme-Anfrage und die Bedingungen.",
-    "bestaetigung.hinweis": "Die Anfrage ist kostenfrei. Eine Zahlung wird erst nach Zusage fällig. Mit Deinem persönlichen Einladungslink ist die fachliche Prüfung bereits erfolgt. Es stehen 25 Teilnehmerplätze zur Verfügung; Gastgeber, Moderator und Impulsgeber kommen hinzu.",
+    "bestaetigung.hinweis": "Die Anfrage ist kostenfrei. Eine Zahlungspflicht entsteht erst mit Deiner ausdrücklichen verbindlichen Buchung nach Zusage. Mit Deinem persönlichen Einladungslink ist die fachliche Prüfung bereits erfolgt. Es stehen 25 Teilnehmerplätze zur Verfügung; Gastgeber, Moderator und Impulsgeber kommen hinzu.",
     "paket.enthalten": "Teilnahme an beiden Tagen\nPersönliche Vorbereitung und Dossier\nVerpflegung während der Edition\nGemeinsamer Abend mit Aperitif und Dinner\nInterne Ausgabe des Dissenspapiers\nDein persönliches Kuvert\nModeriertes Online-Wiedersehen nach sechs Wochen",
     "schritt2.hinweis": "Die Rechnungsangaben werden erst nach einer Zusage benötigt. Du kannst sie für die anschließende Buchung bereits hinterlegen.",
     "schritt3.titel": "Deine Verantwortung und Dein Anliegen",
@@ -444,7 +444,7 @@
     "bestaetigung.anmeldung": "Ich frage meine Teilnahme an 25 OPERATIONS EXPERTS am 9./10. Juni 2027 (vorläufig) in Köln an. Die Anfrage ist kostenfrei. Nach Zusage kann ich zum Preis von 450 € netto zzgl. 19 % USt. (535,50 € brutto) verbindlich buchen. Ich akzeptiere die <a class=\"x-link\" href=\"/teilnahmebedingungen\">Teilnahmebedingungen</a>. Der angegebene Veranstaltungstermin ist vorläufig."
    },
    "danke": {
-    "lead.standard": "Danke für Deine Anfrage. Wir prüfen, wie Deine Verantwortung und Deine Anliegen zur Edition passen, und melden uns innerhalb von zwei Werktagen. Bis zur Zusage ist keine Zahlung erforderlich.",
+    "lead.standard": "Danke für Deine Anfrage. Wir prüfen, wie Deine Verantwortung und Deine Anliegen zur Edition passen, und melden uns innerhalb von zwei Werktagen. Die Anfrage ist kostenfrei und noch keine verbindliche Buchung.",
     "lead.zugelassen": "Deine Teilnahme ist zugesagt. Den persönlichen Zahlungslink findest Du in Deiner Bestätigung per E-Mail. Nach Zahlungseingang erhältst Du Dein Ticket.",
     "titel.standard": "Deine Anfrage ist bei uns.",
     "schritt.1.titel": "Persönliche Rückmeldung",
@@ -505,7 +505,7 @@
     "eventld.angebot.name": "Teilnahme nach persönlicher Freigabe",
     "eventld.angebot.beschreibung": "450 € netto zzgl. USt. Zahlung nach Zusage per PayPal oder Rechnung. Termin vorläufig.",
     "faq.3.frage": "Wie kann ich teilnehmen?",
-    "faq.3.antwort": "Du kannst Deine Teilnahme online anfragen. Wir prüfen Verantwortung, Erfahrungen und Anliegen und melden uns innerhalb von zwei Werktagen. Erst nach Zusage wird die Zahlung fällig. Mit einer persönlichen Einladung ist die fachliche Prüfung bereits erfolgt. Die 25 Teilnehmerplätze umfassen höchstens zwei Teilnehmer pro Unternehmen. Der angegebene Veranstaltungstermin ist vorläufig.",
+    "faq.3.antwort": "Du kannst Deine Teilnahme online anfragen. Wir prüfen Verantwortung, Erfahrungen und Anliegen und melden uns innerhalb von zwei Werktagen. Erst Deine ausdrückliche verbindliche Buchung nach Zusage begründet eine Zahlungspflicht. Mit einer persönlichen Einladung ist die fachliche Prüfung bereits erfolgt. Die 25 Teilnehmerplätze umfassen höchstens zwei Teilnehmer pro Unternehmen. Der angegebene Veranstaltungstermin ist vorläufig.",
     "faq.4.antwort": "450 € netto zzgl. 19 % USt. (535,50 € brutto). Enthalten sind beide Tage, Vorbereitung und Dossier, Verpflegung, Aperitif und Dinner, die interne Ausgabe des Dissenspapiers, Dein Kuvert und das Online-Wiedersehen nach sechs Wochen. Anreise und Übernachtung buchst Du selbst.",
     "faq.5.antwort": "Vorab sammeln wir Deine aktuelle Entscheidung, eine eigene Erfahrung und das, was Du von anderen verstehen möchtest. Daraus bereiten wir drei Spannungsfelder und zwei Praxisfälle vor. Zu Beginn legt die Gruppe gemeinsam die Prioritäten fest.",
     "faq.7.antwort": "Für die fachlichen Gespräche gilt die Chatham House Rule: Erkenntnisse dürfen genutzt werden, Identitäten und Zugehörigkeiten der Beteiligten bleiben geschützt. Ausdrücklich als vertraulich bezeichnete Fallgespräche werden auch inhaltlich nicht weitergegeben. Während der Arbeitsphasen wird nicht fotografiert oder gefilmt. Kontaktvermittlung erfolgt nur mit Zustimmung der Beteiligten; persönliche Kontaktdaten sind keine pauschale Gegenleistung für Partner.",
@@ -517,14 +517,14 @@
     "ablauf.tag1.7": "13:30 | Der 26. Experte, Runde 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Gruppe bewertet eine KI-Anwendung mit einem bewusst fehlerhaften, synthetischen Beispieldatensatz. Welche Fehler verändern das Ergebnis? Welche Verbesserungen haben Vorrang? Ihr vergleicht die Antworten vor und nach der Korrektur. | signatur foto:leinwand"
    },
    "anmeldung": {
-    "kopf.lead": "In vier kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Die Zahlung folgt erst nach Zusage; persönlich eingeladene Teilnehmer können direkt buchen. Der angegebene Veranstaltungstermin ist vorläufig.",
+    "kopf.lead": "In drei kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Nach Zusage entscheidest Du über die verbindliche Buchung. Der angegebene Veranstaltungstermin ist vorläufig.",
     "feld.ebene.hint": "Entscheidend sind Deine Verantwortung und die Passung zum Thema. Unter „Sonstiges“ kannst Du Deine fachliche Verantwortung bei Position erläutern.",
     "feld.frage": "Welche Entscheidung beschäftigt Dich gerade?",
     "feld.frage.hint": "Ein bis drei Sätze genügen. Bitte keine vertraulichen Unternehmens- oder Kundendaten angeben. Diese Frage hilft uns bei der Zusammenstellung und Vorbereitung der Gruppe.",
     "feld.frage.error": "Bitte nenne uns eine aktuelle Frage oder Entscheidung.",
     "nav.absenden": "Teilnahme anfragen",
     "bestaetigung.anmeldung.error": "Bitte bestätige Deine Teilnahme-Anfrage und die Bedingungen.",
-    "bestaetigung.hinweis": "Die Anfrage ist kostenfrei. Eine Zahlung wird erst nach Zusage fällig. Mit Deinem persönlichen Einladungslink ist die fachliche Prüfung bereits erfolgt. Es stehen 25 Teilnehmerplätze zur Verfügung; Gastgeber, Moderator und Impulsgeber kommen hinzu.",
+    "bestaetigung.hinweis": "Die Anfrage ist kostenfrei. Eine Zahlungspflicht entsteht erst mit Deiner ausdrücklichen verbindlichen Buchung nach Zusage. Mit Deinem persönlichen Einladungslink ist die fachliche Prüfung bereits erfolgt. Es stehen 25 Teilnehmerplätze zur Verfügung; Gastgeber, Moderator und Impulsgeber kommen hinzu.",
     "paket.enthalten": "Teilnahme an beiden Tagen\nPersönliche Vorbereitung und Dossier\nVerpflegung während der Edition\nGemeinsamer Abend mit Aperitif und Dinner\nInterne Ausgabe des Dissenspapiers\nDein persönliches Kuvert\nModeriertes Online-Wiedersehen nach sechs Wochen",
     "schritt2.hinweis": "Die Rechnungsangaben werden erst nach einer Zusage benötigt. Du kannst sie für die anschließende Buchung bereits hinterlegen.",
     "schritt3.titel": "Deine Verantwortung und Dein Anliegen",
@@ -536,7 +536,7 @@
     "bestaetigung.anmeldung": "Ich frage meine Teilnahme an 25 DATA EXPERTS am 15./16. September 2027 (vorläufig) in Köln an. Die Anfrage ist kostenfrei. Nach Zusage kann ich zum Preis von 450 € netto zzgl. 19 % USt. (535,50 € brutto) verbindlich buchen. Ich akzeptiere die <a class=\"x-link\" href=\"/teilnahmebedingungen\">Teilnahmebedingungen</a>. Der angegebene Veranstaltungstermin ist vorläufig."
    },
    "danke": {
-    "lead.standard": "Danke für Deine Anfrage. Wir prüfen, wie Deine Verantwortung und Deine Anliegen zur Edition passen, und melden uns innerhalb von zwei Werktagen. Bis zur Zusage ist keine Zahlung erforderlich.",
+    "lead.standard": "Danke für Deine Anfrage. Wir prüfen, wie Deine Verantwortung und Deine Anliegen zur Edition passen, und melden uns innerhalb von zwei Werktagen. Die Anfrage ist kostenfrei und noch keine verbindliche Buchung.",
     "lead.zugelassen": "Deine Teilnahme ist zugesagt. Den persönlichen Zahlungslink findest Du in Deiner Bestätigung per E-Mail. Nach Zahlungseingang erhältst Du Dein Ticket.",
     "titel.standard": "Deine Anfrage ist bei uns.",
     "schritt.1.titel": "Persönliche Rückmeldung",
@@ -597,7 +597,7 @@
     "eventld.angebot.name": "Teilnahme nach persönlicher Freigabe",
     "eventld.angebot.beschreibung": "450 € netto zzgl. USt. Zahlung nach Zusage per PayPal oder Rechnung. Termin vorläufig.",
     "faq.3.frage": "Wie kann ich teilnehmen?",
-    "faq.3.antwort": "Du kannst Deine Teilnahme online anfragen. Wir prüfen Verantwortung, Erfahrungen und Anliegen und melden uns innerhalb von zwei Werktagen. Erst nach Zusage wird die Zahlung fällig. Mit einer persönlichen Einladung ist die fachliche Prüfung bereits erfolgt. Die 25 Teilnehmerplätze umfassen höchstens zwei Teilnehmer pro Unternehmen. Der angegebene Veranstaltungstermin ist vorläufig.",
+    "faq.3.antwort": "Du kannst Deine Teilnahme online anfragen. Wir prüfen Verantwortung, Erfahrungen und Anliegen und melden uns innerhalb von zwei Werktagen. Erst Deine ausdrückliche verbindliche Buchung nach Zusage begründet eine Zahlungspflicht. Mit einer persönlichen Einladung ist die fachliche Prüfung bereits erfolgt. Die 25 Teilnehmerplätze umfassen höchstens zwei Teilnehmer pro Unternehmen. Der angegebene Veranstaltungstermin ist vorläufig.",
     "faq.4.antwort": "450 € netto zzgl. 19 % USt. (535,50 € brutto). Enthalten sind beide Tage, Vorbereitung und Dossier, Verpflegung, Aperitif und Dinner, die interne Ausgabe des Dissenspapiers, Dein Kuvert und das Online-Wiedersehen nach sechs Wochen. Anreise und Übernachtung buchst Du selbst.",
     "faq.5.antwort": "Vorab sammeln wir Deine aktuelle Entscheidung, eine eigene Erfahrung und das, was Du von anderen verstehen möchtest. Daraus bereiten wir drei Spannungsfelder und zwei Praxisfälle vor. Zu Beginn legt die Gruppe gemeinsam die Prioritäten fest.",
     "faq.7.antwort": "Für die fachlichen Gespräche gilt die Chatham House Rule: Erkenntnisse dürfen genutzt werden, Identitäten und Zugehörigkeiten der Beteiligten bleiben geschützt. Ausdrücklich als vertraulich bezeichnete Fallgespräche werden auch inhaltlich nicht weitergegeben. Während der Arbeitsphasen wird nicht fotografiert oder gefilmt. Kontaktvermittlung erfolgt nur mit Zustimmung der Beteiligten; persönliche Kontaktdaten sind keine pauschale Gegenleistung für Partner.",
@@ -609,14 +609,14 @@
     "ablauf.tag1.7": "13:30 | Der 26. Experte, Runde 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Ein vorbereiteter Schadenfall: Reparieren oder ersetzen? Ihr bewertet Kosten, Dauer, Kundennutzen und geschätzten Ressourcenverbrauch anhand synthetischer Daten. Zuerst entscheidet die Gruppe, dann prüft Ihr die KI-Empfehlung mit denselben Kriterien. Wo fehlen belastbare Informationen? | signatur foto:leinwand"
    },
    "anmeldung": {
-    "kopf.lead": "In vier kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Die Zahlung folgt erst nach Zusage; persönlich eingeladene Teilnehmer können direkt buchen. Der angegebene Veranstaltungstermin ist vorläufig.",
+    "kopf.lead": "In drei kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Nach Zusage entscheidest Du über die verbindliche Buchung. Der angegebene Veranstaltungstermin ist vorläufig.",
     "feld.ebene.hint": "Entscheidend sind Deine Verantwortung und die Passung zum Thema. Unter „Sonstiges“ kannst Du Deine fachliche Verantwortung bei Position erläutern.",
     "feld.frage": "Welche Entscheidung beschäftigt Dich gerade?",
     "feld.frage.hint": "Ein bis drei Sätze genügen. Bitte keine vertraulichen Unternehmens- oder Kundendaten angeben. Diese Frage hilft uns bei der Zusammenstellung und Vorbereitung der Gruppe.",
     "feld.frage.error": "Bitte nenne uns eine aktuelle Frage oder Entscheidung.",
     "nav.absenden": "Teilnahme anfragen",
     "bestaetigung.anmeldung.error": "Bitte bestätige Deine Teilnahme-Anfrage und die Bedingungen.",
-    "bestaetigung.hinweis": "Die Anfrage ist kostenfrei. Eine Zahlung wird erst nach Zusage fällig. Mit Deinem persönlichen Einladungslink ist die fachliche Prüfung bereits erfolgt. Es stehen 25 Teilnehmerplätze zur Verfügung; Gastgeber, Moderator und Impulsgeber kommen hinzu.",
+    "bestaetigung.hinweis": "Die Anfrage ist kostenfrei. Eine Zahlungspflicht entsteht erst mit Deiner ausdrücklichen verbindlichen Buchung nach Zusage. Mit Deinem persönlichen Einladungslink ist die fachliche Prüfung bereits erfolgt. Es stehen 25 Teilnehmerplätze zur Verfügung; Gastgeber, Moderator und Impulsgeber kommen hinzu.",
     "paket.enthalten": "Teilnahme an beiden Tagen\nPersönliche Vorbereitung und Dossier\nVerpflegung während der Edition\nGemeinsamer Abend mit Aperitif und Dinner\nInterne Ausgabe des Dissenspapiers\nDein persönliches Kuvert\nModeriertes Online-Wiedersehen nach sechs Wochen",
     "schritt2.hinweis": "Die Rechnungsangaben werden erst nach einer Zusage benötigt. Du kannst sie für die anschließende Buchung bereits hinterlegen.",
     "schritt3.titel": "Deine Verantwortung und Dein Anliegen",
@@ -628,7 +628,7 @@
     "bestaetigung.anmeldung": "Ich frage meine Teilnahme an 25 SUSTAINABILITY EXPERTS am 7./8. Oktober 2027 (vorläufig) in Köln an. Die Anfrage ist kostenfrei. Nach Zusage kann ich zum Preis von 450 € netto zzgl. 19 % USt. (535,50 € brutto) verbindlich buchen. Ich akzeptiere die <a class=\"x-link\" href=\"/teilnahmebedingungen\">Teilnahmebedingungen</a>. Der angegebene Veranstaltungstermin ist vorläufig."
    },
    "danke": {
-    "lead.standard": "Danke für Deine Anfrage. Wir prüfen, wie Deine Verantwortung und Deine Anliegen zur Edition passen, und melden uns innerhalb von zwei Werktagen. Bis zur Zusage ist keine Zahlung erforderlich.",
+    "lead.standard": "Danke für Deine Anfrage. Wir prüfen, wie Deine Verantwortung und Deine Anliegen zur Edition passen, und melden uns innerhalb von zwei Werktagen. Die Anfrage ist kostenfrei und noch keine verbindliche Buchung.",
     "lead.zugelassen": "Deine Teilnahme ist zugesagt. Den persönlichen Zahlungslink findest Du in Deiner Bestätigung per E-Mail. Nach Zahlungseingang erhältst Du Dein Ticket.",
     "titel.standard": "Deine Anfrage ist bei uns.",
     "schritt.1.titel": "Persönliche Rückmeldung",

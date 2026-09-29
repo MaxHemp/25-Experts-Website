@@ -88,7 +88,7 @@ function x25ed_schedule(array $ed, string $day, string $meta, string $prefix): s
         $d = $desc !== '' ? '<p class="x-timeline__desc">' . $desc . '</p>' : '';
         $chip = '';
         foreach ($markers as $m) {
-            if (str_starts_with((string)$m, 'foto:')) { $chip = x25ed_editionsfoto($ed, substr((string)$m, 5), 'x-timeline__chip'); }
+            if (str_starts_with((string)$m, 'foto:')) { $chip = ''; }
         }
         $lis .= '<li' . $c . '><time class="x-timeline__time" datetime="' . x25ed_e($t) . '">' . $t . '</time><span class="x-timeline__dot" aria-hidden="true"></span><div class="x-timeline__body"><p class="x-timeline__title">' . $txt . '</p>' . $d . $chip . '</div></li>' . "\n              ";
     }
@@ -148,36 +148,35 @@ $locationCaption = $slug === 'female' ? 'KI-generiertes Symbolbild: Gemeinsame A
 $kodex = x25ed_kodex_teaser($ed, $t('kodex.link'));
 $hinweis = $vorschau ? '<div class="x-notice" role="note" style="margin:0"><p class="x-kicker">Vorschau</p><p>Diese Edition ist noch nicht veröffentlicht (Status: ' . x25ed_e(X25ED_STATUS[$ed['status']] ?? $ed['status']) . '). Diese Ansicht ist nur über den Vorschau-Link erreichbar.</p></div>' : '';
 
+$benefits = [
+ 'change-management'=>'Veränderung gestalten, Menschen mitnehmen und aus den Erfahrungen anderer lernen.',
+ 'security'=>'Sicherheit wirksam verankern – zwischen Verantwortung, Fachbereich und Technologie.',
+ 'vertrieb'=>'Vertrieb weiterentwickeln: Kundennähe, Zusammenarbeit und Wirkung gemeinsam durchdenken.',
+ 'female'=>'Erfahrungen teilen, Sichtbarkeit stärken und den eigenen Weg in der Versicherungsbranche gestalten.',
+ 'operations'=>'Fachbereich und IT verbinden: Übergaben klären, Prozesse verbessern und gemeinsam ins Handeln kommen.',
+ 'data'=>'Aus Daten tragfähige Entscheidungen machen – mit klarer Verantwortung und praktischer Wirkung.',
+ 'sustainability'=>'Nachhaltigkeit in wirksame Entscheidungen und gelebte Praxis übersetzen.',
+];
+$benefit = $e($benefits[$slug] ?? strip_tags($t('kern')));
+$date = $e((string)$ed['datum_text']);
+$provisional = !empty($ed['termin_vorlaeufig']) ? ' · Termin vorläufig' : '';
+$gross = number_format(x25ed_preis($ed)*1.19, 2, ',', '.');
+if ($slug !== 'female') {
+ $heroFoto = '<img src="/assets/img/atmosphaere/gespraech-960.webp" srcset="/assets/img/atmosphaere/gespraech-640.webp 640w, /assets/img/atmosphaere/gespraech-960.webp 960w, /assets/img/atmosphaere/gespraech-1536.webp 1536w" sizes="(max-width:760px) 100vw,50vw" width="1536" height="1024" fetchpriority="high" alt="Illustration einer konzentrierten Gesprächsrunde in einem fiktiven Raum.">';
+}
 $body = <<<HTML
-
     {$hinweis}
-    <section class="x-hero x-hero--photo x-hero--edition x-dark" aria-labelledby="hero-title">
-      <div class="x-hero__media">{$heroFoto}</div>
-      <div class="x-hero__scrim x-hero__scrim--top"></div>
-      <div class="x-container x-hero__inner">
-        <div class="x-hero__copy">
-          <p class="x-kicker x-edition-label">Edition {$e((string)($ed['edition_number'] ?? '01'))} · {$e((string)$ed['thema'])}</p>
-          <p class="x-hero__kicker" data-reveal>{$t('hero.kicker')}</p>
-          <h1 class="x-hero__title x-hero__title--edition" id="hero-title" data-reveal style="--x-reveal-delay:80ms">{$nameHtml}</h1>
-          <p class="x-hero__meta" data-reveal style="--x-reveal-delay:160ms">{$t('hero.meta')}</p>
-          <div class="x-hero__claimpair" data-reveal style="--x-reveal-delay:240ms">
-            <p class="x-hero__claim x-hero__claim--lg">{$g('claim.kurz')}<span class="x-dot">.</span></p>
-            <p class="x-hero__claim">{$g('claim.satz')}</p>
-          </div>
-          <p class="x-lead x-hero__lead x-hero__lead--kern" data-reveal style="--x-reveal-delay:300ms">{$kern}</p>
-          <div class="x-hero__actions" data-reveal style="--x-reveal-delay:360ms">
-            <a class="x-btn x-btn--on-dark x-btn--lg" href="{$anm}">{$g('cta.anmelden')}</a>
-            <a class="x-btn x-btn--on-dark-outline x-btn--lg" href="#ablauf">{$t('hero.button2')}</a>
-          </div>
-        </div>
-        <p class="x-hero__side x-hero__note" data-reveal style="--x-reveal-delay:420ms">{$t('hero.note')}</p>
-      </div>
-      <p class="x-hero__symbol" aria-hidden="true">{$g('symbolbild')}</p>
+    <section class="ux-hero ux-hero--edition x-container" aria-labelledby="hero-title">
+      <div class="ux-hero__copy"><p class="x-kicker">Persönlicher Austausch · Köln</p><h1 id="hero-title">{$nameHtml}</h1>
+        <p class="x-lead">{$benefit}</p><p class="ux-event-facts"><strong>{$date}{$provisional}</strong><br>SESSEL HUB · Kranhaus Nord, Köln<br>25 Teilnehmer · 1½ Tage mit Dinner und Online-Wiedersehen</p>
+        <p>{$preisBetrag} netto · {$gross} € inkl. 19 % USt.</p><a class="x-btn x-btn--primary" href="{$anm}">Teilnahme kostenfrei anfragen</a><p class="x-meta">Rückmeldung in zwei Werktagen. Noch keine Buchung.</p>
+      </div><figure class="ux-hero__image">{$heroFoto}</figure>
     </section>
+    <nav class="ux-section-nav x-container" aria-label="Auf dieser Editionsseite"><a href="#leitfrage">Dein Thema</a><a href="#ablauf">Ablauf</a><a href="#impulse">Mitwirkende</a><a href="#preis">Leistungen &amp; Preis</a><a href="#anreise">Ort &amp; Anreise</a><a href="#faq">Fragen</a></nav>
 
     <section class="x-promise" aria-label="Persönliche Betreuung">
       <div class="x-container x-promise__grid">
-        <p><span>Die Auswahl</span><strong>25 Teilnehmer</strong>Persönlich geprüft. Höchstens zwei pro Unternehmen.</p>
+        <p><span>Die Runde</span><strong>25 Teilnehmer</strong>Erfahrungen, die sich ergänzen. Höchstens zwei pro Unternehmen.</p>
         <p><span>Vor dem Treffen</span><strong>Deine Fragen vorbereitet</strong>Dossier mit Spannungsfeldern und Praxisfällen.</p>
         <p><span>In Köln</span><strong>Zeit für Begegnungen</strong>Begleitete Gespräche, Aperitif und Dinner.</p>
         <p><span>Nach sechs Wochen</span><strong>Gemeinsam weiterdenken</strong>Ein moderiertes Online-Wiedersehen gehört dazu.</p>
@@ -209,10 +208,11 @@ $body = <<<HTML
           <h2 id="ablauf-h" class="x-h2">{$t('ablauf.titel')}</h2>
           <p class="x-lead">{$t('ablauf.lead')}</p>
         </div>
-        <div class="x-schedule">
+        <ol class="ux-stages"><li><strong>Ankommen und kennenlernen</strong></li><li><strong>Praxis und Austausch</strong></li><li><strong>Gemeinsamer Abend</strong></li><li><strong>Nächste Schritte</strong></li></ol>
+        <details class="ux-agenda"><summary>Den detaillierten Zeitplan öffnen</summary><div class="x-schedule">
           {$dayHtml1}
           {$dayHtml2}
-        </div>
+        </div></details>
       </div>
     </section>
 
@@ -223,31 +223,20 @@ $body = <<<HTML
           <h2 id="imp-h" class="x-h2">{$t('impulse.titel')}</h2>
           <p class="x-lead">{$t('impulse.lead')}</p>
         </div>
-        <ol class="x-impulse" data-reveal-group>
+        <p class="ux-note">Die folgenden Impulse beschreiben die geplanten Beiträge. Bestätigte externe Mitwirkende werden hier mit Name, Rolle und Beitrag ergänzt, sobald ihre Zusage vorliegt.</p><ol class="x-impulse" data-reveal-group>
           {$impulse}
         </ol>
       </div>
     </section>
 
-    <section class="x-section x-section--muted" id="dissenspapier" aria-labelledby="dp-h">
-      <div class="x-container x-grid x-grid--center">
-        <figure class="x-figure x-figure--4x5 x-col-5" data-reveal>{$dokFoto}<figcaption>{$docCaption}</figcaption></figure>
-        <div class="x-col-6 x-offset-1" data-reveal>
-          <p class="x-kicker">{$t('dp.kicker')}</p>
-          <h2 id="dp-h" class="x-h2">{$t('dp.titel')}</h2>
-          <p class="x-lead">{$t('dp.lead')}</p>
-          <ul class="x-list x-list--loose">{$dp}
-          </ul>
-        </div>
-      </div>
-    </section>
+    <section class="x-section x-section--muted" id="dissenspapier" aria-labelledby="dp-h"><div class="x-container"><h2 class="x-h2" id="dp-h">Was Du mitnimmst.</h2><div class="ux-stages ux-stages--three"><div><h3>Der 26. Experte</h3><p>KI liefert eine zusätzliche Gegenperspektive auf Deine eigene Entscheidung. Erst formuliert die Runde ihr Urteil, dann prüfen wir gemeinsam die Gegenargumente.</p></div><div><h3>Das Kuvert</h3><p>Du hältst Deine Einschätzung fest. Bei der nächsten Edition zum selben Thema kannst Du prüfen, was sich verändert hat.</p></div><div><h3>Das Dissenspapier</h3><p>Gemeinsame Erkenntnisse, begründete Unterschiede und nächste Schritte – als Arbeitsgrundlage für Deinen Alltag. Öffentlich wird nur geteilt, was freigegeben ist.</p></div></div></div></section>
 
     <section class="x-section" id="preis" aria-labelledby="preis-h">
       <div class="x-container x-price">
         <div class="x-price__main" data-reveal>
           <p class="x-kicker">{$t('preis.kicker')}</p>
           <h2 id="preis-h" class="x-visually-hidden">{$t('preis.titel')}</h2>
-          <p class="x-price__amount">{$preisBetrag}<small>{$t('preis.einheit')}</small></p>
+          <p class="x-price__amount">{$preisBetrag}<small>netto · {$gross} € inkl. 19 % USt.</small></p>
           <p><a class="x-btn x-btn--primary x-btn--lg" href="{$anm}">{$g('cta.anmelden')}</a></p>
           <p class="x-meta x-mt-4">{$t('preis.meta')}</p>
         </div>
@@ -267,29 +256,7 @@ $body = <<<HTML
       </div>
     </section>
 
-    <section class="x-section x-section--wood" id="anmeldung" aria-labelledby="anm-h">
-      <p class="x-side-label">{$t('anmeldung.kicker')}</p>
-      <div class="x-container x-anmeldung">
-        <div class="x-anmeldung__intro" data-reveal>
-          <p class="x-kicker">{$t('anmeldung.kicker')}</p>
-          <h2 id="anm-h" class="x-h2">{$t('anmeldung.titel')}</h2>
-          <p class="x-lead">{$t('anmeldung.lead')}</p>
-          <p>{$t('anmeldung.absatz1')}</p>
-          <p>{$t('anmeldung.absatz2')}</p>
-          <p>{$t('anmeldung.absatz3')}</p>
-        </div>
-        <div class="x-anmeldung__form" data-reveal>
-          <div class="x-card x-card--lg x-anmeldung__cta">
-            <p class="x-kicker">{$ta('paket.kicker')}</p>
-            <h3 class="x-h3">{$ta('paket.titel')}</h3>
-            <p class="x-price__amount">{$preisBetrag}<small>{$ta('paket.preis.zusatz')}</small></p>
-            <ul class="x-facts">{$paketFakten}</ul>
-            <div class="x-actions x-mt-8"><a class="x-btn x-btn--primary x-btn--lg" href="{$anm}">{$t('anmeldung.button')}</a></div>
-            <p class="x-meta x-mt-4">{$ta('bestaetigung.hinweis')}</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section class="x-section x-section--wood" id="anmeldung" aria-labelledby="anm-h"><div class="x-container"><h2 class="x-h2" id="anm-h">Bring Deine Perspektive mit.</h2><p>Du verantwortest dieses Thema fachlich oder führst ein Team? Wir möchten erfahren, welche Frage Dich gerade beschäftigt. Ein Führungstitel ist keine Voraussetzung.</p><ol class="ux-stages ux-stages--three"><li><strong>Kostenfrei anfragen</strong><p>Kontaktdaten und ein bis drei Sätze zu Deinem Anliegen reichen.</p></li><li><strong>Persönliche Rückmeldung</strong><p>Innerhalb von zwei Werktagen. Wir achten auf Erfahrungen und Fragen, die sich ergänzen.</p></li><li><strong>Nach Zusage selbst entscheiden</strong><p>Erst Deine ausdrückliche verbindliche Buchung begründet die Zahlungspflicht.</p></li></ol><a class="x-btn x-btn--primary" href="{$anm}">Teilnahme kostenfrei anfragen</a></div></section>
 
     <section class="x-section x-section--ink x-dark" id="kodex" aria-labelledby="kodex-h">
       {$kodex}
@@ -302,33 +269,7 @@ $body = <<<HTML
           <p class="x-kicker">{$t('anreise.kicker')}</p>
           <h2 id="ort-h" class="x-h2">{$t('anreise.titel')}</h2>
         </div>
-        <div class="x-location" data-reveal-group>
-          <div class="x-location__hoch">{$hochFoto}<p class="x-symbol x-mt-2">{$locationCaption}</p></div>
-          <div class="x-location__cards">
-            <div class="x-card x-card--lg">
-              <p class="x-kicker">{$t('warumkoeln.kicker')}</p>
-              <p>{$t('warumkoeln.absatz1')}</p>
-              <p>{$t('warumkoeln.absatz2')}</p>
-            </div>
-            <div class="x-card">
-              <p class="x-kicker">{$t('tagungsort.kicker')}</p>
-              <h3 class="x-h4">{$g('location.name')}</h3>
-              <address>{$g('location.adresse')}</address>
-              <p>{$t('tagungsort.text')}</p>
-            </div>
-            <div class="x-card">
-              <p class="x-kicker">{$t('abend.kicker')}</p>
-              <p>{$t('abend.ort')}</p>
-              <p>{$t('abend.text')}</p>
-            </div>
-            <div class="x-card">
-              <p class="x-kicker">{$t('anfahrt.kicker')}</p>
-              <p>{$t('anfahrt.text1')}</p>
-              <p>{$t('anfahrt.text2')}</p>
-            </div>
-          </div>
-          <div class="x-location__pano">{$panoFoto}</div>
-        </div>
+        <div class="ux-venues"><div class="x-card"><p class="x-kicker">Unser Tagungsort</p><h3>SESSEL HUB · Kranhaus Nord</h3><address>Im Zollhafen 12<br>50678 Köln</address><p>Hier nehmen wir uns Zeit für Deine Fragen und den gemeinsamen Austausch.</p><div class="ux-photo-placeholder" data-photo-slot="sessel-hub"><span>SESSEL HUB</span><p>Einblicke in den Raum folgen nach Bildfreigabe.</p></div><a href="https://www.sesselkampagne.koeln/meetings" target="_blank" rel="noopener">Die Location kennenlernen (externe Website)</a></div><div class="x-card"><p class="x-kicker">Unser gemeinsamer Abend</p><h3>Gilden im Zims</h3><address>Heumarkt 77<br>50667 Köln</address><p>Beim gemeinsamen Dinner setzen wir die Gespräche in entspannter Runde fort.</p><div class="ux-photo-placeholder" data-photo-slot="gilden-im-zims"><span>Gilden im Zims</span><p>Einblicke in die Abendlocation folgen nach Bildfreigabe.</p></div><a href="https://www.zims.de/" target="_blank" rel="noopener">Die Abendlocation kennenlernen (externe Website)</a></div></div><p class="x-meta">Anreise und Übernachtung sind nicht enthalten. Plane Deine Anreise passend zum Beginn der Agenda; die Details erhältst Du mit Deiner Teilnahmebestätigung.</p>
       </div>
     </section>
 
@@ -355,7 +296,7 @@ x25ed_out(x25ed_shell([
     'canonical' => $canon,
     'extra_head' => $ld,
     'cta_href' => $anm,
-    'overlay' => true,
+    'overlay' => false,
     'noindex' => $vorschau,
     'og_image' => rtrim($canon, '/') . '/og.jpg',
     'og_image_alt' => x25ed_label($ed) . ' · 25-experts.de',

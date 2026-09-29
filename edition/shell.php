@@ -23,7 +23,7 @@ function x25ed_shell(array $o): string
         $navItems .= '<li><a href="' . $href . '"' . $cur . '>' . $g($key) . '</a></li>' . "\n          ";
     }
     $cta = $o['cta_href'] ?? ($ed ? x25ed_url($ed) . 'anmeldung' : '/editionen');
-    $ctaLabel = $o['cta_label'] ?? $g('cta.anmelden');
+    $ctaLabel = $o['cta_label'] ?? ($ed ? $g('cta.anmelden') : 'Edition auswählen');
     $domain = (string)(x25ed_texte()['domain'] ?? 'https://25-experts.de/');
     $ogImage = $o['og_image'] ?? ($domain . 'assets/img/og/25experts-og.jpg');
     $ogW = (int)($o['og_image_w'] ?? 1200);
@@ -33,6 +33,8 @@ function x25ed_shell(array $o): string
     $robots = !empty($o['noindex']) ? '  <meta name="robots" content="noindex, nofollow">' . "\n" : '';
     $landingFooter = $ed && ($ed['status'] ?? '') === 'online' ? x25ed_url($ed) : '/editionen';
     $mail = $g('kontakt.mail');
+    $imageNote = (str_contains((string)($o['body'] ?? ''), '/atmosphaere/') || str_contains((string)($o['body'] ?? ''), '/editionen/female-'))
+        ? '<p class="ux-image-credit">Bildnachweis: Die Gesprächs- und Atmosphärenmotive sind KI-generierte Symbolbilder. Sie zeigen keine tatsächlichen Veranstaltungen oder Locations. Gastgeber- und Moderatorenporträts sind echte Fotos.</p>' : '';
     $css1 = x25ed_asset('css/tokens.css'); $css2 = x25ed_asset('css/components.css'); $css3 = x25ed_asset('css/site.css');
     $js = x25ed_asset('js/site.js');
     $extra = $o['extra_head'] ?? '';
@@ -125,6 +127,7 @@ function x25ed_shell(array $o): string
         </div>
       </div>
       <p class="x-footer__fine">{$g('partner-hinweis')}</p>
+      {$imageNote}
       <div class="x-footer__bottom">
         <span>{$g('footer.copyright')}</span>
         <ul>

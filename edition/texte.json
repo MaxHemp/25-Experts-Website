@@ -144,11 +144,19 @@
   "entwurf.text": "ENTWURF: zur anwaltlichen Prüfung. Keine Rechtsberatung. Angaben in eckigen Klammern sind Platzhalter und werden vor Veröffentlichung ersetzt."
  },
  "website_index": {
-  "meta.titel": "25 EXPERTS · Einer von 25.",
-  "meta.beschreibung": "25 persönlich ausgewählte Teilnehmer aus der Versicherungsbranche. Vorbereitete Praxisfragen, offene Gespräche und anderthalb Tage im Kölner Rheinauhafen. Entdecke Deine Edition.",
-  "hero.kicker": "Persönlich zusammengestellte Editionen · Köln, Rheinauhafen",
-  "hero.button2": "Unser Format kennenlernen",
-  "hero.side": "NÄCHSTE EDITION <strong>25 <span class=\"x-fn\">CHANGE MANAGEMENT</span> EXPERTS</strong>02./03.12.2026<br>SESSEL HUB · Rheinauhafen",
+  "meta.titel": "25 EXPERTS · Das Expertentreffen der Versicherungsbranche",
+  "meta.beschreibung": "Das Expertentreffen für Fach- und Führungskräfte aus Versicherern, Maklerpools und Versicherungsvertrieben. 25 Teilnehmer, anderthalb Tage in Köln. Editionen und Termine entdecken.",
+  "hero.kicker": "25 EXPERTS · Köln, Rheinauhafen",
+  "hero.titel": "Das Expertentreffen der Versicherungs&shy;branche<span class=\"x-dot\">.</span>",
+  "hero.lead": "25 persönlich ausgewählte Teilnehmer. Anderthalb Tage Austausch und gemeinsame Arbeit an konkreten Praxisfragen – mit Zeit für Gespräche beim Dinner.",
+  "hero.zielgruppe.label": "Für wen",
+  "hero.zielgruppe.text": "Fach- und Führungskräfte aus Versicherern, Maklerpools und Versicherungsvertrieben, die das Thema ihrer Edition verantworten.",
+  "hero.nutzen.label": "Was Du mitnimmst",
+  "hero.nutzen.text": "Neue Perspektiven für Deine Entscheidungen, konkrete nächste Schritte und Kontakte, die über das Treffen hinaus bleiben.",
+  "hero.button1": "Editionen &amp; Termine",
+  "hero.button2": "Format &amp; Ablauf",
+  "hero.info": "Themen, Termine und Teilnahme findest Du in den einzelnen Editionen.",
+  "hero.begleitung": "Maximilian Hempel stellt die Runde zusammen. Simon Moser moderiert den Austausch.",
   "marquee": "25 Change Management Experts\n02./03. Dezember 2026\n{koeln_kicker}\n25 Plätze\nFür Fach- und Führungskräfte mit passender Verantwortung\nVersicherer, Maklerpools, Versicherungsvertriebe\nDeine offenen Fragen mitbringen\nTeilnahme persönlich anfragen\nZahlung nach Zusage\n450 € netto",
   "fuerwen.label": "Für wen",
   "fuerwen.numeral": "Teilnehmer mit Verantwortung, eigenen Fragen und Erfahrungen aus unterschiedlichen Häusern.",
@@ -550,9 +558,9 @@
  "assets": {
   "css/tokens.css": "fbc4d914",
   "css/components.css": "30dc58ed",
-  "css/site.css": "0e7cbdce",
+  "css/site.css": "1ccbd7b7",
   "js/site.js": "d5900a17",
-  "js/anmeldung.js": "a47f1ca4"
+  "js/anmeldung.js": "2ce19042"
  },
  "domain": "https://25-experts.de/"
 }

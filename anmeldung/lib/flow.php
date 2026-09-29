@@ -170,20 +170,20 @@ function x25_mail_zusage(array $rec): void
 {
     $c = x25_conf(); $a = x25_amounts($rec); $ed = x25_edition_for($rec);
     $subj = 'Dein Platz ist freigegeben · ' . $ed['name'];
-    $pre = 'Einer von 25. Bitte wähle PayPal oder Rechnung; nach Zahlungseingang erhältst Du Dein Ticket.';
+    $pre = 'Deine Zusage ist da. Jetzt kannst Du in einem eigenen Schritt verbindlich buchen.';
     $url = x25_pay_url($rec);
     $a1 = 'Deine Teilnahme an ' . $ed['name'] . ' am ' . $ed['datum'] . ' in ' . $ed['ort'] . ' ist freigegeben. Einer der ' . $ed['max_seats'] . ' Plätze ist für Dich reserviert.';
     $rows = [['Termin', $ed['datum']], ['Ort', $ed['venue']], ['Beitrag', x25_money($a['net']) . ' netto zzgl. ' . (int)round($a['rate'] * 100) . ' % USt. = ' . x25_money($a['gross']) . ' brutto']];
-    $a2 = 'Über die folgende Seite kannst Du Deine zugesagte Teilnahme verbindlich buchen und den Teilnahmebeitrag bezahlen. Dort kannst Du zwischen PayPal und Zahlung per Rechnung (Zahlungsziel ' . $c['payment_days'] . ' Tage) wählen. Mit dem Zahlungseingang ist Dein Platz verbindlich; Du erhältst dann Dein Ticket und alle weiteren Informationen. Solltest Du verhindert sein, sag uns bitte kurz Bescheid, damit wir den Platz weitergeben können.';
+    $a2 = 'Über die folgende Seite kannst Du Deine zugesagte Teilnahme verbindlich buchen und den Teilnahmebeitrag bezahlen. Dort kannst Du zwischen PayPal und Zahlung per Rechnung (Zahlungsziel ' . $c['payment_days'] . ' Tage) wählen. Diese Zusage allein begründet noch keine Zahlungspflicht. Erst mit Deiner verbindlichen Buchung entsteht die Zahlungspflicht. Dein Ticket erhältst Du nach Zahlungseingang. Solltest Du verhindert sein, sag uns bitte kurz Bescheid, damit wir den Platz weitergeben können.';
     $a2b = 'Die 25 Teilnehmerplätze sind persönlich vergeben. Gastgeber, Moderator und Impulsgeber kommen hinzu. Während der fachlichen Arbeitsphasen wird nicht fotografiert oder gefilmt.';
     $a3 = 'Dein persönlicher Vorbereitungslink: ' . x25_prepare_url($rec) . ' – ergänze dort bitte bis zwei Wochen vor dem Treffen Deine aktuelle Entscheidung, eine eigene Erfahrung und das, was Du von anderen verstehen möchtest. Keine vertraulichen Unternehmens- oder Kundendaten angeben.';
     $a4 = 'Wir bereiten daraus das Dossier vor und vermitteln passende Gespräche. Sechs Wochen nach der Edition treffen wir uns moderiert online wieder. Den genauen Termin und Zugang teilen wir Dir persönlich mit.';
     $txt = "Hallo " . $rec['name'] . ",\n\n" . x25_wrap($a1) . "\n\n" . x25_t_rows($rows) . "\n" . x25_wrap($a2) . "\n\nZur Zahlung (PayPal oder Rechnung):\n" . $url . "\n\n"
         . x25_wrap($a2b) . "\n\n" . x25_wrap($a3) . "\n\n" . x25_wrap($a4) . "\n\n" . x25_t_sig();
     $html = x25_html_shell($subj,
-        x25_h_kicker('Anmeldung bestätigt') . x25_h_h1('Hallo ' . x25_e($rec['name']) . ',')
+        x25_h_kicker('Deine Zusage') . x25_h_h1('Hallo ' . x25_e($rec['name']) . ',')
         . x25_h_p(x25_e($a1)) . x25_h_rows($rows)
-        . x25_h_box(x25_h_p(x25_e($a2)) . x25_h_btn($url, 'Zur Zahlung: PayPal oder Rechnung') . x25_h_p('<span style="font-size:13px;color:' . X25_META . ';">Falls die Schaltfläche nicht funktioniert: ' . x25_e($url) . '</span>', 'margin:0;'))
+        . x25_h_box(x25_h_p(x25_e($a2)) . x25_h_btn($url, 'Buchung prüfen und verbindlich buchen') . x25_h_p('<span style="font-size:13px;color:' . X25_META . ';">Falls die Schaltfläche nicht funktioniert: ' . x25_e($url) . '</span>', 'margin:0;'))
         . x25_h_p('<span style="font-size:14px;color:' . X25_META . ';">' . x25_e($a2b) . '</span>')
         . x25_h_p(x25_e($a3)) . x25_h_p(x25_e($a4)) . x25_h_sig(), true, $pre, $ed['label']);
     x25_send_person($rec, $subj, $html, $txt, 'zusage');
@@ -236,7 +236,7 @@ function x25_mail_rechnung(array $rec): void
     $url = x25_invoice_url($rec);
     $a1 = 'anbei erhältst Du die Rechnung für Deine Teilnahme an ' . $ed['name'] . ' am ' . $ed['datum'] . '. Über den Link unten kannst Du die Rechnung als PDF speichern oder drucken (Browser: „Drucken" → „Als PDF speichern").';
     $rows = x25_invoice_rows($rec);
-    $a2 = 'Mit dem Zahlungseingang ist Dein Platz verbindlich; Du erhältst dann Dein Ticket und alle weiteren Informationen. Sollte Deine Buchhaltung eine Bestellnummer oder abweichende Rechnungsanschrift benötigen, antworte einfach auf diese E-Mail; wir stellen die Rechnung neu aus.';
+    $a2 = 'Diese Zusage allein begründet noch keine Zahlungspflicht. Erst mit Deiner verbindlichen Buchung entsteht die Zahlungspflicht. Dein Ticket erhältst Du nach Zahlungseingang. Sollte Deine Buchhaltung eine Bestellnummer oder abweichende Rechnungsanschrift benötigen, antworte einfach auf diese E-Mail; wir stellen die Rechnung neu aus.';
     $txt = "Hallo " . $rec['name'] . ",\n\n" . x25_wrap($a1) . "\n\n" . x25_t_rows($rows) . "\nRechnung online (druckbar): " . $url . "\n\n" . x25_wrap($a2) . "\n\n" . x25_t_sig();
     $html = x25_html_shell($subj, x25_h_kicker('Rechnung') . x25_h_h1('Hallo ' . x25_e($rec['name']) . ',')
         . x25_h_p(x25_e($a1)) . x25_h_box(x25_h_rows($rows) . x25_h_btn($url, 'Rechnung ansehen / als PDF speichern'))
@@ -377,6 +377,7 @@ function x25_mail_pruefung(array $rec): void
 {
     $ed=x25_edition_for($rec);
     $subject='Deine Teilnahme-Anfrage · '.$ed['name'];
-    $text='Danke für Deine Anfrage zu '.$ed['name'].'. Wir prüfen Deine Verantwortung und Deine Anliegen im Hinblick auf das Thema und die Zusammensetzung der Gruppe. Du erhältst innerhalb von zwei Werktagen eine persönliche Rückmeldung. Die Anfrage ist kostenfrei; bis zur Zusage und Deiner verbindlichen Buchung entsteht keine Zahlungspflicht.';
+    $text='Danke für Deine Anfrage zu '.$ed['name'].'. Wir bringen Menschen zusammen, deren Erfahrungen und Fragen sich ergänzen. Dafür schauen wir uns Deine Angaben persönlich an. Du erhältst innerhalb von zwei Werktagen eine persönliche Rückmeldung. Deine Anfrage ist kostenfrei und noch keine verbindliche Buchung. Auch die Zusage allein löst keine Zahlungspflicht aus. Danach entscheidest Du, ob Du verbindlich buchen möchtest.';
+    $text .= ' Unsere Rückmeldung geht an ' . $rec['email'] . '. Bei Fragen antworte einfach auf diese Nachricht.';
     x25_send_person($rec,$subject,x25_html_shell($subject,x25_h_h1('Hallo '.x25_e($rec['name']).',').x25_h_p(x25_e($text)).x25_h_sig(),true,'Wir melden uns innerhalb von zwei Werktagen.',$ed['label']),"Hallo ".$rec['name'].",\n\n".$text."\n\n".x25_t_sig(),'anfrage');
 }

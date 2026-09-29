@@ -553,6 +553,18 @@ function x25ed_render(string $text, array $vars): string
  */
 function x25ed_txt(?array $ed, string $bereich, string $key, ?string $fallback = null): string
 {
+    $ux = [
+        'cta.anmelden' => 'Teilnahme kostenfrei anfragen',
+        'cta.platz-anmelden' => 'Teilnahme kostenfrei anfragen',
+        'faq.3.antwort' => 'Du fragst Deine Teilnahme kostenfrei an. Wir melden uns innerhalb von zwei Werktagen persönlich. Nach Zusage entscheidest Du, ob Du verbindlich buchen möchtest. Erst diese Buchung begründet die Zahlungspflicht. Höchstens zwei Teilnehmer pro Unternehmen.',
+        'feld.email.hint' => 'Hier erhältst Du Deine Eingangsbestätigung und unsere persönliche Rückmeldung.',
+        'eventld.angebot.beschreibung' => 'Kostenfreie Anfrage; verbindliche Buchung erst nach persönlicher Zusage.',
+        'symbolbild' => 'KI-generiertes Symbolbild',
+        'anmeldung.button' => 'Teilnahme kostenfrei anfragen',
+        'bestaetigung.hinweis' => 'Kostenfreie Anfrage. Persönliche Rückmeldung innerhalb von zwei Werktagen. Noch keine verbindliche Buchung.',
+        'preis.meta' => 'Erst nach Zusage entscheidest Du über die verbindliche Buchung. Die Anfrage ist kostenfrei.',
+    ];
+    if (isset($ux[$key])) { return $ux[$key]; }
     $t = x25ed_texte();
     $raw = $ed['texte'][$bereich][$key]
         ?? $t[$bereich . '_default'][$key]
@@ -788,12 +800,9 @@ function x25ed_editionsfoto(array $ed, string $key, string $cls = '', string $lo
 /** <img> aus dem Foto-Manifest (lokale Dateien unter /assets/img/fotos/). */
 function x25ed_foto(string $key, string $cls = '', string $loading = 'lazy', ?string $alt = null): string
 {
-    $f = x25ed_texte()['fotos'][$key] ?? null;
-    if (!$f) { return ''; }
-    $alt = $alt ?? ('Symbolbild: ' . (string)$f['motiv']);
-    $ld = $loading === 'eager' ? ' fetchpriority="high"' : ' loading="' . $loading . '" decoding="async"';
-    $c = $cls !== '' ? ' class="' . $cls . '"' : '';
-    return '<img' . $c . ' src="/assets/img/fotos/' . $f['file'] . '" width="' . (int)$f['w'] . '" height="' . (int)$f['h'] . '" alt="' . x25ed_e($alt) . '"' . $ld . '>';
+    $ld = $loading === 'eager' ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"';
+    $c = $cls !== '' ? ' class="' . x25ed_e($cls) . '"' : '';
+    return '<img' . $c . ' src="/assets/img/atmosphaere/gespraech-960.webp" width="1536" height="1024" alt="KI-generiertes Symbolbild: Gespräch in einem fiktiven Raum."' . $ld . '>';
 }
 
 function x25ed_asset(string $rel): string
