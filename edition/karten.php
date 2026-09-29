@@ -9,6 +9,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/lib.php';
+require_once __DIR__ . '/identity.php';
 
 // Direktaufruf als Endpoint; als Bibliothek (uebersicht.php) nur die Funktionen bereitstellen
 if (realpath((string)($_SERVER['SCRIPT_FILENAME'] ?? '')) === __FILE__) {
@@ -36,8 +37,10 @@ function x25ed_karte_online(array $ed): string
     $featured = ($ed['slug'] ?? '') === 'change-management';
     $cls = $featured ? ' ux-edition--featured' : '';
     $tag = $featured ? '<p class="x-kicker">Die nächste Runde</p>' : '';
-    $intro = $featured ? '<p>Veränderung im Versicherungsunternehmen gestalten: Erfahrungen teilen, Entscheidungen schärfen und nächste Schritte entwickeln.</p>' : '';
-    return '<article class="ux-edition' . $cls . '" aria-label="' . $name . '">' . $tag . '<h3><a href="' . $url . '">' . $name . '</a></h3><p class="ux-edition__date">' . $date . ' · ' . $status . '</p>' . $intro . '<a class="x-link" href="' . $url . '">Edition entdecken <span aria-hidden="true">→</span></a></article>';
+    $identity = x25ed_identity((string)($ed['slug'] ?? ''));
+    $number = x25ed_e($identity[0]);
+    $question = x25ed_e($identity[2]);
+    return '<article class="ux-edition' . $cls . '" aria-label="' . $name . '"><span class="nx-edition__number" aria-hidden="true">' . $number . '</span><div>' . $tag . '<h3><a href="' . $url . '">' . $name . '</a></h3><p class="nx-edition__question">' . $question . '</p></div><p class="ux-edition__date">' . $date . '<span>' . $status . '</span></p><a class="x-link" href="' . $url . '">Edition entdecken <span aria-hidden="true">↗</span></a></article>';
 }
 
 function x25ed_karte_teaser(array $ed): string

@@ -36,6 +36,8 @@ function x25ed_shell(array $o): string
     $imageNote = (str_contains((string)($o['body'] ?? ''), '/atmosphaere/') || str_contains((string)($o['body'] ?? ''), '/editionen/female-'))
         ? '<p class="ux-image-credit">Bildnachweis: Die Gesprächs- und Atmosphärenmotive sind KI-generierte Symbolbilder. Sie zeigen keine tatsächlichen Veranstaltungen oder Locations. Gastgeber- und Moderatorenporträts sind echte Fotos.</p>' : '';
     $css1 = x25ed_asset('css/tokens.css'); $css2 = x25ed_asset('css/components.css'); $css3 = x25ed_asset('css/site.css');
+    $css4 = x25ed_asset('css/identity.css');
+    $bodyClass = x25ed_e((string)($o['body_class'] ?? ''));
     $js = x25ed_asset('js/site.js');
     $extra = $o['extra_head'] ?? '';
     $bodyHtml = $o['body'];
@@ -68,9 +70,10 @@ function x25ed_shell(array $o): string
   <link rel="stylesheet" href="{$css1}">
   <link rel="stylesheet" href="{$css2}">
   <link rel="stylesheet" href="{$css3}">
+  <link rel="stylesheet" href="{$css4}">
   <script>document.documentElement.classList.add('js');</script>
 {$extra}</head>
-<body>
+<body class="{$bodyClass}">
   <a class="x-skip" href="#inhalt">{$g('shell.skip')}</a>
   <header class="{$hcls}" id="x-header">
     <div class="x-container x-header__inner">

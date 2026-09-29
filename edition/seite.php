@@ -8,6 +8,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/shell.php';
+require_once __DIR__ . '/identity.php';
 
 $slug = (string)($_GET['slug'] ?? '');
 $ed = x25ed_get($slug);
@@ -139,12 +140,6 @@ foreach (x25ed_lines($ed, 'anmeldung', 'paket.fakten') as $x) { $paketFakten .= 
 $dayHtml1 = x25ed_schedule($ed, $t('ablauf.tag1.titel'), $t('ablauf.tag1.meta'), 'ablauf.tag1');
 $dayHtml2 = x25ed_schedule($ed, $t('ablauf.tag2.titel'), $t('ablauf.tag2.meta'), 'ablauf.tag2');
 $preisBetrag = x25ed_preis_text($ed);
-$heroFoto = x25ed_editionsfoto($ed, ($slug === 'female' ? 'gespraech' : (string)($ed['hero_foto'] ?? 'location-panorama')), '', 'eager');
-$dokFoto = x25ed_editionsfoto($ed, 'dokument');
-$hochFoto = x25ed_editionsfoto($ed, 'location-hoch');
-$panoFoto = x25ed_editionsfoto($ed, 'location-panorama');
-$docCaption = $slug === 'female' ? 'KI-generiertes Symbolbild: Teilnehmerinnen besprechen ihre Ergebnisse.' : $t('dp.bildunterschrift');
-$locationCaption = $slug === 'female' ? 'KI-generiertes Symbolbild: Gemeinsame Arbeit in einer kleinen Runde.' : $t('anreise.bild.hoch');
 $kodex = x25ed_kodex_teaser($ed, $t('kodex.link'));
 $hinweis = $vorschau ? '<div class="x-notice" role="note" style="margin:0"><p class="x-kicker">Vorschau</p><p>Diese Edition ist noch nicht veröffentlicht (Status: ' . x25ed_e(X25ED_STATUS[$ed['status']] ?? $ed['status']) . '). Diese Ansicht ist nur über den Vorschau-Link erreichbar.</p></div>' : '';
 
@@ -161,17 +156,17 @@ $benefit = $e($benefits[$slug] ?? strip_tags($t('kern')));
 $date = $e((string)$ed['datum_text']);
 $provisional = !empty($ed['termin_vorlaeufig']) ? ' · Termin vorläufig' : '';
 $gross = number_format(x25ed_preis($ed)*1.19, 2, ',', '.');
-if ($slug !== 'female') {
- $heroFoto = '<img src="/assets/img/atmosphaere/gespraech-960.webp" srcset="/assets/img/atmosphaere/gespraech-640.webp 640w, /assets/img/atmosphaere/gespraech-960.webp 960w, /assets/img/atmosphaere/gespraech-1536.webp 1536w" sizes="(max-width:760px) 100vw,50vw" width="1536" height="1024" fetchpriority="high" alt="Illustration einer konzentrierten Gesprächsrunde in einem fiktiven Raum.">';
-}
+$identity = x25ed_identity($slug);
+$statement = $e($identity[1]);
+$motif = x25ed_motif();
+$themeClass = 'nx-event nx-theme-' . preg_replace('/[^a-z-]/', '', $slug);
 $body = <<<HTML
     {$hinweis}
-    <section class="ux-hero ux-hero--edition x-container" aria-labelledby="hero-title">
-      <div class="ux-hero__copy"><p class="x-kicker">Persönlicher Austausch · Köln</p><h1 id="hero-title">{$nameHtml}</h1>
-        <p class="x-lead">{$benefit}</p><p class="ux-event-facts"><strong>{$date}{$provisional}</strong><br>SESSEL HUB · Kranhaus Nord, Köln<br>25 Teilnehmer · 1½ Tage mit Dinner und Online-Wiedersehen</p>
-        <p>{$preisBetrag} netto · {$gross} € inkl. 19 % USt.</p><a class="x-btn x-btn--primary" href="{$anm}">Teilnahme kostenfrei anfragen</a><p class="x-meta">Rückmeldung in zwei Werktagen. Noch keine Buchung.</p>
-      </div><figure class="ux-hero__image">{$heroFoto}</figure>
-    </section>
+    <section class="nx-event-hero" aria-labelledby="hero-title"><div class="x-container">
+      <div class="nx-event-hero__top"><h1 id="hero-title">{$nameHtml}</h1><p>{$date}{$provisional}<br>Köln · Rheinauhafen</p></div>
+      <div class="nx-event-hero__grid"><div><p class="nx-event-hero__statement">{$statement}</p><p class="x-lead">{$benefit}</p></div>{$motif}</div>
+      <div class="nx-event-hero__bottom"><p class="nx-event-hero__facts">SESSEL HUB · Kranhaus Nord<br>25 Teilnehmer · 1½ Tage mit Dinner und Online-Wiedersehen<br>{$preisBetrag} netto · {$gross} € inkl. 19 % USt.</p><div><a class="nx-button" href="{$anm}">Teilnahme kostenfrei anfragen <span aria-hidden="true">↗</span></a><p class="x-meta">Rückmeldung in zwei Werktagen. Noch keine Buchung.</p></div></div>
+    </div></section>
     <nav class="ux-section-nav x-container" aria-label="Auf dieser Editionsseite"><a href="#leitfrage">Dein Thema</a><a href="#ablauf">Ablauf</a><a href="#impulse">Mitwirkende</a><a href="#preis">Leistungen &amp; Preis</a><a href="#anreise">Ort &amp; Anreise</a><a href="#faq">Fragen</a></nav>
 
     <section class="x-promise" aria-label="Persönliche Betreuung">
@@ -269,7 +264,7 @@ $body = <<<HTML
           <p class="x-kicker">{$t('anreise.kicker')}</p>
           <h2 id="ort-h" class="x-h2">{$t('anreise.titel')}</h2>
         </div>
-        <div class="ux-venues"><div class="x-card"><p class="x-kicker">Unser Tagungsort</p><h3>SESSEL HUB · Kranhaus Nord</h3><address>Im Zollhafen 12<br>50678 Köln</address><p>Hier nehmen wir uns Zeit für Deine Fragen und den gemeinsamen Austausch.</p><div class="ux-photo-placeholder" data-photo-slot="sessel-hub"><span>SESSEL HUB</span><p>Einblicke in den Raum folgen nach Bildfreigabe.</p></div><a href="https://www.sesselkampagne.koeln/meetings" target="_blank" rel="noopener">Die Location kennenlernen (externe Website)</a></div><div class="x-card"><p class="x-kicker">Unser gemeinsamer Abend</p><h3>Gilden im Zims</h3><address>Heumarkt 77<br>50667 Köln</address><p>Beim gemeinsamen Dinner setzen wir die Gespräche in entspannter Runde fort.</p><div class="ux-photo-placeholder" data-photo-slot="gilden-im-zims"><span>Gilden im Zims</span><p>Einblicke in die Abendlocation folgen nach Bildfreigabe.</p></div><a href="https://www.zims.de/" target="_blank" rel="noopener">Die Abendlocation kennenlernen (externe Website)</a></div></div><p class="x-meta">Anreise und Übernachtung sind nicht enthalten. Plane Deine Anreise passend zum Beginn der Agenda; die Details erhältst Du mit Deiner Teilnahmebestätigung.</p>
+        <div class="ux-venues"><div class="x-card"><p class="x-kicker">Unser Tagungsort</p><h3>SESSEL HUB · Kranhaus Nord</h3><address>Im Zollhafen 12<br>50678 Köln</address><p>Hier nehmen wir uns Zeit für Deine Fragen und den gemeinsamen Austausch.</p><a href="https://www.sesselkampagne.koeln/meetings" target="_blank" rel="noopener">Die Location kennenlernen (externe Website)</a></div><div class="x-card"><p class="x-kicker">Unser gemeinsamer Abend</p><h3>Gilden im Zims</h3><address>Heumarkt 77<br>50667 Köln</address><p>Beim gemeinsamen Dinner setzen wir die Gespräche in entspannter Runde fort.</p><a href="https://www.zims.de/" target="_blank" rel="noopener">Die Abendlocation kennenlernen (externe Website)</a></div></div><p class="x-meta">Anreise und Übernachtung sind nicht enthalten. Plane Deine Anreise passend zum Beginn der Agenda; die Details erhältst Du mit Deiner Teilnahmebestätigung.</p>
       </div>
     </section>
 
@@ -290,6 +285,7 @@ HTML;
 
 x25ed_out(x25ed_shell([
     'ed' => $ed,
+    'body_class' => $themeClass,
     'title' => $t('meta.titel'),
     'description' => strip_tags($t('meta.beschreibung')),
     'body' => $body,
