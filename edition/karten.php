@@ -36,7 +36,7 @@ function x25ed_karte_online(array $ed): string
     $url = x25ed_e(x25ed_url($ed));
     $featured = ($ed['slug'] ?? '') === 'change-management';
     $cls = $featured ? ' ux-edition--featured' : '';
-    $tag = $featured ? '<p class="x-kicker">Die nächste Runde</p>' : '';
+    $tag = $featured ? '<p class="x-kicker">Das nächste Event</p>' : '';
     $identity = x25ed_identity((string)($ed['slug'] ?? ''));
     $number = x25ed_e($identity[0]);
     $question = x25ed_e($identity[2]);

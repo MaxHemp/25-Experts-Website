@@ -543,7 +543,36 @@ function x25ed_render(string $text, array $vars): string
         }
         $text = str_replace(['href="index.html"', 'href="/index.html"'], 'href="/"', $text);
     }
-    return $text;
+    return strtr($text, [
+        'wo die Runde gemeinsam weiterkommt – und wo sie anderer Meinung bleibt' => 'wo Ihr gemeinsam weiterkommt – und wo Eure Meinungen auseinandergehen',
+        'Erst formuliert die Runde ihr Urteil' => 'Erst formuliert Ihr Euer Urteil',
+        'die Zusammenstellung der Runde' => 'die Auswahl der Teilnehmenden',
+        'Wir stellen die Runde so zusammen' => 'Wir wählen die Teilnehmenden so aus',
+        'Maximilian Hempel stellt die Runde zusammen' => 'Maximilian Hempel wählt die Teilnehmenden für das Event aus',
+        'Wer die Runde zusammenbringt' => 'Wer das Event gestaltet',
+        'Deine Fragen bereiten die Runde vor.' => 'Deine Fragen gestalten das Event mit.',
+        'Die Runde kennenlernen' => 'Die Teilnehmenden kennenlernen',
+        'die Gespräche in entspannter Runde fort' => 'die Gespräche in entspannter Atmosphäre fort',
+        'in Deine Runde trägst' => 'in Dein Team trägst',
+        'Die nächste Runde' => 'Das nächste Event',
+        'Nächste Runde' => 'Nächstes Event',
+        'Deine Runde' => 'Dein Event',
+        'Eine Runde' => 'Ein Event',
+        'hinter der Runde' => 'hinter dem Event',
+        'in der Runde' => 'beim Event',
+        'außerhalb der Runde' => 'außerhalb des Events',
+        'in dieser Runde' => 'bei diesem Event',
+        'in die Runde' => 'zum Event',
+        'Welche Runde' => 'Welches Event',
+        'diese Runde' => 'dieses Event',
+        'dieser Runde' => 'dieses Events',
+        'zur Runde' => 'zum Event',
+        'unsere Runde' => 'unser Event',
+        'Die Runde vorbereiten' => 'Das Event vorbereiten',
+        'Die Runde' => 'Das Event',
+        'Runde 1' => 'Durchgang 1',
+        'Runde 2' => 'Durchgang 2',
+    ]);
 }
 
 /**

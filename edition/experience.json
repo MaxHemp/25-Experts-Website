@@ -15,7 +15,7 @@
     "impuls.3.kicker": "Praxis · Erst entscheidet die Gruppe",
     "impuls.4.kicker": "Vorstandsgespräch · Fragen und Abwägungen",
     "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Vier Gesprächsformate, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
-    "ablauf.tag1.2": "10:15 | Die Runde kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
+    "ablauf.tag1.2": "10:15 | Die Teilnehmenden kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
     "ablauf.tag1.3": "10:55 | Gemeinsame Prioritäten | Wir schärfen die vorbereitete Arbeitsagenda anhand Eurer Anliegen.",
     "ablauf.tag1.4": "11:05 | Forschung und Diskussion | 15 Minuten Einordnung, 30 Minuten gemeinsame Bewertung der Folgen für die Praxis.",
     "ablauf.tag1.5": "11:50 | Praxisfall 1 | Eine konkrete Entscheidung: Ausgangslage, Vorgehen, Ergebnis und offene Zweifel.",
@@ -31,7 +31,7 @@
     "dp.punkt.1": "<strong>Persönlich vermittelte Gespräche.</strong> Das Organisationsteam bringt Dich während und nach der Edition mit Menschen zusammen, deren Erfahrungen zu Deinen Fragen passen. Kontakte werden mit Zustimmung beider Seiten vermittelt.",
     "dp.punkt.2": "<strong>Die interne Ausgabe des Dissenspapiers.</strong> Gemeinsame Positionen, begründete Unterschiede und nächste Schritte. Eine kürzere Fassung wird erst nach ausdrücklicher Freigabe veröffentlicht.",
     "dp.punkt.3": "<strong>Ein Wiedersehen nach sechs Wochen.</strong> Im moderierten Online-Treffen besprechen wir, was sich umsetzen ließ und wo neue Fragen entstanden sind. Es gehört zu Deiner Teilnahme.",
-    "anmeldung.titel": "Dein Platz in dieser Runde",
+    "anmeldung.titel": "Dein Platz bei diesem Event",
     "anmeldung.lead": "Teile uns Deine Verantwortung und eine aktuelle Frage mit. Das Organisationsteam prüft die fachliche Passung und meldet sich innerhalb von zwei Werktagen.",
     "anmeldung.absatz1": "<strong>Persönliche Prüfung vor der Zahlung.</strong> Nach der Zusage erhältst Du Deinen Zahlungslink für PayPal oder Rechnung. Eine persönliche Einladung bestätigt die fachliche Prüfung bereits; mit Deinem Einladungslink kannst Du direkt buchen, sofern ein Platz frei ist.",
     "anmeldung.absatz3": "Höchstens zwei Teilnehmer pro Unternehmen. Die 25 Teilnehmerplätze werden persönlich vergeben; Gastgeber, Moderator und Impulsgeber kommen hinzu. Vorbereitungsdossier, gemeinsamer Abend und Online-Wiedersehen nach sechs Wochen gehören zur Teilnahme.",
@@ -54,7 +54,7 @@
     "faq.1.antwort": "Für Menschen, die Change Management und die Einführung von KI in Versicherern, Maklerpools und Versicherungsvertrieben fachlich oder organisatorisch verantworten. Wir prüfen Deine Verantwortung und Deine Anliegen persönlich.",
     "faq.2.frage": "Wie bereite ich mich vor?",
     "faq.2.antwort": "Über Deinen persönlichen Vorbereitungslink beantwortest Du drei kurze Fragen: Welche Entscheidung beschäftigt Dich, welche Erfahrung bringst Du mit und was möchtest Du von anderen verstehen? Bitte ergänze die Antworten bis zwei Wochen vor dem Treffen. Daraus bereiten wir das Dossier vor.",
-    "ablauf.tag1.7": "13:30 | Der 26. Experte, Runde 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Frage des Vormittags live an ChatGPT und Claude. Antworten ungeschnitten auf der Leinwand. Die Gruppe challengt fachlich: Was trägt, was nicht. Sicher und DSGVO-konform. | signatur foto:leinwand"
+    "ablauf.tag1.7": "13:30 | Der 26. Experte, Durchgang 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Frage des Vormittags live an ChatGPT und Claude. Antworten ungeschnitten auf der Leinwand. Die Gruppe challengt fachlich: Was trägt, was nicht. Sicher und DSGVO-konform. | signatur foto:leinwand"
    },
    "anmeldung": {
     "kopf.lead": "In drei kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Nach Zusage entscheidest Du über die verbindliche Buchung.",
@@ -85,7 +85,7 @@
     "schritt.2.text": "Nach der Zusage kannst Du per PayPal oder Rechnung zahlen. Über eine persönliche Einladung ist die fachliche Prüfung bereits erfolgt. Dein Ticket folgt nach Zahlungseingang.",
     "schritt.3.titel": "Vorbereitung und Wiedersehen",
     "schritt.3.text": "Über Deinen persönlichen Link ergänzt Du Deine Fragen. Vor der Edition entsteht daraus das Dossier. Sechs Wochen nach dem Treffen sehen wir uns online wieder.",
-    "schritte.titel": "Dein Weg in die Runde",
+    "schritte.titel": "Dein Weg zum Event",
     "lead.warteliste": "Deine Anfrage steht auf der Warteliste. Wir melden uns, sobald unter Berücksichtigung der freien Plätze und der Zusammensetzung der Gruppe eine Teilnahme möglich wird. Bis zur Zusage und Deiner verbindlichen Buchung entsteht keine Zahlungspflicht."
    },
    "gemeinsam": {
@@ -111,7 +111,7 @@
     "impuls.3.kicker": "Praxis · Erst entscheidet die Gruppe",
     "impuls.4.kicker": "Vorstandsgespräch · Fragen und Abwägungen",
     "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Vier Gesprächsformate, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
-    "ablauf.tag1.2": "10:15 | Die Runde kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
+    "ablauf.tag1.2": "10:15 | Die Teilnehmenden kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
     "ablauf.tag1.3": "10:55 | Gemeinsame Prioritäten | Wir schärfen die vorbereitete Arbeitsagenda anhand Eurer Anliegen.",
     "ablauf.tag1.4": "11:05 | Forschung und Diskussion | 15 Minuten Einordnung, 30 Minuten gemeinsame Bewertung der Folgen für die Praxis.",
     "ablauf.tag1.5": "11:50 | Praxisfall 1 | Eine konkrete Entscheidung: Ausgangslage, Vorgehen, Ergebnis und offene Zweifel.",
@@ -127,7 +127,7 @@
     "dp.punkt.1": "<strong>Persönlich vermittelte Gespräche.</strong> Das Organisationsteam bringt Dich während und nach der Edition mit Menschen zusammen, deren Erfahrungen zu Deinen Fragen passen. Kontakte werden mit Zustimmung beider Seiten vermittelt.",
     "dp.punkt.2": "<strong>Die interne Ausgabe des Dissenspapiers.</strong> Gemeinsame Positionen, begründete Unterschiede und nächste Schritte. Eine kürzere Fassung wird erst nach ausdrücklicher Freigabe veröffentlicht.",
     "dp.punkt.3": "<strong>Ein Wiedersehen nach sechs Wochen.</strong> Im moderierten Online-Treffen besprechen wir, was sich umsetzen ließ und wo neue Fragen entstanden sind. Es gehört zu Deiner Teilnahme.",
-    "anmeldung.titel": "Dein Platz in dieser Runde",
+    "anmeldung.titel": "Dein Platz bei diesem Event",
     "anmeldung.lead": "Teile uns Deine Verantwortung und eine aktuelle Frage mit. Das Organisationsteam prüft die fachliche Passung und meldet sich innerhalb von zwei Werktagen.",
     "anmeldung.absatz1": "<strong>Persönliche Prüfung vor der Zahlung.</strong> Nach der Zusage erhältst Du Deinen Zahlungslink für PayPal oder Rechnung. Eine persönliche Einladung bestätigt die fachliche Prüfung bereits; mit Deinem Einladungslink kannst Du direkt buchen, sofern ein Platz frei ist.",
     "anmeldung.absatz3": "Höchstens zwei Teilnehmer pro Unternehmen. Die 25 Teilnehmerplätze werden persönlich vergeben; Gastgeber, Moderator und Impulsgeber kommen hinzu. Vorbereitungsdossier, gemeinsamer Abend und Online-Wiedersehen nach sechs Wochen gehören zur Teilnahme.",
@@ -146,7 +146,7 @@
     "faq.10.antwort": "Erst entscheidet die Gruppe, dann vergleichen wir mit der KI. An einem vorbereiteten Fall wird sichtbar, welche Argumente tragen und welche Informationen fehlen. Die Bewertungskriterien und verwendeten Werkzeuge legen wir offen. Vertrauliche Unternehmens- und personenbezogene Kundendaten bleiben ausgeschlossen.",
     "faq.11.antwort": "Du hältst eine überprüfbare Vorhersage fest: Wie sicher bist Du Dir, und welche Entscheidung folgt daraus? Dein Kuvert wird bei der nächsten Edition desselben Themas geöffnet. Die KI schreibt das 26. Kuvert.",
     "kodex.link": "Unsere sechs Regeln lesen",
-    "ablauf.tag1.7": "13:30 | Der 26. Experte, Runde 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  An einem fiktiven Sicherheitsvorfall prüft Ihr eine von KI vorgeschlagene Reaktion: Welche Informationen fehlen, welche Maßnahmen haben Vorrang und wer muss entscheiden? Ihr vergleicht die Antworten mit Eurer eigenen Einschätzung. Vertrauliche Vorfalldaten bleiben außen vor. | signatur foto:leinwand"
+    "ablauf.tag1.7": "13:30 | Der 26. Experte, Durchgang 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  An einem fiktiven Sicherheitsvorfall prüft Ihr eine von KI vorgeschlagene Reaktion: Welche Informationen fehlen, welche Maßnahmen haben Vorrang und wer muss entscheiden? Ihr vergleicht die Antworten mit Eurer eigenen Einschätzung. Vertrauliche Vorfalldaten bleiben außen vor. | signatur foto:leinwand"
    },
    "anmeldung": {
     "kopf.lead": "In drei kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Nach Zusage entscheidest Du über die verbindliche Buchung. Der angegebene Veranstaltungstermin ist vorläufig.",
@@ -177,7 +177,7 @@
     "schritt.2.text": "Nach der Zusage kannst Du per PayPal oder Rechnung zahlen. Über eine persönliche Einladung ist die fachliche Prüfung bereits erfolgt. Dein Ticket folgt nach Zahlungseingang.",
     "schritt.3.titel": "Vorbereitung und Wiedersehen",
     "schritt.3.text": "Über Deinen persönlichen Link ergänzt Du Deine Fragen. Vor der Edition entsteht daraus das Dossier. Sechs Wochen nach dem Treffen sehen wir uns online wieder.",
-    "schritte.titel": "Dein Weg in die Runde",
+    "schritte.titel": "Dein Weg zum Event",
     "lead.warteliste": "Deine Anfrage steht auf der Warteliste. Wir melden uns, sobald unter Berücksichtigung der freien Plätze und der Zusammensetzung der Gruppe eine Teilnahme möglich wird. Bis zur Zusage und Deiner verbindlichen Buchung entsteht keine Zahlungspflicht."
    },
    "gemeinsam": {
@@ -203,7 +203,7 @@
     "impuls.3.kicker": "Praxis · Erst entscheidet die Gruppe",
     "impuls.4.kicker": "Vorstandsgespräch · Fragen und Abwägungen",
     "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Vier Gesprächsformate, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
-    "ablauf.tag1.2": "10:15 | Die Runde kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
+    "ablauf.tag1.2": "10:15 | Die Teilnehmenden kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
     "ablauf.tag1.3": "10:55 | Gemeinsame Prioritäten | Wir schärfen die vorbereitete Arbeitsagenda anhand Eurer Anliegen.",
     "ablauf.tag1.4": "11:05 | Forschung und Diskussion | 15 Minuten Einordnung, 30 Minuten gemeinsame Bewertung der Folgen für die Praxis.",
     "ablauf.tag1.5": "11:50 | Praxisfall 1 | Eine konkrete Entscheidung: Ausgangslage, Vorgehen, Ergebnis und offene Zweifel.",
@@ -219,7 +219,7 @@
     "dp.punkt.1": "<strong>Persönlich vermittelte Gespräche.</strong> Das Organisationsteam bringt Dich während und nach der Edition mit Menschen zusammen, deren Erfahrungen zu Deinen Fragen passen. Kontakte werden mit Zustimmung beider Seiten vermittelt.",
     "dp.punkt.2": "<strong>Die interne Ausgabe des Dissenspapiers.</strong> Gemeinsame Positionen, begründete Unterschiede und nächste Schritte. Eine kürzere Fassung wird erst nach ausdrücklicher Freigabe veröffentlicht.",
     "dp.punkt.3": "<strong>Ein Wiedersehen nach sechs Wochen.</strong> Im moderierten Online-Treffen besprechen wir, was sich umsetzen ließ und wo neue Fragen entstanden sind. Es gehört zu Deiner Teilnahme.",
-    "anmeldung.titel": "Dein Platz in dieser Runde",
+    "anmeldung.titel": "Dein Platz bei diesem Event",
     "anmeldung.lead": "Teile uns Deine Verantwortung und eine aktuelle Frage mit. Das Organisationsteam prüft die fachliche Passung und meldet sich innerhalb von zwei Werktagen.",
     "anmeldung.absatz1": "<strong>Persönliche Prüfung vor der Zahlung.</strong> Nach der Zusage erhältst Du Deinen Zahlungslink für PayPal oder Rechnung. Eine persönliche Einladung bestätigt die fachliche Prüfung bereits; mit Deinem Einladungslink kannst Du direkt buchen, sofern ein Platz frei ist.",
     "anmeldung.absatz3": "Höchstens zwei Teilnehmer pro Unternehmen. Die 25 Teilnehmerplätze werden persönlich vergeben; Gastgeber, Moderator und Impulsgeber kommen hinzu. Vorbereitungsdossier, gemeinsamer Abend und Online-Wiedersehen nach sechs Wochen gehören zur Teilnahme.",
@@ -238,7 +238,7 @@
     "faq.10.antwort": "Erst entscheidet die Gruppe, dann vergleichen wir mit der KI. An einem vorbereiteten Fall wird sichtbar, welche Argumente tragen und welche Informationen fehlen. Die Bewertungskriterien und verwendeten Werkzeuge legen wir offen. Vertrauliche Unternehmens- und personenbezogene Kundendaten bleiben ausgeschlossen.",
     "faq.11.antwort": "Du hältst eine überprüfbare Vorhersage fest: Wie sicher bist Du Dir, und welche Entscheidung folgt daraus? Dein Kuvert wird bei der nächsten Edition desselben Themas geöffnet. Die KI schreibt das 26. Kuvert.",
     "kodex.link": "Unsere sechs Regeln lesen",
-    "ablauf.tag1.7": "13:30 | Der 26. Experte, Runde 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  An einem fiktiven Kundenbestand entwickelt die Gruppe mit KI einen Betreuungsplan. Ihr prüft die Vorschläge auf Nutzen, passende Ansprache und Beratungsqualität; echte Kundendaten werden nicht verwendet. | signatur foto:leinwand"
+    "ablauf.tag1.7": "13:30 | Der 26. Experte, Durchgang 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  An einem fiktiven Kundenbestand entwickelt die Gruppe mit KI einen Betreuungsplan. Ihr prüft die Vorschläge auf Nutzen, passende Ansprache und Beratungsqualität; echte Kundendaten werden nicht verwendet. | signatur foto:leinwand"
    },
    "anmeldung": {
     "kopf.lead": "In drei kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Nach Zusage entscheidest Du über die verbindliche Buchung. Der angegebene Veranstaltungstermin ist vorläufig.",
@@ -269,7 +269,7 @@
     "schritt.2.text": "Nach der Zusage kannst Du per PayPal oder Rechnung zahlen. Über eine persönliche Einladung ist die fachliche Prüfung bereits erfolgt. Dein Ticket folgt nach Zahlungseingang.",
     "schritt.3.titel": "Vorbereitung und Wiedersehen",
     "schritt.3.text": "Über Deinen persönlichen Link ergänzt Du Deine Fragen. Vor der Edition entsteht daraus das Dossier. Sechs Wochen nach dem Treffen sehen wir uns online wieder.",
-    "schritte.titel": "Dein Weg in die Runde",
+    "schritte.titel": "Dein Weg zum Event",
     "lead.warteliste": "Deine Anfrage steht auf der Warteliste. Wir melden uns, sobald unter Berücksichtigung der freien Plätze und der Zusammensetzung der Gruppe eine Teilnahme möglich wird. Bis zur Zusage und Deiner verbindlichen Buchung entsteht keine Zahlungspflicht."
    },
    "gemeinsam": {
@@ -295,7 +295,7 @@
     "impuls.3.kicker": "Praxis · Erst entscheidet die Gruppe",
     "impuls.4.kicker": "Vorstandsgespräch · Fragen und Abwägungen",
     "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Vier Gesprächsformate, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
-    "ablauf.tag1.2": "10:15 | Die Runde kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
+    "ablauf.tag1.2": "10:15 | Die Teilnehmenden kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
     "ablauf.tag1.3": "10:55 | Gemeinsame Prioritäten | Wir schärfen die vorbereitete Arbeitsagenda anhand Eurer Anliegen.",
     "ablauf.tag1.4": "11:05 | Forschung und Diskussion | 15 Minuten Einordnung, 30 Minuten gemeinsame Bewertung der Folgen für die Praxis.",
     "ablauf.tag1.5": "11:50 | Praxisfall 1 | Eine konkrete Entscheidung: Ausgangslage, Vorgehen, Ergebnis und offene Zweifel.",
@@ -311,7 +311,7 @@
     "dp.punkt.1": "<strong>Persönlich vermittelte Gespräche.</strong> Das Organisationsteam bringt Dich während und nach der Edition mit Menschen zusammen, deren Erfahrungen zu Deinen Fragen passen. Kontakte werden mit Zustimmung beider Seiten vermittelt.",
     "dp.punkt.2": "<strong>Die interne Ausgabe des Dissenspapiers.</strong> Gemeinsame Positionen, begründete Unterschiede und nächste Schritte. Eine kürzere Fassung wird erst nach ausdrücklicher Freigabe veröffentlicht.",
     "dp.punkt.3": "<strong>Ein Wiedersehen nach sechs Wochen.</strong> Im moderierten Online-Treffen besprechen wir, was sich umsetzen ließ und wo neue Fragen entstanden sind. Es gehört zu Deiner Teilnahme.",
-    "anmeldung.titel": "Dein Platz in dieser Runde",
+    "anmeldung.titel": "Dein Platz bei diesem Event",
     "anmeldung.lead": "Teile uns Deine Verantwortung und eine aktuelle Frage mit. Das Organisationsteam prüft die fachliche Passung und meldet sich innerhalb von zwei Werktagen.",
     "anmeldung.absatz1": "<strong>Persönliche Prüfung vor der Zahlung.</strong> Nach der Zusage erhältst Du Deinen Zahlungslink für PayPal oder Rechnung. Eine persönliche Einladung bestätigt die fachliche Prüfung bereits; mit Deinem Einladungslink kannst Du direkt buchen, sofern ein Platz frei ist.",
     "anmeldung.absatz3": "Höchstens zwei Teilnehmer pro Unternehmen. Die 25 Teilnehmerplätze werden persönlich vergeben; Gastgeber, Moderator und Impulsgeber kommen hinzu. Vorbereitungsdossier, gemeinsamer Abend und Online-Wiedersehen nach sechs Wochen gehören zur Teilnahme.",
@@ -330,7 +330,7 @@
     "faq.10.antwort": "Erst entscheidet die Gruppe, dann vergleichen wir mit der KI. An einem vorbereiteten Fall wird sichtbar, welche Argumente tragen und welche Informationen fehlen. Die Bewertungskriterien und verwendeten Werkzeuge legen wir offen. Vertrauliche Unternehmens- und personenbezogene Kundendaten bleiben ausgeschlossen.",
     "faq.11.antwort": "Du hältst eine überprüfbare Vorhersage fest: Wie sicher bist Du Dir, und welche Entscheidung folgt daraus? Dein Kuvert wird bei der nächsten Edition desselben Themas geöffnet. Die KI schreibt das 26. Kuvert.",
     "kodex.link": "Unsere sechs Regeln lesen",
-    "ablauf.tag1.7": "13:30 | Der 26. Experte, Runde 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Teilnehmerinnen bearbeiten anonymisierte Entscheidungsfälle: ein abgelehntes Projektbudget, unklare Zuständigkeiten oder eine neue Führungsaufgabe. KI übernimmt im Gesprächstraining eine kritische Gegenposition; die Gruppe bewertet Argumente und entwickelt nächste Schritte. | signatur foto:leinwand"
+    "ablauf.tag1.7": "13:30 | Der 26. Experte, Durchgang 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Teilnehmerinnen bearbeiten anonymisierte Entscheidungsfälle: ein abgelehntes Projektbudget, unklare Zuständigkeiten oder eine neue Führungsaufgabe. KI übernimmt im Gesprächstraining eine kritische Gegenposition; die Gruppe bewertet Argumente und entwickelt nächste Schritte. | signatur foto:leinwand"
    },
    "anmeldung": {
     "kopf.lead": "In drei kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Nach Zusage entscheidest Du über die verbindliche Buchung. Der angegebene Veranstaltungstermin ist vorläufig.",
@@ -361,7 +361,7 @@
     "schritt.2.text": "Nach der Zusage kannst Du per PayPal oder Rechnung zahlen. Über eine persönliche Einladung ist die fachliche Prüfung bereits erfolgt. Dein Ticket folgt nach Zahlungseingang.",
     "schritt.3.titel": "Vorbereitung und Wiedersehen",
     "schritt.3.text": "Über Deinen persönlichen Link ergänzt Du Deine Fragen. Vor der Edition entsteht daraus das Dossier. Sechs Wochen nach dem Treffen sehen wir uns online wieder.",
-    "schritte.titel": "Dein Weg in die Runde",
+    "schritte.titel": "Dein Weg zum Event",
     "lead.warteliste": "Deine Anfrage steht auf der Warteliste. Wir melden uns, sobald unter Berücksichtigung der freien Plätze und der Zusammensetzung der Gruppe eine Teilnahme möglich wird. Bis zur Zusage und Deiner verbindlichen Buchung entsteht keine Zahlungspflicht."
    },
    "gemeinsam": {
@@ -387,7 +387,7 @@
     "impuls.3.kicker": "Praxis · Erst entscheidet die Gruppe",
     "impuls.4.kicker": "Vorstandsgespräch · Fragen und Abwägungen",
     "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Vier Gesprächsformate, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
-    "ablauf.tag1.2": "10:15 | Die Runde kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
+    "ablauf.tag1.2": "10:15 | Die Teilnehmenden kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
     "ablauf.tag1.3": "10:55 | Gemeinsame Prioritäten | Wir schärfen die vorbereitete Arbeitsagenda anhand Eurer Anliegen.",
     "ablauf.tag1.4": "11:05 | Forschung und Diskussion | 15 Minuten Einordnung, 30 Minuten gemeinsame Bewertung der Folgen für die Praxis.",
     "ablauf.tag1.5": "11:50 | Praxisfall 1 | Eine konkrete Entscheidung: Ausgangslage, Vorgehen, Ergebnis und offene Zweifel.",
@@ -403,7 +403,7 @@
     "dp.punkt.1": "<strong>Persönlich vermittelte Gespräche.</strong> Das Organisationsteam bringt Dich während und nach der Edition mit Menschen zusammen, deren Erfahrungen zu Deinen Fragen passen. Kontakte werden mit Zustimmung beider Seiten vermittelt.",
     "dp.punkt.2": "<strong>Die interne Ausgabe des Dissenspapiers.</strong> Gemeinsame Positionen, begründete Unterschiede und nächste Schritte. Eine kürzere Fassung wird erst nach ausdrücklicher Freigabe veröffentlicht.",
     "dp.punkt.3": "<strong>Ein Wiedersehen nach sechs Wochen.</strong> Im moderierten Online-Treffen besprechen wir, was sich umsetzen ließ und wo neue Fragen entstanden sind. Es gehört zu Deiner Teilnahme.",
-    "anmeldung.titel": "Dein Platz in dieser Runde",
+    "anmeldung.titel": "Dein Platz bei diesem Event",
     "anmeldung.lead": "Teile uns Deine Verantwortung und eine aktuelle Frage mit. Das Organisationsteam prüft die fachliche Passung und meldet sich innerhalb von zwei Werktagen.",
     "anmeldung.absatz1": "<strong>Persönliche Prüfung vor der Zahlung.</strong> Nach der Zusage erhältst Du Deinen Zahlungslink für PayPal oder Rechnung. Eine persönliche Einladung bestätigt die fachliche Prüfung bereits; mit Deinem Einladungslink kannst Du direkt buchen, sofern ein Platz frei ist.",
     "anmeldung.absatz3": "Höchstens zwei Teilnehmer pro Unternehmen. Die 25 Teilnehmerplätze werden persönlich vergeben; Gastgeber, Moderator und Impulsgeber kommen hinzu. Vorbereitungsdossier, gemeinsamer Abend und Online-Wiedersehen nach sechs Wochen gehören zur Teilnahme.",
@@ -422,7 +422,7 @@
     "faq.10.antwort": "Erst entscheidet die Gruppe, dann vergleichen wir mit der KI. An einem vorbereiteten Fall wird sichtbar, welche Argumente tragen und welche Informationen fehlen. Die Bewertungskriterien und verwendeten Werkzeuge legen wir offen. Vertrauliche Unternehmens- und personenbezogene Kundendaten bleiben ausgeschlossen.",
     "faq.11.antwort": "Du hältst eine überprüfbare Vorhersage fest: Wie sicher bist Du Dir, und welche Entscheidung folgt daraus? Dein Kuvert wird bei der nächsten Edition desselben Themas geöffnet. Die KI schreibt das 26. Kuvert.",
     "kodex.link": "Unsere sechs Regeln lesen",
-    "ablauf.tag1.7": "13:30 | Der 26. Experte, Runde 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Gruppe übersetzt einen beispielhaften KI-Anwendungsfall in einen umsetzbaren Auftrag: Welches Problem lösen wir, was muss das System leisten, wer entscheidet und woran erkennen wir eine erfolgreiche Umsetzung? Die KI prüft Anforderungen auf Lücken und formuliert Gegenfragen. | signatur foto:leinwand"
+    "ablauf.tag1.7": "13:30 | Der 26. Experte, Durchgang 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Gruppe übersetzt einen beispielhaften KI-Anwendungsfall in einen umsetzbaren Auftrag: Welches Problem lösen wir, was muss das System leisten, wer entscheidet und woran erkennen wir eine erfolgreiche Umsetzung? Die KI prüft Anforderungen auf Lücken und formuliert Gegenfragen. | signatur foto:leinwand"
    },
    "anmeldung": {
     "kopf.lead": "In drei kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Nach Zusage entscheidest Du über die verbindliche Buchung. Der angegebene Veranstaltungstermin ist vorläufig.",
@@ -453,7 +453,7 @@
     "schritt.2.text": "Nach der Zusage kannst Du per PayPal oder Rechnung zahlen. Über eine persönliche Einladung ist die fachliche Prüfung bereits erfolgt. Dein Ticket folgt nach Zahlungseingang.",
     "schritt.3.titel": "Vorbereitung und Wiedersehen",
     "schritt.3.text": "Über Deinen persönlichen Link ergänzt Du Deine Fragen. Vor der Edition entsteht daraus das Dossier. Sechs Wochen nach dem Treffen sehen wir uns online wieder.",
-    "schritte.titel": "Dein Weg in die Runde",
+    "schritte.titel": "Dein Weg zum Event",
     "lead.warteliste": "Deine Anfrage steht auf der Warteliste. Wir melden uns, sobald unter Berücksichtigung der freien Plätze und der Zusammensetzung der Gruppe eine Teilnahme möglich wird. Bis zur Zusage und Deiner verbindlichen Buchung entsteht keine Zahlungspflicht."
    },
    "gemeinsam": {
@@ -479,7 +479,7 @@
     "impuls.3.kicker": "Praxis · Erst entscheidet die Gruppe",
     "impuls.4.kicker": "Vorstandsgespräch · Fragen und Abwägungen",
     "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Vier Gesprächsformate, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
-    "ablauf.tag1.2": "10:15 | Die Runde kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
+    "ablauf.tag1.2": "10:15 | Die Teilnehmenden kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
     "ablauf.tag1.3": "10:55 | Gemeinsame Prioritäten | Wir schärfen die vorbereitete Arbeitsagenda anhand Eurer Anliegen.",
     "ablauf.tag1.4": "11:05 | Forschung und Diskussion | 15 Minuten Einordnung, 30 Minuten gemeinsame Bewertung der Folgen für die Praxis.",
     "ablauf.tag1.5": "11:50 | Praxisfall 1 | Eine konkrete Entscheidung: Ausgangslage, Vorgehen, Ergebnis und offene Zweifel.",
@@ -495,7 +495,7 @@
     "dp.punkt.1": "<strong>Persönlich vermittelte Gespräche.</strong> Das Organisationsteam bringt Dich während und nach der Edition mit Menschen zusammen, deren Erfahrungen zu Deinen Fragen passen. Kontakte werden mit Zustimmung beider Seiten vermittelt.",
     "dp.punkt.2": "<strong>Die interne Ausgabe des Dissenspapiers.</strong> Gemeinsame Positionen, begründete Unterschiede und nächste Schritte. Eine kürzere Fassung wird erst nach ausdrücklicher Freigabe veröffentlicht.",
     "dp.punkt.3": "<strong>Ein Wiedersehen nach sechs Wochen.</strong> Im moderierten Online-Treffen besprechen wir, was sich umsetzen ließ und wo neue Fragen entstanden sind. Es gehört zu Deiner Teilnahme.",
-    "anmeldung.titel": "Dein Platz in dieser Runde",
+    "anmeldung.titel": "Dein Platz bei diesem Event",
     "anmeldung.lead": "Teile uns Deine Verantwortung und eine aktuelle Frage mit. Das Organisationsteam prüft die fachliche Passung und meldet sich innerhalb von zwei Werktagen.",
     "anmeldung.absatz1": "<strong>Persönliche Prüfung vor der Zahlung.</strong> Nach der Zusage erhältst Du Deinen Zahlungslink für PayPal oder Rechnung. Eine persönliche Einladung bestätigt die fachliche Prüfung bereits; mit Deinem Einladungslink kannst Du direkt buchen, sofern ein Platz frei ist.",
     "anmeldung.absatz3": "Höchstens zwei Teilnehmer pro Unternehmen. Die 25 Teilnehmerplätze werden persönlich vergeben; Gastgeber, Moderator und Impulsgeber kommen hinzu. Vorbereitungsdossier, gemeinsamer Abend und Online-Wiedersehen nach sechs Wochen gehören zur Teilnahme.",
@@ -514,7 +514,7 @@
     "faq.10.antwort": "Erst entscheidet die Gruppe, dann vergleichen wir mit der KI. An einem vorbereiteten Fall wird sichtbar, welche Argumente tragen und welche Informationen fehlen. Die Bewertungskriterien und verwendeten Werkzeuge legen wir offen. Vertrauliche Unternehmens- und personenbezogene Kundendaten bleiben ausgeschlossen.",
     "faq.11.antwort": "Du hältst eine überprüfbare Vorhersage fest: Wie sicher bist Du Dir, und welche Entscheidung folgt daraus? Dein Kuvert wird bei der nächsten Edition desselben Themas geöffnet. Die KI schreibt das 26. Kuvert.",
     "kodex.link": "Unsere sechs Regeln lesen",
-    "ablauf.tag1.7": "13:30 | Der 26. Experte, Runde 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Gruppe bewertet eine KI-Anwendung mit einem bewusst fehlerhaften, synthetischen Beispieldatensatz. Welche Fehler verändern das Ergebnis? Welche Verbesserungen haben Vorrang? Ihr vergleicht die Antworten vor und nach der Korrektur. | signatur foto:leinwand"
+    "ablauf.tag1.7": "13:30 | Der 26. Experte, Durchgang 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Gruppe bewertet eine KI-Anwendung mit einem bewusst fehlerhaften, synthetischen Beispieldatensatz. Welche Fehler verändern das Ergebnis? Welche Verbesserungen haben Vorrang? Ihr vergleicht die Antworten vor und nach der Korrektur. | signatur foto:leinwand"
    },
    "anmeldung": {
     "kopf.lead": "In drei kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Nach Zusage entscheidest Du über die verbindliche Buchung. Der angegebene Veranstaltungstermin ist vorläufig.",
@@ -545,7 +545,7 @@
     "schritt.2.text": "Nach der Zusage kannst Du per PayPal oder Rechnung zahlen. Über eine persönliche Einladung ist die fachliche Prüfung bereits erfolgt. Dein Ticket folgt nach Zahlungseingang.",
     "schritt.3.titel": "Vorbereitung und Wiedersehen",
     "schritt.3.text": "Über Deinen persönlichen Link ergänzt Du Deine Fragen. Vor der Edition entsteht daraus das Dossier. Sechs Wochen nach dem Treffen sehen wir uns online wieder.",
-    "schritte.titel": "Dein Weg in die Runde",
+    "schritte.titel": "Dein Weg zum Event",
     "lead.warteliste": "Deine Anfrage steht auf der Warteliste. Wir melden uns, sobald unter Berücksichtigung der freien Plätze und der Zusammensetzung der Gruppe eine Teilnahme möglich wird. Bis zur Zusage und Deiner verbindlichen Buchung entsteht keine Zahlungspflicht."
    },
    "gemeinsam": {
@@ -571,7 +571,7 @@
     "impuls.3.kicker": "Praxis · Erst entscheidet die Gruppe",
     "impuls.4.kicker": "Vorstandsgespräch · Fragen und Abwägungen",
     "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Vier Gesprächsformate, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
-    "ablauf.tag1.2": "10:15 | Die Runde kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
+    "ablauf.tag1.2": "10:15 | Die Teilnehmenden kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
     "ablauf.tag1.3": "10:55 | Gemeinsame Prioritäten | Wir schärfen die vorbereitete Arbeitsagenda anhand Eurer Anliegen.",
     "ablauf.tag1.4": "11:05 | Forschung und Diskussion | 15 Minuten Einordnung, 30 Minuten gemeinsame Bewertung der Folgen für die Praxis.",
     "ablauf.tag1.5": "11:50 | Praxisfall 1 | Eine konkrete Entscheidung: Ausgangslage, Vorgehen, Ergebnis und offene Zweifel.",
@@ -587,7 +587,7 @@
     "dp.punkt.1": "<strong>Persönlich vermittelte Gespräche.</strong> Das Organisationsteam bringt Dich während und nach der Edition mit Menschen zusammen, deren Erfahrungen zu Deinen Fragen passen. Kontakte werden mit Zustimmung beider Seiten vermittelt.",
     "dp.punkt.2": "<strong>Die interne Ausgabe des Dissenspapiers.</strong> Gemeinsame Positionen, begründete Unterschiede und nächste Schritte. Eine kürzere Fassung wird erst nach ausdrücklicher Freigabe veröffentlicht.",
     "dp.punkt.3": "<strong>Ein Wiedersehen nach sechs Wochen.</strong> Im moderierten Online-Treffen besprechen wir, was sich umsetzen ließ und wo neue Fragen entstanden sind. Es gehört zu Deiner Teilnahme.",
-    "anmeldung.titel": "Dein Platz in dieser Runde",
+    "anmeldung.titel": "Dein Platz bei diesem Event",
     "anmeldung.lead": "Teile uns Deine Verantwortung und eine aktuelle Frage mit. Das Organisationsteam prüft die fachliche Passung und meldet sich innerhalb von zwei Werktagen.",
     "anmeldung.absatz1": "<strong>Persönliche Prüfung vor der Zahlung.</strong> Nach der Zusage erhältst Du Deinen Zahlungslink für PayPal oder Rechnung. Eine persönliche Einladung bestätigt die fachliche Prüfung bereits; mit Deinem Einladungslink kannst Du direkt buchen, sofern ein Platz frei ist.",
     "anmeldung.absatz3": "Höchstens zwei Teilnehmer pro Unternehmen. Die 25 Teilnehmerplätze werden persönlich vergeben; Gastgeber, Moderator und Impulsgeber kommen hinzu. Vorbereitungsdossier, gemeinsamer Abend und Online-Wiedersehen nach sechs Wochen gehören zur Teilnahme.",
@@ -606,7 +606,7 @@
     "faq.10.antwort": "Erst entscheidet die Gruppe, dann vergleichen wir mit der KI. An einem vorbereiteten Fall wird sichtbar, welche Argumente tragen und welche Informationen fehlen. Die Bewertungskriterien und verwendeten Werkzeuge legen wir offen. Vertrauliche Unternehmens- und personenbezogene Kundendaten bleiben ausgeschlossen.",
     "faq.11.antwort": "Du hältst eine überprüfbare Vorhersage fest: Wie sicher bist Du Dir, und welche Entscheidung folgt daraus? Dein Kuvert wird bei der nächsten Edition desselben Themas geöffnet. Die KI schreibt das 26. Kuvert.",
     "kodex.link": "Unsere sechs Regeln lesen",
-    "ablauf.tag1.7": "13:30 | Der 26. Experte, Runde 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Ein vorbereiteter Schadenfall: Reparieren oder ersetzen? Ihr bewertet Kosten, Dauer, Kundennutzen und geschätzten Ressourcenverbrauch anhand synthetischer Daten. Zuerst entscheidet die Gruppe, dann prüft Ihr die KI-Empfehlung mit denselben Kriterien. Wo fehlen belastbare Informationen? | signatur foto:leinwand"
+    "ablauf.tag1.7": "13:30 | Der 26. Experte, Durchgang 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Ein vorbereiteter Schadenfall: Reparieren oder ersetzen? Ihr bewertet Kosten, Dauer, Kundennutzen und geschätzten Ressourcenverbrauch anhand synthetischer Daten. Zuerst entscheidet die Gruppe, dann prüft Ihr die KI-Empfehlung mit denselben Kriterien. Wo fehlen belastbare Informationen? | signatur foto:leinwand"
    },
    "anmeldung": {
     "kopf.lead": "In drei kurzen Schritten lernen wir Deine Verantwortung und Deine aktuelle Frage kennen. Wir melden uns innerhalb von zwei Werktagen. Nach Zusage entscheidest Du über die verbindliche Buchung. Der angegebene Veranstaltungstermin ist vorläufig.",
@@ -637,7 +637,7 @@
     "schritt.2.text": "Nach der Zusage kannst Du per PayPal oder Rechnung zahlen. Über eine persönliche Einladung ist die fachliche Prüfung bereits erfolgt. Dein Ticket folgt nach Zahlungseingang.",
     "schritt.3.titel": "Vorbereitung und Wiedersehen",
     "schritt.3.text": "Über Deinen persönlichen Link ergänzt Du Deine Fragen. Vor der Edition entsteht daraus das Dossier. Sechs Wochen nach dem Treffen sehen wir uns online wieder.",
-    "schritte.titel": "Dein Weg in die Runde",
+    "schritte.titel": "Dein Weg zum Event",
     "lead.warteliste": "Deine Anfrage steht auf der Warteliste. Wir melden uns, sobald unter Berücksichtigung der freien Plätze und der Zusammensetzung der Gruppe eine Teilnahme möglich wird. Bis zur Zusage und Deiner verbindlichen Buchung entsteht keine Zahlungspflicht."
    },
    "gemeinsam": {

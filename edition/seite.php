@@ -171,7 +171,7 @@ $body = <<<HTML
 
     <section class="x-promise" aria-label="Persönliche Betreuung">
       <div class="x-container x-promise__grid">
-        <p><span>Die Runde</span><strong>25 Teilnehmer</strong>Erfahrungen, die sich ergänzen. Höchstens zwei pro Unternehmen.</p>
+        <p><span>Das Event</span><strong>25 Teilnehmer</strong>Erfahrungen, die sich ergänzen. Höchstens zwei pro Unternehmen.</p>
         <p><span>Vor dem Treffen</span><strong>Deine Fragen vorbereitet</strong>Dossier mit Spannungsfeldern und Praxisfällen.</p>
         <p><span>In Köln</span><strong>Zeit für Begegnungen</strong>Begleitete Gespräche, Aperitif und Dinner.</p>
         <p><span>Nach sechs Wochen</span><strong>Gemeinsam weiterdenken</strong>Ein moderiertes Online-Wiedersehen gehört dazu.</p>
@@ -224,7 +224,7 @@ $body = <<<HTML
       </div>
     </section>
 
-    <section class="x-section x-section--muted" id="dissenspapier" aria-labelledby="dp-h"><div class="x-container"><h2 class="x-h2" id="dp-h">Was Du mitnimmst.</h2><div class="ux-stages ux-stages--three"><div><h3>Der 26. Experte</h3><p>KI liefert eine zusätzliche Gegenperspektive auf Deine eigene Entscheidung. Erst formuliert die Runde ihr Urteil, dann prüfen wir gemeinsam die Gegenargumente.</p></div><div><h3>Das Kuvert</h3><p>Du hältst Deine Einschätzung fest. Bei der nächsten Edition zum selben Thema kannst Du prüfen, was sich verändert hat.</p></div><div><h3>Das Dissenspapier</h3><p>Gemeinsame Erkenntnisse, begründete Unterschiede und nächste Schritte – als Arbeitsgrundlage für Deinen Alltag. Öffentlich wird nur geteilt, was freigegeben ist.</p></div></div></div></section>
+    <section class="x-section x-section--muted" id="dissenspapier" aria-labelledby="dp-h"><div class="x-container"><h2 class="x-h2" id="dp-h">Was Du mitnimmst.</h2><div class="ux-stages ux-stages--three"><div><h3>Der 26. Experte</h3><p>KI liefert eine zusätzliche Gegenperspektive auf Deine eigene Entscheidung. Erst formuliert Ihr Euer Urteil, dann prüfen wir gemeinsam die Gegenargumente.</p></div><div><h3>Das Kuvert</h3><p>Du hältst Deine Einschätzung fest. Bei der nächsten Edition zum selben Thema kannst Du prüfen, was sich verändert hat.</p></div><div><h3>Das Dissenspapier</h3><p>Gemeinsame Erkenntnisse, begründete Unterschiede und nächste Schritte – als Arbeitsgrundlage für Deinen Alltag. Öffentlich wird nur geteilt, was freigegeben ist.</p></div></div></div></section>
 
     <section class="x-section" id="preis" aria-labelledby="preis-h">
       <div class="x-container x-price">
@@ -264,7 +264,7 @@ $body = <<<HTML
           <p class="x-kicker">{$t('anreise.kicker')}</p>
           <h2 id="ort-h" class="x-h2">{$t('anreise.titel')}</h2>
         </div>
-        <div class="ux-venues"><div class="x-card"><p class="x-kicker">Unser Tagungsort</p><h3>SESSEL HUB · Kranhaus Nord</h3><address>Im Zollhafen 12<br>50678 Köln</address><p>Hier nehmen wir uns Zeit für Deine Fragen und den gemeinsamen Austausch.</p><a href="https://www.sesselkampagne.koeln/meetings" target="_blank" rel="noopener">Die Location kennenlernen (externe Website)</a></div><div class="x-card"><p class="x-kicker">Unser gemeinsamer Abend</p><h3>Gilden im Zims</h3><address>Heumarkt 77<br>50667 Köln</address><p>Beim gemeinsamen Dinner setzen wir die Gespräche in entspannter Runde fort.</p><a href="https://www.zims.de/" target="_blank" rel="noopener">Die Abendlocation kennenlernen (externe Website)</a></div></div><p class="x-meta">Anreise und Übernachtung sind nicht enthalten. Plane Deine Anreise passend zum Beginn der Agenda; die Details erhältst Du mit Deiner Teilnahmebestätigung.</p>
+        <div class="ux-venues"><div class="x-card"><p class="x-kicker">Unser Tagungsort</p><h3>SESSEL HUB · Kranhaus Nord</h3><address>Im Zollhafen 12<br>50678 Köln</address><p>Hier nehmen wir uns Zeit für Deine Fragen und den gemeinsamen Austausch.</p><a href="https://www.sesselkampagne.koeln/meetings" target="_blank" rel="noopener">Die Location kennenlernen (externe Website)</a></div><div class="x-card"><p class="x-kicker">Unser gemeinsamer Abend</p><h3>Gilden im Zims</h3><address>Heumarkt 77<br>50667 Köln</address><p>Beim gemeinsamen Dinner setzen wir die Gespräche in entspannter Atmosphäre fort.</p><a href="https://www.zims.de/" target="_blank" rel="noopener">Die Abendlocation kennenlernen (externe Website)</a></div></div><p class="x-meta">Anreise und Übernachtung sind nicht enthalten. Plane Deine Anreise passend zum Beginn der Agenda; die Details erhältst Du mit Deiner Teilnahmebestätigung.</p>
       </div>
     </section>
 
