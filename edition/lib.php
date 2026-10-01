@@ -708,6 +708,7 @@ function x25ed_snapshot(array $ed): array
     return [
         'slug' => $ed['slug'], 'name' => (string)($ed['name'] ?? ''),
         'datum_text' => (string)($ed['datum_text'] ?? ''), 'datum_kurz' => (string)($ed['datum_kurz'] ?? ''),
+        'datum_start' => (string)($ed['datum_start'] ?? ''), 'datum_ende' => (string)($ed['datum_ende'] ?? ''),
         'ort' => (string)($ed['ort'] ?? ''), 'venue' => (string)($ed['venue'] ?? ''),
         'zeiten' => (string)($ed['zeiten'] ?? ''), 'hotel' => (string)($ed['hotel'] ?? ''),
         'kontakt_zeile' => (string)($ed['kontakt_zeile'] ?? ''), 'leistungsdatum' => (string)($ed['leistungsdatum'] ?? ''),
@@ -860,3 +861,4 @@ function x25ed_out(string $html, int $status = 200, int $cacheSeconds = 600): ne
     echo $html;
     exit;
 }
+

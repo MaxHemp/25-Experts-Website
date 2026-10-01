@@ -157,6 +157,7 @@ function x25_edition_for(?array $rec): array
     $c = x25_conf();
     $snap = is_array($rec['ed'] ?? null) ? $rec['ed'] : [];
     $slug = (string)($rec['edition_slug'] ?? ($snap['slug'] ?? ''));
+    if ($slug === '') { $slug = x25_default_slug(); }
     $live = [];
     if ($slug !== '') {
         try {
@@ -176,6 +177,8 @@ function x25_edition_for(?array $rec): array
         'name' => $name,
         'datum' => (string)$w('datum_text', 'datum_text', $c['edition_datum']),
         'datum_kurz' => $datumKurz,
+        'datum_start' => (string)$w('datum_start', 'datum_start', x25_cfg('EDITION_START', '')),
+        'datum_ende' => (string)$w('datum_ende', 'datum_ende', x25_cfg('EDITION_ENDE', '')),
         'ort' => $ort,
         'venue' => (string)$w('venue', 'venue', $c['edition_venue']),
         'zeiten' => (string)$w('zeiten', 'zeiten', $c['edition_zeiten']),
@@ -348,7 +351,7 @@ function x25_send_hosts(string $subject, string $html, string $text, string $tag
     x25_dispatch($m, $tag);
 }
 /** Mail an den Anmelder; $embed = ['cid' => [bytes, name, mime]] für eingebettete Bilder (QR-Code). */
-function x25_send_person(array $rec, string $subject, string $html, string $text, string $tag, array $embed = []): void
+function x25_send_person(array $rec, string $subject, string $html, string $text, string $tag, array $embed = [], array $attachments = []): void
 {
     $m = x25_mailer();
     $m->addAddress($rec['email'], $rec['name']);
@@ -356,6 +359,7 @@ function x25_send_person(array $rec, string $subject, string $html, string $text
     if ($reply === '') { $reply = trim(explode(',', x25_conf()['mail_to'])[0]); }
     if ($reply !== '' && PHPMailer::validateAddress($reply)) { $m->addReplyTo($reply, '25 EXPERTS'); }
     foreach ($embed as $cid => [$bytes, $name, $mime]) { $m->addStringEmbeddedImage($bytes, $cid, $name, PHPMailer::ENCODING_BASE64, $mime); }
+    foreach ($attachments as [$bytes, $name, $mime]) { $m->addStringAttachment($bytes, $name, PHPMailer::ENCODING_BASE64, $mime, 'attachment'); }
     $m->Subject = $subject; $m->isHTML(true); $m->Body = $html; $m->AltBody = $text;
     $m->addCustomHeader('Auto-Submitted', 'auto-replied');
     x25_dispatch($m, $tag);
@@ -547,4 +551,5 @@ function x25_seats_taken(array $all, ?string $slug = null): int
     }
     return $n;
 }
+
 

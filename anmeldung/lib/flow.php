@@ -18,6 +18,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/x25.php';
 require_once __DIR__ . '/curation.php';
+require_once __DIR__ . '/calendar.php';
 
 // ------------------------------------------------------------------ Links
 function x25_pay_url(array $rec): string { return x25_conf()['base'] . 'zahlung.php?t=' . rawurlencode((string)$rec['token']); }
@@ -288,11 +289,15 @@ function x25_invoice_rows(array $rec): array
 /** Ticket-Mail mit Ticketnummer, QR-Code (eingebettetes PNG) und allen weiteren Informationen. */
 function x25_mail_ticket(array $rec): void
 {
+    if (($rec['status'] ?? '') !== 'zugelassen' || ($rec['payment_status'] ?? '') !== 'bezahlt' || x25_booking_required($rec)) {
+        throw new RuntimeException('Die Teilnahmebestätigung erfordert Zulassung, verbindliche Buchung und Zahlung.');
+    }
     $c = x25_conf(); $ed = x25_edition_for($rec);
+    $calendar = x25_calendar_attachment($ed);
     $subj = 'Dein Ticket ' . $rec['ticket_no'] . ' · ' . $ed['name'];
     $pre = 'Dein Platz ist verbindlich. Ticket, Ort, Zeiten und Kontakt.';
     $url = x25_ticket_url($rec);
-    $a1 = 'Deine Zahlung ist eingegangen, Dein Platz bei ' . $ed['name'] . ' ist damit verbindlich. Anbei Dein Ticket; bitte zeig es am Empfang vor (Ausdruck oder Smartphone).';
+    $a1 = 'Deine Zahlung ist eingegangen, Dein Platz bei ' . $ed['name'] . ' ist damit verbindlich. Unten findest Du Dein Ticket; bitte zeig es am Empfang vor (Ausdruck oder Smartphone). Im Anhang findest Du außerdem die Kalenderdatei (.ics) mit allen Eventdetails. Öffne sie in Outlook und bestätige mit Speichern bzw. Importieren, um das Event in Deinen Kalender zu übernehmen.';
     $rows = [['Ticketnummer', $rec['ticket_no']], ['Name', $rec['name']], ['Unternehmen', $rec['company']], ['Termin', $ed['datum']], ['Zeiten', $ed['zeiten']], ['Ort', $ed['venue']], ['Hotel', $ed['hotel']], ['Kontakt', $ed['kontakt']]];
     $a2 = 'Bitte ergänze Deine Vorbereitungsfragen über Deinen persönlichen Link: ' . x25_prepare_url($rec) . ' Die Antworten helfen uns beim Dossier und bei passenden Gesprächen. Sechs Wochen nach der Edition treffen wir uns online wieder. Während der Arbeitsphasen wird nicht fotografiert oder gefilmt.';
     $a3 = 'Solltest Du verhindert sein, sag uns bitte kurz Bescheid; ein Ersatzteilnehmer aus Deinem Haus und derselben Funktion kann jederzeit benannt werden. Die Einzelheiten stehen in den Teilnahmebedingungen: ' . $c['site'] . 'teilnahmebedingungen';
@@ -309,7 +314,7 @@ function x25_mail_ticket(array $rec): void
             . x25_h_btn($url, 'Ticket öffnen / drucken') . '</td></tr></table>')
         . x25_h_sub('Alle weiteren Informationen') . x25_h_rows($rows)
         . x25_h_p(x25_e($a2)) . x25_h_p(x25_e($a3)) . x25_h_sig(), true, $pre, $ed['label']);
-    x25_send_person($rec, $subj, $html, $txt, 'ticket', $png !== '' ? ['ticketqr' => [$png, 'ticket-qr.png', 'image/png']] : []);
+    x25_send_person($rec, $subj, $html, $txt, 'ticket', $png !== '' ? ['ticketqr' => [$png, 'ticket-qr.png', 'image/png']] : [], [$calendar]);
 }
 
 // ================================================================== Mails an das Organisationsteam (MAIL_TO)
@@ -381,3 +386,4 @@ function x25_mail_pruefung(array $rec): void
     $text .= ' Unsere Rückmeldung geht an ' . $rec['email'] . '. Bei Fragen antworte einfach auf diese Nachricht.';
     x25_send_person($rec,$subject,x25_html_shell($subject,x25_h_h1('Hallo '.x25_e($rec['name']).',').x25_h_p(x25_e($text)).x25_h_sig(),true,'Wir melden uns innerhalb von zwei Werktagen.',$ed['label']),"Hallo ".$rec['name'].",\n\n".$text."\n\n".x25_t_sig(),'anfrage');
 }
+
