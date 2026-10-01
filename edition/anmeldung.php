@@ -41,10 +41,10 @@ if($invitation!=='') {
 
 $preisBetrag = x25ed_preis_text($ed);
 
-$requestTitle = $invite !== null ? 'Deine Einladung annehmen' : 'Teilnahme kostenfrei anfragen';
+$requestTitle = $invite !== null ? 'Deine Einladung annehmen' : 'Jetzt anmelden';
 $requestInfo = $invite !== null ? 'Deine Einladung liegt vor. Nach Deinen Angaben kannst Du verbindlich buchen, sofern ein Platz frei ist.' : 'In drei Schritten zu Deiner Anfrage. Wir melden uns innerhalb von zwei Werktagen. Noch keine Buchung, keine Zahlungspflicht.';
-$requestButton = $invite !== null ? 'Weiter zur verbindlichen Buchung' : 'Teilnahme kostenfrei anfragen';
-$requestConsent = $invite !== null ? 'Ich möchte meine Einladung nutzen und anschließend die Buchungsangaben prüfen. Mit diesem Schritt buche ich noch nicht verbindlich.' : 'Ich möchte meine Teilnahme kostenfrei anfragen. Eine verbindliche Buchung erfolgt erst in einem eigenen Schritt nach der Zusage.';
+$requestButton = $invite !== null ? 'Weiter zur verbindlichen Buchung' : 'Jetzt anmelden';
+$requestConsent = $invite !== null ? 'Ich möchte meine Einladung nutzen und anschließend die Buchungsangaben prüfen. Mit diesem Schritt buche ich noch nicht verbindlich.' : 'Ich möchte mich für dieses Event anmelden. Eine verbindliche Buchung erfolgt erst in einem eigenen Schritt nach der Zusage.';
 $gross = number_format(x25ed_preis($ed) * 1.19, 2, ',', '.') . ' €';
 $eventDate = $e((string)$ed['datum_text']);
 $example = [
@@ -229,7 +229,7 @@ x25ed_out(x25ed_shell([
     'body' => $body,
     'canonical' => $canon,
     'cta_href' => '#anfrage-formular',
-    'cta_label' => $invite !== null ? 'Zur Einladung' : 'Zur kostenfreien Anfrage',
+    'cta_label' => $invite !== null ? 'Zur Einladung' : 'Jetzt anmelden',
     'noindex' => $vorschau || $invitation !== '',
     'og_image' => rtrim(x25ed_abs_url($ed), '/') . '/og.jpg',
     'og_image_alt' => 'Anmeldung: ' . x25ed_label($ed),

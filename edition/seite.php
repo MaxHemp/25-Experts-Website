@@ -165,7 +165,7 @@ $body = <<<HTML
     <section class="nx-event-hero" aria-labelledby="hero-title"><div class="x-container">
       <div class="nx-event-hero__top"><h1 id="hero-title">{$nameHtml}</h1><p>{$date}{$provisional}<br>Köln · Rheinauhafen</p></div>
       <div class="nx-event-hero__grid"><div><p class="nx-event-hero__statement">{$statement}</p><p class="x-lead">{$benefit}</p></div>{$motif}</div>
-      <div class="nx-event-hero__bottom"><p class="nx-event-hero__facts">SESSEL HUB · Kranhaus Nord<br>25 Teilnehmer · 1½ Tage mit Dinner und Online-Wiedersehen<br>{$preisBetrag} netto · {$gross} € inkl. 19 % USt.</p><div><a class="nx-button" href="{$anm}">Teilnahme kostenfrei anfragen <span aria-hidden="true">↗</span></a><p class="x-meta">Rückmeldung in zwei Werktagen. Noch keine Buchung.</p></div></div>
+      <div class="nx-event-hero__bottom"><p class="nx-event-hero__facts">SESSEL HUB · Kranhaus Nord<br>25 Teilnehmer · 1½ Tage mit Dinner und Online-Wiedersehen<br>{$preisBetrag} netto · {$gross} € inkl. 19 % USt.</p><div><a class="nx-button" href="{$anm}">Jetzt anmelden <span aria-hidden="true">↗</span></a><p class="x-meta">Rückmeldung in zwei Werktagen. Noch keine Buchung.</p></div></div>
     </div></section>
     <nav class="ux-section-nav x-container" aria-label="Auf dieser Editionsseite"><a href="#leitfrage">Dein Thema</a><a href="#ablauf">Ablauf</a><a href="#impulse">Mitwirkende</a><a href="#preis">Leistungen &amp; Preis</a><a href="#anreise">Ort &amp; Anreise</a><a href="#faq">Fragen</a></nav>
 
@@ -251,7 +251,7 @@ $body = <<<HTML
       </div>
     </section>
 
-    <section class="x-section x-section--wood" id="anmeldung" aria-labelledby="anm-h"><div class="x-container"><h2 class="x-h2" id="anm-h">Bring Deine Perspektive mit.</h2><p>Du verantwortest dieses Thema fachlich oder führst ein Team? Wir möchten erfahren, welche Frage Dich gerade beschäftigt. Ein Führungstitel ist keine Voraussetzung.</p><ol class="ux-stages ux-stages--three"><li><strong>Kostenfrei anfragen</strong><p>Kontaktdaten und ein bis drei Sätze zu Deinem Anliegen reichen.</p></li><li><strong>Persönliche Rückmeldung</strong><p>Innerhalb von zwei Werktagen. Wir achten auf Erfahrungen und Fragen, die sich ergänzen.</p></li><li><strong>Nach Zusage selbst entscheiden</strong><p>Erst Deine ausdrückliche verbindliche Buchung begründet die Zahlungspflicht.</p></li></ol><a class="x-btn x-btn--primary" href="{$anm}">Teilnahme kostenfrei anfragen</a></div></section>
+    <section class="x-section x-section--wood" id="anmeldung" aria-labelledby="anm-h"><div class="x-container"><h2 class="x-h2" id="anm-h">Bring Deine Perspektive mit.</h2><p>Du verantwortest dieses Thema fachlich oder führst ein Team? Wir möchten erfahren, welche Frage Dich gerade beschäftigt. Ein Führungstitel ist keine Voraussetzung.</p><ol class="ux-stages ux-stages--three"><li><strong>Jetzt anmelden</strong><p>Kontaktdaten und ein bis drei Sätze zu Deinem Anliegen reichen.</p></li><li><strong>Persönliche Rückmeldung</strong><p>Innerhalb von zwei Werktagen. Wir achten auf Erfahrungen und Fragen, die sich ergänzen.</p></li><li><strong>Nach Zusage selbst entscheiden</strong><p>Erst Deine ausdrückliche verbindliche Buchung begründet die Zahlungspflicht.</p></li></ol><a class="x-btn x-btn--primary" href="{$anm}">Jetzt anmelden</a></div></section>
 
     <section class="x-section x-section--ink x-dark" id="kodex" aria-labelledby="kodex-h">
       {$kodex}

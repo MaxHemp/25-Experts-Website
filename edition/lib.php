@@ -583,13 +583,13 @@ function x25ed_render(string $text, array $vars): string
 function x25ed_txt(?array $ed, string $bereich, string $key, ?string $fallback = null): string
 {
     $ux = [
-        'cta.anmelden' => 'Teilnahme kostenfrei anfragen',
-        'cta.platz-anmelden' => 'Teilnahme kostenfrei anfragen',
+        'cta.anmelden' => 'Jetzt anmelden',
+        'cta.platz-anmelden' => 'Jetzt anmelden',
         'faq.3.antwort' => 'Du fragst Deine Teilnahme kostenfrei an. Wir melden uns innerhalb von zwei Werktagen persönlich. Nach Zusage entscheidest Du, ob Du verbindlich buchen möchtest. Erst diese Buchung begründet die Zahlungspflicht. Höchstens zwei Teilnehmer pro Unternehmen.',
         'feld.email.hint' => 'Hier erhältst Du Deine Eingangsbestätigung und unsere persönliche Rückmeldung.',
         'eventld.angebot.beschreibung' => 'Kostenfreie Anfrage; verbindliche Buchung erst nach persönlicher Zusage.',
         'symbolbild' => 'KI-generiertes Symbolbild',
-        'anmeldung.button' => 'Teilnahme kostenfrei anfragen',
+        'anmeldung.button' => 'Jetzt anmelden',
         'bestaetigung.hinweis' => 'Kostenfreie Anfrage. Persönliche Rückmeldung innerhalb von zwei Werktagen. Noch keine verbindliche Buchung.',
         'preis.meta' => 'Erst nach Zusage entscheidest Du über die verbindliche Buchung. Die Anfrage ist kostenfrei.',
     ];
