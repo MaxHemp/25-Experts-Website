@@ -528,9 +528,54 @@ function x25ed_vars(?array $ed = null): array
     return $v;
 }
 
+
+/** Remove the retired online follow-up offer from existing CMS text. */
+function x25ed_current_offer(string $text): string
+{
+    return strtr($text, [
+        "<strong>Ein Wiedersehen nach sechs Wochen.</strong> Im moderierten Online-Treffen besprechen wir, was sich umsetzen ließ und wo neue Fragen entstanden sind. Es gehört zu Deiner Teilnahme." => "<strong>Erkenntnisse für Deinen Alltag.</strong> Die interne Ausgabe des Dissenspapiers hält gemeinsame Erkenntnisse und nächste Schritte fest.",
+        "Die interne Ausgabe des Dissenspapiers und ein moderiertes Online-Wiedersehen nach sechs Wochen verbinden das Treffen mit Deinem Arbeitsalltag." => "Die interne Ausgabe des Dissenspapiers verbindet das Treffen mit Deinem Arbeitsalltag.",
+        " Sechs Wochen nach der Edition treffen wir uns moderiert online wieder. Den genauen Termin und Zugang teilen wir Dir persönlich mit." => "",
+        "<p><span>Nach sechs Wochen</span><strong>Gemeinsam weiterdenken</strong>Ein moderiertes Online-Wiedersehen gehört dazu.</p>" => "",
+        " Online-Wiedersehen nach sechs Wochen terminieren, persönlich mitteilen und anhand der Umsetzungsfragen moderieren." => "",
+        "In einem moderierten Online-Treffen besprechen wir, was Du umgesetzt hast und welche Fragen neu entstanden sind. " => "",
+        " Sechs Wochen später besprechen wir beim moderierten Online-Wiedersehen, was sich in der Praxis bewährt hat." => "",
+        "Bereits nach sechs Wochen besprechen wir in einem moderierten Online-Wiedersehen, was Du ausprobiert hast." => "",
+        "Das Organisationsteam erläutert die Nachbereitung und das moderierte Online-Wiedersehen nach sechs Wochen." => "Das Organisationsteam erläutert die Nachbereitung und das Dissenspapier.",
+        "Das moderierte Online-Wiedersehen nach sechs Wochen gehört bereits zu Deiner Teilnahme; das Kuvert bleibt" => "Das Kuvert bleibt",
+        "Wir bereiten Eure Fragen vor, begleiten die Gespräche und treffen uns sechs Wochen später online wieder." => "Wir bereiten Eure Fragen vor und begleiten die Gespräche.",
+        "Vorbereitungsdossier, gemeinsamer Abend und Online-Wiedersehen nach sechs Wochen gehören zur Teilnahme." => "Vorbereitungsdossier und gemeinsamer Abend gehören zur Teilnahme.",
+        "Vier Gesprächsformate, ein gemeinsamer Abend und ein Wiedersehen nach sechs Wochen." => "Vier Gesprächsformate und ein gemeinsamer Abend.",
+        "- Nach sechs Wochen: moderiertes Online-Wiedersehen, im Teilnahmebeitrag enthalten\n" => "",
+        " Beim Online-Wiedersehen nach sechs Wochen besprechen wir, was Du umgesetzt hast." => "",
+        " Sechs Wochen nach der Edition folgt unser moderiertes Online-Wiedersehen." => "",
+        "Sechs Wochen später treffen wir uns online wieder; das Kuvert öffnen wir" => "Das Kuvert öffnen wir",
+        "das interne Dissenspapier und unser Online-Wiedersehen nach sechs Wochen" => "das interne Dissenspapier",
+        " einschließlich des moderierten Online-Wiedersehens nach sechs Wochen" => "",
+        " Sechs Wochen nach der Edition treffen wir uns online wieder." => "",
+        " Sechs Wochen nach dem Treffen sehen wir uns online wieder." => "",
+        "<li>Moderiertes Online-Wiedersehen nach sechs Wochen</li>" => "",
+        "Dein Kuvert und das Online-Wiedersehen nach sechs Wochen" => "Dein Kuvert",
+        " Sechs Wochen später treffen wir uns online wieder." => "",
+        " und das moderierte Wiedersehen nach sechs Wochen" => "",
+        "\nModeriertes Online-Wiedersehen nach sechs Wochen" => "",
+        "Moderiertes Online-Wiedersehen nach sechs Wochen\n" => "",
+        " und des Online-Wiedersehens nach sechs Wochen" => "",
+        "1½ Tage mit Dinner und Online-Wiedersehen" => "1½ Tage mit Dinner",
+        "Was wurde bis zum Wiedersehen umgesetzt?" => "Welche Erkenntnisse lassen sich im Alltag umsetzen?",
+        "<br>Online-Wiedersehen nach sechs Wochen" => "",
+        "Nach sechs Wochen sehen wir uns wieder." => "Passende Kontakte.",
+        "Eine Vorhersage und ein Wiedersehen." => "Deine Vorhersage im Kuvert.",
+        "Vorbereitung und Wiedersehen" => "Deine Vorbereitung",
+        "Ein Kuvert. Ein Wiedersehen." => "Deine Perspektive im Kuvert.",
+        "Ergebnisse und Wiedersehen" => "Ergebnisse und Nachbereitung",
+    ]);
+}
+
 /** Rohtext rendern: [TBD: …] → sichtbarer Platzhalter, {platzhalter} ersetzen, interne Links ohne .html. */
 function x25ed_render(string $text, array $vars): string
 {
+    $text = x25ed_current_offer($text);
     $text = preg_replace('/\[TBD: ([^\]]+)\]/', '<span class="x-tbd">[TBD: $1]</span>', $text) ?? $text;
     if (str_contains($text, '{')) {
         $text = preg_replace_callback('/\{([a-z0-9_.-]+)\}/i', static fn($m) => array_key_exists($m[1], $vars) ? (string)$vars[$m[1]] : $m[0], $text) ?? $text;
@@ -619,7 +664,7 @@ function x25ed_raw(?array $ed, string $bereich, string $key): ?string
         ?? $t[$bereich][$key]
         ?? $t['gemeinsam'][$key]
         ?? null;
-    return $raw === null ? null : (string)$raw;
+    return $raw === null ? null : x25ed_current_offer((string)$raw);
 }
 
 /**

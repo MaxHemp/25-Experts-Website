@@ -178,7 +178,7 @@ function x25_mail_zusage(array $rec): void
     $a2 = 'Über die folgende Seite kannst Du Deine zugesagte Teilnahme verbindlich buchen und den Teilnahmebeitrag bezahlen. Dort kannst Du zwischen PayPal und Zahlung per Rechnung (Zahlungsziel ' . $c['payment_days'] . ' Tage) wählen. Diese Zusage allein begründet noch keine Zahlungspflicht. Erst mit Deiner verbindlichen Buchung entsteht die Zahlungspflicht. Dein Ticket erhältst Du nach Zahlungseingang. Solltest Du verhindert sein, sag uns bitte kurz Bescheid, damit wir den Platz weitergeben können.';
     $a2b = 'Die 25 Teilnehmerplätze sind persönlich vergeben. Gastgeber, Moderator und Impulsgeber kommen hinzu. Während der fachlichen Arbeitsphasen wird nicht fotografiert oder gefilmt.';
     $a3 = 'Dein persönlicher Vorbereitungslink: ' . x25_prepare_url($rec) . ' – ergänze dort bitte bis zwei Wochen vor dem Treffen Deine aktuelle Entscheidung, eine eigene Erfahrung und das, was Du von anderen verstehen möchtest. Keine vertraulichen Unternehmens- oder Kundendaten angeben.';
-    $a4 = 'Wir bereiten daraus das Dossier vor und vermitteln passende Gespräche. Sechs Wochen nach der Edition treffen wir uns moderiert online wieder. Den genauen Termin und Zugang teilen wir Dir persönlich mit.';
+    $a4 = 'Wir bereiten daraus das Dossier vor und vermitteln passende Gespräche.';
     $txt = "Hallo " . $rec['name'] . ",\n\n" . x25_wrap($a1) . "\n\n" . x25_t_rows($rows) . "\n" . x25_wrap($a2) . "\n\nZur Zahlung (PayPal oder Rechnung):\n" . $url . "\n\n"
         . x25_wrap($a2b) . "\n\n" . x25_wrap($a3) . "\n\n" . x25_wrap($a4) . "\n\n" . x25_t_sig();
     $html = x25_html_shell($subj,
@@ -299,7 +299,7 @@ function x25_mail_ticket(array $rec): void
     $url = x25_ticket_url($rec);
     $a1 = 'Deine Zahlung ist eingegangen, Dein Platz bei ' . $ed['name'] . ' ist damit verbindlich. Unten findest Du Dein Ticket; bitte zeig es am Empfang vor (Ausdruck oder Smartphone). Im Anhang findest Du außerdem die Kalenderdatei (.ics) mit allen Eventdetails. Öffne sie in Outlook und bestätige mit Speichern bzw. Importieren, um das Event in Deinen Kalender zu übernehmen.';
     $rows = [['Ticketnummer', $rec['ticket_no']], ['Name', $rec['name']], ['Unternehmen', $rec['company']], ['Termin', $ed['datum']], ['Zeiten', $ed['zeiten']], ['Ort', $ed['venue']], ['Hotel', $ed['hotel']], ['Kontakt', $ed['kontakt']]];
-    $a2 = 'Bitte ergänze Deine Vorbereitungsfragen über Deinen persönlichen Link: ' . x25_prepare_url($rec) . ' Die Antworten helfen uns beim Dossier und bei passenden Gesprächen. Sechs Wochen nach der Edition treffen wir uns online wieder. Während der Arbeitsphasen wird nicht fotografiert oder gefilmt.';
+    $a2 = 'Bitte ergänze Deine Vorbereitungsfragen über Deinen persönlichen Link: ' . x25_prepare_url($rec) . ' Die Antworten helfen uns beim Dossier und bei passenden Gesprächen. Während der Arbeitsphasen wird nicht fotografiert oder gefilmt.';
     $a3 = 'Solltest Du verhindert sein, sag uns bitte kurz Bescheid; ein Ersatzteilnehmer aus Deinem Haus und derselben Funktion kann jederzeit benannt werden. Die Einzelheiten stehen in den Teilnahmebedingungen: ' . $c['site'] . 'teilnahmebedingungen';
     $png = x25_qr_png($url);
     $qrHtml = $png !== ''

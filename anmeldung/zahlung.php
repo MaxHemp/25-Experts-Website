@@ -49,7 +49,7 @@ if (x25_booking_required($rec)) {
         });
         header('Location: zahlung.php?t='.rawurlencode($t).'&gebucht=1',true,303);exit;
     }
-    $form='<div class="card"><h2>Dein Platz ist für Dich freigegeben.</h2><p>Mit der folgenden Buchung verpflichtest Du Dich zur Zahlung von '.x25_e(x25_money($A['gross'])).' inklusive Umsatzsteuer. Anschließend wählst Du PayPal oder Rechnung. Enthalten sind beide Tage, Vorbereitung und Dossier, Verpflegung, Aperitif und Dinner, das interne Dissenspapier, Dein Kuvert und das Online-Wiedersehen nach sechs Wochen. Anreise und Übernachtung sind nicht enthalten.</p>'
+    $form='<div class="card"><h2>Dein Platz ist für Dich freigegeben.</h2><p>Mit der folgenden Buchung verpflichtest Du Dich zur Zahlung von '.x25_e(x25_money($A['gross'])).' inklusive Umsatzsteuer. Anschließend wählst Du PayPal oder Rechnung. Enthalten sind beide Tage, Vorbereitung und Dossier, Verpflegung, Aperitif und Dinner, das interne Dissenspapier, Dein Kuvert. Anreise und Übernachtung sind nicht enthalten.</p>'
         .'<form method="post" action="zahlung.php"><input type="hidden" name="t" value="'.x25_e($t).'"><input type="hidden" name="weg" value="buchen"><input type="hidden" name="csrf" value="'.x25_e($csrf).'">'
         .'<p><label>Rechnungsempfänger / Unternehmen<br><input name="invoice_company" maxlength="200" required value="'.x25_e($rec['invoice_company']?:$rec['company']).'"></label></p>'
         .'<p><label>Rechnungsadresse<br><textarea name="invoice_address" rows="3" maxlength="500" required style="width:100%">'.x25_e($rec['invoice_address']??'').'</textarea></label></p>'
