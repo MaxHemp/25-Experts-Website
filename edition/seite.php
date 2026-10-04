@@ -98,7 +98,18 @@ function x25ed_schedule(array $ed, string $day, string $meta, string $prefix): s
         foreach ($markers as $m) {
             if (str_starts_with((string)$m, 'foto:')) { $chip = ''; }
         }
-        $lis .= '<li' . $c . '><time class="x-timeline__time" datetime="' . x25ed_e($t) . '">' . $t . '</time><span class="x-timeline__dot" aria-hidden="true"></span><div class="x-timeline__body"><p class="x-timeline__title">' . $txt . '</p>' . $d . $chip . '</div></li>' . "\n              ";
+        $speakerPortrait = '';
+        foreach (($ed['speakers'] ?? []) as $speaker) {
+            $speakerName = (string)($speaker['name'] ?? '');
+            $speakerImage = (string)($speaker['image'] ?? '');
+            if ($speakerName !== '' && str_contains(strip_tags($txt), $speakerName)
+                && $prefix === 'ablauf.tag' . (int)($speaker['day'] ?? 0)
+                && str_starts_with($speakerImage, '/assets/img/speakers/')) {
+                $speakerPortrait = '<img src="' . x25ed_e($speakerImage) . '" alt="' . x25ed_e($speakerName) . '" width="64" height="64" loading="lazy" decoding="async" style="display:block;width:64px;height:64px;max-width:none;border-radius:50%;object-fit:cover;object-position:center;margin:0 0 12px;">';
+                break;
+            }
+        }
+        $lis .= '<li' . $c . '><time class="x-timeline__time" datetime="' . x25ed_e($t) . '">' . $t . '</time><span class="x-timeline__dot" aria-hidden="true"></span><div class="x-timeline__body">' . $speakerPortrait . '<p class="x-timeline__title">' . $txt . '</p>' . $d . $chip . '</div></li>' . "\n              ";
     }
     return <<<HTML
 
@@ -134,7 +145,7 @@ foreach (x25ed_tuples($ed, 'landing', 'impuls', 'kicker', 'titel', 'text') as [$
 HTML;
 }
 $speakerNote = $t('impulse.hinweis') ?: 'Die folgenden Impulse beschreiben die geplanten Beiträge. Bestätigte externe Mitwirkende werden hier mit Name, Rolle und Beitrag ergänzt, sobald ihre Zusage vorliegt.';
-$confirmedSpeaker = !empty($ed['speakers']) ? '<p class="x-container x-meta">Bestätigt für Tag 1: <a class="x-link" href="#impulse">' . $e($ed['speakers'][0]['name']) . ' · ISF-München</a></p>' : '';
+$speakerNoteHtml = $slug === 'change-management' ? '' : '<p class="ux-note">' . $speakerNote . '</p>';
 $dp = '';
 foreach (x25ed_items($ed, 'landing', 'dp.punkt') as $x) { $dp .= "\n            <li>{$x}</li>"; }
 $enthalten = '';
@@ -184,7 +195,6 @@ $body = <<<HTML
       <div class="nx-event-hero__grid"><div><p class="nx-event-hero__statement">{$statement}</p><p class="x-lead">{$benefit}</p></div>{$motif}</div>
       <div class="nx-event-hero__bottom"><p class="nx-event-hero__facts">SESSEL HUB · Kranhaus Nord<br>25 Teilnehmer · 1½ Tage mit Dinner<br>{$preisBetrag} netto · {$gross} € inkl. 19 % USt.</p><div><a class="nx-button" href="{$anm}">Jetzt anmelden <span aria-hidden="true">↗</span></a><p class="x-meta">Rückmeldung in zwei Werktagen. Noch keine Buchung.</p></div></div>
     </div></section>
-    {$confirmedSpeaker}
     <nav class="ux-section-nav x-container" aria-label="Auf dieser Editionsseite"><a href="#leitfrage">Dein Thema</a><a href="#ablauf">Ablauf</a><a href="#impulse">Mitwirkende</a><a href="#preis">Leistungen &amp; Preis</a><a href="#anreise">Ort &amp; Anreise</a><a href="#faq">Fragen</a></nav>
 
     <section class="x-promise" aria-label="Persönliche Betreuung">
@@ -236,7 +246,7 @@ $body = <<<HTML
           <h2 id="imp-h" class="x-h2">{$t('impulse.titel')}</h2>
           <p class="x-lead">{$t('impulse.lead')}</p>
         </div>
-        <p class="ux-note">{$speakerNote}</p><ol class="x-impulse" data-reveal-group>
+        {$speakerNoteHtml}<ol class="x-impulse" data-reveal-group>
           {$impulse}
         </ol>
       </div>
