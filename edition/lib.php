@@ -160,7 +160,7 @@ function x25ed_experience_migration(): void
 /** Confirmed speakers: apply the approved fields once, preserving later CMS edits. */
 function x25ed_speaker_migration(): void
 {
-    $revision='huchler-2026-10-04-v1'; $source=X25ED_DIR.'/speakers.json';
+    $revision='huchler-agenda-2026-10-04-v2'; $source=X25ED_DIR.'/speakers.json';
     if(!is_file($source)) { return; }
     $patches=json_decode((string)file_get_contents($source),true);
     if(!is_array($patches)) { throw new RuntimeException('Editionsaktualisierung nicht lesbar.'); }

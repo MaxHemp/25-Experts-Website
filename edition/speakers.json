@@ -1,6 +1,6 @@
 {
  "change-management": {
-  "speaker_revision": "huchler-2026-10-04-v1",
+  "speaker_revision": "huchler-agenda-2026-10-04-v2",
   "speakers": [
    {
     "name": "Dr. Norbert Huchler",
@@ -12,15 +12,44 @@
   ],
   "texte": {
    "landing": {
-    "impulse.lead": "Vier Zeitfenster à 45 Minuten: Forschung mit Diskussion, zwei konkrete Praxisfälle und ein moderiertes Vorstandsgespräch. Für Tag 1 ist Dr. Norbert Huchler vom ISF-München bestätigt.",
+    "impulse.lead": "Drei Zeitfenster à 45 Minuten: Forschung mit Diskussion, ein Vortrag aus der Praxis und ein moderiertes Vorstandsgespräch. Für Tag 1 ist Dr. Norbert Huchler vom ISF-München bestätigt.",
     "impulse.hinweis": "Dr. Norbert Huchler ist als Speaker für Tag 1 bestätigt. Die weiteren Beiträge sind geplant; Namen veröffentlichen wir nach verbindlicher Zusage.",
     "impuls.1.kicker": "Bestätigter Speaker · Tag 1 · Forschung und Diskussion",
     "impuls.1.titel": "Dr. Norbert Huchler",
     "impuls.1.text": "Dr. Norbert Huchler ist Wissenschaftler und Mitglied des Vorstands am Institut für Sozialwissenschaftliche Forschung e.V. (ISF-München). Als Arbeitssoziologe forscht er zum Wandel und zur Zukunft der Arbeit. In zahlreichen empirischen Forschungs- und Gestaltungsprojekten nimmt er konkrete betriebliche Veränderungsprozesse in den Blick und leitet Implikationen für die Gestaltung des Zusammenspiels von Mensch, Technik, Organisation und Gesellschaft ab. Ein besonderer Fokus seiner Forschung liegt auf dem Technikwandel v.a. durch Digitalisierung und KI. Norbert Huchler lehrt zudem an Universitäten und ist seit 2015 Mitglied der Plattform „Lernende Systeme. Plattform für künstliche Intelligenz.“ des Ministeriums für Forschung, Technologie und Raumfahrt (BMFTR).",
     "impuls.1.bild": "/assets/img/speakers/norbert-huchler.jpg",
     "impuls.1.bild.alt": "Dr. Norbert Huchler, ISF-München",
-    "ablauf.tag1.4": "11:05 | Forschung und Diskussion mit Dr. Norbert Huchler | Wissenschaftler und Mitglied des Vorstands am ISF-München. 15 Minuten Einordnung, 30 Minuten Austausch."
+    "ablauf.tag1.4": "11:05 | Forschung und Diskussion mit Dr. Norbert Huchler | Wissenschaftler und Mitglied des Vorstands am ISF-München. 15 Minuten Einordnung, 30 Minuten Austausch.",
+    "ablauf.tag1.1": "09:45 | Ankommen mit kleinem Frühstück",
+    "ablauf.tag1.2": "10:15 | Die Teilnehmenden kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
+    "ablauf.tag1.3": "10:55 | Gemeinsame Prioritäten | Wir schärfen die vorbereitete Arbeitsagenda anhand Eurer Anliegen.",
+    "ablauf.tag1.5": "12:00 | Lunch",
+    "ablauf.tag1.6": "12:55 | Der 26. Experte, Durchgang 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Frage des Vormittags live an ChatGPT und Claude. Antworten ungeschnitten auf der Leinwand. Die Gruppe challengt fachlich: Was trägt, was nicht. Sicher und DSGVO-konform. | signatur foto:leinwand",
+    "ablauf.tag1.7": "13:40 | Vortrag aus der Praxis | Erfahrungen aus einem Versicherungsunternehmen: Wie Veränderung gestaltet wird, was funktioniert und welche Erkenntnisse sich übertragen lassen. Ein unterstützter Beitrag wird als Partnerschaft gekennzeichnet und fachlich freigegeben.",
+    "ablauf.tag1.8": "14:25 | Kaffeepause",
+    "ablauf.tag1.9": "14:55 | Arbeitsblock 1 | Acht bis neun Teilnehmer je Tisch bearbeiten eine vorbereitete Frage. Die Moderation sichert die Beteiligung aller und hält gemeinsame Positionen und Unterschiede fest.",
+    "ablauf.tag1.10": "16:10 | Ergebnissicherung",
+    "ablauf.tag1.11": "16:40 | Aufbruch zur Abendlocation",
+    "ablauf.tag1.12": "17:40 | Aperitif",
+    "ablauf.tag1.13": "18:25 | Dinner | | foto:dinner",
+    "ablauf.tag1.14": null,
+    "ablauf.tag1.15": null,
+    "ablauf.tag1.meta": "{location_name}, ab 16:40 Uhr Abendlocation",
+    "abend.text": "Aperitif ab 17:40 Uhr, Dinner ab 18:25 Uhr und offener Ausklang. Eine überlegte Sitzordnung und persönlich vermittelte Gespräche gehören dazu.",
+    "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Forschung, ein Vortrag aus der Praxis, ein Vorstandsgespräch, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
+    "impulse.titel": "Drei Perspektiven. Zeit für Deine Fragen.",
+    "impuls.2.kicker": "Vortrag aus der Praxis",
+    "impuls.2.titel": "Change Management im Versicherungsunternehmen",
+    "impuls.2.text": "Ein Vortrag aus der Praxis: Wie Veränderung im Versicherungsunternehmen gestaltet wird, was funktioniert und welche Erkenntnisse sich übertragen lassen. Ein Beitrag eines Kooperationspartners wird als Partnerschaft gekennzeichnet und vorab fachlich freigegeben.",
+    "impuls.3.kicker": "Vorstandsgespräch · Fragen und Abwägungen",
+    "impuls.4.kicker": null,
+    "impuls.3.titel": "Perspektive Vorstand: Erwartungen an das Change Management",
+    "impuls.4.titel": null,
+    "impuls.3.text": "Die Sicht von oben: Was der Vorstand vom Change Management erwartet, wenn KI-Einführung Vorstandsthema ist. Und was er selbst nicht steuern kann.",
+    "impuls.4.text": null,
+    "leitfrage.text": "Vor dem Treffen sammeln wir Eure aktuellen Entscheidungen und Erfahrungen. Daraus bereiten wir drei Spannungsfelder und Fragen für die Arbeitsblöcke vor. Zu Beginn schärft die Gruppe die Arbeitsagenda. Diese Themenfelder bilden den Rahmen."
    }
-  }
+  },
+  "zeiten": "Tag 1: 09:45 bis 16:40 Uhr, anschließend Abend (Aperitif 17:40 Uhr, Dinner 18:25 Uhr) · Tag 2: 09:30 bis 13:30 Uhr"
  }
 }
