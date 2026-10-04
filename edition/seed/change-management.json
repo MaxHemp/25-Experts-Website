@@ -71,7 +71,7 @@
    "ablauf.tag1.1": "09:45 | Ankommen mit kleinem Frühstück",
    "ablauf.tag1.2": "10:15 | Die Teilnehmenden kennenlernen | Je 60 Sekunden: Deine Verantwortung, Dein Haus und Deine aktuelle Frage. Gastgeber und Moderator stellen die vorbereiteten Spannungsfelder vor.",
    "ablauf.tag1.3": "10:55 | Gemeinsame Prioritäten | Wir schärfen die vorbereitete Arbeitsagenda anhand Eurer Anliegen.",
-   "ablauf.tag1.4": "11:05 | Forschung und Diskussion | 15 Minuten Einordnung, 30 Minuten gemeinsame Bewertung der Folgen für die Praxis.",
+   "ablauf.tag1.4": "11:05 | Forschung und Diskussion mit Dr. Norbert Huchler | Wissenschaftler und Mitglied des Vorstands am ISF-München. 15 Minuten Einordnung, 30 Minuten Austausch.",
    "ablauf.tag1.5": "11:50 | Praxisfall 1 | Eine konkrete Entscheidung: Ausgangslage, Vorgehen, Ergebnis und offene Zweifel.",
    "ablauf.tag1.6": "12:35 | Lunch",
    "ablauf.tag1.7": "13:30 | Der 26. Experte, Durchgang 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Frage des Vormittags live an ChatGPT und Claude. Antworten ungeschnitten auf der Leinwand. Die Gruppe challengt fachlich: Was trägt, was nicht. Sicher und DSGVO-konform. | signatur foto:leinwand",
@@ -95,10 +95,10 @@
    "ablauf.tag2.8": "13:30 | Ende",
    "impulse.kicker": "Impulse",
    "impulse.titel": "Vier Perspektiven. Zeit für Deine Fragen.",
-   "impulse.lead": "Vier Zeitfenster à 45 Minuten: Forschung mit Diskussion, zwei konkrete Praxisfälle und ein moderiertes Vorstandsgespräch. Namen und Rollen veröffentlichen wir nach verbindlicher Zusage.",
-   "impuls.1.kicker": "Forschung · 15 Minuten Einordnung, 30 Minuten Austausch",
-   "impuls.1.titel": "Perspektive Forschung: Organisationspsychologie und Transformationsforschung",
-   "impuls.1.text": "Was die Forschung über Akzeptanz, Widerstand und Rollenwandel weiß, wenn das Tempo von außen vorgegeben wird. Und was sie noch nicht weiß.",
+   "impulse.lead": "Vier Zeitfenster à 45 Minuten: Forschung mit Diskussion, zwei konkrete Praxisfälle und ein moderiertes Vorstandsgespräch. Für Tag 1 ist Dr. Norbert Huchler vom ISF-München bestätigt.",
+   "impuls.1.kicker": "Bestätigter Speaker · Tag 1 · Forschung und Diskussion",
+   "impuls.1.titel": "Dr. Norbert Huchler",
+   "impuls.1.text": "Dr. Norbert Huchler ist Wissenschaftler und Mitglied des Vorstands am Institut für Sozialwissenschaftliche Forschung e.V. (ISF-München). Als Arbeitssoziologe forscht er zum Wandel und zur Zukunft der Arbeit. In zahlreichen empirischen Forschungs- und Gestaltungsprojekten nimmt er konkrete betriebliche Veränderungsprozesse in den Blick und leitet Implikationen für die Gestaltung des Zusammenspiels von Mensch, Technik, Organisation und Gesellschaft ab. Ein besonderer Fokus seiner Forschung liegt auf dem Technikwandel v.a. durch Digitalisierung und KI. Norbert Huchler lehrt zudem an Universitäten und ist seit 2015 Mitglied der Plattform „Lernende Systeme. Plattform für künstliche Intelligenz.“ des Ministeriums für Forschung, Technologie und Raumfahrt (BMFTR).",
    "impuls.2.kicker": "Praxis · Eine Entscheidung und ihre Folgen",
    "impuls.2.titel": "Perspektive Praxis: Change-Verantwortung in einem Versicherer",
    "impuls.2.text": "Ein konkreter Rollout aus einem Versicherer: was geplant war, was passiert ist, was man heute anders machen würde.",
@@ -176,7 +176,10 @@
    "faq.11.frage": "Was passiert im 26. Experten mit meinen Daten?",
    "faq.11.antwort": "Du hältst eine überprüfbare Vorhersage fest: Wie sicher bist Du Dir, und welche Entscheidung folgt daraus? Dein Kuvert wird bei der nächsten Edition desselben Themas geöffnet. Die KI schreibt das 26. Kuvert.",
    "faq.12.frage": "Ist die Übernachtung enthalten?",
-   "faq.12.antwort": "Nein. Jeder Teilnehmer bucht selbst; Anreise ist ebenfalls nicht enthalten. Tagungsort ist der Rheinauhafen, die Abendlocation liegt am Heumarkt; Hotels in der Kölner Altstadt passen zu beidem."
+   "faq.12.antwort": "Nein. Jeder Teilnehmer bucht selbst; Anreise ist ebenfalls nicht enthalten. Tagungsort ist der Rheinauhafen, die Abendlocation liegt am Heumarkt; Hotels in der Kölner Altstadt passen zu beidem.",
+   "impulse.hinweis": "Dr. Norbert Huchler ist als Speaker für Tag 1 bestätigt. Die weiteren Beiträge sind geplant; Namen veröffentlichen wir nach verbindlicher Zusage.",
+   "impuls.1.bild": "/assets/img/speakers/norbert-huchler.jpg",
+   "impuls.1.bild.alt": "Dr. Norbert Huchler, ISF-München"
   },
   "anmeldung": {
    "meta.titel": "25 CHANGE MANAGEMENT EXPERTS · Teilnahme anfragen",
@@ -288,5 +291,15 @@
  "admission_mode": "persoenlich",
  "edition_number": "01",
  "hero_foto": "arbeitsblock",
- "experience_revision": "experience-2026-09-v1"
+ "experience_revision": "experience-2026-09-v1",
+ "speaker_revision": "huchler-2026-10-04-v1",
+ "speakers": [
+  {
+   "name": "Dr. Norbert Huchler",
+   "organization": "Institut für Sozialwissenschaftliche Forschung e.V. (ISF-München)",
+   "role": "Wissenschaftler und Mitglied des Vorstands",
+   "image": "/assets/img/speakers/norbert-huchler.jpg",
+   "day": 1
+  }
+ ]
 }

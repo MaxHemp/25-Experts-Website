@@ -1,0 +1,26 @@
+{
+ "change-management": {
+  "speaker_revision": "huchler-2026-10-04-v1",
+  "speakers": [
+   {
+    "name": "Dr. Norbert Huchler",
+    "organization": "Institut für Sozialwissenschaftliche Forschung e.V. (ISF-München)",
+    "role": "Wissenschaftler und Mitglied des Vorstands",
+    "image": "/assets/img/speakers/norbert-huchler.jpg",
+    "day": 1
+   }
+  ],
+  "texte": {
+   "landing": {
+    "impulse.lead": "Vier Zeitfenster à 45 Minuten: Forschung mit Diskussion, zwei konkrete Praxisfälle und ein moderiertes Vorstandsgespräch. Für Tag 1 ist Dr. Norbert Huchler vom ISF-München bestätigt.",
+    "impulse.hinweis": "Dr. Norbert Huchler ist als Speaker für Tag 1 bestätigt. Die weiteren Beiträge sind geplant; Namen veröffentlichen wir nach verbindlicher Zusage.",
+    "impuls.1.kicker": "Bestätigter Speaker · Tag 1 · Forschung und Diskussion",
+    "impuls.1.titel": "Dr. Norbert Huchler",
+    "impuls.1.text": "Dr. Norbert Huchler ist Wissenschaftler und Mitglied des Vorstands am Institut für Sozialwissenschaftliche Forschung e.V. (ISF-München). Als Arbeitssoziologe forscht er zum Wandel und zur Zukunft der Arbeit. In zahlreichen empirischen Forschungs- und Gestaltungsprojekten nimmt er konkrete betriebliche Veränderungsprozesse in den Blick und leitet Implikationen für die Gestaltung des Zusammenspiels von Mensch, Technik, Organisation und Gesellschaft ab. Ein besonderer Fokus seiner Forschung liegt auf dem Technikwandel v.a. durch Digitalisierung und KI. Norbert Huchler lehrt zudem an Universitäten und ist seit 2015 Mitglied der Plattform „Lernende Systeme. Plattform für künstliche Intelligenz.“ des Ministeriums für Forschung, Technologie und Raumfahrt (BMFTR).",
+    "impuls.1.bild": "/assets/img/speakers/norbert-huchler.jpg",
+    "impuls.1.bild.alt": "Dr. Norbert Huchler, ISF-München",
+    "ablauf.tag1.4": "11:05 | Forschung und Diskussion mit Dr. Norbert Huchler | Wissenschaftler und Mitglied des Vorstands am ISF-München. 15 Minuten Einordnung, 30 Minuten Austausch."
+   }
+  }
+ }
+}

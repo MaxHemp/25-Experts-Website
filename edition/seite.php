@@ -58,6 +58,13 @@ if (!$vorschau) {
         ],
         'url' => $canon,
     ];
+    if (!empty($ed['speakers'])) {
+        $event['performer'] = array_map(static fn(array $speaker): array => [
+            '@type' => 'Person', 'name' => $speaker['name'],
+            'jobTitle' => $speaker['role'], 'affiliation' => ['@type' => 'Organization', 'name' => $speaker['organization']],
+            'image' => rtrim($domain, '/') . $speaker['image'],
+        ], $ed['speakers']);
+    }
     if (empty($ed['anmeldung_offen'])) { unset($event['offers']); }
     if (!empty($ed['anmeldung_offen']) && ($ed['anmeldung_ab'] ?? '') !== '') { $event['offers']['validFrom'] = (string)$ed['anmeldung_ab']; }
     // Vorläufige Termine nicht als bestätigte Events an Suchmaschinen melden.
@@ -108,9 +115,17 @@ HTML;
 $leitfragen = '';
 foreach (x25ed_tuples($ed, 'landing', 'leitfrage', 'titel', 'text') as [$lt, $lx]) { $leitfragen .= "\n            <li><div><strong>{$lt}</strong> {$lx}</div></li>"; }
 $impulse = '';
+$impulseIndex = 0;
 foreach (x25ed_tuples($ed, 'landing', 'impuls', 'kicker', 'titel', 'text') as [$ik, $it, $ix]) {
+    $impulseIndex++;
+    $portrait = '';
+    $portraitPath = $t('impuls.' . $impulseIndex . '.bild');
+    if (str_starts_with($portraitPath, '/assets/img/speakers/')) {
+        $portrait = '<img src="' . $e($portraitPath) . '" alt="' . $e($t('impuls.' . $impulseIndex . '.bild.alt')) . '" width="1924" height="1280" loading="lazy" decoding="async" style="display:block;width:100%;max-width:320px;height:auto;margin-bottom:20px;border-radius:8px;">';
+    }
     $impulse .= <<<HTML
 <li>
+            {$portrait}
             <p class="x-kicker">{$ik}</p>
             <h3 class="x-h4">{$it}</h3>
             <p>{$ix}</p>
@@ -118,6 +133,8 @@ foreach (x25ed_tuples($ed, 'landing', 'impuls', 'kicker', 'titel', 'text') as [$
 
 HTML;
 }
+$speakerNote = $t('impulse.hinweis') ?: 'Die folgenden Impulse beschreiben die geplanten Beiträge. Bestätigte externe Mitwirkende werden hier mit Name, Rolle und Beitrag ergänzt, sobald ihre Zusage vorliegt.';
+$confirmedSpeaker = !empty($ed['speakers']) ? '<p class="x-container x-meta">Bestätigt für Tag 1: <a class="x-link" href="#impulse">' . $e($ed['speakers'][0]['name']) . ' · ISF-München</a></p>' : '';
 $dp = '';
 foreach (x25ed_items($ed, 'landing', 'dp.punkt') as $x) { $dp .= "\n            <li>{$x}</li>"; }
 $enthalten = '';
@@ -167,6 +184,7 @@ $body = <<<HTML
       <div class="nx-event-hero__grid"><div><p class="nx-event-hero__statement">{$statement}</p><p class="x-lead">{$benefit}</p></div>{$motif}</div>
       <div class="nx-event-hero__bottom"><p class="nx-event-hero__facts">SESSEL HUB · Kranhaus Nord<br>25 Teilnehmer · 1½ Tage mit Dinner<br>{$preisBetrag} netto · {$gross} € inkl. 19 % USt.</p><div><a class="nx-button" href="{$anm}">Jetzt anmelden <span aria-hidden="true">↗</span></a><p class="x-meta">Rückmeldung in zwei Werktagen. Noch keine Buchung.</p></div></div>
     </div></section>
+    {$confirmedSpeaker}
     <nav class="ux-section-nav x-container" aria-label="Auf dieser Editionsseite"><a href="#leitfrage">Dein Thema</a><a href="#ablauf">Ablauf</a><a href="#impulse">Mitwirkende</a><a href="#preis">Leistungen &amp; Preis</a><a href="#anreise">Ort &amp; Anreise</a><a href="#faq">Fragen</a></nav>
 
     <section class="x-promise" aria-label="Persönliche Betreuung">
@@ -218,7 +236,7 @@ $body = <<<HTML
           <h2 id="imp-h" class="x-h2">{$t('impulse.titel')}</h2>
           <p class="x-lead">{$t('impulse.lead')}</p>
         </div>
-        <p class="ux-note">Die folgenden Impulse beschreiben die geplanten Beiträge. Bestätigte externe Mitwirkende werden hier mit Name, Rolle und Beitrag ergänzt, sobald ihre Zusage vorliegt.</p><ol class="x-impulse" data-reveal-group>
+        <p class="ux-note">{$speakerNote}</p><ol class="x-impulse" data-reveal-group>
           {$impulse}
         </ol>
       </div>

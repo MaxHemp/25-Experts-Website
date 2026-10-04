@@ -95,6 +95,7 @@ function x25ed_seed(): void
     x25ed_phrasen_sweep();
     x25ed_experience_migration();
     x25ed_roles_migration();
+    x25ed_speaker_migration();
 }
 
 /** Nur die freigegebene Rollenbezeichnung in vorhandenen Texten korrigieren. */
@@ -143,6 +144,34 @@ function x25ed_experience_migration(): void
         $ed=json_decode((string)file_get_contents($file),true);
         if(!is_array($ed)) { throw new RuntimeException('Edition nicht lesbar.'); }
         if(($ed['experience_revision']??'')!==$revision) {
+            $backup=x25ed_dir().'/.'.$slug.'-before-'.$revision.'.json';
+            if(!is_file($backup)&&!copy($file,$backup)) { throw new RuntimeException('Sicherung fehlgeschlagen.'); }
+            chmod($backup,0640);
+            foreach($patch as $key=>$value) {
+                if($key==='texte') { foreach($value as $section=>$values) { $ed['texte'][$section]=array_replace((array)($ed['texte'][$section]??[]),$values); } }
+                else { $ed[$key]=$value; }
+            }
+            x25ed_save($ed);
+        }
+        if(file_put_contents($marker,gmdate('c'),LOCK_EX)===false) { throw new RuntimeException('Editionsaktualisierung nicht gespeichert.'); }
+    }
+}
+
+/** Confirmed speakers: apply the approved fields once, preserving later CMS edits. */
+function x25ed_speaker_migration(): void
+{
+    $revision='huchler-2026-10-04-v1'; $source=X25ED_DIR.'/speakers.json';
+    if(!is_file($source)) { return; }
+    $patches=json_decode((string)file_get_contents($source),true);
+    if(!is_array($patches)) { throw new RuntimeException('Editionsaktualisierung nicht lesbar.'); }
+    foreach($patches as $slug=>$patch) {
+        if(!x25ed_slug_ok((string)$slug)) { continue; }
+        $marker=x25ed_dir().'/.migration-'.$revision.'-'.$slug;
+        $file=x25ed_dir().'/'.$slug.'.json';
+        if(is_file($marker)||!is_file($file)) { continue; }
+        $ed=json_decode((string)file_get_contents($file),true);
+        if(!is_array($ed)) { throw new RuntimeException('Edition nicht lesbar.'); }
+        if(($ed['speaker_revision']??'')!==$revision) {
             $backup=x25ed_dir().'/.'.$slug.'-before-'.$revision.'.json';
             if(!is_file($backup)&&!copy($file,$backup)) { throw new RuntimeException('Sicherung fehlgeschlagen.'); }
             chmod($backup,0640);
