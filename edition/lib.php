@@ -96,6 +96,39 @@ function x25ed_seed(): void
     x25ed_experience_migration();
     x25ed_roles_migration();
     x25ed_speaker_migration();
+    x25ed_faq_migration();
+}
+
+/** Repair only the verified Change Management FAQ mismatches, preserving CMS edits. */
+function x25ed_faq_migration(): void
+{
+    $slug = 'change-management'; $revision = 'faq-assignment-2026-10-05-v1';
+    $file = x25ed_dir() . '/' . $slug . '.json';
+    $marker = x25ed_dir() . '/.migration-' . $revision . '-' . $slug;
+    if (is_file($marker) || !is_file($file)) { return; }
+    $ed = json_decode((string)file_get_contents($file), true);
+    if (!is_array($ed)) { throw new RuntimeException('Edition nicht lesbar.'); }
+    $defaults = x25ed_texte()['landing_default'];
+    $wrong = [
+        5 => 'Vorab sammeln wir Deine aktuelle Entscheidung, eine eigene Erfahrung und das, was Du von anderen verstehen möchtest. Daraus bereiten wir drei Spannungsfelder und zwei Praxisfälle vor. Zu Beginn legt die Gruppe gemeinsam die Prioritäten fest.',
+        10 => $defaults['faq.11.antwort'],
+        11 => $defaults['faq.10.antwort'],
+    ];
+    $dirty = false;
+    foreach ($wrong as $number => $answer) {
+        $key = 'faq.' . $number;
+        if (x25ed_raw($ed, 'landing', $key . '.frage') === $defaults[$key . '.frage']
+            && x25ed_raw($ed, 'landing', $key . '.antwort') === $answer) {
+            $ed['texte']['landing'][$key . '.antwort'] = $defaults[$key . '.antwort'];
+            $dirty = true;
+        }
+    }
+    if (!$dirty) { return; }
+    $backup = x25ed_dir() . '/.' . $slug . '-before-' . $revision . '.json';
+    if (!is_file($backup) && !copy($file, $backup)) { throw new RuntimeException('Editionssicherung fehlgeschlagen.'); }
+    @chmod($backup, 0640);
+    x25ed_save($ed);
+    if (file_put_contents($marker, gmdate('c'), LOCK_EX) === false) { throw new RuntimeException('FAQ-Aktualisierung nicht gespeichert.'); }
 }
 
 /** Nur die freigegebene Rollenbezeichnung in vorhandenen Texten korrigieren. */
