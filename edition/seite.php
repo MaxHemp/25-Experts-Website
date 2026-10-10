@@ -188,20 +188,24 @@ $gross = number_format(x25ed_preis($ed)*1.19, 2, ',', '.');
 $identity = x25ed_identity($slug);
 $statement = $e($identity[1]);
 $motif = x25ed_motif();
-$heroVideo = x25ed_hero_video();
+$heroVideo = x25ed_hero_video($ed);
+$tn = x25ed_weiblich($ed) ? 'Teilnehmerinnen' : 'Teilnehmer';
+$anmIntro = x25ed_weiblich($ed)
+    ? 'Diese Runde ist für Frauen, die in ihrem Haus Verantwortung tragen – fachlich oder als Führungskraft. Wir möchten erfahren, welche Frage Dich gerade beschäftigt. Ein Führungstitel ist keine Voraussetzung.'
+    : 'Du verantwortest dieses Thema fachlich oder führst ein Team? Wir möchten erfahren, welche Frage Dich gerade beschäftigt. Ein Führungstitel ist keine Voraussetzung.';
 $themeClass = 'nx-event nx-theme-' . preg_replace('/[^a-z-]/', '', $slug);
 $body = <<<HTML
     {$hinweis}
     <section class="nx-event-hero nx-hero--video" aria-labelledby="hero-title">{$heroVideo}<div class="x-container">
       <div class="nx-event-hero__top"><h1 id="hero-title">{$nameHtml}</h1><p>{$date}{$provisional}<br>Köln · Rheinauhafen</p></div>
       <div class="nx-event-hero__grid"><div><p class="nx-event-hero__statement">{$statement}</p><p class="x-lead">{$benefit}</p></div>{$motif}</div>
-      <div class="nx-event-hero__bottom"><p class="nx-event-hero__facts">SESSEL HUB · Kranhaus Nord<br>25 Teilnehmer · 1½ Tage mit Dinner<br>{$preisBetrag} netto · {$gross} € inkl. 19 % USt.</p><div><a class="nx-button" href="{$anm}">Jetzt anmelden <span aria-hidden="true">↗</span></a><p class="x-meta">Rückmeldung in zwei Werktagen. Noch keine Buchung.</p></div></div>
+      <div class="nx-event-hero__bottom"><p class="nx-event-hero__facts">SESSEL HUB · Kranhaus Nord<br>25 {$tn} · 1½ Tage mit Dinner<br>{$preisBetrag} netto · {$gross} € inkl. 19 % USt.</p><div><a class="nx-button" href="{$anm}">Jetzt anmelden <span aria-hidden="true">↗</span></a><p class="x-meta">Rückmeldung in zwei Werktagen. Noch keine Buchung.</p></div></div>
     </div></section>
     <nav class="ux-section-nav x-container" aria-label="Auf dieser Editionsseite"><a href="#leitfrage">Dein Thema</a><a href="#ablauf">Ablauf</a><a href="#impulse">Mitwirkende</a><a href="#preis">Leistungen &amp; Preis</a><a href="#anreise">Ort &amp; Anreise</a><a href="#faq">Fragen</a></nav>
 
     <section class="x-promise" aria-label="Persönliche Betreuung">
       <div class="x-container x-promise__grid">
-        <p><span>Das Event</span><strong>25 Teilnehmer</strong>Erfahrungen, die sich ergänzen. Höchstens zwei pro Unternehmen.</p>
+        <p><span>Das Event</span><strong>25 {$tn}</strong>Erfahrungen, die sich ergänzen. Höchstens zwei pro Unternehmen.</p>
         <p><span>Vor dem Treffen</span><strong>Deine Fragen vorbereitet</strong>Dossier mit Spannungsfeldern und Praxisfällen.</p>
         <p><span>In Köln</span><strong>Zeit für Begegnungen</strong>Begleitete Gespräche, Aperitif und Dinner.</p>
         
@@ -281,7 +285,7 @@ $body = <<<HTML
       </div>
     </section>
 
-    <section class="x-section x-section--wood" id="anmeldung" aria-labelledby="anm-h"><div class="x-container"><h2 class="x-h2" id="anm-h">Bring Deine Perspektive mit.</h2><p>Du verantwortest dieses Thema fachlich oder führst ein Team? Wir möchten erfahren, welche Frage Dich gerade beschäftigt. Ein Führungstitel ist keine Voraussetzung.</p><ol class="ux-stages ux-stages--three"><li><strong>Jetzt anmelden</strong><p>Kontaktdaten und ein bis drei Sätze zu Deinem Anliegen reichen.</p></li><li><strong>Persönliche Rückmeldung</strong><p>Innerhalb von zwei Werktagen. Wir achten auf Erfahrungen und Fragen, die sich ergänzen.</p></li><li><strong>Nach Zusage selbst entscheiden</strong><p>Erst Deine ausdrückliche verbindliche Buchung begründet die Zahlungspflicht.</p></li></ol><a class="x-btn x-btn--primary" href="{$anm}">Jetzt anmelden</a></div></section>
+    <section class="x-section x-section--wood" id="anmeldung" aria-labelledby="anm-h"><div class="x-container"><h2 class="x-h2" id="anm-h">Bring Deine Perspektive mit.</h2><p>{$anmIntro}</p><ol class="ux-stages ux-stages--three"><li><strong>Jetzt anmelden</strong><p>Kontaktdaten und ein bis drei Sätze zu Deinem Anliegen reichen.</p></li><li><strong>Persönliche Rückmeldung</strong><p>Innerhalb von zwei Werktagen. Wir achten auf Erfahrungen und Fragen, die sich ergänzen.</p></li><li><strong>Nach Zusage selbst entscheiden</strong><p>Erst Deine ausdrückliche verbindliche Buchung begründet die Zahlungspflicht.</p></li></ol><a class="x-btn x-btn--primary" href="{$anm}">Jetzt anmelden</a></div></section>
 
     <section class="x-section x-section--ink x-dark" id="kodex" aria-labelledby="kodex-h">
       {$kodex}
