@@ -32,7 +32,7 @@
 .nx-button:focus-visible{outline:3px solid currentColor;outline-offset:5px}
 .nx-event :is(h2,h3,.x-serif,.x-lead){overflow-wrap:anywhere;hyphens:auto}
 /* Header-Video Startseite (KI-generiertes Symbolbild, Dateien in assets/video/, Manifest tools/fotos.json) */
-.nx-hero--video{position:relative;isolation:isolate}.nx-hero--video>.x-container{position:relative;z-index:2}
+.nx-hero--video{position:relative;isolation:isolate;overflow:hidden}.nx-hero--video>.x-container{position:relative;z-index:2}
 .nx-hero__media{position:absolute;inset:0;z-index:0;background:var(--nx-ink) url(../video/hero-teilnehmer-v1-poster.webp) center/cover no-repeat;pointer-events:none}
 .nx-hero__video{display:block;width:100%;height:100%;object-fit:cover}
 .nx-hero__media::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,31,38,.94) 0%,rgba(11,31,38,.86) 40%,rgba(11,31,38,.64) 72%,rgba(11,31,38,.52) 100%),linear-gradient(0deg,rgba(11,31,38,.9) 0%,rgba(11,31,38,0) 40%)}
