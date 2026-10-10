@@ -10,6 +10,8 @@ ServerSignature Off
   AddType font/woff2 .woff2
   AddType image/svg+xml .svg
   AddType application/manifest+json .webmanifest
+  AddType video/mp4 .mp4
+  AddType video/webm .webm
 </IfModule>
 
 <IfModule mod_rewrite.c>
@@ -75,9 +77,11 @@ ErrorDocument 404 /404.html
   ExpiresByType image/svg+xml "access plus 1 year"
   ExpiresByType image/x-icon "access plus 1 year"
   ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 1 year"
+  ExpiresByType video/webm "access plus 1 year"
 </IfModule>
 <IfModule mod_headers.c>
-  <FilesMatch "\.(jpe?g|png|webp|svg|ico|woff2)$">
+  <FilesMatch "\.(jpe?g|png|webp|svg|ico|woff2|mp4|webm)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
   <FilesMatch "\.(css|js)$">
