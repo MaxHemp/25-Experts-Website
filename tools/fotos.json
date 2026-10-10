@@ -134,5 +134,74 @@
    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/6848d869-c523-4986-a5fc-46bcee8df340.jpg",
    "original_png_2k": "https://d8j0ntlcm91z4.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/hf_20260817_120216_a58c0d9c-51e0-4970-8ab2-68f24a027722.png"
   }
+ ],
+ "videos_hinweis": "KI-generiertes Header-Video (Higgsfield / Seedance 2.5, Ausgangsbild Lounge SESSEL HUB). Keine realen Personen, auf der Seite als KI-generiertes Symbolbild gekennzeichnet. Dateinamen sind versioniert (v1), weil sie per .htaccess ein Jahr gecacht werden: neue Fassung = neue Versionsnummer.",
+ "videos": [
+  {
+   "key": "hero-teilnehmer-1080-mp4",
+   "file": "hero-teilnehmer-v1-1080.mp4",
+   "dir": "assets/video",
+   "w": 1920,
+   "h": 1080,
+   "motiv": "Ca. zehn junge Executives in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), langsame Kamerafahrt, nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Startseite (nx-hero)",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/f03aa0c8-42ec-467a-9472-737e3434f1ed.mp4",
+   "md5": "91fc07467f4a3e7a23055ef169548f12"
+  },
+  {
+   "key": "hero-teilnehmer-720-mp4",
+   "file": "hero-teilnehmer-v1-720.mp4",
+   "dir": "assets/video",
+   "w": 1280,
+   "h": 720,
+   "motiv": "Ca. zehn junge Executives in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), langsame Kamerafahrt, nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Startseite (nx-hero)",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/929a0fab-cf42-40c5-b2e2-92807f72d83e.mp4",
+   "md5": "14c01afaa3fc1175bb7e5e95b0eb5027"
+  },
+  {
+   "key": "hero-teilnehmer-1080-webm",
+   "file": "hero-teilnehmer-v1-1080.webm",
+   "dir": "assets/video",
+   "w": 1920,
+   "h": 1080,
+   "motiv": "Ca. zehn junge Executives in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), langsame Kamerafahrt, nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Startseite (nx-hero)",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/5cf99ac7-647a-485d-809a-4af367b59049.mp4",
+   "md5": "ec7b94b198fb8665844af3ec35b3efba"
+  },
+  {
+   "key": "hero-teilnehmer-720-webm",
+   "file": "hero-teilnehmer-v1-720.webm",
+   "dir": "assets/video",
+   "w": 1280,
+   "h": 720,
+   "motiv": "Ca. zehn junge Executives in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), langsame Kamerafahrt, nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Startseite (nx-hero)",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/743b3de7-5f36-4973-8aa1-b40aacdc7941.mp4",
+   "md5": "6b2acd0d0bad44fb3e0b0099601f65db"
+  },
+  {
+   "key": "hero-teilnehmer-poster-jpg",
+   "file": "hero-teilnehmer-v1-poster.jpg",
+   "dir": "assets/video",
+   "w": 1920,
+   "h": 1080,
+   "motiv": "Ca. zehn junge Executives in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), langsame Kamerafahrt, nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Startseite (nx-hero)",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/2b092d41-9309-44a0-9942-5cb14bd08f25.jpg",
+   "md5": "018f559fe70eee2cac038e206b96cd1d"
+  },
+  {
+   "key": "hero-teilnehmer-poster-webp",
+   "file": "hero-teilnehmer-v1-poster.webp",
+   "dir": "assets/video",
+   "w": 1920,
+   "h": 1080,
+   "motiv": "Ca. zehn junge Executives in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), langsame Kamerafahrt, nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Startseite (nx-hero)",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/7409e266-8e58-4804-bb7e-308ddf958c14.webp",
+   "md5": "0fe0b44c8b88000df4a21ab5ce85514b"
+  }
  ]
 }

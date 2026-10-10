@@ -133,6 +133,34 @@
     });
   }
 
+  /* ---------- Header-Video Startseite: Anhalten-Knopf, Pause außerhalb des Sichtbereichs, Reduced Motion ---------- */
+  var heroVideo = document.querySelector('.nx-hero__video');
+  if (heroVideo) {
+    var heroToggle = document.querySelector('.nx-hero__toggle');
+    var heroStopped = reduced;   // vom Nutzer angehalten oder Bewegung reduziert
+    var setHero = function (stopped) {
+      heroStopped = stopped;
+      if (stopped) { heroVideo.pause(); } else { var p = heroVideo.play(); if (p && p.catch) { p.catch(function () {}); } }
+      if (heroToggle) {
+        heroToggle.setAttribute('aria-pressed', stopped ? 'true' : 'false');
+        heroToggle.textContent = stopped ? 'Video abspielen' : 'Video anhalten';
+      }
+    };
+    if (reduced) {
+      heroVideo.removeAttribute('autoplay');
+      heroVideo.pause();
+    } else if (heroToggle) {
+      heroToggle.hidden = false;
+      heroToggle.addEventListener('click', function () { setHero(!heroStopped); });
+    }
+    if (!reduced && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        if (heroStopped) { return; }
+        if (entries[0].isIntersecting) { var p = heroVideo.play(); if (p && p.catch) { p.catch(function () {}); } } else { heroVideo.pause(); }
+      }).observe(heroVideo);
+    }
+  }
+
   /* ---------- Formular ---------- */
   var form = document.querySelector('form[data-endpoint]:not([data-wizard])');   // die Anmeldeseite (Wizard) übernimmt assets/js/anmeldung.js
   if (!form) { return; }

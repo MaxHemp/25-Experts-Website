@@ -31,3 +31,12 @@
 .nx-event-hero h1 .x-fn{color:inherit}
 .nx-button:focus-visible{outline:3px solid currentColor;outline-offset:5px}
 .nx-event :is(h2,h3,.x-serif,.x-lead){overflow-wrap:anywhere;hyphens:auto}
+/* Header-Video Startseite (KI-generiertes Symbolbild, Dateien in assets/video/, Manifest tools/fotos.json) */
+.nx-hero--video{position:relative;isolation:isolate}.nx-hero--video>.x-container{position:relative;z-index:2}
+.nx-hero__media{position:absolute;inset:0;z-index:0;background:var(--nx-ink) url(../video/hero-teilnehmer-v1-poster.webp) center/cover no-repeat;pointer-events:none}
+.nx-hero__video{display:block;width:100%;height:100%;object-fit:cover}
+.nx-hero__media::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,31,38,.94) 0%,rgba(11,31,38,.86) 40%,rgba(11,31,38,.64) 72%,rgba(11,31,38,.52) 100%),linear-gradient(0deg,rgba(11,31,38,.9) 0%,rgba(11,31,38,0) 40%)}
+.nx-hero__meta{position:absolute;right:20px;bottom:12px;z-index:3;display:flex;align-items:center;gap:14px;font:10px/1.4 var(--x-font-mono);letter-spacing:.06em;text-transform:uppercase;color:rgba(251,250,246,.62)}
+.nx-hero__toggle{font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;background:transparent;border:1px solid rgba(251,250,246,.35);padding:5px 9px;min-height:28px;cursor:pointer}.nx-hero__toggle:hover{color:var(--nx-paper);border-color:var(--nx-paper)}.nx-hero__toggle:focus-visible{outline:2px solid var(--nx-orange);outline-offset:3px}
+@media(max-width:700px){.nx-hero--video{padding-bottom:52px}.nx-hero__media::after{background:linear-gradient(180deg,rgba(11,31,38,.7) 0%,rgba(11,31,38,.84) 45%,rgba(11,31,38,.95) 100%)}.nx-hero__meta{left:20px;right:20px;justify-content:space-between;font-size:9px}}
+@media(prefers-reduced-motion:reduce){.nx-hero__video{display:none}.nx-hero__toggle{display:none}}

@@ -1,4 +1,4 @@
-# Lädt die Symbolbilder (tools/fotos.json) vom CDN nach assets/img/fotos/ und committet sie ins Repo.
+# Lädt die Symbolbilder und das Header-Video (tools/fotos.json) vom CDN nach assets/img/fotos/ bzw. assets/video/ und committet sie ins Repo.
 # Läuft automatisch bei jedem Push auf main (überspringt den Download, wenn alle Fotos schon da sind)
 # und manuell über Actions → „Fotos ins Repo laden" → Run workflow.
 # Danach löst der Commit den Hostinger-Deploy-Webhook aus (Auto-Deploy).
@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths-ignore:
       - "assets/img/fotos/**"
+      - "assets/video/**"
   workflow_dispatch:
     inputs:
       force:
@@ -44,10 +45,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/img/fotos
+          git add assets/img/fotos assets/video
           if git diff --cached --quiet; then
             echo "Keine neuen Fotos, nichts zu committen."
           else
-            git commit -m "Fotos: Symbolbilder aus tools/fotos.json nachgeladen"
+            git commit -m "Fotos/Video: Medien aus tools/fotos.json nachgeladen"
             git push
           fi
