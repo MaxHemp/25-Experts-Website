@@ -20,9 +20,10 @@ function x25ed_motif(): string
 }
 /** Header-Video (KI-generiertes Symbolbild, Dateien in assets/video/, Manifest tools/fotos.json).
  *  Gleiches Markup wie auf der Startseite (index.html); Styles in identity.css (.nx-hero--video …), Steuerung in site.js. */
-function x25ed_hero_video(): string
+function x25ed_hero_video(?array $ed = null): string
 {
-    $v = '/assets/video/hero-teilnehmer-v1-';
+    // Female-Edition: eigene Fassung nur mit Frauen
+    $v = x25ed_weiblich($ed) ? '/assets/video/hero-female-v1-' : '/assets/video/hero-teilnehmer-v1-';
     return '<div class="nx-hero__media" aria-hidden="true">'
         . '<video class="nx-hero__video" autoplay muted loop playsinline preload="auto" disablepictureinpicture disableremoteplayback tabindex="-1">'
         . '<source src="' . $v . 'mobil.webm" type="video/webm" media="(max-width: 700px)">'
