@@ -135,7 +135,7 @@
    "original_png_2k": "https://d8j0ntlcm91z4.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/hf_20260817_120216_a58c0d9c-51e0-4970-8ab2-68f24a027722.png"
   }
  ],
- "videos_hinweis": "KI-generiertes Header-Video (Higgsfield / Seedance 2.5, Ausgangsbild Lounge SESSEL HUB). Keine realen Personen, auf der Seite als KI-generiertes Symbolbild gekennzeichnet. Dateinamen sind versioniert (v1), weil sie per .htaccess ein Jahr gecacht werden: neue Fassung = neue Versionsnummer.",
+ "videos_hinweis": "KI-generiertes Header-Video (Higgsfield / Seedance 2.5, Ausgangsbild Lounge SESSEL HUB). Keine realen Personen, auf der Seite als KI-generiertes Symbolbild gekennzeichnet. Dateinamen sind versioniert (v1), weil sie per .htaccess ein Jahr gecacht werden: neue Fassung = neue Versionsnummer. Die Hochformat-Fassung für Handys (hero-teilnehmer-v1-mobil.mp4/.webm, -mobil-poster.webp; 608x1080, Ausschnitt x=150 aus der 1080er-Fassung) liegt direkt im Repo unter assets/video/ und wird nicht vom CDN geladen.",
  "videos": [
   {
    "key": "hero-teilnehmer-1080-mp4",
