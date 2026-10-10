@@ -135,6 +135,12 @@
 
   /* ---------- Header-Video Startseite: Anhalten-Knopf, Pause außerhalb des Sichtbereichs, Reduced Motion ---------- */
   var heroVideo = document.querySelector('.nx-hero__video');
+  // Datensparmodus oder langsames Netz (v. a. mobil): kein Video laden, das Standbild (CSS-Hintergrund) bleibt
+  var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  if (heroVideo && conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || ''))) {
+    heroVideo.parentNode.removeChild(heroVideo);
+    heroVideo = null;
+  }
   if (heroVideo) {
     var heroToggle = document.querySelector('.nx-hero__toggle');
     var heroStopped = reduced;   // vom Nutzer angehalten oder Bewegung reduziert
@@ -152,6 +158,9 @@
     } else if (heroToggle) {
       heroToggle.hidden = false;
       heroToggle.addEventListener('click', function () { setHero(!heroStopped); });
+      // Autoplay blockiert (z. B. iOS-Stromsparmodus): Knopf zeigt „Video abspielen“, Tippen startet es
+      var p0 = heroVideo.play();
+      if (p0 && p0.catch) { p0.catch(function () { setHero(true); }); }
     }
     if (!reduced && 'IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {
