@@ -182,15 +182,17 @@ $benefits = [
 ];
 $benefit = $e($benefits[$slug] ?? strip_tags($t('kern')));
 $date = $e((string)$ed['datum_text']);
-$provisional = !empty($ed['termin_vorlaeufig']) ? ' · Termin vorläufig' : '';
+// Hinweis nur ergänzen, wenn das Datum ihn nicht schon trägt (datum_text aus der Verwaltung enthält oft „(vorläufig)“)
+$provisional = (!empty($ed['termin_vorlaeufig']) && mb_stripos((string)$ed['datum_text'], 'vorläufig') === false) ? ' · Termin vorläufig' : '';
 $gross = number_format(x25ed_preis($ed)*1.19, 2, ',', '.');
 $identity = x25ed_identity($slug);
 $statement = $e($identity[1]);
 $motif = x25ed_motif();
+$heroVideo = x25ed_hero_video();
 $themeClass = 'nx-event nx-theme-' . preg_replace('/[^a-z-]/', '', $slug);
 $body = <<<HTML
     {$hinweis}
-    <section class="nx-event-hero" aria-labelledby="hero-title"><div class="x-container">
+    <section class="nx-event-hero nx-hero--video" aria-labelledby="hero-title">{$heroVideo}<div class="x-container">
       <div class="nx-event-hero__top"><h1 id="hero-title">{$nameHtml}</h1><p>{$date}{$provisional}<br>Köln · Rheinauhafen</p></div>
       <div class="nx-event-hero__grid"><div><p class="nx-event-hero__statement">{$statement}</p><p class="x-lead">{$benefit}</p></div>{$motif}</div>
       <div class="nx-event-hero__bottom"><p class="nx-event-hero__facts">SESSEL HUB · Kranhaus Nord<br>25 Teilnehmer · 1½ Tage mit Dinner<br>{$preisBetrag} netto · {$gross} € inkl. 19 % USt.</p><div><a class="nx-button" href="{$anm}">Jetzt anmelden <span aria-hidden="true">↗</span></a><p class="x-meta">Rückmeldung in zwei Werktagen. Noch keine Buchung.</p></div></div>

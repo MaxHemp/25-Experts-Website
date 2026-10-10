@@ -33,7 +33,7 @@ function x25ed_shell(array $o): string
     $robots = !empty($o['noindex']) ? '  <meta name="robots" content="noindex, nofollow">' . "\n" : '';
     $landingFooter = $ed && ($ed['status'] ?? '') === 'online' ? x25ed_url($ed) : '/editionen';
     $mail = $g('kontakt.mail');
-    $imageNote = (str_contains((string)($o['body'] ?? ''), '/atmosphaere/') || str_contains((string)($o['body'] ?? ''), '/editionen/female-'))
+    $imageNote = (str_contains((string)($o['body'] ?? ''), '/atmosphaere/') || str_contains((string)($o['body'] ?? ''), '/editionen/female-') || str_contains((string)($o['body'] ?? ''), '/assets/video/hero-'))
         ? '<p class="ux-image-credit">Bildnachweis: Die Gesprächs- und Atmosphärenmotive sind KI-generierte Symbolbilder. Sie zeigen keine tatsächlichen Veranstaltungen oder Locations. Gastgeber- und Moderatorenporträts sind echte Fotos.</p>' : '';
     $css1 = x25ed_asset('css/tokens.css'); $css2 = x25ed_asset('css/components.css'); $css3 = x25ed_asset('css/site.css');
     $css4 = x25ed_asset('css/identity.css');

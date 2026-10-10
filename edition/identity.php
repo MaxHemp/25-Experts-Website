@@ -18,3 +18,17 @@ function x25ed_motif(): string
 {
     return '<div class="nx-perspectives" aria-hidden="true">' . str_repeat('<i></i>', 25) . '</div>';
 }
+/** Header-Video (KI-generiertes Symbolbild, Dateien in assets/video/, Manifest tools/fotos.json).
+ *  Gleiches Markup wie auf der Startseite (index.html); Styles in identity.css (.nx-hero--video …), Steuerung in site.js. */
+function x25ed_hero_video(): string
+{
+    $v = '/assets/video/hero-teilnehmer-v1-';
+    return '<div class="nx-hero__media" aria-hidden="true">'
+        . '<video class="nx-hero__video" autoplay muted loop playsinline preload="auto" poster="' . $v . 'poster.webp" disablepictureinpicture disableremoteplayback tabindex="-1">'
+        . '<source src="' . $v . '720.webm" type="video/webm" media="(max-width: 900px)">'
+        . '<source src="' . $v . '720.mp4" type="video/mp4" media="(max-width: 900px)">'
+        . '<source src="' . $v . '1080.webm" type="video/webm">'
+        . '<source src="' . $v . '1080.mp4" type="video/mp4">'
+        . '</video></div>'
+        . '<div class="nx-hero__meta"><span class="nx-hero__credit">KI-generiertes Symbolbild</span><button class="nx-hero__toggle" type="button" aria-pressed="false" hidden>Video anhalten</button></div>';
+}
