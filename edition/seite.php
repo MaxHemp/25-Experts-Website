@@ -182,7 +182,8 @@ $benefits = [
 ];
 $benefit = $e($benefits[$slug] ?? strip_tags($t('kern')));
 $date = $e((string)$ed['datum_text']);
-$provisional = !empty($ed['termin_vorlaeufig']) ? ' · Termin vorläufig' : '';
+// Hinweis nur ergänzen, wenn das Datum ihn nicht schon trägt (datum_text aus der Verwaltung enthält oft „(vorläufig)“)
+$provisional = (!empty($ed['termin_vorlaeufig']) && mb_stripos((string)$ed['datum_text'], 'vorläufig') === false) ? ' · Termin vorläufig' : '';
 $gross = number_format(x25ed_preis($ed)*1.19, 2, ',', '.');
 $identity = x25ed_identity($slug);
 $statement = $e($identity[1]);
