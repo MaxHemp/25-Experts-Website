@@ -1,0 +1,18 @@
+{
+ "_hinweis": "Weibliche Ansprache für Editionen nur für Frauen (Slug 'female' oder Editionsfeld \"ansprache\": \"weiblich\"). Wird beim Ausgeben auf alle Editionstexte angewendet, in der Reihenfolge der Liste; gespeicherte Texte in der Verwaltung bleiben unverändert. 'Der 26. Experte' ist ein Formatname und bleibt bewusst männlich.",
+ "ersetzen": [
+  ["Einer von 25", "Eine von 25"],
+  ["Dienstleister und Berater fragen einen Platz als Experte oder Impulsgeber", "Dienstleisterinnen und Beraterinnen fragen einen Platz als Expertin oder Impulsgeberin"],
+  ["Ich bin Dienstleister oder Berater.", "Ich bin Dienstleisterin oder Beraterin."],
+  ["Dienstleister und Berater", "Dienstleisterinnen und Beraterinnen"],
+  ["Gastgeber, Moderator und Impulsgeber", "Gastgeber, Moderator und Impulsgebende"],
+  ["Gespräch mit einem Vorstand", "Gespräch mit einer Vorständin"],
+  ["je Teilnehmer", "je Teilnehmerin"],
+  ["bucht jeder selbst", "bucht jede selbst"],
+  ["wichtigen Gesprächspartnern", "wichtigen Gesprächspartnerinnen und -partnern"]
+ ],
+ "regex": [
+  ["/Teilnehmern(?![a-zäöüß])/u", "Teilnehmerinnen"],
+  ["/Teilnehmer(?![a-zäöüß])/u", "Teilnehmerinnen"]
+ ]
+}

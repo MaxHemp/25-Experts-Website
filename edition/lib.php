@@ -700,7 +700,7 @@ function x25ed_txt(?array $ed, string $bereich, string $key, ?string $fallback =
         'bestaetigung.hinweis' => 'Kostenfreie Anfrage. Persönliche Rückmeldung innerhalb von zwei Werktagen. Noch keine verbindliche Buchung.',
         'preis.meta' => 'Erst nach Zusage entscheidest Du über die verbindliche Buchung. Die Anfrage ist kostenfrei.',
     ];
-    if (isset($ux[$key])) { return $ux[$key]; }
+    if (isset($ux[$key])) { return x25ed_ansprache($ed, $ux[$key]); }
     $t = x25ed_texte();
     $raw = $ed['texte'][$bereich][$key]
         ?? $t[$bereich . '_default'][$key]
@@ -708,7 +708,27 @@ function x25ed_txt(?array $ed, string $bereich, string $key, ?string $fallback =
         ?? $t['gemeinsam'][$key]
         ?? $fallback;
     if ($raw === null) { return ''; }
-    return x25ed_render((string)$raw, x25ed_vars($ed));
+    return x25ed_ansprache($ed, x25ed_render((string)$raw, x25ed_vars($ed)));
+}
+
+/** Edition nur für Frauen? (Slug 'female' oder Editionsfeld "ansprache": "weiblich") */
+function x25ed_weiblich(?array $ed): bool
+{
+    return is_array($ed) && (($ed['ansprache'] ?? '') === 'weiblich' || ($ed['slug'] ?? '') === 'female');
+}
+
+/** Weibliche Ansprache beim Ausgeben (Liste in edition/ansprache-weiblich.json); sonst Text unverändert. */
+function x25ed_ansprache(?array $ed, string $text): string
+{
+    if (!x25ed_weiblich($ed) || $text === '') { return $text; }
+    static $regeln = null;
+    if ($regeln === null) {
+        $regeln = json_decode((string)@file_get_contents(X25ED_DIR . '/ansprache-weiblich.json'), true);
+        if (!is_array($regeln)) { $regeln = []; }
+    }
+    foreach ((array)($regeln['ersetzen'] ?? []) as [$alt, $neu]) { $text = str_replace($alt, $neu, $text); }
+    foreach ((array)($regeln['regex'] ?? []) as [$muster, $neu]) { $text = (string)preg_replace($muster, $neu, $text); }
+    return $text;
 }
 
 /** Gemeinsamer Text (Seitenhülle, Bausteine). */

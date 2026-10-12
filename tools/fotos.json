@@ -202,6 +202,105 @@
    "einsatz": "Header-Video Startseite (nx-hero)",
    "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/7409e266-8e58-4804-bb7e-308ddf958c14.webp",
    "md5": "0fe0b44c8b88000df4a21ab5ce85514b"
+  },
+  {
+   "key": "hero-female-1080-mp4",
+   "file": "hero-female-v1-1080.mp4",
+   "dir": "assets/video",
+   "w": 1920,
+   "h": 1080,
+   "motiv": "Female-Edition: ca. zehn Frauen in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Editionsseite 25 FEMALE EXPERTS",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/4ae738d5-1519-405d-aa1b-b91a7fca7584.mp4",
+   "md5": "d517b198d29b011147d48fd52e2b1cfc"
+  },
+  {
+   "key": "hero-female-720-mp4",
+   "file": "hero-female-v1-720.mp4",
+   "dir": "assets/video",
+   "w": 1280,
+   "h": 720,
+   "motiv": "Female-Edition: ca. zehn Frauen in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Editionsseite 25 FEMALE EXPERTS",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/e90d97f3-81d6-4b01-999c-8d946eeac447.mp4",
+   "md5": "041b6d312cd03efc5f1fb8ab9f3672d0"
+  },
+  {
+   "key": "hero-female-mobil-mp4",
+   "file": "hero-female-v1-mobil.mp4",
+   "dir": "assets/video",
+   "w": 608,
+   "h": 1080,
+   "motiv": "Female-Edition: ca. zehn Frauen in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Editionsseite 25 FEMALE EXPERTS",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/14237cdd-3028-4d88-8f25-460fd25c3a76.mp4",
+   "md5": "8009b749f159202626f25201aca9ac8b"
+  },
+  {
+   "key": "hero-female-1080-webm",
+   "file": "hero-female-v1-1080.webm",
+   "dir": "assets/video",
+   "w": 1920,
+   "h": 1080,
+   "motiv": "Female-Edition: ca. zehn Frauen in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Editionsseite 25 FEMALE EXPERTS",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/f62b5fb1-3e6b-4c00-96dc-566608cfd10f.mp4",
+   "md5": "3a65eee20484fdf5d69e41b2612c3948"
+  },
+  {
+   "key": "hero-female-720-webm",
+   "file": "hero-female-v1-720.webm",
+   "dir": "assets/video",
+   "w": 1280,
+   "h": 720,
+   "motiv": "Female-Edition: ca. zehn Frauen in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Editionsseite 25 FEMALE EXPERTS",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/f67419dc-a78f-4732-b203-c19abad381d5.mp4",
+   "md5": "69ee7978bedd55ce77adcd09167ef157"
+  },
+  {
+   "key": "hero-female-mobil-webm",
+   "file": "hero-female-v1-mobil.webm",
+   "dir": "assets/video",
+   "w": 608,
+   "h": 1080,
+   "motiv": "Female-Edition: ca. zehn Frauen in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Editionsseite 25 FEMALE EXPERTS",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/a26c36b4-444c-40bf-ac61-42f9665a2f20.mp4",
+   "md5": "405efb9792c946bde6f62a048326e572"
+  },
+  {
+   "key": "hero-female-poster-jpg",
+   "file": "hero-female-v1-poster.jpg",
+   "dir": "assets/video",
+   "w": 1920,
+   "h": 1080,
+   "motiv": "Female-Edition: ca. zehn Frauen in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Editionsseite 25 FEMALE EXPERTS",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/5204b964-2f3e-4076-8868-2200f889a5e5.jpg",
+   "md5": "6c6fa3c0cb4ce58cf700a5f6c5ef0eb8"
+  },
+  {
+   "key": "hero-female-poster-webp",
+   "file": "hero-female-v1-poster.webp",
+   "dir": "assets/video",
+   "w": 1920,
+   "h": 1080,
+   "motiv": "Female-Edition: ca. zehn Frauen in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Editionsseite 25 FEMALE EXPERTS",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/f39d1feb-fc99-4f7d-ae5b-28c1b48f1ad6.webp",
+   "md5": "4e86cdd41fbf60f9754f6acc7cf07cc5"
+  },
+  {
+   "key": "hero-female-mobil-poster-webp",
+   "file": "hero-female-v1-mobil-poster.webp",
+   "dir": "assets/video",
+   "w": 608,
+   "h": 1080,
+   "motiv": "Female-Edition: ca. zehn Frauen in Business Casual im Gespräch, Lounge SESSEL HUB (orangener Sessel), nahtlose Schleife 6,6 s, ohne Ton",
+   "einsatz": "Header-Video Editionsseite 25 FEMALE EXPERTS",
+   "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3GK5fibZJUNs4KnXvEQ87FA3v46/11dc9adc-ddf3-4490-8f5e-c8099f792795.webp",
+   "md5": "0b9be522516eb23d3c899942c55797cc"
   }
  ]
 }
