@@ -174,7 +174,7 @@ $hinweis = $vorschau ? '<div class="x-notice" role="note" style="margin:0"><p cl
 $benefits = [
  'change-management'=>'Veränderung gestalten, Menschen mitnehmen und aus den Erfahrungen anderer lernen.',
  'security'=>'Sicherheit wirksam verankern – zwischen Verantwortung, Fachbereich und Technologie.',
- 'vertrieb'=>'Vertrieb weiterentwickeln: Kundennähe, Zusammenarbeit und Wirkung gemeinsam durchdenken.',
+ 'vertrieb'=>'Vertriebsfachlichkeit und Technologie zusammenbringen: KI dort einsetzen, wo sie Beratung, Vermittler und Geschäft spürbar stärkt.',
  'female'=>'Erfahrungen teilen, Sichtbarkeit stärken und den eigenen Weg in der Versicherungsbranche gestalten.',
  'operations'=>'Fachbereich und IT verbinden: Übergaben klären, Prozesse verbessern und gemeinsam ins Handeln kommen.',
  'data'=>'Aus Daten tragfähige Entscheidungen machen – mit klarer Verantwortung und praktischer Wirkung.',

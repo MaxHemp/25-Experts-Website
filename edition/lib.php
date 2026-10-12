@@ -97,6 +97,45 @@ function x25ed_seed(): void
     x25ed_roles_migration();
     x25ed_speaker_migration();
     x25ed_faq_migration();
+    x25ed_patch_migration('vertrieb-ki.json');
+}
+
+/** Einmaliger Text-Patch aus edition/<datei> ({revision, slug, felder: {pfad: {alt, neu}}}).
+ *  Pfade: 'kurz', 'vars.x', 'karte.x', 'texte.<bereich>.<key>'. Ersetzt nur Felder, die noch den alten
+ *  Wortlaut haben; spätere Änderungen aus der Verwaltung bleiben erhalten. Sicherung + Marker wie üblich. */
+function x25ed_patch_migration(string $datei): void
+{
+    $quelle = X25ED_DIR . '/' . $datei;
+    if (!is_file($quelle)) { return; }
+    $patch = json_decode((string)file_get_contents($quelle), true);
+    if (!is_array($patch) || empty($patch['revision']) || !x25ed_slug_ok((string)($patch['slug'] ?? ''))) { return; }
+    $slug = (string)$patch['slug']; $revision = (string)$patch['revision'];
+    $file = x25ed_dir() . '/' . $slug . '.json';
+    $marker = x25ed_dir() . '/.migration-' . $revision . '-' . $slug;
+    if (is_file($marker) || !is_file($file)) { return; }
+    $ed = json_decode((string)file_get_contents($file), true);
+    if (!is_array($ed)) { throw new RuntimeException('Edition nicht lesbar.'); }
+    $dirty = false;
+    foreach ((array)($patch['felder'] ?? []) as $pfad => $f) {
+        if (str_starts_with($pfad, 'texte.')) {
+            [, $bereich, $key] = explode('.', $pfad, 3);
+            $ist = $ed['texte'][$bereich][$key] ?? x25ed_raw($ed, $bereich, $key);
+            if ($ist === $f['alt']) { $ed['texte'][$bereich][$key] = $f['neu']; $dirty = true; }
+            continue;
+        }
+        $teile = explode('.', $pfad, 2);
+        $ist = count($teile) === 1 ? ($ed[$teile[0]] ?? null) : ($ed[$teile[0]][$teile[1]] ?? null);
+        if ($ist !== $f['alt']) { continue; }
+        if (count($teile) === 1) { $ed[$teile[0]] = $f['neu']; } else { $ed[$teile[0]][$teile[1]] = $f['neu']; }
+        $dirty = true;
+    }
+    if ($dirty) {
+        $backup = x25ed_dir() . '/.' . $slug . '-before-' . $revision . '.json';
+        if (!is_file($backup) && !copy($file, $backup)) { throw new RuntimeException('Editionssicherung fehlgeschlagen.'); }
+        @chmod($backup, 0640);
+        x25ed_save($ed);
+    }
+    if (file_put_contents($marker, gmdate('c'), LOCK_EX) === false) { throw new RuntimeException('Textaktualisierung nicht gespeichert.'); }
 }
 
 /** Repair only the verified Change Management FAQ mismatches, preserving CMS edits. */
