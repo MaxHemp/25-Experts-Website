@@ -48,7 +48,10 @@ if (!$vorschau) {
             '@type' => 'Place', 'name' => (string)($venueLd['name'] ?? $ed['venue'] ?? ''),
             'address' => ['@type' => 'PostalAddress', 'streetAddress' => (string)($venueLd['strasse'] ?? ''), 'postalCode' => (string)($venueLd['plz'] ?? ''), 'addressLocality' => (string)($venueLd['stadt'] ?? $ed['ort'] ?? ''), 'addressCountry' => 'DE'],
         ],
-        'organizer' => ['@type' => 'Organization', 'name' => '25 EXPERTS UG (haftungsbeschränkt)', 'url' => $domain],
+        'organizer' => ['@type' => 'Organization', '@id' => 'https://25-experts.de/#organisation', 'name' => '25 EXPERTS', 'url' => $domain],
+        'image' => [rtrim($domain, '/') . x25ed_url($ed) . 'og.jpg', $domain . 'assets/img/og/25experts-og.jpg'],
+        'audience' => ['@type' => 'BusinessAudience', 'audienceType' => strip_tags((string)(x25ed_vars($ed)['zielgruppe'] ?? 'Fach- und Führungskräfte aus Versicherern, Maklerpools und Versicherungsvertrieben'))],
+        'isAccessibleForFree' => false,
         'offers' => [
             '@type' => 'Offer', 'name' => strip_tags($t('eventld.angebot.name')),
             'price' => (string)x25ed_preis($ed), 'priceCurrency' => 'EUR',

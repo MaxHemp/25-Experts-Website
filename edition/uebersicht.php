@@ -87,10 +87,20 @@ $body = <<<HTML
     </section>
 HTML;
 
+// Strukturierte Daten: Liste der Online-Editionen
+$ldListe = [];
+foreach (array_values(array_filter(x25ed_all(), static fn(array $x): bool => ($x['status'] ?? '') === 'online')) as $i => $x) {
+    $ldListe[] = ['@type' => 'ListItem', 'position' => $i + 1, 'name' => (string)$x['name'], 'url' => x25ed_abs_url($x)];
+}
+
 x25ed_out(x25ed_shell([
     'title' => $w('meta.titel'),
     'description' => strip_tags($w('meta.beschreibung')),
     'body' => $body,
     'canonical' => $canon,
     'current' => '/editionen',
+    'ld' => [[
+        '@type' => 'ItemList', '@id' => $canon . '#editionen', 'name' => 'Editionen von 25 EXPERTS',
+        'itemListElement' => $ldListe,
+    ]],
 ]));
