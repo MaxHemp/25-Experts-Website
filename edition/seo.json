@@ -1,0 +1,24 @@
+{
+ "_hinweis": "Stammdaten für strukturierte Daten (schema.org/JSON-LD), llms.txt und Sitemap. Genutzt von edition/shell.php, edition/llms.php und tools/seo_static.py (statische Seiten). Nach Änderungen: python3 tools/seo_static.py ausführen.",
+ "organisation": {
+  "@type": "Organization",
+  "@id": "https://25-experts.de/#organisation",
+  "name": "25 EXPERTS",
+  "legalName": "25 EXPERTS UG (haftungsbeschränkt)",
+  "url": "https://25-experts.de/",
+  "logo": {"@type": "ImageObject", "url": "https://25-experts.de/assets/img/25experts-logo-horizontal.png"},
+  "image": "https://25-experts.de/assets/img/og/25experts-og.jpg",
+  "slogan": "Einer von 25.",
+  "description": "25 EXPERTS ist ein Expertentreffen für die Versicherungsbranche: kuratierte Editionen mit je 25 Fach- und Führungskräften aus Versicherern, Maklerpools und Versicherungsvertrieben, anderthalb Tage im Kölner Rheinauhafen, zu Themen wie Change Management, KI im Vertrieb, Informationssicherheit, Operations, Daten und Nachhaltigkeit.",
+  "email": "info@25-experts.de",
+  "address": {"@type": "PostalAddress", "streetAddress": "Moitzfeld 17", "postalCode": "51429", "addressLocality": "Bergisch Gladbach", "addressCountry": "DE"},
+  "knowsAbout": ["Versicherungsbranche", "Künstliche Intelligenz in der Versicherung", "Change Management", "Versicherungsvertrieb", "Informationssicherheit", "Operations", "Daten und Analytics", "Nachhaltigkeit in der Versicherung", "Führung"],
+  "founder": {"@id": "https://25-experts.de/ueber-uns#maximilian-hempel"},
+  "sameAs": ["https://www.linkedin.com/company/141373969/"]
+ },
+ "personen": [
+  {"@type": "Person", "@id": "https://25-experts.de/ueber-uns#maximilian-hempel", "name": "Maximilian Hempel", "jobTitle": "Gastgeber und Geschäftsführer", "description": "Gastgeber und Geschäftsführer von 25 EXPERTS; Herausgeber des VersicherungsTech Magazins.", "image": "https://25-experts.de/assets/img/max-hempel-960.webp", "worksFor": {"@id": "https://25-experts.de/#organisation"}, "sameAs": ["https://www.linkedin.com/in/maximilianhempel/"]},
+  {"@type": "Person", "@id": "https://25-experts.de/ueber-uns#simon-moser", "name": "Simon Moser", "jobTitle": "Moderator", "description": "Moderator von 25 EXPERTS mit Erfahrung mit KI in der Versicherungsbranche.", "image": "https://25-experts.de/assets/img/simon-moser-20260929-960.webp", "sameAs": ["https://www.linkedin.com/in/moser-simon/"]}
+ ],
+ "website": {"@type": "WebSite", "@id": "https://25-experts.de/#website", "url": "https://25-experts.de/", "name": "25 EXPERTS", "inLanguage": "de-DE", "publisher": {"@id": "https://25-experts.de/#organisation"}}
+}

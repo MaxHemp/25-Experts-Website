@@ -43,6 +43,8 @@ ServerSignature Off
 
   # 1e) Sitemap dynamisch (nimmt die Online-Editionen aus der Verwaltung auf)
   RewriteRule ^sitemap\.xml$ edition/sitemap.php [L]
+  # 1f) llms.txt dynamisch (Fakten für KI-Suche, Editionen live aus der Verwaltung)
+  RewriteRule ^llms\.txt$ edition/llms.php [L]
 
   # 2) Saubere URLs: /format → format.html, /datenschutz → datenschutz.html (nur wenn die Datei existiert)
   RewriteCond %{REQUEST_FILENAME} !-d

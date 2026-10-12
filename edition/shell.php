@@ -39,7 +39,8 @@ function x25ed_shell(array $o): string
     $css4 = x25ed_asset('css/identity.css');
     $bodyClass = x25ed_e((string)($o['body_class'] ?? ''));
     $js = x25ed_asset('js/site.js');
-    $extra = $o['extra_head'] ?? '';
+    $extra = ($o['extra_head'] ?? '') . (empty($o['noindex']) ? x25ed_ld_graph($o, $ed) : '');
+    $o['description'] = x25ed_meta_kurz((string)($o['description'] ?? ''));
     $bodyHtml = $o['body'];
 
     return <<<HTML
@@ -231,3 +232,52 @@ function x25ed_kodex_teaser(?array $ed, string $linkLabel): string
       </div>
 HTML;
 }
+
+/** Meta-Beschreibung für Suchtreffer: höchstens ~158 Zeichen, an einer Satz- oder Wortgrenze gekürzt. */
+function x25ed_meta_kurz(string $s, int $max = 158): string
+{
+    $s = trim(preg_replace('/\s+/u', ' ', strip_tags($s)) ?? '');
+    if (mb_strlen($s) <= $max) { return $s; }
+    $cut = mb_substr($s, 0, $max);
+    $satz = max(mb_strrpos($cut, '. ') ?: 0, mb_strrpos($cut, '? ') ?: 0);
+    if ($satz > 90) { return mb_substr($cut, 0, $satz + 1); }
+    return rtrim(mb_substr($cut, 0, (int)mb_strrpos($cut, ' ')), ' ,;:–-') . ' …';
+}
+
+/** JSON-LD @graph für jede indexierbare Seite: Organisation, Website, Webseite, Brotkrumen (+ $o['ld']). */
+function x25ed_ld_graph(array $o, ?array $ed): string
+{
+    static $seo = null;
+    if ($seo === null) { $seo = json_decode((string)@file_get_contents(X25ED_DIR . '/seo.json'), true) ?: []; }
+    if (!$seo) { return ''; }
+    $site = rtrim((string)(x25ed_texte()['domain'] ?? 'https://25-experts.de/'), '/');
+    $canon = (string)($o['canonical'] ?? ($site . '/'));
+    $org = $seo['organisation']; unset($org['founder']);
+    $crumbs = [['Startseite', $site . '/']];
+    $pfad = trim((string)parse_url($canon, PHP_URL_PATH), '/');
+    if ($pfad !== '') {
+        $teile = explode('/', $pfad); $url = $site;
+        foreach ($teile as $i => $teil) {
+            $url .= '/' . $teil;
+            $name = match (true) {
+                $teil === 'editionen' => 'Editionen',
+                $teil === 'anmeldung' => 'Anmeldung',
+                $teil === 'danke' => 'Bestätigung',
+                $ed && $teil === ($ed['slug'] ?? '') => (string)$ed['name'],
+                default => (string)($o['title'] ?? $teil),
+            };
+            $crumbs[] = [$name, $url . (($ed && $teil === ($ed['slug'] ?? '')) ? '/' : '')];
+        }
+    }
+    $items = [];
+    foreach ($crumbs as $i => [$n, $u]) { $items[] = ['@type' => 'ListItem', 'position' => $i + 1, 'name' => $n, 'item' => $u]; }
+    $seite = ['@type' => 'WebPage', '@id' => $canon . '#webpage', 'url' => $canon, 'name' => (string)($o['title'] ?? ''),
+        'description' => x25ed_meta_kurz((string)($o['description'] ?? '')), 'inLanguage' => 'de-DE',
+        'isPartOf' => ['@id' => $seo['website']['@id']], 'publisher' => ['@id' => $org['@id']],
+        'breadcrumb' => ['@id' => $canon . '#breadcrumb']];
+    if (!empty($o['about_id'])) { $seite['about'] = ['@id' => $o['about_id']]; }
+    $graph = [$org, $seo['website'], $seite, ['@type' => 'BreadcrumbList', '@id' => $canon . '#breadcrumb', 'itemListElement' => $items]];
+    foreach ((array)($o['ld'] ?? []) as $knoten) { $graph[] = $knoten; }
+    return '  <script type="application/ld+json">' . "\n  " . json_encode(['@context' => 'https://schema.org', '@graph' => $graph], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n  </script>\n";
+}
+

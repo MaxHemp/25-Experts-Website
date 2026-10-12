@@ -1,6 +1,26 @@
+# 25 EXPERTS – Suchmaschinen und KI-Suche ausdrücklich willkommen.
 User-agent: *
 Allow: /
 Disallow: /editionen/*/danke
 Disallow: /editionen/change-management/danke.html
+Disallow: /anmeldung/
+Disallow: /verwaltung/
+
+# KI-Suche und Assistenten (Antworten mit Quellenangabe)
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Bingbot
+Allow: /
+Disallow: /editionen/*/danke
+Disallow: /anmeldung/
+Disallow: /verwaltung/
 
 Sitemap: https://25-experts.de/sitemap.xml
