@@ -1,0 +1,147 @@
+{
+ "_hinweis": "Einmalige Aktualisierung der Vertriebs-Edition (Fokus: Vertriebsfachlichkeit und Technologie/KI im Zusammenspiel). Ein Feld wird nur ersetzt, wenn es noch den alten Wortlaut hat; Änderungen aus der Verwaltung bleiben erhalten.",
+ "revision": "vertrieb-ki-2026-10-v1",
+ "slug": "vertrieb",
+ "felder": {
+  "kurz": {
+   "alt": "Du verantwortest Vertrieb und entscheidest, welche Aufgaben KI übernehmen soll und wo persönliche Beratung den Unterschied macht. Hier vergleichst Du mit 24 Verantwortlichen aus anderen Häusern, was ihre Teams tatsächlich entlastet und ihr Geschäft verbessert.",
+   "neu": "Du verantwortest Vertrieb und gestaltest mit, wie KI und neue Technologie in Beratung, Vermittlerunterstützung und Vertriebssteuerung ankommen. Hier prüfst Du mit 24 Verantwortlichen aus anderen Häusern, wo Technologie Vertriebsfachlichkeit stärkt – und wo das fachliche Urteil unverzichtbar bleibt."
+  },
+  "vars.zielgruppe": {
+   "alt": "Team-, Abteilungs- und Bereichsleitungen aus Vertriebssteuerung, Ausschließlichkeits- und Maklervertrieb bei Versicherern, Maklerpools und großen Versicherungsvertrieben",
+   "neu": "Team-, Abteilungs- und Bereichsleitungen aus Vertriebssteuerung, Ausschließlichkeits- und Maklervertrieb sowie Vertriebsdigitalisierung bei Versicherern, Maklerpools und großen Versicherungsvertrieben"
+  },
+  "vars.zielgruppe_kurz": {
+   "alt": "Team-, Abteilungs- und Bereichsleitungen aus Vertriebssteuerung, Ausschließlichkeits- und Maklervertrieb bei Versicherern, Maklerpools und großen Versicherungsvertrieben",
+   "neu": "Team-, Abteilungs- und Bereichsleitungen aus Vertriebssteuerung, Ausschließlichkeits- und Maklervertrieb sowie Vertriebsdigitalisierung bei Versicherern, Maklerpools und großen Versicherungsvertrieben"
+  },
+  "vars.ebene": {
+   "alt": "Team-, Abteilungs- und Bereichsleitungen aus Vertriebssteuerung, Ausschließlichkeits- und Maklervertrieb bei Versicherern, Maklerpools und großen Versicherungsvertrieben",
+   "neu": "Team-, Abteilungs- und Bereichsleitungen aus Vertriebssteuerung, Ausschließlichkeits- und Maklervertrieb sowie Vertriebsdigitalisierung bei Versicherern, Maklerpools und großen Versicherungsvertrieben"
+  },
+  "vars.am_tisch": {
+   "alt": "Eingeladen sind Team-, Abteilungs- und Bereichsleitungen aus Vertriebssteuerung, Ausschließlichkeits- und Maklervertrieb bei Versicherern, Maklerpools und großen Versicherungsvertrieben.",
+   "neu": "Eingeladen sind Team-, Abteilungs- und Bereichsleitungen aus Vertriebssteuerung, Ausschließlichkeits- und Maklervertrieb sowie Vertriebsdigitalisierung bei Versicherern, Maklerpools und großen Versicherungsvertrieben."
+  },
+  "karte.meta": {
+   "alt": "Mehr Zeit für Kunden. Mehr Wirkung im Vertrieb.",
+   "neu": "Vertriebswissen und KI. Gemeinsam wirksam."
+  },
+  "karte.punkte": {
+   "alt": [
+    "<strong>Für wen:</strong> Team-, Abteilungs- und Bereichsleitungen aus Vertriebssteuerung, Ausschließlichkeits- und Maklervertrieb bei Versicherern, Maklerpools und großen Versicherungsvertrieben.",
+    "<strong>Praxis:</strong> An einem fiktiven Kundenbestand entwickelt die Gruppe mit KI einen Betreuungsplan. Ihr prüft die Vorschläge auf Nutzen, passende Ansprache und Beratungsqualität; echte Kundendaten werden nicht verwendet.",
+    "<strong>Zum Mitnehmen:</strong> Ein konkreter Vertriebsversuch für Deinen Verantwortungsbereich: mit Ziel, Vorgehen und Kriterien, an denen Du seine Wirkung prüfen kannst."
+   ],
+   "neu": [
+    "<strong>Für wen:</strong> Team-, Abteilungs- und Bereichsleitungen aus Vertriebssteuerung, Ausschließlichkeits- und Maklervertrieb sowie Vertriebsdigitalisierung bei Versicherern, Maklerpools und großen Versicherungsvertrieben.",
+    "<strong>Praxis:</strong> An einem fiktiven Kundenbestand entwickelt die Gruppe zuerst aus ihrer Vertriebserfahrung einen Betreuungsplan, dann mit KI. Ihr prüft, wo die Vorschläge fachlich tragen; echte Kundendaten werden nicht verwendet.",
+    "<strong>Zum Mitnehmen:</strong> Ein konkreter Vertriebsversuch mit KI für Deinen Verantwortungsbereich: mit Ziel, Vorgehen, Beteiligten aus Fachbereich und IT und Kriterien, an denen Du seine Wirkung prüfen kannst."
+   ]
+  },
+  "texte.gemeinsam.claim.satz": {
+   "alt": "Mehr Zeit für Kunden. Mehr Wirkung im Vertrieb.",
+   "neu": "Vertriebswissen und KI. Gemeinsam wirksam."
+  },
+  "texte.landing.kern": {
+   "alt": "Du verantwortest Vertrieb und entscheidest, welche Aufgaben KI übernehmen soll und wo persönliche Beratung den Unterschied macht. Hier vergleichst Du mit 24 Verantwortlichen aus anderen Häusern, was ihre Teams tatsächlich entlastet und ihr Geschäft verbessert.",
+   "neu": "Du verantwortest Vertrieb und gestaltest mit, wie KI und neue Technologie in Beratung, Vermittlerunterstützung und Vertriebssteuerung ankommen. Hier prüfst Du mit 24 Verantwortlichen aus anderen Häusern, wo Technologie Vertriebsfachlichkeit stärkt – und wo das fachliche Urteil unverzichtbar bleibt."
+  },
+  "texte.landing.eventld.beschreibung": {
+   "alt": "Du verantwortest Vertrieb und entscheidest, welche Aufgaben KI übernehmen soll und wo persönliche Beratung den Unterschied macht. Hier vergleichst Du mit 24 Verantwortlichen aus anderen Häusern, was ihre Teams tatsächlich entlastet und ihr Geschäft verbessert.",
+   "neu": "Du verantwortest Vertrieb und gestaltest mit, wie KI und neue Technologie in Beratung, Vermittlerunterstützung und Vertriebssteuerung ankommen. Hier prüfst Du mit 24 Verantwortlichen aus anderen Häusern, wo Technologie Vertriebsfachlichkeit stärkt – und wo das fachliche Urteil unverzichtbar bleibt."
+  },
+  "texte.landing.meta.beschreibung": {
+   "alt": "Du verantwortest Vertrieb und entscheidest, welche Aufgaben KI übernehmen soll und wo persönliche Beratung den Unterschied macht. Hier vergleichst Du mit 24 Verantwortlichen aus anderen Häusern, was ihre Teams tatsächlich entlastet und ihr Geschäft verbessert. Anderthalb Tage im Rheinauhafen, 25 Plätze. Termin vorläufig: 18./19. März 2027.",
+   "neu": "Du verantwortest Vertrieb und gestaltest mit, wie KI und neue Technologie in Beratung, Vermittlerunterstützung und Vertriebssteuerung ankommen. Hier prüfst Du mit 24 Verantwortlichen aus anderen Häusern, wo Technologie Vertriebsfachlichkeit stärkt – und wo das fachliche Urteil unverzichtbar bleibt. Anderthalb Tage im Rheinauhafen, 25 Plätze. Termin vorläufig: 18./19. März 2027."
+  },
+  "texte.landing.hero.kicker": {
+   "alt": "Vertrieb im Zeitalter der KI · Köln, Rheinauhafen",
+   "neu": "Vertrieb, Technologie und KI im Zusammenspiel · Köln, Rheinauhafen"
+  },
+  "texte.landing.leitfrage.serif": {
+   "alt": "Wie verschaffen wir Vertriebsteams mehr Zeit für Kunden – und wie erkennen wir, ob KI Beratung und Geschäft tatsächlich verbessert?",
+   "neu": "Wie bringen wir Vertriebsfachlichkeit und KI so zusammen, dass Beratung besser wird, Vermittler entlastet werden und die Wirkung messbar ist?"
+  },
+  "texte.landing.leitfrage.1.titel": {
+   "alt": "Kundengewinnung und Ansprache.",
+   "neu": "Fachwissen in die Werkzeuge bringen."
+  },
+  "texte.landing.leitfrage.1.text": {
+   "alt": "Wie helfen KI und Daten dabei, passende Kunden anzusprechen? Wir vergleichen Ansätze und prüfen, welche Vorschläge im Versicherungsvertrieb überzeugen.",
+   "neu": "Welches Produkt-, Beratungs- und Kundenwissen muss in KI-Anwendungen stecken, damit Vorschläge im Versicherungsvertrieb tragen? Wir vergleichen, wie Häuser Vertrieb, Fachbereich und IT dafür zusammenbringen."
+  },
+  "texte.landing.leitfrage.2.titel": {
+   "alt": "Bestandsarbeit und Beratung.",
+   "neu": "Beratung mit KI, Verantwortung beim Menschen."
+  },
+  "texte.landing.leitfrage.2.text": {
+   "alt": "Welche Betreuungsanlässe sind relevant? Wie lassen sich Vorbereitung und Nachbereitung erleichtern, ohne Kunden auf einen Datensatz zu reduzieren?",
+   "neu": "Wo unterstützt KI Vorbereitung, Bedarfsanalyse und Nachbereitung – und wo bleibt das fachliche Urteil der Vermittler unverzichtbar? Wir sprechen über Beratungsqualität, Dokumentationspflichten und Kundenvertrauen."
+  },
+  "texte.landing.leitfrage.3.titel": {
+   "alt": "Vermittler im Alltag unterstützen.",
+   "neu": "Vermittler und Technologie zusammenführen."
+  },
+  "texte.landing.leitfrage.3.text": {
+   "alt": "Was brauchen Vermittler, damit sie neue Werkzeuge nutzen? Wir sprechen über Einführung, Training und die Zusammenarbeit zwischen Zentrale und Vertrieb.",
+   "neu": "Was brauchen Vermittler und Innendienst, damit neue Werkzeuge im Alltag ankommen? Wir sprechen über Einführung, Training und die Zusammenarbeit zwischen Zentrale, Vertrieb und IT."
+  },
+  "texte.landing.leitfrage.4.titel": {
+   "alt": "Vertrieb führen und Wirkung messen.",
+   "neu": "Wirkung steuern und messen."
+  },
+  "texte.landing.leitfrage.4.text": {
+   "alt": "Welche Ziele und Kennzahlen helfen bei der Steuerung? Wir prüfen, wie sich Zeitgewinn, Beratungsqualität und Geschäftsergebnis zusammen betrachten lassen.",
+   "neu": "Welche Ziele und Kennzahlen zeigen, ob Technologie den Vertrieb fachlich besser macht? Wir prüfen, wie sich Zeitgewinn, Beratungsqualität und Geschäftsergebnis zusammen betrachten lassen."
+  },
+  "texte.landing.ablauf.tag1.7": {
+   "alt": "13:30 | Der 26. Experte, Durchgang 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  An einem fiktiven Kundenbestand entwickelt die Gruppe mit KI einen Betreuungsplan. Ihr prüft die Vorschläge auf Nutzen, passende Ansprache und Beratungsqualität; echte Kundendaten werden nicht verwendet. | signatur foto:leinwand",
+   "neu": "13:30 | Der 26. Experte, Durchgang 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  An einem fiktiven Kundenbestand entwickelt die Gruppe zuerst aus ihrer Vertriebserfahrung einen Betreuungsplan, dann mit KI. Ihr prüft, wo die Vorschläge fachlich tragen – bei Bedarf, Ansprache und Beratungsqualität; echte Kundendaten werden nicht verwendet. | signatur foto:leinwand"
+  },
+  "texte.landing.impuls.1.titel": {
+   "alt": "Vertriebsforschung und Kundenentscheidungen",
+   "neu": "Vertriebsforschung: Mensch und KI in der Beratung"
+  },
+  "texte.landing.impuls.1.text": {
+   "alt": "Wie Kunden Beratung erleben und wie sich die Zusammenarbeit zwischen Menschen und KI auf Vertriebsarbeit auswirken kann.",
+   "neu": "Wie Kunden Beratung erleben, wenn KI mitarbeitet – und welche fachlichen Fähigkeiten im Vertrieb dadurch wichtiger werden."
+  },
+  "texte.landing.impuls.2.text": {
+   "alt": "Ein Vertriebsverantwortlicher zeigt, was eingeführt wurde, wie das Team damit arbeitet und welche Ergebnisse sich belegen lassen.",
+   "neu": "Ein Vertriebsverantwortlicher zeigt, wie Vertrieb, Fachbereich und IT eine KI-Anwendung gemeinsam eingeführt haben, wie das Team damit arbeitet und welche Ergebnisse sich belegen lassen."
+  },
+  "texte.landing.impuls.4.titel": {
+   "alt": "Erwartungen an die Vertriebsführung",
+   "neu": "Erwartungen an Vertrieb und Technologie"
+  },
+  "texte.landing.impuls.4.text": {
+   "alt": "Welche Wirkung erwartet die Unternehmensleitung von KI im Vertrieb? Wir diskutieren Ressourcen, Verantwortung und realistische Ziele.",
+   "neu": "Welche Wirkung erwartet die Unternehmensleitung von KI im Vertrieb, und wie verteilt sie die Verantwortung zwischen Vertrieb, Fachbereich und IT? Wir diskutieren Ressourcen, Zuständigkeiten und realistische Ziele."
+  },
+  "texte.landing.dp.punkt.4": {
+   "alt": "<strong>Dein nächster Schritt.</strong> Ein konkreter Vertriebsversuch für Deinen Verantwortungsbereich: mit Ziel, Vorgehen und Kriterien, an denen Du seine Wirkung prüfen kannst.",
+   "neu": "<strong>Dein nächster Schritt.</strong> Ein konkreter Vertriebsversuch mit KI für Deinen Verantwortungsbereich: mit Ziel, Vorgehen, Beteiligten aus Fachbereich und IT und Kriterien, an denen Du seine Wirkung prüfen kannst."
+  },
+  "texte.landing.faq.6.antwort": {
+   "alt": "Du brauchst keine Programmierkenntnisse. Deine Erfahrung aus dem eigenen Verantwortungsbereich ist der Beitrag zur Gruppe.",
+   "neu": "Du brauchst keine Programmier- oder KI-Kenntnisse. Deine Vertriebserfahrung und Dein Fachwissen aus dem eigenen Verantwortungsbereich sind der Beitrag zur Gruppe – genau sie entscheiden, ob Technologie im Vertrieb wirkt."
+  },
+  "texte.anmeldung.feld.rolle.hint": {
+   "alt": "Zum Beispiel: Leitung Vertrieb, Leitung Transformation, Referentin des Vorstands.",
+   "neu": "Zum Beispiel: Leitung Vertrieb, Leitung Vertriebsdigitalisierung, Referentin des Vorstands."
+  },
+  "texte.anmeldung.feld.frage.hint": {
+   "alt": "Ein bis drei Sätze genügen. Bitte keine vertraulichen Unternehmens- oder Kundendaten angeben. Diese Frage hilft uns bei der Zusammenstellung und Vorbereitung der Gruppe.",
+   "neu": "Ein bis drei Sätze genügen, zum Beispiel: Wir führen KI-Unterstützung für unsere Vermittler ein. Wie stellen wir sicher, dass Fachwissen und Beratungsqualität mitwachsen? Bitte keine vertraulichen Unternehmens- oder Kundendaten angeben."
+  },
+  "texte.landing.faq.1.antwort": {
+   "alt": "Für Team-, Abteilungs- und Bereichsleitungen aus Vertriebssteuerung, Ausschließlichkeits- und Maklervertrieb bei Versicherern, Maklerpools und großen Versicherungsvertrieben. Entscheidend ist, dass Du die Themen in Deinem Verantwortungsbereich mitgestaltest.",
+   "neu": "Für Team-, Abteilungs- und Bereichsleitungen aus Vertriebssteuerung, Ausschließlichkeits- und Maklervertrieb sowie Vertriebsdigitalisierung bei Versicherern, Maklerpools und großen Versicherungsvertrieben. Entscheidend ist, dass Du die Themen in Deinem Verantwortungsbereich mitgestaltest."
+  },
+  "texte.landing.anmeldung.absatz2": {
+   "alt": "Die 25 Plätze richten sich an Team-, Abteilungs- und Bereichsleitungen aus Vertriebssteuerung, Ausschließlichkeits- und Maklervertrieb bei Versicherern, Maklerpools und großen Versicherungsvertrieben.",
+   "neu": "Die 25 Plätze richten sich an Team-, Abteilungs- und Bereichsleitungen aus Vertriebssteuerung, Ausschließlichkeits- und Maklervertrieb sowie Vertriebsdigitalisierung bei Versicherern, Maklerpools und großen Versicherungsvertrieben."
+  }
+ }
+}
