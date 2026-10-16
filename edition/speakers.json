@@ -19,7 +19,7 @@
   ],
   "texte": {
    "landing": {
-    "impulse.lead": "Drei Zeitfenster à 45 Minuten: Forschung mit Diskussion, ein Vortrag aus der Praxis und ein Vortrag mit Burkhard Oppenberg. Bestätigt sind Dr. Norbert Huchler für Tag 1 und Burkhard Oppenberg für Tag 2.",
+    "impulse.lead": "Drei Zeitfenster à 45 Minuten: Forschung mit Diskussion, ein Vortrag aus der Praxis sowie Vorstandsimpuls und Diskussion mit Burkhard Oppenberg. Bestätigt sind Dr. Norbert Huchler für Tag 1 und Burkhard Oppenberg für Tag 2.",
     "impulse.hinweis": "Dr. Norbert Huchler ist für Tag 1 und Burkhard Oppenberg für Tag 2 bestätigt. Weitere Mitwirkende veröffentlichen wir nach verbindlicher Zusage.",
     "impuls.1.kicker": "Bestätigter Speaker · Tag 1 · Forschung und Diskussion",
     "impuls.1.titel": "Dr. Norbert Huchler",
@@ -43,24 +43,24 @@
     "ablauf.tag1.15": null,
     "ablauf.tag1.meta": "{location_name}, ab 16:40 Uhr Abendlocation",
     "abend.text": "Aperitif ab 17:40 Uhr, Dinner ab 18:25 Uhr und offener Ausklang. Eine überlegte Sitzordnung und persönlich vermittelte Gespräche gehören dazu.",
-    "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Forschung, ein Vortrag aus der Praxis, ein Vortrag mit Burkhard Oppenberg, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
+    "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Forschung, ein Vortrag aus der Praxis, Vorstandsimpuls und Diskussion mit Burkhard Oppenberg, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
     "impulse.titel": "Drei Perspektiven. Zeit für Deine Fragen.",
     "impuls.2.kicker": "Vortrag aus der Praxis",
     "impuls.2.titel": "Change Management im Versicherungsunternehmen",
     "impuls.2.text": "Ein Vortrag aus der Praxis: Wie Veränderung im Versicherungsunternehmen gestaltet wird, was funktioniert und welche Erkenntnisse sich übertragen lassen. Ein Beitrag eines Kooperationspartners wird als Partnerschaft gekennzeichnet und vorab fachlich freigegeben.",
-    "impuls.3.kicker": "Bestätigter Speaker · Tag 2 · Vortrag und Austausch",
+    "impuls.3.kicker": "Bestätigter Speaker · Tag 2 · Vorstandsimpuls und Diskussion",
     "impuls.4.kicker": null,
     "impuls.3.titel": "Burkhard Oppenberg",
     "impuls.4.titel": null,
-    "impuls.3.text": "<strong>Vortrag: Was bedeutet AI für eine junge Führungskraft in einem sich transformierenden Unternehmen?</strong><br><br>Burkhard Oppenberg verfügt über langjährige Erfahrung in der IT- und Finanzbranche, unter anderem als CIO der DZ BANK und der Gothaer Versicherung, wo er zahlreiche Transformationsprogramme begleitete. Seit 2025 ist er unter anderem Mitglied des Aufsichtsrats der Nürnberger Versicherung.",
+    "impuls.3.text": "<strong>Thema: Was bedeutet AI für eine junge Führungskraft in einem sich transformierenden Unternehmen?</strong><br><br>Burkhard Oppenberg verfügt über langjährige Erfahrung in der IT- und Finanzbranche, unter anderem als CIO der DZ BANK und der Gothaer Versicherung, wo er zahlreiche Transformationsprogramme begleitete. Seit 2025 ist er unter anderem Mitglied des Aufsichtsrats der Nürnberger Versicherung.",
     "impuls.4.text": null,
     "leitfrage.text": "Vor dem Treffen sammeln wir Eure aktuellen Entscheidungen und Erfahrungen. Daraus bereiten wir drei Spannungsfelder und Fragen für die Arbeitsblöcke vor. Zu Beginn schärft die Gruppe die Arbeitsagenda. Diese Themenfelder bilden den Rahmen.",
-    "ablauf.tag2.3": "10:15 | Vortrag mit Burkhard Oppenberg | Was bedeutet AI für eine junge Führungskraft in einem sich transformierenden Unternehmen?",
+    "ablauf.tag2.3": "10:15 | Vorstandsimpuls und Diskussion mit Burkhard Oppenberg | Was bedeutet AI für eine junge Führungskraft in einem sich transformierenden Unternehmen?",
     "impuls.3.bild": "/assets/img/speakers/burkhard-oppenberg.jpg",
     "impuls.3.bild.alt": "Burkhard Oppenberg"
    }
   },
   "zeiten": "Tag 1: 09:45 bis 16:40 Uhr, anschließend Abend (Aperitif 17:40 Uhr, Dinner 18:25 Uhr) · Tag 2: 09:30 bis 13:30 Uhr",
-  "oppenberg_revision": "oppenberg-2026-10-16-v1"
+  "oppenberg_revision": "oppenberg-2026-10-16-v2"
  }
 }

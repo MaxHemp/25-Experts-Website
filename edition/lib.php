@@ -260,7 +260,7 @@ function x25ed_speaker_migration(): void
 
 function x25ed_oppenberg_migration(): void
 {
-    $revision='oppenberg-2026-10-16-v1'; $source=X25ED_DIR.'/speakers.json';
+    $revision='oppenberg-2026-10-16-v2'; $source=X25ED_DIR.'/speakers.json';
     if(!is_file($source)) { return; }
     $patches=json_decode((string)file_get_contents($source),true);
     if(!is_array($patches)) { throw new RuntimeException('Editionsaktualisierung nicht lesbar.'); }
