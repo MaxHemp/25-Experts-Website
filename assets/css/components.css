@@ -13,7 +13,7 @@ body { margin: 0; font-family: var(--x-font-text); font-size: var(--x-fs-base); 
 *, *::before, *::after { box-sizing: border-box; }
 img, svg, video { max-width: 100%; height: auto; }
 img { display: block; }
-h1, h2, h3, h4, h5 { overflow-wrap: break-word; }
+h1, h2, h3, h4, h5 { overflow-wrap:normal; }
 :focus-visible { outline: 2px solid var(--x-focus); outline-offset: 3px; border-radius: 2px; }
 .x-dark :focus-visible, [data-theme="dark"] :focus-visible { outline-color: var(--x-signal-300); }
 ::selection { background: var(--x-signal-100); color: var(--x-ink-950); }
@@ -92,7 +92,7 @@ h1, h2, h3, h4, h5 { overflow-wrap: break-word; }
 .x-serif--xl { font-size: clamp(2.6rem, 1.6rem + 2.4vw, 4.4rem); line-height: 1.25; letter-spacing: -0.005em; }
 .x-serif em { font-style: italic; }
 .x-hr { border: 0; border-top: 1px solid var(--x-border); margin: var(--x-sp-8) 0; }
-.x-tbd { font-family: var(--x-font-mono); font-size: .92em; letter-spacing: var(--x-track-mono); overflow-wrap: anywhere; background: var(--x-signal-050); color: var(--x-warning); border: 1px dashed var(--x-warning); border-radius: 2px; padding: 0 .4em; white-space: normal; }
+.x-tbd { font-family: var(--x-font-mono); font-size: .92em; letter-spacing: var(--x-track-mono); overflow-wrap:normal; background: var(--x-signal-050); color: var(--x-warning); border: 1px dashed var(--x-warning); border-radius: 2px; padding: 0 .4em; white-space: normal; }
 .x-dark .x-tbd { background: rgba(245,162,107,.14); color: var(--x-signal-100); border-color: var(--x-signal-300); }
 /* Zitat: nur Kodex-/Positionierungssätze, keine Testimonials */
 .x-quote { position: relative; font-family: var(--x-font-serif); font-size: clamp(2.4rem, 1.4rem + 2.2vw, 4rem); line-height: 1.28; color: var(--x-text); margin: 0; padding-left: var(--x-sp-8); max-width: 26em; text-wrap: balance; }

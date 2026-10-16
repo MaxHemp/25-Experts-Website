@@ -36,7 +36,7 @@ function x25ed_shell(array $o): string
     $imageNote = (str_contains((string)($o['body'] ?? ''), '/atmosphaere/') || str_contains((string)($o['body'] ?? ''), '/editionen/female-') || str_contains((string)($o['body'] ?? ''), '/assets/video/hero-'))
         ? '<p class="ux-image-credit">Bildnachweis: Die Gesprächs- und Atmosphärenmotive sind KI-generierte Symbolbilder. Sie zeigen keine tatsächlichen Veranstaltungen oder Locations. Gastgeber- und Moderatorenporträts sind echte Fotos.</p>' : '';
     $css1 = x25ed_asset('css/tokens.css'); $css2 = x25ed_asset('css/components.css'); $css3 = x25ed_asset('css/site.css');
-    $css4 = x25ed_asset('css/identity.css');
+    $css4 = '/assets/css/identity.css?v=words-20261016';
     $bodyClass = x25ed_e((string)($o['body_class'] ?? ''));
     $js = x25ed_asset('js/site.js');
     $extra = ($o['extra_head'] ?? '') . (empty($o['noindex']) ? x25ed_ld_graph($o, $ed) : '');
