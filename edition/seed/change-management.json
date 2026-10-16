@@ -65,7 +65,7 @@
    "ablauf.label": "Ablauf",
    "ablauf.kicker": "Ablauf",
    "ablauf.titel": "Anderthalb Tage, Stunde für Stunde",
-   "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Forschung, ein Vortrag aus der Praxis, ein Vorstandsgespräch, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
+   "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Forschung, ein Vortrag aus der Praxis, ein Vortrag mit Burkhard Oppenberg, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
    "ablauf.tag1.titel": "Tag 1 · Mittwoch, 2. Dezember 2026",
    "ablauf.tag1.meta": "{location_name}, ab 16:40 Uhr Abendlocation",
    "ablauf.tag1.1": "09:45 | Ankommen mit kleinem Frühstück",
@@ -87,7 +87,7 @@
    "ablauf.tag2.meta": "{location_name}, Ende 13:30 Uhr",
    "ablauf.tag2.1": "09:30 | Frühstück",
    "ablauf.tag2.2": "10:00 | Rückblick | Was hat Deine Einschätzung verändert? Bei Folgeeditionen desselben Themas ist außerdem Zeit für den Blick in die Kuverts.",
-   "ablauf.tag2.3": "10:15 | Gespräch mit einem Vorstand | Schwierige Abwägungen und Fragen der Teilnehmer, moderiert von Simon Moser.",
+   "ablauf.tag2.3": "10:15 | Vortrag mit Burkhard Oppenberg | Was bedeutet AI für eine junge Führungskraft in einem sich transformierenden Unternehmen?",
    "ablauf.tag2.4": "11:00 | Arbeitsblock 2 und der 26. Experte | Ihr schärft nächste Schritte und prüft die Gegenargumente der KI. Das interne Dissenspapier hält gemeinsame Positionen und begründete Unterschiede fest. | signatur",
    "ablauf.tag2.5": "11:50 | Ausblick | Das Organisationsteam erläutert die Nachbereitung und das Dissenspapier.",
    "ablauf.tag2.6": "12:00 | Dein Kuvert | Eine überprüfbare Vorhersage, Deine Sicherheit und die daraus folgende Entscheidung. Unterschrieben und versiegelt bis zur nächsten Edition desselben Themas. | signatur foto:siegel",
@@ -95,16 +95,16 @@
    "ablauf.tag2.8": "13:30 | Ende",
    "impulse.kicker": "Impulse",
    "impulse.titel": "Drei Perspektiven. Zeit für Deine Fragen.",
-   "impulse.lead": "Drei Zeitfenster à 45 Minuten: Forschung mit Diskussion, ein Vortrag aus der Praxis und ein moderiertes Vorstandsgespräch. Für Tag 1 ist Dr. Norbert Huchler vom ISF-München bestätigt.",
+   "impulse.lead": "Drei Zeitfenster à 45 Minuten: Forschung mit Diskussion, ein Vortrag aus der Praxis und ein Vortrag mit Burkhard Oppenberg. Bestätigt sind Dr. Norbert Huchler für Tag 1 und Burkhard Oppenberg für Tag 2.",
    "impuls.1.kicker": "Bestätigter Speaker · Tag 1 · Forschung und Diskussion",
    "impuls.1.titel": "Dr. Norbert Huchler",
    "impuls.1.text": "Dr. Norbert Huchler ist Wissenschaftler und Mitglied des Vorstands am Institut für Sozialwissenschaftliche Forschung e.V. (ISF-München). Als Arbeitssoziologe forscht er zum Wandel und zur Zukunft der Arbeit. In zahlreichen empirischen Forschungs- und Gestaltungsprojekten nimmt er konkrete betriebliche Veränderungsprozesse in den Blick und leitet Implikationen für die Gestaltung des Zusammenspiels von Mensch, Technik, Organisation und Gesellschaft ab. Ein besonderer Fokus seiner Forschung liegt auf dem Technikwandel v.a. durch Digitalisierung und KI. Norbert Huchler lehrt zudem an Universitäten und ist seit 2015 Mitglied der Plattform „Lernende Systeme. Plattform für künstliche Intelligenz.“ des Ministeriums für Forschung, Technologie und Raumfahrt (BMFTR).",
    "impuls.2.kicker": "Vortrag aus der Praxis",
    "impuls.2.titel": "Change Management im Versicherungsunternehmen",
    "impuls.2.text": "Ein Vortrag aus der Praxis: Wie Veränderung im Versicherungsunternehmen gestaltet wird, was funktioniert und welche Erkenntnisse sich übertragen lassen. Ein Beitrag eines Kooperationspartners wird als Partnerschaft gekennzeichnet und vorab fachlich freigegeben.",
-   "impuls.3.kicker": "Vorstandsgespräch · Fragen und Abwägungen",
-   "impuls.3.titel": "Perspektive Vorstand: Erwartungen an das Change Management",
-   "impuls.3.text": "Die Sicht von oben: Was der Vorstand vom Change Management erwartet, wenn KI-Einführung Vorstandsthema ist. Und was er selbst nicht steuern kann.",
+   "impuls.3.kicker": "Bestätigter Speaker · Tag 2 · Vortrag und Austausch",
+   "impuls.3.titel": "Burkhard Oppenberg",
+   "impuls.3.text": "<strong>Vortrag: Was bedeutet AI für eine junge Führungskraft in einem sich transformierenden Unternehmen?</strong><br><br>Burkhard Oppenberg verfügt über langjährige Erfahrung in der IT- und Finanzbranche, unter anderem als CIO der DZ BANK und der Gothaer Versicherung, wo er zahlreiche Transformationsprogramme begleitete. Seit 2025 ist er unter anderem Mitglied des Aufsichtsrats der Nürnberger Versicherung.",
    "impuls.4.kicker": null,
    "impuls.4.titel": null,
    "impuls.4.text": null,
@@ -177,9 +177,11 @@
    "faq.11.antwort": "Erst entscheidet die Gruppe, dann vergleichen wir mit der KI. An einem vorbereiteten Fall wird sichtbar, welche Argumente tragen und welche Informationen fehlen. Die Bewertungskriterien und verwendeten Werkzeuge legen wir offen. Vertrauliche Unternehmens- und personenbezogene Kundendaten bleiben ausgeschlossen.",
    "faq.12.frage": "Ist die Übernachtung enthalten?",
    "faq.12.antwort": "Nein. Jeder Teilnehmer bucht selbst; Anreise ist ebenfalls nicht enthalten. Tagungsort ist der Rheinauhafen, die Abendlocation liegt am Heumarkt; Hotels in der Kölner Altstadt passen zu beidem.",
-   "impulse.hinweis": "Dr. Norbert Huchler ist als Speaker für Tag 1 bestätigt. Die weiteren Beiträge sind geplant; Namen veröffentlichen wir nach verbindlicher Zusage.",
+   "impulse.hinweis": "Dr. Norbert Huchler ist für Tag 1 und Burkhard Oppenberg für Tag 2 bestätigt. Weitere Mitwirkende veröffentlichen wir nach verbindlicher Zusage.",
    "impuls.1.bild": "/assets/img/speakers/norbert-huchler.jpg",
-   "impuls.1.bild.alt": "Dr. Norbert Huchler, ISF-München"
+   "impuls.1.bild.alt": "Dr. Norbert Huchler, ISF-München",
+   "impuls.3.bild": "/assets/img/speakers/burkhard-oppenberg.jpg",
+   "impuls.3.bild.alt": "Burkhard Oppenberg"
   },
   "anmeldung": {
    "meta.titel": "25 CHANGE MANAGEMENT EXPERTS · Teilnahme anfragen",
@@ -300,6 +302,14 @@
    "role": "Wissenschaftler und Mitglied des Vorstands",
    "image": "/assets/img/speakers/norbert-huchler.jpg",
    "day": 1
+  },
+  {
+   "name": "Burkhard Oppenberg",
+   "organization": "Nürnberger Versicherung",
+   "role": "Mitglied des Aufsichtsrats",
+   "image": "/assets/img/speakers/burkhard-oppenberg.jpg",
+   "day": 2
   }
- ]
+ ],
+ "oppenberg_revision": "oppenberg-2026-10-16-v1"
 }

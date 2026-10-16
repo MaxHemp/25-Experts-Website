@@ -8,12 +8,19 @@
     "role": "Wissenschaftler und Mitglied des Vorstands",
     "image": "/assets/img/speakers/norbert-huchler.jpg",
     "day": 1
+   },
+   {
+    "name": "Burkhard Oppenberg",
+    "organization": "Nürnberger Versicherung",
+    "role": "Mitglied des Aufsichtsrats",
+    "image": "/assets/img/speakers/burkhard-oppenberg.jpg",
+    "day": 2
    }
   ],
   "texte": {
    "landing": {
-    "impulse.lead": "Drei Zeitfenster à 45 Minuten: Forschung mit Diskussion, ein Vortrag aus der Praxis und ein moderiertes Vorstandsgespräch. Für Tag 1 ist Dr. Norbert Huchler vom ISF-München bestätigt.",
-    "impulse.hinweis": "Dr. Norbert Huchler ist als Speaker für Tag 1 bestätigt. Die weiteren Beiträge sind geplant; Namen veröffentlichen wir nach verbindlicher Zusage.",
+    "impulse.lead": "Drei Zeitfenster à 45 Minuten: Forschung mit Diskussion, ein Vortrag aus der Praxis und ein Vortrag mit Burkhard Oppenberg. Bestätigt sind Dr. Norbert Huchler für Tag 1 und Burkhard Oppenberg für Tag 2.",
+    "impulse.hinweis": "Dr. Norbert Huchler ist für Tag 1 und Burkhard Oppenberg für Tag 2 bestätigt. Weitere Mitwirkende veröffentlichen wir nach verbindlicher Zusage.",
     "impuls.1.kicker": "Bestätigter Speaker · Tag 1 · Forschung und Diskussion",
     "impuls.1.titel": "Dr. Norbert Huchler",
     "impuls.1.text": "Dr. Norbert Huchler ist Wissenschaftler und Mitglied des Vorstands am Institut für Sozialwissenschaftliche Forschung e.V. (ISF-München). Als Arbeitssoziologe forscht er zum Wandel und zur Zukunft der Arbeit. In zahlreichen empirischen Forschungs- und Gestaltungsprojekten nimmt er konkrete betriebliche Veränderungsprozesse in den Blick und leitet Implikationen für die Gestaltung des Zusammenspiels von Mensch, Technik, Organisation und Gesellschaft ab. Ein besonderer Fokus seiner Forschung liegt auf dem Technikwandel v.a. durch Digitalisierung und KI. Norbert Huchler lehrt zudem an Universitäten und ist seit 2015 Mitglied der Plattform „Lernende Systeme. Plattform für künstliche Intelligenz.“ des Ministeriums für Forschung, Technologie und Raumfahrt (BMFTR).",
@@ -36,20 +43,24 @@
     "ablauf.tag1.15": null,
     "ablauf.tag1.meta": "{location_name}, ab 16:40 Uhr Abendlocation",
     "abend.text": "Aperitif ab 17:40 Uhr, Dinner ab 18:25 Uhr und offener Ausklang. Eine überlegte Sitzordnung und persönlich vermittelte Gespräche gehören dazu.",
-    "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Forschung, ein Vortrag aus der Praxis, ein Vorstandsgespräch, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
+    "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Forschung, ein Vortrag aus der Praxis, ein Vortrag mit Burkhard Oppenberg, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
     "impulse.titel": "Drei Perspektiven. Zeit für Deine Fragen.",
     "impuls.2.kicker": "Vortrag aus der Praxis",
     "impuls.2.titel": "Change Management im Versicherungsunternehmen",
     "impuls.2.text": "Ein Vortrag aus der Praxis: Wie Veränderung im Versicherungsunternehmen gestaltet wird, was funktioniert und welche Erkenntnisse sich übertragen lassen. Ein Beitrag eines Kooperationspartners wird als Partnerschaft gekennzeichnet und vorab fachlich freigegeben.",
-    "impuls.3.kicker": "Vorstandsgespräch · Fragen und Abwägungen",
+    "impuls.3.kicker": "Bestätigter Speaker · Tag 2 · Vortrag und Austausch",
     "impuls.4.kicker": null,
-    "impuls.3.titel": "Perspektive Vorstand: Erwartungen an das Change Management",
+    "impuls.3.titel": "Burkhard Oppenberg",
     "impuls.4.titel": null,
-    "impuls.3.text": "Die Sicht von oben: Was der Vorstand vom Change Management erwartet, wenn KI-Einführung Vorstandsthema ist. Und was er selbst nicht steuern kann.",
+    "impuls.3.text": "<strong>Vortrag: Was bedeutet AI für eine junge Führungskraft in einem sich transformierenden Unternehmen?</strong><br><br>Burkhard Oppenberg verfügt über langjährige Erfahrung in der IT- und Finanzbranche, unter anderem als CIO der DZ BANK und der Gothaer Versicherung, wo er zahlreiche Transformationsprogramme begleitete. Seit 2025 ist er unter anderem Mitglied des Aufsichtsrats der Nürnberger Versicherung.",
     "impuls.4.text": null,
-    "leitfrage.text": "Vor dem Treffen sammeln wir Eure aktuellen Entscheidungen und Erfahrungen. Daraus bereiten wir drei Spannungsfelder und Fragen für die Arbeitsblöcke vor. Zu Beginn schärft die Gruppe die Arbeitsagenda. Diese Themenfelder bilden den Rahmen."
+    "leitfrage.text": "Vor dem Treffen sammeln wir Eure aktuellen Entscheidungen und Erfahrungen. Daraus bereiten wir drei Spannungsfelder und Fragen für die Arbeitsblöcke vor. Zu Beginn schärft die Gruppe die Arbeitsagenda. Diese Themenfelder bilden den Rahmen.",
+    "ablauf.tag2.3": "10:15 | Vortrag mit Burkhard Oppenberg | Was bedeutet AI für eine junge Führungskraft in einem sich transformierenden Unternehmen?",
+    "impuls.3.bild": "/assets/img/speakers/burkhard-oppenberg.jpg",
+    "impuls.3.bild.alt": "Burkhard Oppenberg"
    }
   },
-  "zeiten": "Tag 1: 09:45 bis 16:40 Uhr, anschließend Abend (Aperitif 17:40 Uhr, Dinner 18:25 Uhr) · Tag 2: 09:30 bis 13:30 Uhr"
+  "zeiten": "Tag 1: 09:45 bis 16:40 Uhr, anschließend Abend (Aperitif 17:40 Uhr, Dinner 18:25 Uhr) · Tag 2: 09:30 bis 13:30 Uhr",
+  "oppenberg_revision": "oppenberg-2026-10-16-v1"
  }
 }
