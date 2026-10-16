@@ -175,6 +175,7 @@ HTML;
 $ta = static fn(string $k): string => x25ed_txt($ed, 'anmeldung', $k);
 $paketFakten = '';
 foreach (x25ed_lines($ed, 'anmeldung', 'paket.fakten') as $x) { $paketFakten .= "<li>{$x}</li>"; }
+$agendaModerator = $slug === 'change-management' ? '<div class="x-agenda-moderator" style="display:flex;align-items:center;flex-wrap:wrap;gap:24px;margin:28px 0 36px;"><span style="display:block;position:relative;flex:0 0 112px;width:112px;height:112px;overflow:hidden;border-radius:50%;background:#e8e5df;"><img src="/assets/img/simon-moser-20260929-960.webp" alt="Simon Moser, Moderator" width="960" height="1261" loading="lazy" decoding="async" style="display:block;position:absolute;max-width:none;width:200%;height:auto;left:-45%;top:-8%;"></span><div><p class="x-kicker">Moderator an beiden Tagen</p><p class="x-timeline__title">Simon Moser</p><p class="x-timeline__desc">Führt durch die Gespräche, Diskussionen und Arbeitsphasen.</p></div></div>' : '';
 $dayHtml1 = x25ed_schedule($ed, $t('ablauf.tag1.titel'), $t('ablauf.tag1.meta'), 'ablauf.tag1');
 $dayHtml2 = x25ed_schedule($ed, $t('ablauf.tag2.titel'), $t('ablauf.tag2.meta'), 'ablauf.tag2');
 $preisBetrag = x25ed_preis_text($ed);
@@ -248,7 +249,9 @@ $body = <<<HTML
           <p class="x-lead">{$t('ablauf.lead')}</p>
         </div>
         <ol class="ux-stages"><li><strong>Ankommen und kennenlernen</strong></li><li><strong>Praxis und Austausch</strong></li><li><strong>Gemeinsamer Abend</strong></li><li><strong>Nächste Schritte</strong></li></ol>
-        <details class="ux-agenda"><summary>Den detaillierten Zeitplan öffnen</summary><div class="x-schedule">
+        <details class="ux-agenda"><summary>Den detaillierten Zeitplan öffnen</summary>
+          {$agendaModerator}
+          <div class="x-schedule">
           {$dayHtml1}
           {$dayHtml2}
         </div></details>
