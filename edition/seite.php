@@ -108,7 +108,14 @@ function x25ed_schedule(array $ed, string $day, string $meta, string $prefix): s
             if ($speakerName !== '' && str_contains(strip_tags($txt), $speakerName)
                 && $prefix === 'ablauf.tag' . (int)($speaker['day'] ?? 0)
                 && str_starts_with($speakerImage, '/assets/img/speakers/')) {
-                $speakerPortrait = '<img src="' . x25ed_e($speakerImage) . '" alt="' . x25ed_e($speakerName) . '" width="64" height="64" loading="lazy" decoding="async" style="display:block;width:64px;height:64px;max-width:none;border-radius:50%;object-fit:cover;object-position:center;margin:0 0 12px;">';
+                // Face-focused display crops; retain the original photos unchanged.
+                $portraitStyle = 'width:100%;height:100%;object-fit:cover;';
+                if (basename($speakerImage) === 'norbert-huchler.jpg') {
+                    $portraitStyle = 'width:213.78%;height:auto;left:-44.44%;top:0;';
+                } elseif (basename($speakerImage) === 'burkhard-oppenberg.jpg') {
+                    $portraitStyle = 'width:200%;height:auto;left:-46.30%;top:0;';
+                }
+                $speakerPortrait = '<span style="display:block;position:relative;width:112px;height:112px;max-width:100%;overflow:hidden;border-radius:50%;margin:0 0 16px;background:#e8e5df;"><img src="' . x25ed_e($speakerImage) . '" alt="' . x25ed_e($speakerName) . '" loading="lazy" decoding="async" style="display:block;position:absolute;max-width:none;' . $portraitStyle . '"></span>';
                 break;
             }
         }
