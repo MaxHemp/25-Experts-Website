@@ -15,12 +15,28 @@
     "role": "Mitglied des Aufsichtsrats",
     "image": "/assets/img/speakers/burkhard-oppenberg.jpg",
     "day": 2
+   },
+   {
+    "name": "Laurent Hernández",
+    "organization": "TRUSTEQ GmbH",
+    "role": "Partner Tech Advisory & Transformation",
+    "image": "/assets/img/speakers/laurent-hernandez.jpg",
+    "day": 1,
+    "impulse": 2
+   },
+   {
+    "name": "Lea Ferstl",
+    "organization": "TRUSTEQ GmbH",
+    "role": "Managerin und Teamleiterin Transformation & Change",
+    "image": "/assets/img/speakers/lea-ferstl.jpg",
+    "day": 1,
+    "impulse": 2
    }
   ],
   "texte": {
    "landing": {
-    "impulse.lead": "Drei Zeitfenster à 45 Minuten: Forschung mit Diskussion, ein Vortrag aus der Praxis sowie Vorstandsimpuls und Diskussion mit Burkhard Oppenberg. Bestätigt sind Dr. Norbert Huchler für Tag 1 und Burkhard Oppenberg für Tag 2.",
-    "impulse.hinweis": "Dr. Norbert Huchler ist für Tag 1 und Burkhard Oppenberg für Tag 2 bestätigt. Weitere Mitwirkende veröffentlichen wir nach verbindlicher Zusage.",
+    "impulse.lead": "Drei Impulse, vier bestätigte Speaker: Forschung und Diskussion mit Dr. Norbert Huchler, ein gemeinsamer Praxisimpuls von Laurent Hernández und Lea Ferstl (TRUSTEQ) sowie Vorstandsimpuls und Diskussion mit Burkhard Oppenberg.",
+    "impulse.hinweis": "Bestätigt sind Dr. Norbert Huchler, Laurent Hernández und Lea Ferstl für Tag 1 sowie Burkhard Oppenberg für Tag 2.",
     "impuls.1.kicker": "Bestätigter Speaker · Tag 1 · Forschung und Diskussion",
     "impuls.1.titel": "Dr. Norbert Huchler",
     "impuls.1.text": "Dr. Norbert Huchler ist Wissenschaftler und Mitglied des Vorstands am Institut für Sozialwissenschaftliche Forschung e.V. (ISF-München). Als Arbeitssoziologe forscht er zum Wandel und zur Zukunft der Arbeit. In zahlreichen empirischen Forschungs- und Gestaltungsprojekten nimmt er konkrete betriebliche Veränderungsprozesse in den Blick und leitet Implikationen für die Gestaltung des Zusammenspiels von Mensch, Technik, Organisation und Gesellschaft ab. Ein besonderer Fokus seiner Forschung liegt auf dem Technikwandel v.a. durch Digitalisierung und KI. Norbert Huchler lehrt zudem an Universitäten und ist seit 2015 Mitglied der Plattform „Lernende Systeme. Plattform für künstliche Intelligenz.“ des Ministeriums für Forschung, Technologie und Raumfahrt (BMFTR).",
@@ -32,7 +48,7 @@
     "ablauf.tag1.3": "10:55 | Gemeinsame Prioritäten | Wir schärfen die vorbereitete Arbeitsagenda anhand Eurer Anliegen.",
     "ablauf.tag1.5": "12:00 | Lunch",
     "ablauf.tag1.6": "12:55 | Der 26. Experte, Durchgang 1 | Zuerst dokumentiert Ihr Eure eigene Entscheidung. Dann vergleicht Ihr mit der KI anhand derselben Informationen und vorher festgelegter Kriterien.  Die Frage des Vormittags live an ChatGPT und Claude. Antworten ungeschnitten auf der Leinwand. Die Gruppe challengt fachlich: Was trägt, was nicht. Sicher und DSGVO-konform. | signatur foto:leinwand",
-    "ablauf.tag1.7": "13:40 | Vortrag aus der Praxis | Erfahrungen aus einem Versicherungsunternehmen: Wie Veränderung gestaltet wird, was funktioniert und welche Erkenntnisse sich übertragen lassen. Ein unterstützter Beitrag wird als Partnerschaft gekennzeichnet und fachlich freigegeben.",
+    "ablauf.tag1.7": "13:40 | Praxisimpuls mit Laurent Hernández und Lea Ferstl · TRUSTEQ | Vom technologischen Potenzial zur organisationalen Wirkung. Warum KI-Investitionen nicht automatisch zu messbarem Nutzen führen – und wie Aufgaben, Rollen, Kompetenzen und Zusammenarbeit weiterentwickelt werden können. Praxiserfahrungen, konkrete Leitfragen und Austausch.",
     "ablauf.tag1.8": "14:25 | Kaffeepause",
     "ablauf.tag1.9": "14:55 | Arbeitsblock 1 | Acht bis neun Teilnehmer je Tisch bearbeiten eine vorbereitete Frage. Die Moderation sichert die Beteiligung aller und hält gemeinsame Positionen und Unterschiede fest.",
     "ablauf.tag1.10": "16:10 | Ergebnissicherung",
@@ -43,11 +59,11 @@
     "ablauf.tag1.15": null,
     "ablauf.tag1.meta": "{location_name}, ab 16:40 Uhr Abendlocation",
     "abend.text": "Aperitif ab 17:40 Uhr, Dinner ab 18:25 Uhr und offener Ausklang. Eine überlegte Sitzordnung und persönlich vermittelte Gespräche gehören dazu.",
-    "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Forschung, ein Vortrag aus der Praxis, Vorstandsimpuls und Diskussion mit Burkhard Oppenberg, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
+    "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Forschung, ein gemeinsamer Praxisimpuls von Laurent Hernández und Lea Ferstl (TRUSTEQ), Vorstandsimpuls und Diskussion mit Burkhard Oppenberg, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
     "impulse.titel": "Drei Perspektiven. Zeit für Deine Fragen.",
-    "impuls.2.kicker": "Vortrag aus der Praxis",
-    "impuls.2.titel": "Change Management im Versicherungsunternehmen",
-    "impuls.2.text": "Ein Vortrag aus der Praxis: Wie Veränderung im Versicherungsunternehmen gestaltet wird, was funktioniert und welche Erkenntnisse sich übertragen lassen. Ein Beitrag eines Kooperationspartners wird als Partnerschaft gekennzeichnet und vorab fachlich freigegeben.",
+    "impuls.2.kicker": "Bestätigte Speaker · Tag 1 · Gemeinsamer Praxisimpuls · TRUSTEQ",
+    "impuls.2.titel": "Vom technologischen Potenzial zur organisationalen Wirkung",
+    "impuls.2.text": "<strong>Gemeinsam mit Laurent Hernández und Lea Ferstl · TRUSTEQ</strong><br><br>KI-Investitionen führen nicht automatisch zu höherer Produktivität, besseren Prozessen oder messbarem Geschäftsnutzen. Anhand konkreter Praxiserfahrungen zeigen Laurent Hernández und Lea Ferstl, wie Unternehmen die Lücke zwischen Technologieeinführung und tatsächlicher Wirkung schließen: indem sie Aufgaben, Rollen, Kompetenzen und Zusammenarbeit gezielt weiterentwickeln. Du nimmst konkrete Leitfragen und Ansätze mit, um zu erkennen, wo KI in Deiner Organisation heute Wirkung verliert und welche Veränderungen den größten Unterschied machen.<br><br><strong>Laurent Hernández · Partner Tech Advisory &amp; Transformation</strong><br>Laurent Hernández verbindet langjährige Führungserfahrung in der Versicherungsbranche mit umfassender Expertise an der Schnittstelle von Strategie, Technologie und Transformation. Durch seine Tätigkeit bei der Allianz kennt er die Herausforderungen großer Versicherungsunternehmen aus erster Hand. Heute ist er Partner bei TRUSTEQ für Tech Advisory &amp; Transformation und unterstützt Unternehmen dabei, strategische und technologische Veränderungen erfolgreich zu gestalten und nachhaltig in der Organisation zu verankern.<br><br><strong>Lea Ferstl · Managerin und Teamleiterin Transformation &amp; Change</strong><br>Lea Ferstl verbindet fundierte Erfahrung aus der Versicherungsbranche mit ihrer Expertise in der Transformationsberatung. Nach mehreren Jahren in der Allianz Gruppe wechselte sie in die Beratung und begleitet seitdem Unternehmen bei der Gestaltung und Umsetzung komplexer Veränderungsvorhaben. Heute ist sie Managerin und Teamleiterin Transformation &amp; Change und unterstützt mit ihrem Team Unternehmen dabei, strategische Vorhaben in wirksame Veränderungen zu übersetzen – von der Neuausrichtung von Produktportfolios und der Optimierung von Geschäftsprozessen bis hin zur ganzheitlichen Begleitung unternehmensweiter KI-Transformationen. Ihr besonderer Fokus liegt auf der menschlichen und organisationalen Seite der KI-Transformation.",
     "impuls.3.kicker": "Bestätigter Speaker · Tag 2 · Vorstandsimpuls und Diskussion",
     "impuls.4.kicker": null,
     "impuls.3.titel": "Burkhard Oppenberg",
@@ -61,6 +77,7 @@
    }
   },
   "zeiten": "Tag 1: 09:45 bis 16:40 Uhr, anschließend Abend (Aperitif 17:40 Uhr, Dinner 18:25 Uhr) · Tag 2: 09:30 bis 13:30 Uhr",
-  "oppenberg_revision": "oppenberg-2026-10-16-v2"
+  "oppenberg_revision": "oppenberg-2026-10-16-v2",
+  "trusteq_revision": "trusteq-2026-10-28-v1"
  }
 }

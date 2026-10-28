@@ -115,10 +115,15 @@ function x25ed_schedule(array $ed, string $day, string $meta, string $prefix): s
                 } elseif (basename($speakerImage) === 'burkhard-oppenberg.jpg') {
                     $portraitStyle = 'width:200%;height:auto;left:-46.30%;top:0;';
                 }
-                $speakerPortrait = '<span style="display:block;position:relative;width:112px;height:112px;max-width:100%;overflow:hidden;border-radius:50%;margin:0 0 16px;background:#e8e5df;"><img src="' . x25ed_e($speakerImage) . '" alt="' . x25ed_e($speakerName) . '" loading="lazy" decoding="async" style="display:block;position:absolute;max-width:none;' . $portraitStyle . '"></span>';
-                break;
+                if (basename($speakerImage) === 'laurent-hernandez.jpg') {
+                    $portraitStyle = 'width:200%;height:auto;left:-50%;top:-38%;';
+                } elseif (basename($speakerImage) === 'lea-ferstl.jpg') {
+                    $portraitStyle = 'width:165%;height:auto;left:-32%;top:-28%;';
+                }
+                $speakerPortrait .= '<span style="display:block;position:relative;width:112px;height:112px;max-width:100%;overflow:hidden;border-radius:50%;margin:0 0 16px;background:#e8e5df;"><img src="' . x25ed_e($speakerImage) . '" alt="' . x25ed_e($speakerName) . '" loading="lazy" decoding="async" style="display:block;position:absolute;max-width:none;' . $portraitStyle . '"></span>';
             }
         }
+        if ($speakerPortrait !== '') { $speakerPortrait = '<div style="display:flex;flex-wrap:wrap;gap:16px;">' . $speakerPortrait . '</div>'; }
         $lis .= '<li' . $c . '><time class="x-timeline__time" datetime="' . x25ed_e($t) . '">' . $t . '</time><span class="x-timeline__dot" aria-hidden="true"></span><div class="x-timeline__body">' . $speakerPortrait . '<p class="x-timeline__title">' . $txt . '</p>' . $d . $chip . '</div></li>' . "\n              ";
     }
     return <<<HTML
@@ -144,6 +149,13 @@ foreach (x25ed_tuples($ed, 'landing', 'impuls', 'kicker', 'titel', 'text') as [$
     if (str_starts_with($portraitPath, '/assets/img/speakers/')) {
         $portrait = '<img src="' . $e($portraitPath) . '" alt="' . $e($t('impuls.' . $impulseIndex . '.bild.alt')) . '" width="1924" height="1280" loading="lazy" decoding="async" style="display:block;width:100%;max-width:320px;height:auto;margin-bottom:20px;border-radius:8px;">';
     }
+    $jointPortraits = '';
+    foreach (($ed['speakers'] ?? []) as $speaker) {
+        if ((int)($speaker['impulse'] ?? 0) !== $impulseIndex || !str_starts_with((string)($speaker['image'] ?? ''), '/assets/img/speakers/')) { continue; }
+        $crop = basename($speaker['image']) === 'laurent-hernandez.jpg' ? 'width:200%;left:-50%;top:-38%;' : 'width:165%;left:-32%;top:-28%;';
+        $jointPortraits .= '<figure style="margin:0;"><span style="display:block;position:relative;width:112px;height:112px;overflow:hidden;border-radius:50%;margin-bottom:12px;"><img src="' . $e($speaker['image']) . '" alt="' . $e($speaker['name']) . '" loading="lazy" decoding="async" style="display:block;position:absolute;max-width:none;height:auto;' . $crop . '"></span><figcaption>' . $e($speaker['name']) . '</figcaption></figure>';
+    }
+    if ($jointPortraits !== '') { $portrait = '<div style="display:flex;flex-wrap:wrap;gap:24px;margin-bottom:24px;">' . $jointPortraits . '</div>'; }
     $impulse .= <<<HTML
 <li>
             {$portrait}
