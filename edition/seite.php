@@ -261,12 +261,12 @@ $body = <<<HTML
           <p class="x-lead">{$t('ablauf.lead')}</p>
         </div>
         <ol class="ux-stages"><li><strong>Ankommen und kennenlernen</strong></li><li><strong>Praxis und Austausch</strong></li><li><strong>Gemeinsamer Abend</strong></li><li><strong>Nächste Schritte</strong></li></ol>
-        <details class="ux-agenda"><summary>Den detaillierten Zeitplan öffnen</summary>
+        <div class="ux-agenda">
           {$agendaModerator}
           <div class="x-schedule">
           {$dayHtml1}
           {$dayHtml2}
-        </div></details>
+        </div></div>
       </div>
     </section>
 
