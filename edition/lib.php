@@ -99,6 +99,7 @@ function x25ed_seed(): void
     x25ed_oppenberg_migration();
     x25ed_trusteq_migration();
     x25ed_faq_migration();
+    x25ed_security_date_migration();
     x25ed_patch_migration('vertrieb-ki.json');
 }
 
@@ -141,6 +142,33 @@ function x25ed_patch_migration(string $datei): void
 }
 
 /** Repair only the verified Change Management FAQ mismatches, preserving CMS edits. */
+
+/** Apply the approved Security date without replacing other CMS content. */
+function x25ed_security_date_migration(): void
+{
+    $file = x25ed_dir() . '/security.json';
+    $marker = x25ed_dir() . '/.migration-security-date-2026-11-03-v1';
+    if (is_file($marker) || !is_file($file)) { return; }
+    $ed = json_decode((string)file_get_contents($file), true);
+    if (!is_array($ed)) { throw new RuntimeException('Edition nicht lesbar.'); }
+    $backup = x25ed_dir() . '/.security-before-date-2026-11-03.json';
+    if (!is_file($backup) && !copy($file, $backup)) { throw new RuntimeException('Sicherung fehlgeschlagen.'); }
+    @chmod($backup, 0640);
+    array_walk_recursive($ed, static function (&$value): void {
+        if (is_string($value)) {
+            $value = str_replace(
+                ['2027-01-28', '2027-01-29', '28./29.', '28. Januar', '29. Januar'],
+                ['2027-01-21', '2027-01-22', '21./22.', '21. Januar', '22. Januar'],
+                $value
+            );
+        }
+    });
+    $ed['datum_start'] = '2027-01-21T09:45:00+01:00';
+    $ed['datum_ende'] = '2027-01-22T13:30:00+01:00';
+    x25ed_save($ed);
+    if (file_put_contents($marker, gmdate('c'), LOCK_EX) === false) { throw new RuntimeException('Terminaktualisierung nicht gespeichert.'); }
+}
+
 function x25ed_faq_migration(): void
 {
     $slug = 'change-management'; $revision = 'faq-assignment-2026-10-05-v1';
