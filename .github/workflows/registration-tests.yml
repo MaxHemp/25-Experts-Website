@@ -1,0 +1,30 @@
+name: Anmeldestrecke testen
+
+on:
+  pull_request:
+  push:
+    branches: [main, 'fix/registration-invoice-flow']
+
+permissions:
+  contents: read
+
+jobs:
+  registration:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.1', '8.3']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, pdo_sqlite
+          coverage: none
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: PHP syntax
+        run: find anmeldung edition -name '*.php' -not -path '*/data/*' -print0 | xargs -0 -n1 php -l
+      - name: Isolated registration flow (SQLite and JSON)
+        run: python3 -m unittest discover -s tests -v

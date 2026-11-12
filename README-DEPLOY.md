@@ -2,7 +2,7 @@
 
 Stand 18.08.2026 (Messaging v5: keine Sponsoring-Seite mehr; /sponsoring leitet auf /kontakt#partner). Dieses Verzeichnis ist der komplette Inhalt des GitHub-Repos, das Hostinger nach `public_html` ausrollt.
 Domain: **https://25-experts.de/** (Domain und E-Mail liegen bei Hostinger). Kein n8n, kein Netlify, kein Resend:
-Die komplette Anmeldestrecke (Anmeldung → Zahlung direkt bei der Anmeldung per PayPal oder Rechnung → Ticket mit QR-Code → Admin; keine Vorprüfung mehr, Stand 19.08.2026) läuft in `anmeldung/` auf dem Hostinger-Webspace und verschickt alle Mails über ein Hostinger-Postfach. **Einrichtung und Betrieb der Anmeldestrecke (PayPal, Bankdaten, Admin, Allowlist, tägliche Aufgaben): `README-ANMELDUNG.md`.**
+Die komplette Anmeldestrecke (kostenfreie Anfrage → persönliche Zusage → verbindliche Buchung mit Rechnungsdaten → Zahlung per PayPal oder Rechnung → Ticket mit QR-Code; Stand 12.11.2026) läuft in `anmeldung/` auf dem Hostinger-Webspace und verschickt alle Mails über ein Hostinger-Postfach. **Einrichtung und Betrieb der Anmeldestrecke (PayPal, Bankdaten, Admin, Allowlist, tägliche Aufgaben): `README-ANMELDUNG.md`.**
 
 Was du selbst tust: **GitHub-Repo anlegen → Dateien hochladen → Repo in Hostinger verbinden → config.php und Postfach anlegen → testen.**
 Alles andere (Fotos nachladen, Redirects, Caching, Sicherheits-Header) ist vorbereitet.
@@ -21,7 +21,7 @@ editionen/change-management/index.html + danke.html                          Lan
 assets/css, assets/js, assets/fonts, assets/img                              Stylesheets, Skript, Schriften, Logos
 assets/img/fotos/             Symbolbilder (leer, bis der Workflow oder tools/fetch_fotos.py sie geladen hat)
 assets/img/25experts-logo-horizontal.png   Logo als PNG für E-Mails/Signatur (URL: https://25-experts.de/assets/img/25experts-logo-horizontal.png)
-anmeldung/send.php            Formular-Handler (PHP 8.1+): Validierung, Speicherung, automatische Zulassung, Mails (PHPMailer per SMTP)
+anmeldung/send.php            Formular-Handler (PHP 8.1+): Validierung, kostenfreie Anfrage, persönliche Prüfung/Einladung, Speicherung, Mails (PHPMailer per SMTP)
 anmeldung/aktion.php, zahlung.php, paypal.php, rechnung.php, ticket.php, admin.php   Gastgeber-Links, Zahlungsseite (PayPal/Rechnung), Rechnung, Ticket mit QR, Admin
 anmeldung/config.example.php  Vorlage für anmeldung/config.php (SMTP, PayPal, Bank, Admin, Secrets, Edition) – config.php liegt NICHT im Repo
 anmeldung/.htaccess, anmeldung/lib/, anmeldung/data/   Zugriffsschutz; PHPMailer + QR-Bibliothek (Lizenzen liegen bei); Datenablage (SQLite, nicht im Repo) und Domainlisten
@@ -69,7 +69,7 @@ Kurzfassung hier; die vollständige Schritt-für-Schritt-Anleitung (PayPal, Bank
     - `MAIL_TRANSPORT` bleibt `'smtp'`
     - Ordner `anmeldung/data/` muss für PHP beschreibbar sein (Standard bei Hostinger; sonst Rechte 755).
     Speichern. Die Datei ist per `.htaccess` gegen Direktaufruf gesperrt und wird von Git ignoriert (überlebt Deploys).
-11. **Test-Anmeldung:** https://25-experts.de/editionen/change-management/#anmeldung ausfüllen und absenden → Weiterleitung auf die Danke-Seite (Text je nach Status) → Weiterleitung direkt auf die Zahlungsseite; zwei Mails: Benachrichtigung an `MAIL_TO`, Bestätigung mit Zahlungslink an die eingetragene Adresse. Danach die Strecke einmal durchspielen: Zahlungsseite → „Per Rechnung zahlen" → Rechnungsmail → Link „Zahlung eingegangen" → Ticket-Mail mit QR; Admin unter /anmeldung/admin.php. Auch einmal mit deaktiviertem JavaScript testen (Redirect statt JSON) und einmal ein Pflichtfeld leer lassen (Fehlermeldung im Formular).
+11. **Anmeldestrecke prüfen:** Zuerst lokal `python3 -m unittest discover -s tests -v` ausführen (Details und Voraussetzungen in `README-ANMELDUNG.md`). Nur fiktive Daten und Dateimails verwenden. Erwarteter Ablauf: kostenfreie Anfrage → `pruefung` → persönliche Zusage → Rechnungsangaben und ausdrücklich verbindliche Buchung → Zahlungsweg → Zahlungseingang → Ticket. Persönliche Einladungen können bei freier Kapazität direkt zur Buchung führen. Ohne JavaScript erfolgt ein 303-Redirect. Keine produktive Testanmeldung, echte Mail oder Zahlung ohne gesonderte Freigabe.
     Fehlersuche: Antwort „Konfiguration fehlt" → config.php fehlt/heißt falsch. „konnte nicht übertragen werden" → SMTP-Zugangsdaten prüfen (Postfachadresse als Benutzername, Port 465/SSL); Hostinger-Fehlerlog unter Erweitert → PHP-Konfiguration/„Fehlerprotokoll".
 
 ## Teil D: Domain, SSL, Suche
@@ -101,6 +101,6 @@ Nur Formular-Texte/Empfänger ändern (z. B. neuer `MAIL_TO`, neue Edition): `an
 - `anmeldung/config.php`, `anmeldung/lib/`, `anmeldung/data/`, `tools/`, `README*.md`, `.git*` sind per `.htaccess` gegen Direktaufruf gesperrt.
 - Datenschutzerklärung (`datenschutz.html`) nennt Hostinger als Hoster und Mailversand über die eigenen Postfächer; die `[TBD]`-Stellen dort weiter anwaltlich klären.
 
-## Lokal testen (optional)
+## Lokal testen
 
-`php -S 127.0.0.1:8765 -t repo/` im Ordner `07-deploy/` und `anmeldung/config.php` mit `MAIL_TRANSPORT = 'file'` anlegen: Mails landen als `.eml` in `MAIL_DUMP_DIR` statt verschickt zu werden. Automatisierter Test: `python3 07-deploy/test/run_tests.py` (116 Prüfungen: JSON- und Formular-POST, Validierung v5, Honeypot, Injection, Rate-Limit, SMTP-Fehlerpfad, Zulassung Allowlist/Freemail/unbekannt, Zulassen-/Absagen-Links, Rechnung, Zahlung markieren → Ticket mit QR, PayPal-Mock, Admin, Warteliste, Löschroutine, JSON-Fallback).
+`python3 -m unittest discover -s tests -v` führt isolierte HTTP-Tests für SQLite und JSON aus. Die Suite erstellt eine temporäre Website-Kopie, verwendet ausschließlich fiktive Teilnehmerdaten und legt Mails als Dateien ab. Produktionskonfiguration und Teilnehmerdaten werden nicht kopiert. Voraussetzungen und Prüfumfang: `README-ANMELDUNG.md`, Abschnitt 5.

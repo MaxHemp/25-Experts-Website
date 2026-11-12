@@ -58,7 +58,7 @@ ServerSignature Off
 
   # 4) Versteckte Dateien und Repo-Reste nie ausliefern
   RewriteRule (^|/)\.(git|github|gitignore|htaccess|DS_Store) - [F,L]
-  RewriteRule ^(README[^/]*\.md|tools/.*)$ - [F,L]
+  RewriteRule ^(README[^/]*\.md|tools/.*|tests/.*)$ - [F,L]
 </IfModule>
 
 # Fehlerseiten

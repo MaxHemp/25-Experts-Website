@@ -44,10 +44,10 @@ define('LOGO_URL', SITE_URL . 'assets/img/25experts-logo-horizontal.png');   // 
 // Impressumszeile im Fuß aller Mails und Seiten (Pflichtangaben im Geschäftsverkehr; nach HR-Eintragung ergänzen)
 define('MAIL_FOOTER', '25 EXPERTS UG (haftungsbeschränkt) i. G. · Sitz Köln · Moitzfeld 17, 51429 Bergisch Gladbach · Geschäftsführer: Maximilian Hempel · Amtsgericht Köln (Eintragung beantragt)');
 
-// --- Plätze (seit v6 keine Vorprüfung: jede gültige Anmeldung ist sofort zugelassen) --------
-define('MAX_SEATS', 25);               // Plätze; ist das Kontingent belegt, landen neue Anmeldungen auf der Warteliste
-define('SEATS_COUNT', 'zugelassen');   // was zählt als belegt: 'zugelassen' (zugelassen inkl. bezahlt) oder 'bezahlt' (nur bezahlte)
-// Domainlisten (eine Domain je Zeile, # = Kommentar): seit v6 nur noch Hinweis in der Gastgeber-Mail.
+// --- Plätze (reguläre Anfragen zuerst in persönlicher Prüfung) --------
+define('MAX_SEATS', 25);               // Fallback für Editionen ohne eigenes Kontingent; Zusagen/Einladungen prüfen auch max. 2 pro Unternehmen
+define('SEATS_COUNT', 'zugelassen');   // Legacy-Platzzähler; persönliche Zulassung zählt immer 'zugelassen' (auch ohne Zahlung)
+// Domainlisten (eine Domain je Zeile, # = Kommentar): Hinweis, keine automatische Zulassung.
 // define('DOMAINS_ALLOW_FILE', __DIR__ . '/data/domains-zugelassen.txt');
 // define('DOMAINS_FREEMAIL_FILE', __DIR__ . '/data/domains-freemail.txt');
 
