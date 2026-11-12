@@ -1,10 +1,10 @@
 <?php
 /**
- * 25 EXPERTS – Zahlungsseite (Schritt 3): zahlung.php?t=TOKEN
+ * 25 EXPERTS – verbindliche Buchung nach Zusage, anschließend Zahlung: zahlung.php?t=TOKEN
  * Zeigt Betrag (PRICE_NET + VAT_RATE) und zwei Wege:
  *   (a) PayPal Smart Buttons (JS-SDK; Order anlegen/capturen serverseitig über paypal.php)
  *   (b) „Per Rechnung zahlen" (POST) → Rechnungsnummer, Rechnungsmail, Gastgeber-Mail mit „Zahlung eingegangen"-Link
- * Nach Zahlungseingang wird auf das Ticket verwiesen; seit v6 landet jede gültige Anmeldung direkt hier.
+ * Rechnungsdaten werden erst beim bestätigten Buchungs-POST gespeichert. Nach Zahlungseingang folgt das Ticket.
  * Die Content-Security-Policy für das PayPal-SDK setzt anmeldung/.htaccess (Files zahlung.php); das Seitenskript liegt in zahlung.js.
  */
 declare(strict_types=1);

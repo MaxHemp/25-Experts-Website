@@ -177,7 +177,7 @@ HTML;
                   <label class="x-choice x-choice--bare" for="a-privacy"><input type="checkbox" id="a-privacy" name="privacy" value="ja" required aria-required="true"> <span>{$t('bestaetigung.datenschutz')} <span class="x-req" aria-hidden="true">*</span></span></label>
                   <span class="x-error" role="alert">{$t('bestaetigung.datenschutz.error')}</span>
                 </div>
-                <p class="x-meta">Erst mit Deiner verbindlichen Buchung entsteht eine Zahlungspflicht.</p>
+                <p class="x-meta">{$t('schritt2.hinweis')} Erst mit Deiner verbindlichen Buchung entsteht eine Zahlungspflicht.</p>
               </div>
             </div>
 

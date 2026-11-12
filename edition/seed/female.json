@@ -100,13 +100,11 @@
    "paket.titel": "25 FEMALE EXPERTS",
    "schritt1.tab": "Persönliche Angaben",
    "schritt1.titel": "Persönliche Angaben",
-   "schritt2.hinweis": "Die Rechnungsangaben werden erst nach einer Zusage benötigt. Du kannst sie für die anschließende Buchung bereits hinterlegen.",
-   "schritt2.tab": "Rechnung",
-   "schritt2.titel": "Angaben für die Rechnung",
-   "schritt3.tab": "Dein Platz",
-   "schritt3.titel": "Deine Verantwortung und Dein Anliegen",
-   "schritt4.tab": "Bestätigung",
-   "schritt4.titel": "Teilnahme anfragen",
+   "schritt2.hinweis": "Rechnungsangaben erfassen und speichern wir erst nach der Zusage, wenn Du Deine Teilnahme ausdrücklich verbindlich buchst.",
+   "schritt2.tab": "Dein Anliegen",
+   "schritt2.titel": "Deine Verantwortung und Dein Anliegen",
+   "schritt3.tab": "Prüfen und senden",
+   "schritt3.titel": "Prüfen und senden",
    "feld.frage.error": "Bitte nenne uns eine aktuelle Frage oder Entscheidung."
   },
   "danke": {

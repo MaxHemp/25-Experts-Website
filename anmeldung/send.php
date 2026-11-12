@@ -1,15 +1,11 @@
 <?php
 /**
- * 25 EXPERTS – Anmeldeformular-Handler (Schritt 1 der Anmeldestrecke)
- * Nimmt die verbindliche Anmeldung der Landingpage (editionen/change-management/#anmeldung) entgegen:
- *   - als JSON (fetch aus assets/js/site.js)  → Antwort JSON {ok:true,status:"zugelassen"|"warteliste",pay_url} / {ok:false,error,fields}
- *   - als klassisches Formular-POST (ohne JS)  → Redirect 303 direkt auf die Zahlungsseite (zahlung.php)
- *     bzw. danke.html?status=warteliste bzw. zurück mit ?fehler=1&grund=…
- * Prüft Pflichtfelder (Feldliste v7: Wizard-Anmeldeseite mit Vor-/Nachname, Telefon und Rechnungsdaten;
- * offene Frage optional; das alte Feld 'name' wird weiter akzeptiert), Honeypot, Rate-Limit, Origin, Header-Injection;
- * speichert die Anmeldung (lib/store.php, data/). Keine Vorprüfung: Jede gültige Anmeldung ist sofort zugelassen
- * und wird direkt zur Zahlung geleitet (Warteliste, wenn MAX_SEATS belegt). Der Veranstalter behält sich vor,
- * Anmeldungen für ungültig zu erklären, wenn die Teilnahmebedingungen nicht erfüllt sind (aktion.php/admin.php).
+ * Kostenfreie Teilnahme-Anfrage (JSON oder klassischer Formular-POST).
+ * Regulär: persönliche Prüfung → Zusage → separate verbindliche Buchung mit Rechnungsdaten.
+ * Persönliche Einladung: bereits geprüft; Zusage oder Warteliste nach Kapazität/Unternehmenslimit.
+ * Validiert Kontaktdaten, Unternehmenstyp, Anliegen und Bestätigungen; Rechnungsdaten werden
+ * hier bewusst nicht übernommen. Speicherung unter Sperre, Bestätigung und Gastgeber-Mail.
+ * JSON: {ok,status:"pruefung"|"zugelassen"|"warteliste",pay_url?}; ohne JS: Redirect 303.
  * Konfiguration: config.php (aus config.example.php), PHP >= 8.1, PHPMailer in lib/.
  */
 declare(strict_types=1);
@@ -69,7 +65,7 @@ if ($RATE_LIMIT > 0 && !x25_rate_ok($RATE_LIMIT * 6, $RATE_WINDOW, $RATE_SALT, '
     x25_respond(false, $RATE_MSG, 429, 'limit');
 }
 
-// ------------------------------------------------------------------ Validierung (Feldliste v7)
+// ------------------------------------------------------------------ Validierung der kostenfreien Anfrage
 $errors = [];
 $d = [];
 $d['vorname']  = x25_line($in['vorname'] ?? '', 100);
@@ -85,11 +81,9 @@ $d['email']    = strtolower(x25_line($in['email'] ?? '', 254));
 $d['linkedin'] = x25_line($in['linkedin'] ?? '', 300);
 $d['question'] = x25_multiline($in['question'] ?? '', 5000);
 $d['phone']    = x25_line($in['phone'] ?? '', 60);
-$d['invoice_company'] = x25_line($in['invoice_company'] ?? '', 200);
-$d['invoice_address'] = x25_multiline($in['invoice_address'] ?? '', 500);
-$d['order_no']        = x25_line($in['order_no'] ?? '', 100);
-$d['invoice_email']   = strtolower(x25_line($in['invoice_email'] ?? '', 254));
-$d['invoice_company'] = $d['invoice_address'] = $d['order_no'] = $d['invoice_email'] = ''; // erst bei verbindlicher Buchung
+// Datensparsame Anfrage: keine Rechnungsdaten lesen oder aus alten/manipulierten Formularen übernehmen.
+// Erfassung und Speicherung erst in zahlung.php mit der ausdrücklichen verbindlichen Buchung.
+$d['invoice_company'] = $d['invoice_address'] = $d['order_no'] = $d['invoice_email'] = '';
 $d['category'] = strtolower(x25_line($in['category'] ?? '', 40));
 $privacy       = x25_truthy($in['privacy'] ?? ($in['consent'] ?? null));   // v5: privacy (consent = ältere Seitenversion)
 $d['source'] = x25_line(explode('?', (string)($in['source'] ?? ''))[0], 500);
@@ -111,7 +105,7 @@ if ($edSlug !== '') {
 }
 $d['edition']  = $edition_in !== '' ? $edition_in : ($ED !== null ? x25ed_label($ED) : $C['edition']);
 
-foreach (['name' => 'Name', 'company' => 'Unternehmen', 'role' => 'Rolle'] as $k => $label) {   // Verantwortung und Anliegen werden vor der Zahlung geprüft
+foreach (['name' => 'Name', 'company' => 'Unternehmen', 'role' => 'Rolle'] as $k => $label) {   // Mindestangaben für die persönliche Prüfung
     if ($d[$k] === '') { $errors[$k] = $label . ' fehlt.'; }
 }
 if ($d['level'] !== '' && !isset(X25_LEVELS[$d['level']])) { $errors['level'] = 'Ebene fehlt oder ist ungültig.'; }
@@ -127,9 +121,6 @@ if (!$emailOk) { $errors['email'] = 'Bitte gib eine gültige E-Mail-Adresse an.'
 if ($d['linkedin'] !== '' && (!preg_match('~^https?://~i', $d['linkedin']) || filter_var($d['linkedin'], FILTER_VALIDATE_URL) === false)) {
     $errors['linkedin'] = 'Bitte gib eine vollständige LinkedIn-Adresse mit https:// an.';
 }
-if ($d['invoice_email'] !== '' && (filter_var($d['invoice_email'], FILTER_VALIDATE_EMAIL) === false || !PHPMailer\PHPMailer\PHPMailer::validateAddress($d['invoice_email']))) {
-    $errors['invoice_email'] = 'Bitte gib eine gültige Rechnungskontakt-E-Mail-Adresse an.';
-}
 if ($d['source'] !== '' && !str_starts_with($d['source'], $C['site']) && !str_starts_with($d['source'], 'http://localhost')) {
     $d['source'] = '';   // fremde/unerwartete Herkunft nicht übernehmen
 }
@@ -141,7 +132,7 @@ if ($RATE_LIMIT > 0 && !x25_rate_ok($RATE_LIMIT, $RATE_WINDOW, $RATE_SALT, 'm'))
     x25_respond(false, $RATE_MSG, 429, 'limit');
 }
 
-// ------------------------------------------------------------------ Speichern (keine Vorprüfung: direkt zugelassen, Warteliste bei vollem Haus)
+// ------------------------------------------------------------------ Speichern (persönliche Prüfung; Einladungen gesondert)
 $domainResult = x25_domain_check($d['email']);   // nur noch informativ für das Organisationsteam-Mail
 $rec = $d + [
     'token' => x25_token(16), 'action_nonce' => x25_token(12), 'created_at' => gmdate('c'),
@@ -156,13 +147,12 @@ if ($ED !== null) {
     $rec['edition_slug'] = $edSlug;
     $rec['ed'] = x25ed_snapshot($ED);   // Preis/Termin/Ort zum Zeitpunkt der Anmeldung (Fallback für Mails/Rechnung)
 }
-$seatSlug = $ED !== null ? $edSlug : x25_default_slug();
 $maxSeats = $ED !== null ? max(1, (int)($ED['max_plaetze'] ?? 25)) : (int)$C['max_seats'];
 $id = 0;
 try {
     $store = x25_store();
-    // Platzvergabe unter Sperre: zugelassen, solange in DIESER Edition Plätze frei sind, sonst Warteliste
-    $store->transaction(function (X25Store $s) use (&$rec, &$id, $seatSlug, $maxSeats, $invitation) {
+    // Prüfung/Einladung, Duplikate und Kapazität derselben Edition unter Sperre
+    $store->transaction(function (X25Store $s) use (&$rec, &$id, $maxSeats, $invitation) {
         $rec = x25_new_admission($s->all(), $rec, $invitation, $maxSeats);
         $rec['request_confirmed_at'] = gmdate('c');
         $rec['terms_version'] = '2026-09-07';
@@ -170,7 +160,7 @@ try {
     });
     $rec = $store->get($id);
 
-    // Mails: (a) Bestätigung mit Zahlungsaufforderung bzw. Warteliste an den Anmelder, (b) Info an das Organisationsteam
+    // Statusgerechte Bestätigung an den Anfragenden und Info an das Organisationsteam
     match ($rec['status']) {
         'zugelassen' => x25_mail_zusage($rec),
         'warteliste' => x25_mail_warteliste($rec),

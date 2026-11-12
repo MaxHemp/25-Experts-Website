@@ -827,6 +827,8 @@ function x25ed_txt(?array $ed, string $bereich, string $key, ?string $fallback =
         'cta.anmelden' => 'Jetzt anmelden',
         'cta.platz-anmelden' => 'Jetzt anmelden',
         'faq.3.antwort' => 'Du fragst Deine Teilnahme kostenfrei an. Wir melden uns innerhalb von zwei Werktagen persönlich. Nach Zusage entscheidest Du, ob Du verbindlich buchen möchtest. Erst diese Buchung begründet die Zahlungspflicht. Höchstens zwei Teilnehmer pro Unternehmen.',
+        // Fachlicher Ablauf gilt auch für bereits gespeicherte Editionstexte; keine Datenmigration nötig.
+        'schritt2.hinweis' => 'Rechnungsangaben erfassen und speichern wir erst nach der Zusage, wenn Du Deine Teilnahme ausdrücklich verbindlich buchst.',
         'feld.email.hint' => 'Hier erhältst Du Deine Eingangsbestätigung und unsere persönliche Rückmeldung.',
         'eventld.angebot.beschreibung' => 'Kostenfreie Anfrage; verbindliche Buchung erst nach persönlicher Zusage.',
         'symbolbild' => 'KI-generiertes Symbolbild',

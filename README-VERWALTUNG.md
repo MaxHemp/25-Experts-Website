@@ -39,6 +39,7 @@ duplizieren, archivieren, löschen. Ohne IT-Kenntnisse bedienbar; Änderungen si
 
 - Preis (netto), Plätze und Ticketnummern-Anfang stehen je Edition in der Verwaltung.
 - Die Anmeldestrecke (`anmeldung/`) rechnet Zahlung/Rechnung/Ticket automatisch mit den Werten
-  der jeweiligen Edition; die Plätze werden je Edition gezählt (voll → Warteliste).
+  der jeweiligen Edition. Reguläre Anfragen gehen zunächst in die persönliche Prüfung; bei Zusagen und Einladungen werden Plätze und höchstens zwei Teilnehmer pro Unternehmen geprüft.
+- Rechnungsdaten werden erst nach Zusage bei der ausdrücklich verbindlichen Buchung gespeichert. Eine Zusage allein bedeutet noch keine Buchung oder Zahlung. Ablauf: `README-ANMELDUNG.md`.
 - Anmeldungen ansehen: `/anmeldung/admin.php` (mit Editions-Filter, CSV-Export).
 - Löschen einer Edition ist nur ohne Anmeldungen möglich; sonst archivieren.

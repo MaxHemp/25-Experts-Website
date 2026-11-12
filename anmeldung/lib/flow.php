@@ -2,8 +2,9 @@
 /**
  * 25 EXPERTS – fachlicher Ablauf der Anmeldestrecke und alle Mailtexte.
  *
- * Statusmodell je Anmeldung (seit v6 ohne Vorprüfung: jede gültige Anmeldung ist sofort zugelassen):
- *   status          zugelassen | abgesagt (= für ungültig erklärt) | warteliste ('pruefung' nur noch für Altdaten)
+ * Statusmodell: kostenfreie Anfrage → persönliche Zusage → verbindliche Buchung → Zahlung → Ticket.
+ *   status          pruefung | zugelassen | abgesagt | warteliste
+ *   booking_confirmed_at  ausdrückliche Buchung mit Rechnungsdaten (neue Anfragen: admission_mode persoenlich)
  *   payment_method  '' | paypal | rechnung
  *   payment_status  offen | bezahlt
  *   invoice_no      25X-2026-0001 … (nur bei Rechnung)          ticket_no  25X-CM-001 … (nach Zahlungseingang)
@@ -12,7 +13,7 @@
  *
  * Aktionen (aus send.php, aktion.php, admin.php, paypal.php, zahlung.php):
  *   x25_admit()  x25_reject()  x25_choose_invoice()  x25_mark_paid()  x25_send_ticket()
- * Mailtexte: Marke 25 EXPERTS, Du-Form (Beschluss 19.08.2026: Direktanmeldung mit sofortiger Zahlung).
+ * Mailtexte: Marke 25 EXPERTS, Du-Form; eine Zusage allein begründet keine Zahlungspflicht.
  */
 declare(strict_types=1);
 
@@ -56,7 +57,7 @@ function x25_t_rows(array $rows): string
     foreach ($rows as [$k, $v]) { $s .= str_pad($k . ':', 20) . $v . "\n"; }
     return $s;
 }
-/** Die offene Frage ist seit v6 optional; für Mails mit '–' als Platzhalter. */
+/** Anliegen ist für neue Anfragen erforderlich; Altdaten ohne Frage erhalten einen Platzhalter. */
 function x25_question(array $rec): string { return trim((string)($rec['question'] ?? '')) !== '' ? (string)$rec['question'] : '–'; }
 
 // ------------------------------------------------------------------ Aktionen
@@ -85,7 +86,7 @@ function x25_reject(array $rec, string $by, string $reason = 'zielgruppe'): arra
     x25_mail_absage($rec, $reason);
     return $rec;
 }
-/** Warteliste (bei automatischer Zulassung, wenn alle Plätze belegt sind). */
+/** Warteliste durch das Organisationsteam oder bei einer Einladung ohne freien Platz. */
 function x25_waitlist(array $rec, string $by): array
 {
     $store = x25_store();
@@ -237,7 +238,7 @@ function x25_mail_rechnung(array $rec): void
     $url = x25_invoice_url($rec);
     $a1 = 'anbei erhältst Du die Rechnung für Deine Teilnahme an ' . $ed['name'] . ' am ' . $ed['datum'] . '. Über den Link unten kannst Du die Rechnung als PDF speichern oder drucken (Browser: „Drucken" → „Als PDF speichern").';
     $rows = x25_invoice_rows($rec);
-    $a2 = 'Diese Zusage allein begründet noch keine Zahlungspflicht. Erst mit Deiner verbindlichen Buchung entsteht die Zahlungspflicht. Dein Ticket erhältst Du nach Zahlungseingang. Sollte Deine Buchhaltung eine Bestellnummer oder abweichende Rechnungsanschrift benötigen, antworte einfach auf diese E-Mail; wir stellen die Rechnung neu aus.';
+    $a2 = 'Du hast Deine Teilnahme verbindlich gebucht und Zahlung per Rechnung gewählt. Dein Ticket erhältst Du nach Zahlungseingang. Sollte Deine Buchhaltung eine Bestellnummer oder abweichende Rechnungsanschrift benötigen, antworte einfach auf diese E-Mail; wir stellen die Rechnung neu aus.';
     $txt = "Hallo " . $rec['name'] . ",\n\n" . x25_wrap($a1) . "\n\n" . x25_t_rows($rows) . "\nRechnung online (druckbar): " . $url . "\n\n" . x25_wrap($a2) . "\n\n" . x25_t_sig();
     $html = x25_html_shell($subj, x25_h_kicker('Rechnung') . x25_h_h1('Hallo ' . x25_e($rec['name']) . ',')
         . x25_h_p(x25_e($a1)) . x25_h_box(x25_h_rows($rows) . x25_h_btn($url, 'Rechnung ansehen / als PDF speichern'))
