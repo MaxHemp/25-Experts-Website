@@ -100,6 +100,7 @@ function x25ed_seed(): void
     x25ed_trusteq_migration();
     x25ed_faq_migration();
     x25ed_security_date_migration();
+    x25ed_security_confirmed_migration();
     x25ed_patch_migration('vertrieb-ki.json');
 }
 
@@ -144,6 +145,39 @@ function x25ed_patch_migration(string $datei): void
 /** Repair only the verified Change Management FAQ mismatches, preserving CMS edits. */
 
 /** Apply the approved Security date without replacing other CMS content. */
+
+/** Confirm the Security date across stored edition texts, preserving other edits. */
+function x25ed_security_confirmed_migration(): void
+{
+    $file = x25ed_dir() . '/security.json';
+    $marker = x25ed_dir() . '/.migration-security-confirmed-2026-11-13-v1';
+    if (is_file($marker) || !is_file($file)) { return; }
+    $ed = json_decode((string)file_get_contents($file), true);
+    if (!is_array($ed)) { throw new RuntimeException('Edition nicht lesbar.'); }
+    $backup = x25ed_dir() . '/.security-before-confirmed-2026-11-13.json';
+    if (!is_file($backup) && !copy($file, $backup)) { throw new RuntimeException('Sicherung fehlgeschlagen.'); }
+    @chmod($backup, 0640);
+    $replacements = [
+        ' (vorläufig)' => '',
+        'Termin vorläufig' => 'Termin bestätigt',
+        'vorläufiger Termin' => 'bestätigter Termin',
+        ' Der angegebene Veranstaltungstermin ist vorläufig.' => '',
+        ' Der angegebene Termin ist vorläufig.' => '',
+        ' Der angegebene Termin ist weiterhin vorläufig.' => '',
+        ' Der Veranstaltungstermin ist weiterhin als vorläufig gekennzeichnet.' => '',
+        'Die Impulsgeber und der Termin werden noch bestätigt.' => 'Der Termin ist bestätigt. Die Impulsgeber werden noch bekannt gegeben.',
+        'Nein. Wir planen mit 21./22. Januar 2027. Die Bestätigung des Veranstaltungsorts und des Termins steht noch aus. Änderungen werden auf dieser Seite veröffentlicht.' => 'Ja. 25 SECURITY EXPERTS findet am 21. und 22. Januar 2027 in Köln statt. Der Termin ist bestätigt.',
+        'Geplant ist der SESSEL HUB Rheinauhafen, Kranhaus Nord, Im Zollhafen 12, 50678 Köln. Die Reservierung für den vorläufigen Termin wird noch bestätigt.' => 'Die Veranstaltung findet im SESSEL HUB Rheinauhafen, Kranhaus Nord, Im Zollhafen 12, 50678 Köln statt.',
+        'Geplant am gewohnten Veranstaltungsort im Rheinauhafen. Die Verfügbarkeit für diesen Termin wird noch bestätigt.' => 'Am gewohnten Veranstaltungsort im Rheinauhafen am 21. und 22. Januar 2027.',
+    ];
+    array_walk_recursive($ed, static function (&$value) use ($replacements): void {
+        if (is_string($value)) { $value = strtr($value, $replacements); }
+    });
+    $ed['termin_vorlaeufig'] = false;
+    x25ed_save($ed);
+    if (file_put_contents($marker, gmdate('c'), LOCK_EX) === false) { throw new RuntimeException('Terminaktualisierung nicht gespeichert.'); }
+}
+
 function x25ed_security_date_migration(): void
 {
     $file = x25ed_dir() . '/security.json';
