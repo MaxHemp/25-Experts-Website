@@ -1,0 +1,60 @@
+{
+  "revision": "security-venue-pending-2026-11-15-v1",
+  "slug": "security",
+  "felder": {
+    "venue": {
+      "alt": "SESSEL HUB Rheinauhafen, Kranhaus Nord (Erdgeschoss), Im Zollhafen 12, 50678 Köln",
+      "neu": "Veranstaltungsort folgt"
+    },
+    "venue_ld": {
+      "alt": {
+        "name": "SESSEL HUB Rheinauhafen, Kranhaus Nord",
+        "plz": "50678",
+        "stadt": "Köln",
+        "strasse": "Im Zollhafen 12"
+      },
+      "neu": {
+        "name": "Veranstaltungsort folgt",
+        "stadt": "Köln",
+        "strasse": "",
+        "plz": ""
+      }
+    },
+    "vars.location_name": {
+      "alt": null,
+      "neu": "Veranstaltungsort folgt"
+    },
+    "vars.location_adresse": {
+      "alt": null,
+      "neu": "Köln; die genaue Adresse folgt"
+    },
+    "vars.koeln_kicker": {
+      "alt": null,
+      "neu": "Köln · Veranstaltungsort folgt"
+    },
+    "texte.landing.faq.12.antwort": {
+      "alt": "Die Veranstaltung findet im SESSEL HUB Rheinauhafen, Kranhaus Nord, Im Zollhafen 12, 50678 Köln statt.",
+      "neu": "Der Veranstaltungsort in Köln wird noch bekannt gegeben. Der Termin am 21. und 22. Januar 2027 ist bestätigt."
+    },
+    "texte.landing.tagungsort.text": {
+      "alt": "Am gewohnten Veranstaltungsort im Rheinauhafen am 21. und 22. Januar 2027.",
+      "neu": "Veranstaltungsort folgt. Der Termin am 21. und 22. Januar 2027 ist bestätigt."
+    },
+    "texte.landing.anreise.titel": {
+      "alt": "Köln, Rheinauhafen. Hier sitzt die Versicherungsbranche.",
+      "neu": "Köln. Veranstaltungsort folgt."
+    },
+    "texte.landing.anfahrt.text1": {
+      "alt": "Köln Hauptbahnhof ist mit ICE und IC gut angebunden. Der Rheinauhafen liegt südlich der Altstadt; ÖPNV-Haltestellen in der Nähe: Ubierring/Schokoladenmuseum bzw. Severinstraße. Der Flughafen Köln/Bonn ist per S-Bahn mit dem Hauptbahnhof verbunden.",
+      "neu": "Die genaue Adresse und Hinweise zur Anreise geben wir mit dem Veranstaltungsort bekannt."
+    },
+    "texte.landing.hero.kicker": {
+      "alt": "Informationssicherheit im Zeitalter der KI · Köln, Rheinauhafen",
+      "neu": "Informationssicherheit im Zeitalter der KI · Köln"
+    },
+    "texte.landing.meta.beschreibung": {
+      "alt": "Du verantwortest die Sicherheit in Deinem Haus. KI verändert die Angriffe und die Werkzeuge, die Deine Fachbereiche nutzen. Mit 24 Sicherheitsverantwortlichen prüfst Du, welche Schutzmaßnahmen wirken, wie sichere KI-Nutzung gelingt und wer im Ernstfall entscheidet. Anderthalb Tage im Rheinauhafen, 25 Plätze. Termin bestätigt: 21./22. Januar 2027.",
+      "neu": "Du verantwortest die Sicherheit in Deinem Haus. KI verändert die Angriffe und die Werkzeuge, die Deine Fachbereiche nutzen. Mit 24 Sicherheitsverantwortlichen prüfst Du, welche Schutzmaßnahmen wirken, wie sichere KI-Nutzung gelingt und wer im Ernstfall entscheidet. Anderthalb Tage in Köln, 25 Plätze. Termin bestätigt: 21./22. Januar 2027."
+    }
+  }
+}

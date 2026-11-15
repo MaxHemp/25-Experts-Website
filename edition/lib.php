@@ -101,6 +101,7 @@ function x25ed_seed(): void
     x25ed_faq_migration();
     x25ed_security_date_migration();
     x25ed_security_confirmed_migration();
+    x25ed_patch_migration('security-venue-pending.json');
     x25ed_patch_migration('vertrieb-ki.json');
 }
 

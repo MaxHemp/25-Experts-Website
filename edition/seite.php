@@ -216,13 +216,21 @@ $tn = x25ed_weiblich($ed) ? 'Teilnehmerinnen' : 'Teilnehmer';
 $anmIntro = x25ed_weiblich($ed)
     ? 'Diese Runde ist für Frauen, die in ihrem Haus Verantwortung tragen – fachlich oder als Führungskraft. Wir möchten erfahren, welche Frage Dich gerade beschäftigt. Ein Führungstitel ist keine Voraussetzung.'
     : 'Du verantwortest dieses Thema fachlich oder führst ein Team? Wir möchten erfahren, welche Frage Dich gerade beschäftigt. Ein Führungstitel ist keine Voraussetzung.';
+// Security's date is confirmed; its previously advertised venue is not available.
+$securityVenuePending = $slug === 'security' && ($ed['venue'] ?? '') === 'Veranstaltungsort folgt';
+$heroArea = $securityVenuePending ? 'Köln · Veranstaltungsort folgt' : 'Köln · Rheinauhafen';
+$heroVenue = $securityVenuePending ? 'Veranstaltungsort folgt' : 'SESSEL HUB · Kranhaus Nord';
+$venueCards = '<div class="ux-venues"><div class="x-card"><p class="x-kicker">Unser Tagungsort</p><h3>SESSEL HUB · Kranhaus Nord</h3><address>Im Zollhafen 12<br>50678 Köln</address><p>Hier nehmen wir uns Zeit für Deine Fragen und den gemeinsamen Austausch.</p><a href="https://www.sesselkampagne.koeln/meetings" target="_blank" rel="noopener">Die Location kennenlernen (externe Website)</a></div><div class="x-card"><p class="x-kicker">Unser gemeinsamer Abend</p><h3>Gilden im Zims</h3><address>Heumarkt 77<br>50667 Köln</address><p>Beim gemeinsamen Dinner setzen wir die Gespräche in entspannter Atmosphäre fort.</p><a href="https://www.zims.de/" target="_blank" rel="noopener">Die Abendlocation kennenlernen (externe Website)</a></div></div>';
+if ($securityVenuePending) {
+    $venueCards = '<div class="ux-venues"><div class="x-card"><p class="x-kicker">Unser Tagungsort</p><h3>Veranstaltungsort folgt</h3><p>Die genaue Adresse in Köln und Hinweise zur Anreise geben wir noch bekannt. Der Termin am 21. und 22. Januar 2027 ist bestätigt.</p></div><div class="x-card"><p class="x-kicker">Unser gemeinsamer Abend</p><h3>Gilden im Zims</h3><address>Heumarkt 77<br>50667 Köln</address><p>Beim gemeinsamen Dinner setzen wir die Gespräche in entspannter Atmosphäre fort.</p><a href="https://www.zims.de/" target="_blank" rel="noopener">Die Abendlocation kennenlernen (externe Website)</a></div></div>';
+}
 $themeClass = 'nx-event nx-theme-' . preg_replace('/[^a-z-]/', '', $slug);
 $body = <<<HTML
     {$hinweis}
     <section class="nx-event-hero nx-hero--video" aria-labelledby="hero-title">{$heroVideo}<div class="x-container">
-      <div class="nx-event-hero__top"><h1 id="hero-title">{$nameHtml}</h1><p>{$date}{$provisional}<br>Köln · Rheinauhafen</p></div>
+      <div class="nx-event-hero__top"><h1 id="hero-title">{$nameHtml}</h1><p>{$date}{$provisional}<br>{$heroArea}</p></div>
       <div class="nx-event-hero__grid"><div><p class="nx-event-hero__statement">{$statement}</p><p class="x-lead">{$benefit}</p></div>{$motif}</div>
-      <div class="nx-event-hero__bottom"><p class="nx-event-hero__facts">SESSEL HUB · Kranhaus Nord<br>25 {$tn} · 1½ Tage mit Dinner<br>{$preisBetrag} netto · {$gross} € inkl. 19 % USt.</p><div><a class="nx-button" href="{$anm}">Jetzt anmelden <span aria-hidden="true">↗</span></a><p class="x-meta">Rückmeldung in zwei Werktagen. Noch keine Buchung.</p></div></div>
+      <div class="nx-event-hero__bottom"><p class="nx-event-hero__facts">{$heroVenue}<br>25 {$tn} · 1½ Tage mit Dinner<br>{$preisBetrag} netto · {$gross} € inkl. 19 % USt.</p><div><a class="nx-button" href="{$anm}">Jetzt anmelden <span aria-hidden="true">↗</span></a><p class="x-meta">Rückmeldung in zwei Werktagen. Noch keine Buchung.</p></div></div>
     </div></section>
     <nav class="ux-section-nav x-container" aria-label="Auf dieser Editionsseite"><a href="#leitfrage">Dein Thema</a><a href="#ablauf">Ablauf</a><a href="#impulse">Mitwirkende</a><a href="#preis">Leistungen &amp; Preis</a><a href="#anreise">Ort &amp; Anreise</a><a href="#faq">Fragen</a></nav>
 
@@ -323,7 +331,7 @@ $body = <<<HTML
           <p class="x-kicker">{$t('anreise.kicker')}</p>
           <h2 id="ort-h" class="x-h2">{$t('anreise.titel')}</h2>
         </div>
-        <div class="ux-venues"><div class="x-card"><p class="x-kicker">Unser Tagungsort</p><h3>SESSEL HUB · Kranhaus Nord</h3><address>Im Zollhafen 12<br>50678 Köln</address><p>Hier nehmen wir uns Zeit für Deine Fragen und den gemeinsamen Austausch.</p><a href="https://www.sesselkampagne.koeln/meetings" target="_blank" rel="noopener">Die Location kennenlernen (externe Website)</a></div><div class="x-card"><p class="x-kicker">Unser gemeinsamer Abend</p><h3>Gilden im Zims</h3><address>Heumarkt 77<br>50667 Köln</address><p>Beim gemeinsamen Dinner setzen wir die Gespräche in entspannter Atmosphäre fort.</p><a href="https://www.zims.de/" target="_blank" rel="noopener">Die Abendlocation kennenlernen (externe Website)</a></div></div><p class="x-meta">Anreise und Übernachtung sind nicht enthalten. Plane Deine Anreise passend zum Beginn der Agenda; die Details erhältst Du mit Deiner Teilnahmebestätigung.</p>
+        {$venueCards}<p class="x-meta">Anreise und Übernachtung sind nicht enthalten. Plane Deine Anreise passend zum Beginn der Agenda; die Details erhältst Du mit Deiner Teilnahmebestätigung.</p>
       </div>
     </section>
 
