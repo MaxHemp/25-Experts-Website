@@ -1,0 +1,14 @@
+{
+  "revision": "security-venue-footer-2026-11-15-v1",
+  "slug": "security",
+  "felder": {
+    "texte.gemeinsam.location.name": {
+      "alt": "SESSEL HUB Rheinauhafen",
+      "neu": "Veranstaltungsort folgt"
+    },
+    "texte.gemeinsam.footer.text": {
+      "alt": "Persönlich zusammengestellte Editionen für die Versicherungsbranche. 25 Teilnehmer. Anderthalb Tage im Rheinauhafen. Ein Austausch, der weitergeht.",
+      "neu": "Persönlich zusammengestellte Editionen für die Versicherungsbranche. 25 Teilnehmer. Anderthalb Tage in Köln. Ein Austausch, der weitergeht."
+    }
+  }
+}

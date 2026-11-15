@@ -129,11 +129,8 @@
    "titel.zugelassen": "Deine Anmeldung ist bestätigt."
   },
   "gemeinsam": {
-   "claim.kurz": "Einer von 25",
-   "claim.satz": "Wie bleibt Dein Haus sicher, wenn KI auf beiden Seiten mitarbeitet?",
-   "cta.anmelden": "Teilnahme anfragen",
-   "nav.landing": "25 SECURITY EXPERTS",
-   "cta.platz-anmelden": "Teilnahme anfragen"
+   "location.name": "Veranstaltungsort folgt",
+   "footer.text": "Persönlich zusammengestellte Editionen für die Versicherungsbranche. 25 Teilnehmer. Anderthalb Tage in Köln. Ein Austausch, der weitergeht."
   },
   "landing": {
    "abend.kicker": "Abendlocation",
