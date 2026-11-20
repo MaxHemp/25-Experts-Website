@@ -98,6 +98,7 @@ function x25ed_seed(): void
     x25ed_speaker_migration();
     x25ed_oppenberg_migration();
     x25ed_trusteq_migration();
+    x25ed_change_agenda_nov20_migration();
     x25ed_faq_migration();
     x25ed_security_date_migration();
     x25ed_security_confirmed_migration();
@@ -321,6 +322,37 @@ function x25ed_speaker_migration(): void
         }
         if(file_put_contents($marker,gmdate('c'),LOCK_EX)===false) { throw new RuntimeException('Editionsaktualisierung nicht gespeichert.'); }
     }
+}
+
+
+/** Extend the joint practice session to 12:55–14:25 on day one. */
+function x25ed_change_agenda_nov20_migration(): void
+{
+    $file = x25ed_dir() . '/change-management.json';
+    $marker = x25ed_dir() . '/.migration-change-agenda-2026-11-20-v1';
+    if (is_file($marker) || !is_file($file)) { return; }
+    $ed = json_decode((string)file_get_contents($file), true);
+    if (!is_array($ed)) { throw new RuntimeException('Edition nicht lesbar.'); }
+    $backup = x25ed_dir() . '/.change-management-before-agenda-2026-11-20.json';
+    if (!is_file($backup) && !copy($file, $backup)) { throw new RuntimeException('Sicherung fehlgeschlagen.'); }
+    @chmod($backup, 0640);
+    $rows = [];
+    foreach (x25ed_items($ed, 'landing', 'ablauf.tag1') as $row) {
+        $parts = array_map('trim', explode('|', $row));
+        if (($parts[0] ?? '') === '12:55' && str_contains($parts[1] ?? '', '26. Experte')) { continue; }
+        if (str_contains($parts[1] ?? '', 'Praxisimpuls') && str_contains($parts[1] ?? '', 'Laurent')) {
+            $parts[0] = '12:55';
+            if (!str_contains($parts[2] ?? '', '12:55 bis 14:25')) { $parts[2] = ($parts[2] ?? '') . ' 12:55 bis 14:25 Uhr · 90 Minuten.'; }
+            $row = implode(' | ', $parts);
+        }
+        $rows[] = $row;
+    }
+    foreach (array_keys($ed['texte']['landing']) as $key) {
+        if (preg_match('/^ablauf\\.tag1\\.\\d+$/', $key)) { $ed['texte']['landing'][$key] = null; }
+    }
+    foreach ($rows as $i => $row) { $ed['texte']['landing']['ablauf.tag1.' . ($i + 1)] = $row; }
+    x25ed_save($ed);
+    if (file_put_contents($marker, gmdate('c'), LOCK_EX) === false) { throw new RuntimeException('Agendaaktualisierung nicht gespeichert.'); }
 }
 
 function x25ed_trusteq_migration(): void
