@@ -99,6 +99,7 @@ function x25ed_seed(): void
     x25ed_oppenberg_migration();
     x25ed_trusteq_migration();
     x25ed_change_agenda_nov20_migration();
+    x25ed_change_agenda_nov24_migration();
     x25ed_faq_migration();
     x25ed_security_date_migration();
     x25ed_security_confirmed_migration();
@@ -326,6 +327,33 @@ function x25ed_speaker_migration(): void
 
 
 /** Extend the joint practice session to 12:55–14:25 on day one. */
+
+/** Approved day-one schedule, 24 November 2026. */
+function x25ed_change_agenda_nov24_migration(): void
+{
+    $file = x25ed_dir() . '/change-management.json';
+    $marker = x25ed_dir() . '/.migration-change-agenda-2026-11-24-v1';
+    if (is_file($marker) || !is_file($file)) { return; }
+    $ed = json_decode((string)file_get_contents($file), true);
+    if (!is_array($ed)) { throw new RuntimeException('Edition nicht lesbar.'); }
+    $backup = x25ed_dir() . '/.change-management-before-agenda-2026-11-24.json';
+    if (!is_file($backup) && !copy($file, $backup)) { throw new RuntimeException('Sicherung fehlgeschlagen.'); }
+    @chmod($backup, 0640);
+    $ed['texte']['landing'] = array_replace($ed['texte']['landing'], [
+        'ablauf.tag1.6' => '12:55 | Praxisimpuls mit Laurent Hernández und Lea Ferstl · TRUSTEQ | Vom technologischen Potenzial zur organisationalen Wirkung. Warum KI-Investitionen nicht automatisch zu messbarem Nutzen führen – und wie Aufgaben, Rollen, Kompetenzen und Zusammenarbeit weiterentwickelt werden können. Praxiserfahrungen, konkrete Leitfragen und Austausch. 12:55 bis 13:40 Uhr · 45 Minuten.',
+        'ablauf.tag1.7' => '13:40 | Arbeitsblock 1 | Acht bis neun Teilnehmer je Tisch bearbeiten eine vorbereitete Frage. Die Moderation sichert die Beteiligung aller und hält gemeinsame Positionen und Unterschiede fest. 13:40 bis 15:10 Uhr · 90 Minuten.',
+        'ablauf.tag1.8' => '15:10 | Recap Tag 1 | Gemeinsamer Rückblick und Sicherung der wichtigsten Erkenntnisse des Tages. Circa 20 Minuten.',
+        'ablauf.tag1.9' => '15:30 | Pause und freier Austausch | Zeit für persönliche Gespräche bis zum gemeinsamen Aufbruch um 17:00 Uhr.',
+        'ablauf.tag1.10' => '17:00 | Aufbruch zur Abendlocation',
+        'ablauf.tag1.12' => '18:30 | Dinner | | foto:dinner',
+        'ablauf.tag1.meta' => '{location_name}, Aufbruch zur Abendlocation um 17:00 Uhr',
+        'abend.text' => 'Aperitif ab 17:40 Uhr, Dinner ab 18:30 Uhr und offener Ausklang. Eine überlegte Sitzordnung und persönlich vermittelte Gespräche gehören dazu.',
+    ]);
+    $ed['zeiten'] = 'Tag 1: ab 09:45 Uhr, Aufbruch zur Abendlocation um 17:00 Uhr (Aperitif 17:40 Uhr, Dinner 18:30 Uhr) · Tag 2: 09:30 bis 13:30 Uhr';
+    x25ed_save($ed);
+    if (file_put_contents($marker, gmdate('c'), LOCK_EX) === false) { throw new RuntimeException('Agendaaktualisierung nicht gespeichert.'); }
+}
+
 function x25ed_change_agenda_nov20_migration(): void
 {
     $file = x25ed_dir() . '/change-management.json';
