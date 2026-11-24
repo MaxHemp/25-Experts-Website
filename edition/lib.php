@@ -101,6 +101,7 @@ function x25ed_seed(): void
     x25ed_change_agenda_nov20_migration();
     x25ed_change_agenda_nov24_migration();
     x25ed_change_lunch_nov24_migration();
+    x25ed_change_coffee_nov24_migration();
     x25ed_faq_migration();
     x25ed_security_date_migration();
     x25ed_security_confirmed_migration();
@@ -332,6 +333,31 @@ function x25ed_speaker_migration(): void
 /** Approved day-one schedule, 24 November 2026. */
 
 /** Extend day-one lunch to 90 minutes and shift afternoon sessions. */
+
+/** Add the approved afternoon coffee break on day one. */
+function x25ed_change_coffee_nov24_migration(): void
+{
+    $file = x25ed_dir() . '/change-management.json';
+    $marker = x25ed_dir() . '/.migration-change-coffee-2026-11-24-v1';
+    if (is_file($marker) || !is_file($file)) { return; }
+    $ed = json_decode((string)file_get_contents($file), true);
+    if (!is_array($ed)) { throw new RuntimeException('Edition nicht lesbar.'); }
+    $backup = x25ed_dir() . '/.change-management-before-coffee-2026-11-24.json';
+    if (!is_file($backup) && !copy($file, $backup)) { throw new RuntimeException('Sicherung fehlgeschlagen.'); }
+    @chmod($backup, 0640);
+    $ed['texte']['landing'] = array_replace($ed['texte']['landing'], [
+        'ablauf.tag1.7' => '14:15 | Kaffeepause | 14:15 bis 14:45 Uhr · 30 Minuten.',
+        'ablauf.tag1.8' => '14:45 | Arbeitsblock 1 | Acht bis neun Teilnehmer je Tisch bearbeiten eine vorbereitete Frage. Die Moderation sichert die Beteiligung aller und hält gemeinsame Positionen und Unterschiede fest. 14:45 bis 16:15 Uhr · 90 Minuten.',
+        'ablauf.tag1.9' => '16:15 | Recap Tag 1 | Gemeinsamer Rückblick und Sicherung der wichtigsten Erkenntnisse des Tages. Circa 20 Minuten.',
+        'ablauf.tag1.10' => '16:35 | Pause und freier Austausch | Zeit für persönliche Gespräche bis zum gemeinsamen Aufbruch um 17:00 Uhr.',
+        'ablauf.tag1.11' => '17:00 | Aufbruch zur Abendlocation',
+        'ablauf.tag1.12' => '17:40 | Aperitif',
+        'ablauf.tag1.13' => '18:30 | Dinner | | foto:dinner',
+    ]);
+    x25ed_save($ed);
+    if (file_put_contents($marker, gmdate('c'), LOCK_EX) === false) { throw new RuntimeException('Agendaaktualisierung nicht gespeichert.'); }
+}
+
 function x25ed_change_lunch_nov24_migration(): void
 {
     $file = x25ed_dir() . '/change-management.json';
