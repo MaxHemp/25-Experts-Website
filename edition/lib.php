@@ -102,6 +102,7 @@ function x25ed_seed(): void
     x25ed_change_agenda_nov24_migration();
     x25ed_change_lunch_nov24_migration();
     x25ed_change_coffee_nov24_migration();
+    x25ed_change_evening_nov24_migration();
     x25ed_faq_migration();
     x25ed_security_date_migration();
     x25ed_security_confirmed_migration();
@@ -335,6 +336,33 @@ function x25ed_speaker_migration(): void
 /** Extend day-one lunch to 90 minutes and shift afternoon sessions. */
 
 /** Add the approved afternoon coffee break on day one. */
+
+/** Approved evening programme for Change Management only. */
+function x25ed_change_evening_nov24_migration(): void
+{
+    $file = x25ed_dir() . '/change-management.json';
+    $marker = x25ed_dir() . '/.migration-change-evening-2026-11-24-v1';
+    if (is_file($marker) || !is_file($file)) { return; }
+    $ed = json_decode((string)file_get_contents($file), true);
+    if (!is_array($ed)) { throw new RuntimeException('Edition nicht lesbar.'); }
+    $backup = x25ed_dir() . '/.change-management-before-evening-2026-11-24.json';
+    if (!is_file($backup) && !copy($file, $backup)) { throw new RuntimeException('Sicherung fehlgeschlagen.'); }
+    @chmod($backup, 0640);
+    $ed['texte']['landing'] = array_replace($ed['texte']['landing'], [
+        'ablauf.tag1.10' => '16:35 | Aufbruch zur Abendlocation/Hotel Check-In | Du kannst noch kurz zum Hotel oder direkt gemeinsam mit uns zum Olympiamuseum im Rheinauhafen laufen.',
+        'ablauf.tag1.11' => '17:00 | Networking und sportliche Aktivitäten | Im Olympiamuseum im Rheinauhafen: 90 Minuten Zeit für Gespräche, Tischkicker und Tischtennis. 17:00 bis 18:30 Uhr.',
+        'ablauf.tag1.12' => '18:30 | 3-Gang-Dinner | Gemeinsames Dinner im Olympiamuseum im Rheinauhafen. | foto:dinner',
+        'ablauf.tag1.13' => null,
+        'ablauf.tag1.meta' => '{location_name}, ab 16:35 Uhr Aufbruch zur Abendlocation/Hotel Check-In',
+        'abend.ort' => 'Olympiamuseum im Rheinauhafen, Köln.',
+        'abend.text' => 'Ab 17:00 Uhr verbringen wir 90 Minuten im Olympiamuseum im Rheinauhafen mit Networking und sportlichen Aktivitäten: Tischkicker und Tischtennis. Ab 18:30 Uhr folgt ein gemeinsames 3-Gang-Dinner.',
+        'faq.12.antwort' => 'Nein. Jeder Teilnehmer bucht selbst; Anreise ist ebenfalls nicht enthalten. Tagungsort und Abendlocation liegen im Rheinauhafen. Nach dem Recap kannst Du noch kurz zum Hotel oder gemeinsam mit uns zum Olympiamuseum laufen.',
+    ]);
+    $ed['zeiten'] = 'Tag 1: ab 09:45 Uhr, Aufbruch zur Abendlocation/Hotel Check-In ab 16:35 Uhr (Networking und sportliche Aktivitäten 17:00 bis 18:30 Uhr, anschließend 3-Gang-Dinner) · Tag 2: 09:30 bis 13:30 Uhr';
+    x25ed_save($ed);
+    if (file_put_contents($marker, gmdate('c'), LOCK_EX) === false) { throw new RuntimeException('Agendaaktualisierung nicht gespeichert.'); }
+}
+
 function x25ed_change_coffee_nov24_migration(): void
 {
     $file = x25ed_dir() . '/change-management.json';

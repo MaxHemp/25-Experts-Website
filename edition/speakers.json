@@ -51,14 +51,14 @@
     "ablauf.tag1.7": "14:15 | Kaffeepause | 14:15 bis 14:45 Uhr · 30 Minuten.",
     "ablauf.tag1.8": "14:45 | Arbeitsblock 1 | Acht bis neun Teilnehmer je Tisch bearbeiten eine vorbereitete Frage. Die Moderation sichert die Beteiligung aller und hält gemeinsame Positionen und Unterschiede fest. 14:45 bis 16:15 Uhr · 90 Minuten.",
     "ablauf.tag1.9": "16:15 | Recap Tag 1 | Gemeinsamer Rückblick und Sicherung der wichtigsten Erkenntnisse des Tages. Circa 20 Minuten.",
-    "ablauf.tag1.10": "16:35 | Pause und freier Austausch | Zeit für persönliche Gespräche bis zum gemeinsamen Aufbruch um 17:00 Uhr.",
-    "ablauf.tag1.11": "17:00 | Aufbruch zur Abendlocation",
-    "ablauf.tag1.12": "17:40 | Aperitif",
-    "ablauf.tag1.13": "18:30 | Dinner | | foto:dinner",
+    "ablauf.tag1.10": "16:35 | Aufbruch zur Abendlocation/Hotel Check-In | Du kannst noch kurz zum Hotel oder direkt gemeinsam mit uns zum Olympiamuseum im Rheinauhafen laufen.",
+    "ablauf.tag1.11": "17:00 | Networking und sportliche Aktivitäten | Im Olympiamuseum im Rheinauhafen: 90 Minuten Zeit für Gespräche, Tischkicker und Tischtennis. 17:00 bis 18:30 Uhr.",
+    "ablauf.tag1.12": "18:30 | 3-Gang-Dinner | Gemeinsames Dinner im Olympiamuseum im Rheinauhafen. | foto:dinner",
+    "ablauf.tag1.13": null,
     "ablauf.tag1.14": null,
     "ablauf.tag1.15": null,
-    "ablauf.tag1.meta": "{location_name}, Aufbruch zur Abendlocation um 17:00 Uhr",
-    "abend.text": "Aperitif ab 17:40 Uhr, Dinner ab 18:30 Uhr und offener Ausklang. Eine überlegte Sitzordnung und persönlich vermittelte Gespräche gehören dazu.",
+    "ablauf.tag1.meta": "{location_name}, ab 16:35 Uhr Aufbruch zur Abendlocation/Hotel Check-In",
+    "abend.text": "Ab 17:00 Uhr verbringen wir 90 Minuten im Olympiamuseum im Rheinauhafen mit Networking und sportlichen Aktivitäten: Tischkicker und Tischtennis. Ab 18:30 Uhr folgt ein gemeinsames 3-Gang-Dinner.",
     "ablauf.lead": "Die Arbeitsagenda ist vorbereitet und wird zu Beginn mit Euch geschärft. Forschung, ein gemeinsamer Praxisimpuls von Laurent Hernández und Lea Ferstl (TRUSTEQ), Vorstandsimpuls und Diskussion mit Burkhard Oppenberg, zwei vertiefende Arbeitsblöcke und ein gemeinsamer Abend schaffen Zeit für unterschiedliche Perspektiven.",
     "impulse.titel": "Drei Perspektiven. Zeit für Deine Fragen.",
     "impuls.2.kicker": "Bestätigte Speaker · Tag 1 · Gemeinsamer Praxisimpuls · TRUSTEQ",
@@ -73,10 +73,12 @@
     "leitfrage.text": "Vor dem Treffen sammeln wir Eure aktuellen Entscheidungen und Erfahrungen. Daraus bereiten wir drei Spannungsfelder und Fragen für die Arbeitsblöcke vor. Zu Beginn schärft die Gruppe die Arbeitsagenda. Diese Themenfelder bilden den Rahmen.",
     "ablauf.tag2.3": "10:15 | Vorstandsimpuls und Diskussion mit Burkhard Oppenberg | Was bedeutet AI für eine junge Führungskraft in einem sich transformierenden Unternehmen?",
     "impuls.3.bild": "/assets/img/speakers/burkhard-oppenberg.jpg",
-    "impuls.3.bild.alt": "Burkhard Oppenberg"
+    "impuls.3.bild.alt": "Burkhard Oppenberg",
+    "abend.ort": "Olympiamuseum im Rheinauhafen, Köln.",
+    "faq.12.antwort": "Nein. Jeder Teilnehmer bucht selbst; Anreise ist ebenfalls nicht enthalten. Tagungsort und Abendlocation liegen im Rheinauhafen. Nach dem Recap kannst Du noch kurz zum Hotel oder gemeinsam mit uns zum Olympiamuseum laufen."
    }
   },
-  "zeiten": "Tag 1: ab 09:45 Uhr, Aufbruch zur Abendlocation um 17:00 Uhr (Aperitif 17:40 Uhr, Dinner 18:30 Uhr) · Tag 2: 09:30 bis 13:30 Uhr",
+  "zeiten": "Tag 1: ab 09:45 Uhr, Aufbruch zur Abendlocation/Hotel Check-In ab 16:35 Uhr (Networking und sportliche Aktivitäten 17:00 bis 18:30 Uhr, anschließend 3-Gang-Dinner) · Tag 2: 09:30 bis 13:30 Uhr",
   "oppenberg_revision": "oppenberg-2026-10-16-v2",
   "trusteq_revision": "trusteq-2026-10-28-v1"
  }
