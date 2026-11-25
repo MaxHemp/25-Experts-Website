@@ -104,6 +104,7 @@ function x25ed_seed(): void
     x25ed_change_coffee_nov24_migration();
     x25ed_change_evening_nov24_migration();
     x25ed_change_networking_nov25_migration();
+    x25ed_change_workshop_titles_nov25_migration();
     x25ed_faq_migration();
     x25ed_security_date_migration();
     x25ed_security_confirmed_migration();
@@ -341,6 +342,38 @@ function x25ed_speaker_migration(): void
 /** Approved evening programme for Change Management only. */
 
 /** Rename the approved 17:00 slot without altering its description. */
+/** Rename only the three approved agenda headings, retaining times and descriptions. */
+function x25ed_change_workshop_titles_nov25_migration(): void
+{
+    $file = x25ed_dir() . '/change-management.json';
+    $marker = x25ed_dir() . '/.migration-change-workshop-titles-2026-11-25-v1';
+    if (is_file($marker) || !is_file($file)) { return; }
+    $ed = json_decode((string)file_get_contents($file), true);
+    if (!is_array($ed)) { throw new RuntimeException('Edition nicht lesbar.'); }
+    $titles = [
+        'ablauf.tag1.8' => ['14:45', 'Arbeitsblock 1', 'Workshop Session 1'],
+        'ablauf.tag1.12' => ['18:30', '3-Gang-Dinner', 'Lockeres Abendessen'],
+        'ablauf.tag2.4' => ['11:00', 'Arbeitsblock 2 und der 26. Experte', 'Workshop Session 2 inklusive Ergebnissicherung'],
+    ];
+    $dirty = false;
+    foreach ($titles as $key => [$time, $old, $new]) {
+        $value = $ed['texte']['landing'][$key] ?? null;
+        if (!is_string($value)) { continue; }
+        $parts = explode('|', $value);
+        if (count($parts) < 2 || trim($parts[0]) !== $time || trim($parts[1]) !== $old) { continue; }
+        $parts[1] = ' ' . $new . ' ';
+        $ed['texte']['landing'][$key] = implode('|', $parts);
+        $dirty = true;
+    }
+    if ($dirty) {
+        $backup = x25ed_dir() . '/.change-management-before-workshop-titles-2026-11-25.json';
+        if (!is_file($backup) && !copy($file, $backup)) { throw new RuntimeException('Sicherung fehlgeschlagen.'); }
+        @chmod($backup, 0640);
+        x25ed_save($ed);
+    }
+    if (file_put_contents($marker, gmdate('c'), LOCK_EX) === false) { throw new RuntimeException('Agendaaktualisierung nicht gespeichert.'); }
+}
+
 function x25ed_change_networking_nov25_migration(): void
 {
     $file = x25ed_dir() . '/change-management.json';
