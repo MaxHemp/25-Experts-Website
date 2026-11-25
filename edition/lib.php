@@ -105,6 +105,7 @@ function x25ed_seed(): void
     x25ed_change_evening_nov24_migration();
     x25ed_change_networking_nov25_migration();
     x25ed_change_workshop_titles_nov25_migration();
+    x25ed_change_evening_city_nov25_migration();
     x25ed_faq_migration();
     x25ed_security_date_migration();
     x25ed_security_confirmed_migration();
@@ -342,6 +343,29 @@ function x25ed_speaker_migration(): void
 /** Approved evening programme for Change Management only. */
 
 /** Rename the approved 17:00 slot without altering its description. */
+/** Keep the museum aperitif separate from the subsequent dinner in the city. */
+function x25ed_change_evening_city_nov25_migration(): void
+{
+    $file = x25ed_dir() . '/change-management.json';
+    $marker = x25ed_dir() . '/.migration-change-evening-city-2026-11-25-v1';
+    if (is_file($marker) || !is_file($file)) { return; }
+    $ed = json_decode((string)file_get_contents($file), true);
+    if (!is_array($ed)) { throw new RuntimeException('Edition nicht lesbar.'); }
+    $backup = x25ed_dir() . '/.change-management-before-evening-city-2026-11-25.json';
+    if (!is_file($backup) && !copy($file, $backup)) { throw new RuntimeException('Sicherung fehlgeschlagen.'); }
+    @chmod($backup, 0640);
+    $ed['texte']['landing'] = array_replace($ed['texte']['landing'], [
+        'ablauf.tag1.11' => '17:00 | Networking in sportlicher Umgebung | Networking und Aperitif im Olympiamuseum im Rheinauhafen mit Zeit für Gespräche, Tischkicker und Tischtennis. Bis 18:30 Uhr.',
+        'ablauf.tag1.12' => '18:30 | Kölsches Abendessen in traditioneller Atmosphäre | Im Anschluss an den Aperitif genießen wir ein kölsches Abendessen in der Kölner Innenstadt. | foto:dinner',
+        'abend.ort' => 'Aperitif im Olympiamuseum im Rheinauhafen, anschließend Abendessen in der Kölner Innenstadt.',
+        'abend.text' => 'Bis 18:30 Uhr: Networking und Aperitif im Olympiamuseum im Rheinauhafen. Anschließend: kölsches Abendessen in traditioneller Atmosphäre in der Kölner Innenstadt.',
+        'faq.12.antwort' => 'Nein. Jeder Teilnehmer bucht selbst; Anreise ist ebenfalls nicht enthalten. Nach dem Recap kannst Du noch kurz zum Hotel oder gemeinsam mit uns zum Olympiamuseum im Rheinauhafen laufen. Dort verbringen wir den Aperitif bis 18:30 Uhr. Anschließend genießen wir ein kölsches Abendessen in traditioneller Atmosphäre in der Kölner Innenstadt.',
+    ]);
+    $ed['zeiten'] = 'Tag 1: ab 09:45 Uhr, Aufbruch zur Abendlocation/Hotel Check-In ab 16:35 Uhr (Networking und Aperitif im Olympiamuseum bis 18:30 Uhr, anschließend kölsches Abendessen in traditioneller Atmosphäre in der Kölner Innenstadt) · Tag 2: 09:30 bis 13:30 Uhr';
+    x25ed_save($ed);
+    if (file_put_contents($marker, gmdate('c'), LOCK_EX) === false) { throw new RuntimeException('Agendaaktualisierung nicht gespeichert.'); }
+}
+
 /** Rename only the three approved agenda headings, retaining times and descriptions. */
 function x25ed_change_workshop_titles_nov25_migration(): void
 {

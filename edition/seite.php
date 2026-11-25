@@ -226,7 +226,7 @@ if ($securityVenuePending) {
 }
 $themeClass = 'nx-event nx-theme-' . preg_replace('/[^a-z-]/', '', $slug);
 if ($slug === 'change-management') {
-    $venueCards = str_replace('<div class="x-card"><p class="x-kicker">Unser gemeinsamer Abend</p><h3>Gilden im Zims</h3><address>Heumarkt 77<br>50667 Köln</address><p>Beim gemeinsamen Dinner setzen wir die Gespräche in entspannter Atmosphäre fort.</p><a href="https://www.zims.de/" target="_blank" rel="noopener">Die Abendlocation kennenlernen (externe Website)</a></div>', '<div class="x-card"><p class="x-kicker">Unser gemeinsamer Abend</p><h3>Olympiamuseum im Rheinauhafen</h3><p>Köln · Rheinauhafen</p><p>Ab 17:00 Uhr: 90 Minuten Networking und sportliche Aktivitäten mit Tischkicker und Tischtennis. Ab 18:30 Uhr genießen wir gemeinsam ein 3-Gang-Dinner.</p></div>', $venueCards);
+    $venueCards = str_replace('<div class="x-card"><p class="x-kicker">Unser gemeinsamer Abend</p><h3>Gilden im Zims</h3><address>Heumarkt 77<br>50667 Köln</address><p>Beim gemeinsamen Dinner setzen wir die Gespräche in entspannter Atmosphäre fort.</p><a href="https://www.zims.de/" target="_blank" rel="noopener">Die Abendlocation kennenlernen (externe Website)</a></div>', '<div class="x-card"><p class="x-kicker">Unser gemeinsamer Abend</p><h3>Aperitif im Olympiamuseum</h3><p>Im Rheinauhafen: Networking und Aperitif bis 18:30 Uhr mit Zeit für Gespräche, Tischkicker und Tischtennis.</p><h3>Kölsches Abendessen in traditioneller Atmosphäre</h3><p>Anschließend in der Kölner Innenstadt.</p></div>', $venueCards);
 }
 
 $body = <<<HTML
